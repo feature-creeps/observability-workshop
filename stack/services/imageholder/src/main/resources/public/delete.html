@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Delete</h1>
+
+<p>Available image ids:</p>
+<embed src="/api/images" width="800"></embed>
+
+<form method="POST" enctype="multipart/form-data" id="deleteImageForm" action="/api/images/delete">
+    ID: <input type="text" name="id"/><br/><br/>
+    <input type="submit" value="Submit" id="deleteOneButton"/>
+</form>
+<br/>
+<form method="POST" id="deleteAllImagesForm" action="/api/images/delete/all">
+    <input type="submit" value="Delete all images" id="deleteAllButton"/>
+</form>
+
+<br/>
+<a href="/">Home</a>
+
+</body>
+</html>

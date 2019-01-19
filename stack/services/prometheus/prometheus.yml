@@ -1,0 +1,43 @@
+global: 
+  scrape_interval: 5s
+
+scrape_configs:
+# prometheus monitors itself
+- job_name: prometheus
+  static_configs:
+    - targets: ['localhost:9090']
+
+## local
+
+# local node
+- job_name: node
+  # Override the global default and scrape targets from this job every 5 seconds.
+  scrape_interval: 10s
+  # metrics_path defaults to '/metrics'
+  # scheme defaults to 'http'.
+  static_configs:
+    - targets: ['cadvisor:8080', 'node-exporter:9100']
+
+# local mongodb
+- job_name: mongodb
+  metrics_path: /metrics
+  static_configs:
+    - targets: ['mongodb-exporter:9001']
+
+# local nginx
+- job_name: nginx
+  metrics_path: /metrics
+  static_configs:
+    - targets: ['nginx-exporter:9913']
+
+# local application
+- job_name: imageholder
+  metrics_path: /prometheus
+  static_configs:
+  # TODO configure multiple targets on demand
+    - targets: ['imageholder:8080']
+
+# local exception monitoring
+- job_name: elcep
+  static_configs:
+    - targets: ['elcep:8080']

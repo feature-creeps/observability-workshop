@@ -1,0 +1,81 @@
+version: '3'
+services:
+
+## Domain
+
+  imageholder:
+    build: ../services/imageholder
+    depends_on:
+    - mongodb
+    - fluentbit
+    environment:
+      SERVICE_CHECK_HTTP: '/health'
+    ports:
+    - 8080:8080
+    # the logdriver is being resolved by the daemon which has no access to the docker network dns
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: fluentd
+
+
+## Storage
+
+# database
+  mongodb:
+    image: mongo:3.2.12
+    depends_on:
+    - fluentbit
+    ports:
+    - '27017'
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: fluentd
+   
+
+## Logging
+
+# log collector
+  fluentbit:
+    build: ../services/fluentbit
+    ports:
+      - 24231:24231
+      - 24224:24224
+      - 24224:24224/udp
+    logging:
+        driver: json-file
+        options:
+            max-size: 100m
+            max-file: "5"
+
+
+## Monitoring
+
+# node metrics exporter for prometheus
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+      - 9100:9100
+
+# docker daemon metrics exporter for prometheus
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 9110:8080

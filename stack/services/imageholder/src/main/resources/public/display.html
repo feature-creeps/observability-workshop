@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<h1>Display</h1>
+
+<p>Available image ids:</p>
+<embed src="/api/images" width="800"></embed>
+
+<form method="GET" enctype="multipart/form-data" id="displayImageForm" action="/api/images/image">
+    ID: <input type="text" name="id"/><br/><br/>
+    <input type="submit" value="Submit" id="displayButton"/>
+</form>
+
+<br/>
+<a href="/">Home</a>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+version: '3'
+services:
+
+## Logging
+
+# log collector
+  fluentd:
+    build: ../services/fluentd
+    depends_on:
+      - elasticsearch
+    ports:
+      - 24231:24231
+      - 24224:24224
+      - 24224:24224/udp
+    logging:
+        driver: json-file
+        options:
+            max-size: 100m
+            max-file: "5"
+
+# alternative log collector
+  logstash:
+    build: ../services/logstash
+    ports:
+      - 12201:12201/udp
+      - 5000:5000
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    depends_on:
+      - elasticsearch
+
+# search engine, storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    ports:
+    - 9200:9200
+
+# logs visualizer
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.1.1
+    depends_on:
+      - elasticsearch
+    ports:
+      - 5601:5601
