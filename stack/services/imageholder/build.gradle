@@ -1,50 +1,53 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.9.RELEASE'
+        springBootVersion = '2.1.2.RELEASE'
     }
     repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-        classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
-apply plugin: 'de.db.vz.msintplugin'
+apply plugin: 'io.spring.dependency-management'
+
+ext {
+    set('springCloudVersion', 'Greenwich.RC2')
+}
 
 group = 'devops-school'
-version = '0.1'
+version = null
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
 }
 
-
-jar {
-    baseName = 'imageholder'
-    version = null
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile 'commons-io:commons-io:2.6'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
-    compile 'io.prometheus:simpleclient_hotspot:0.0.26'
-    compile 'io.prometheus:simpleclient_servlet:0.0.26'
-    compile 'io.prometheus:simpleclient_spring_boot:0.0.26'
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.apache.commons:commons-lang3:3.0'
+
+    compile 'io.micrometer:micrometer-core'
+    compile 'io.micrometer:micrometer-registry-prometheus'
 
     testCompile 'com.github.fakemongo:fongo:2.0.9'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -107,5 +110,3 @@ task pushDocker(dependsOn: buildDocker) {
         }
     }
 }
-
-integrationTestUp.dependsOn buildDocker

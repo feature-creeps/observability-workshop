@@ -1,21 +1,21 @@
 version: '3'
 services:
 
-## Domain
+  ## Domain
 
   # nginx loadbalancer
   imageholder:
     build: ../services/loadbalancer
     depends_on:
-      - imageholder-1
-      - imageholder-2
+    - imageholder-1
+    - imageholder-2
     ports:
     - 8080:8080
 
   nginx-exporter:
     image: sophos/nginx-vts-exporter
     environment:
-      - NGINX_STATUS=http://alcomon:8080/status/format/json
+    - NGINX_STATUS=http://alcomon:8080/status/format/json
     ports:
     - 9913:9913
 
@@ -49,9 +49,9 @@ services:
         gelf-address: udp://localhost:12201
         tag: logstash
 
-## Storage
+  ## Storage
 
-# database
+  # database
   mongodb:
     image: mongo:3.2.12
     ports:

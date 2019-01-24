@@ -1,7 +1,7 @@
 package com.github.olly.workshop.imageholder.adapter;
 
-import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.model.Image;
+import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.service.MetricsService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,17 +12,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -78,14 +73,14 @@ public class ImageController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
-        LOGGER.info("Returning image with id {}", id);
         Image image = imageService.getImageById(id);
 
         if (image == null) {
-            LOGGER.error("Image with id %s not found", id);
+            LOGGER.error("Image with id {} not found", id);
             throw new NotFoundException("Image not found");
         }
-
+        
+        LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
         HttpHeaders headers = new HttpHeaders();
@@ -102,7 +97,7 @@ public class ImageController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
-        LOGGER.info("Deleting image with id %s", id);
+        LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {

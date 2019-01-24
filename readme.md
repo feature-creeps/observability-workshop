@@ -17,13 +17,11 @@ Under stack we find an application folder which contains several entities for ou
 
 In each stack-* directory is one or several *-compose.yml's:
 
-| dir               | desc                                                                                                                  |
-| ---               | ---                                                                                                                   |
-| stack-local/      | this is what we start on a single node machine which is running independently. consists of the basic stack incl app   |
-| stack-client/     | this is what we start on each client node. contains the sample app, mongodb, fluentd, node exporter, cadvisor         |
-| stack-client-min/ | minimal application stack                                                                                             |
-| stack-ops/        | centralized monitoring & logging stack which runs in combination with one or multiple client stacks (stack-client/)   |
-| stack-max/        | full stack including two load balanced sample apps using different log collectors                                     |
+| dir                   | desc                                                                                                                      |
+| ---                   | ---                                                                                                                       |
+| stack-local-default/  | this is what we start on a single node machine which is running independently. consists of the basic stack incl app       |
+| stack-local-max/      | full stack including two load balanced sample apps using different log collectors                                         |
+| stack-distributed/    | this is what we start on each client node and one ops node. additional configuration for service discovery is required!   |
 
 ### log integration
 We use fluentd as the log collector, elastic search as the search engine and kibana as the visualizer UI.

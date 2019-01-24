@@ -18,12 +18,6 @@ public class ImageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
-    public void initImagesInDatabaseMetric() {
-        Collection<Image> allImages = getAllImages();
-        LOGGER.info("Setting initial images in database gauge to: {}", allImages.size());
-        allImages.forEach(image -> metricsService.imageInDatabase(image));
-    }
-
     public Image save(Image image) {
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
@@ -37,14 +31,14 @@ public class ImageService {
 
 
     public Image getImageById(String id) {
-        return imageRepository.findOne(id);
+        return imageRepository.findById(id).orElse(null);
     }
 
 
     public boolean deleteImageById(String id) {
         Image image = getImageById(id);
         if (image != null) {
-            imageRepository.delete(id);
+            imageRepository.deleteById(id);
             metricsService.imageDeleted(image);
             LOGGER.info("Successfully deleted image with id {}.", id);
             return true;
