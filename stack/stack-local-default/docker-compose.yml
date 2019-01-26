@@ -112,6 +112,15 @@ services:
     ports:
     - 9110:8080
 
+  ## Tracing
+
+  # Trace UI
+  zipkin:
+    image: openzipkin/zipkin
+    ports: 
+    - 9411:9411
+
+
 volumes:
   olly-elasticsearch:
     driver: local
