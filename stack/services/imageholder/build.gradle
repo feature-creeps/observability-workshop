@@ -39,6 +39,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    compile 'org.springframework.cloud:spring-cloud-starter-zipkin'
 
     compile 'commons-io:commons-io:2.6'
     compile 'org.apache.commons:commons-lang3:3.0'
