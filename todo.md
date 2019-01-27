@@ -8,6 +8,7 @@
 ## low prio
 
 * make application runnable with or without mongodb
+* have a default image in the app (otherwise gets an error when loading random)?
 
 ## open points
 
