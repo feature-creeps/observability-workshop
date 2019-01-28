@@ -37,6 +37,12 @@ scrape_configs:
   # TODO configure multiple targets on demand
   - targets: ['imageholder:8080']
 
+- job_name: imagerotator
+  metrics_path: /actuator/prometheus
+  static_configs:
+  # TODO configure multiple targets on demand
+  - targets: ['imagerotator:8080']
+
 # local exception monitoring
 - job_name: elcep
   static_configs:

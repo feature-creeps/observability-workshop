@@ -19,6 +19,21 @@ services:
         fluentd-address: localhost:24224
         tag: fluentd
 
+  imagerotator:
+    build: ../services/imagerotator
+    depends_on:
+    - fluentbit
+    environment:
+      SERVICE_CHECK_HTTP: '/health'
+    ports:
+    - 8081:8080
+    # the logdriver is being resolved by the daemon which has no access to the docker network dns
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: fluentd
+
 
   ## Storage
 
@@ -111,6 +126,15 @@ services:
     - /var/lib/docker/:/var/lib/docker:ro
     ports:
     - 9110:8080
+
+  ## Tracing
+
+  # Trace UI
+  zipkin:
+    image: openzipkin/zipkin
+    ports: 
+    - 9411:9411
+
 
 volumes:
   olly-elasticsearch:
