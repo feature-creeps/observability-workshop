@@ -1,0 +1,35 @@
+html {
+    background: linear-gradient(270deg, seashell, lightgoldenrodyellow, seashell);
+    font-family: Roboto, Helvetica;
+    text-align: center;
+}
+
+h1 {
+    color: cadetblue;
+    font-size: 300%;
+}
+
+a, p, form {
+    color: steelblue;
+    font-size: 160%;
+}
+
+input[type=button], input[type=submit], .custom-file-upload {
+    background-color: darkseagreen;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 100%;
+    height: 60px;
+}
+
+input[type=file] {
+    display: none;
+}
+
+img {
+    height: 500px;
+}

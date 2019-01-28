@@ -1,0 +1,112 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+ext {
+    set('springCloudVersion', 'Greenwich.RC2')
+}
+
+group = 'devops-school'
+version = null
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' }
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-rest'
+    compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
+    compile 'org.springframework.cloud:spring-cloud-starter-zipkin'
+
+    compile 'commons-io:commons-io:2.6'
+    compile 'org.apache.commons:commons-lang3:3.0'
+
+    compile 'io.micrometer:micrometer-core'
+    compile 'io.micrometer:micrometer-registry-prometheus'
+
+    testCompile 'com.github.fakemongo:fongo:2.0.9'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+task resolveDependencies {
+    doLast {
+        project.rootProject.allprojects.each { subProject ->
+            subProject.buildscript.configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+            subProject.configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+        }
+    }
+}
+
+void resolveConfiguration(configuration) {
+    if (isResolveableConfiguration(configuration)) {
+        configuration.resolve()
+    }
+}
+
+boolean isResolveableConfiguration(configuration) {
+    def nonResolveableConfigurations = ['apiElements', 'implementation',
+                                        'runtimeElements', 'runtimeOnly',
+                                        'testImplementation', 'testRuntimeOnly',
+                                        'generatedImplementation', 'generatedRuntimeOnly']
+
+    if (nonResolveableConfigurations.contains(configuration.getName())) {
+        return false
+    }
+    return true
+}
+
+task buildDocker(dependsOn: build) {
+    String sourceJar = "${project.buildDir}/libs/${jar.archiveName}"
+    String target = "${project.projectDir}/src/main/docker/"
+    String targetJar = "$target/$jar.archiveName"
+    String registry = 'docker.maibornwolff.de'
+    ext.tag = "$registry/${project.group}/${jar.baseName}:${project.version}"
+
+    doLast {
+        exec {
+            commandLine 'cp', sourceJar, target
+        }
+        exec {
+            commandLine 'docker', 'build', '-t', tag, target
+        }
+        exec {
+            commandLine 'rm', '-f', targetJar
+        }
+    }
+}
+
+task pushDocker(dependsOn: buildDocker) {
+    doLast {
+        exec {
+            commandLine 'docker', 'push', buildDocker.tag
+        }
+    }
+}
