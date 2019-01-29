@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imagetransformer.controller;
+package com.github.olly.workshop.imagegrayscale.controller;
 
 import io.prometheus.client.Counter;
 import org.springframework.stereotype.Component;

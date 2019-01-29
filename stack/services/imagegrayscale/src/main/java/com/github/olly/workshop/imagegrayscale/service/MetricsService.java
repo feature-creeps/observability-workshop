@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imagetransformer.service;
+package com.github.olly.workshop.imagegrayscale.service;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;

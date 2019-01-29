@@ -1,6 +1,6 @@
-package com.github.olly.workshop.imagetransformer.controller;
+package com.github.olly.workshop.imagegrayscale.controller;
 
-import com.github.olly.workshop.imagetransformer.service.ImageService;
+import com.github.olly.workshop.imagegrayscale.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/image")
-public class ImageTransformer {
+public class ImageGrayscale {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageTransformer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageGrayscale.class);
 
     @Autowired
     private ImageService imageService;

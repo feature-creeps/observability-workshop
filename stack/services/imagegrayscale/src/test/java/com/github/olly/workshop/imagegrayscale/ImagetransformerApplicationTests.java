@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imagetransformer;
+package com.github.olly.workshop.imagegrayscale;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
