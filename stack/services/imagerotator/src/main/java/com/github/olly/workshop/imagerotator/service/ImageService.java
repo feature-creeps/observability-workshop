@@ -45,6 +45,8 @@ public class ImageService {
 
     private byte[] bufferedImageToByteArray(BufferedImage image, String formatname) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // ISSUE: OpenJDK does not have a native JPEG encoder, so it will fail at this point
         ImageIO.write(image, formatname, baos);
         baos.flush();
         byte[] imageInByte = baos.toByteArray();

@@ -33,6 +33,7 @@ public class ImageController {
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
+        // ISSUE: we fail on floating point values
         int intDegrees = Integer.valueOf(degrees);
         LOGGER.info("Receiving {} image to rotate by {} degrees", file.getContentType(), intDegrees);
 
