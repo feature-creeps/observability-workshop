@@ -4,16 +4,17 @@
 
 Under stack we find an application folder which contains several entities for our observability stack:
 
-| dir               | desc                      |
-| ---               | ---                       |
-| fluentbit/        | log collector             |
-| fluentd/          | log collector/aggregator  |
-| grafana/          | time series visualizer    |
-| imageholder/      | sample application        |
-| kibana/           | logs visualizer           |
-| loadbalancer/     | nginx loadbalancer        |
-| logstash/         | alternative log collector |
-| prometheus/       | time series data base     |
+| dir               | desc                                                  |
+| ---               | ---                                                   |
+| fluentbit/        | log collector                                         |
+| fluentd/          | log collector/aggregator                              |
+| grafana/          | time series visualizer                                |
+| imageholder/      | sample application for image upload and viewing       |
+| imagerotator/     | sample application for image rotation                 |
+| kibana/           | logs visualizer                                       |
+| loadbalancer/     | nginx loadbalancer                                    |
+| logstash/         | alternative log collector                             |
+| prometheus/       | time series data base                                 |
 
 In each stack-* directory is one or several *-compose.yml's:
 
