@@ -19,7 +19,7 @@ plugins {
 
 
 group = 'devops-school'
-version = '0.0.1-SNAPSHOT'
+version = null
 sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
