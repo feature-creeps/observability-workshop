@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.2.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+plugins {
+	id 'war'
+	id 'org.springframework.boot' version '2.1.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+	id 'com.bmuschko.docker-spring-boot-application' version '4.3.0'
+}
+
+
+group = 'devops-school'
+version = null
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+	jcenter()
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+	set('springCloudVersion', 'Greenwich.RELEASE')
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.springframework.cloud:spring-cloud-starter'
+	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+docker {
+	String imageTag = "${project.group}/${project.name}:${project.version}"
+	springBootApplication {
+		baseImage = 'openjdk:8-alpine'
+		ports = [9090, 8080]
+		tag = imageTag
+	}
+}
