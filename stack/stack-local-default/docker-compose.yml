@@ -7,47 +7,29 @@ services:
     build: ../services/imageholder
     depends_on:
     - mongodb
-    - fluentbit
+    - fluentd
     environment:
       SERVICE_CHECK_HTTP: '/health'
     ports:
     - 8080:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: fluentd
 
   imagerotator:
     build: ../services/imagerotator
     depends_on:
-    - fluentbit
+    - fluentd
     environment:
       SERVICE_CHECK_HTTP: '/health'
     ports:
     - 8081:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: fluentd
 
   imagegrayscale:
     build: ../services/imagegrayscale
     depends_on:
-    - fluentbit
+    - fluentd
     environment:
       SERVICE_CHECK_HTTP: '/actuator/health'
     ports:
     - 8082:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: fluentd
 
   ## Storage
 
@@ -55,32 +37,23 @@ services:
   mongodb:
     image: mongo:3.2.12
     depends_on:
-    - fluentbit
+    - fluentd
     ports:
     - '27017'
     volumes:
     - olly-mongodb:/data/db
-    logging:
-      driver: fluentd
-      options:
-        fluentd-address: localhost:24224
-        tag: fluentd
 
 
   ## Logging
 
   # log collector
-  fluentbit:
-    build: ../services/fluentbit
-    ports:
-    - 24231:24231
-    - 24224:24224
-    - 24224:24224/udp
-    logging:
-      driver: json-file
-      options:
-        max-size: 100m
-        max-file: "5"
+  fluentd:
+    build: ../services/fluentd
+    volumes:
+      - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    #logging:
+    #  driver: "none"
 
   # search engine, storage
   elasticsearch:
