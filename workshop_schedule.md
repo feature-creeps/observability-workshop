@@ -3,25 +3,91 @@
 ## Learning objectives
 
 * Explain what observability is and why it is valuable
-* Experience analysing a distributed system
-* Experience using an observability tech stack
+* Describe when to use different types of telemetry
+* Understand common risks of a distributed system
 
-## Activities
+## Schedule
 
-### Generate a system diagram
+### Morning
 
-Learning objectives:
+Goals:
+* Confidence with the application and provided platform tools
+* Understanding "normal" for the system and application
+* Define normal for the application and system
 
-* Diagram layers of an application
-* Describe tools at our disposal
+Activities:
+1. Intro
+1. Model the application
+1. Question the application model
+1. Model the system
+1. Question the system model
+1. Morning retro
 
-Mechanics:
+### Afternoon
+
+Goals:
+* Experience debugging a distributed system
+* Describe the difference between a highly observable service and a less observable system
+* Identify how to add observability to a service / system
+
+Activities:
+1. Debug a highly observable issue
+1. Debug a poorly observable issue
+1. Improve observability for 2nd issue
+1. Wrap up
 
 
-2) try and define what "normal" is for the system (using tools to see error rates etc)
-3) looking at the diagram and "normal" use identify risk areas (more analysis)
-4) add monitoring/alerts/something to confirm system stays "normal"
-5) war games! using the alerts they have set up to know when problems surface and then jump in
+## Activity details
+
+#### Intro
+
+> TBD
+
+#### Model the application
+
+> Given the URL for the website, participants generate a model of what users can do
+
+#### Question the application model
+
+> Focus points given the application model:
+> * Questions about the behaviour
+> * What would be critical issues for our users
+
+#### Model the system
+
+> Given access to docker CLI, participants generate a model of the system and platform architecture
+
+#### Question the system model
+
+> Focus points given the system model:
+> * Questions about the behaviour
+> * Changes to risk profile from the application model
+
+> Focus points given the platform model:
+> * Why do we have multiple tools
+> * Which tool can be used to answer each question from part 3 (Question the application model)
+
+#### Define normal for the application and system
+
+> Given a diverse yet consistent work load, participants generate a way to visualise "normal" system behaviour
+
+
+#### Morning retro
+
+> TBD
+
+
+#### Debug a highly observable issue
+
+
+#### Debug a poorly observable issue
+
+
+#### Improve observability for 2nd issue
+
+
+#### Wrap up
+
 
 ## TODOs
 
