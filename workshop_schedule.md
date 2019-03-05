@@ -3,6 +3,7 @@
 ## Learning objectives
 
 * Explain what observability is and why it is valuable
+* How to question(/test) not only applications, but system risks
 * Describe when to use different types of telemetry
 * Understand common risks of a distributed system
 
@@ -13,7 +14,7 @@
 Goals:
 * Confidence with the application and provided platform tools
 * Understanding "normal" for the system and application
-* Define normal for the application and system
+* Define baseline for the application and system
 
 Activities:
 1. Intro
@@ -27,7 +28,7 @@ Activities:
 
 Goals:
 * Experience debugging a distributed system
-* Describe the difference between a highly observable service and a less observable system
+* Describe the difference between a highly observable service and a less observable service / system
 * Identify how to add observability to a service / system
 
 Activities:
