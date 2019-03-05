@@ -14,6 +14,11 @@
                 <logLevel/>
                 <tags/>
                 <logstashMarkers/>
+                <pattern>
+                    <pattern>
+                        { "service" : "imageholder" }
+                    </pattern>
+                </pattern>
             </providers>
         </encoder>
     </appender>

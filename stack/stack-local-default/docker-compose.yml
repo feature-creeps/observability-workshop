@@ -50,8 +50,8 @@ services:
   fluentd:
     build: ../services/fluentd
     volumes:
-      - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+    - /var/run/docker.sock:/var/run/docker.sock:ro
     #logging:
     #  driver: "none"
 
@@ -62,6 +62,11 @@ services:
     - olly-elasticsearch:/usr/share/elasticsearch/data
     ports:
     - 9200:9200
+
+  elastic-mappings:
+    build: ../services/elastic-mappings
+    depends_on:
+    - elasticsearch
 
   # logs visualizer
   kibana:
@@ -119,7 +124,7 @@ services:
   # Trace UI
   zipkin:
     image: openzipkin/zipkin
-    ports: 
+    ports:
     - 9411:9411
 
 

@@ -1,0 +1,13 @@
+plugins:
+  counter:
+    enabled: true
+
+metrics:
+  exceptions:
+    counter:
+      all: "exception"
+      npe: "NullPointerException"
+  images:
+    counter:
+      all: "image"
+      uploaded: "\"Receiving new image\""

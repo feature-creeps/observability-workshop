@@ -1,0 +1,26 @@
+{
+  "mappings": {
+    "fluentd": {
+      "properties": {
+        "@timestamp": {
+          "type": "date"
+        },
+        "message": {
+          "type": "text"
+        },
+        "level": {
+          "type": "text"
+        },
+        "logger_name": {
+          "type": "text"
+        },
+        "spanId": {
+          "type": "text"
+        },
+        "traceId": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
