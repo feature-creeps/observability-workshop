@@ -18,10 +18,11 @@ Goals:
 
 Activities:
 1. Intro
-1. Model the application
-1. Question the application model
-1. Model the system
-1. Question the system model
+1. Model the application from the user interface
+1. Question the application model for risks
+1. Model the system in technical architecture
+1. Question the system model for risks
+1. Identify what observability information is needed to evaluate the risks identified
 1. Morning retro
 
 ### Afternoon
