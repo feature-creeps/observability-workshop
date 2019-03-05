@@ -33,8 +33,19 @@ Goals:
 * Identify how to add observability to a service / system
 
 Activities:
-1. Debug a highly observable issue
-1. Debug a poorly observable issue
+Hosts introduce an issue in a highly observable service:
+1. Identify bad behaviour in application (put in my hosts)
+1. Generate a hypothesis on what could be cause based morning models
+1. Use tools to evaluate hypothesis
+1. Repeat until issue is identified
+(hosts will then fix issue)
+
+Hosts introduce an issue in a poorly observable service:
+1. Identify bad behaviour in application (put in my hosts)
+1. Generate a hypothesis on what could be cause based morning models
+1. Use tools to evaluate hypothesis
+1. Repeat until issue is identified
+
 1. Improve observability for 2nd issue
 1. Wrap up
 
