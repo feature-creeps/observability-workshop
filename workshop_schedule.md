@@ -104,13 +104,8 @@ Goals: Everyone has a physical representation of the application to interrogate
 > TBD
 
 
-#### Debug a highly observable issue
+#### Hosts introduce an issue in a highly observable service
 
+Set people off asap and do ~10 minute checkins for the duration.
 
-#### Debug a poorly observable issue
-
-
-#### Improve observability for 2nd issue
-
-
-#### Wrap up
+Check-in #1 ask "what question are you trying to answer right now?". Goal will be to uncover if they are "clicking around randomly" or applying scientific exploration. Also can tackle the risk of too big a question and how to break that down into consumable bits.
