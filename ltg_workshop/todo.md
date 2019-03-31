@@ -6,6 +6,7 @@
 * Cheatsheet on terms (USE vs RED etc)
 * Talk to MoT about networking for this workshop
 * Work on application UI (nice to have)
+  * More usable redirects after actions (instead of landing on API pages)
 
 ## High level prep schedule (based on: [workshop_schedule.md](./workshop_schedule.md))
 
