@@ -1,41 +1,31 @@
-1. Launch an EC2 instance using image type `Ubuntu Server 18.04 LTS (HVM), SSD Volume Type` and size `md5.2xlarge`.
-> Note: Make sure to have a useable .pem either generated and downloaded or selected during creation
+1. Your AWS region will need an existing VPC in it. This can be checked via commandline: `aws ec2 describe-vpcs`. To create one via commandline if needed use: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
 
-2. ssh into the EC2 instance:
+2. Create a running instance:
 ```
-ssh -i "{{file.pem}}" ubuntu@{{Public DNS (IPv4)}}
+docker-machine create --driver amazonec2 --amazonec2-ami ami-026f49896b1af2759 --amazonec2-instance-type m5.2xlarge --amazonec2-open-port 8080 --amazonec2-region us-east-2 --amazonec2-root-size 200 o11y-workshop
 ```
+> Note: If you use `aws-vault` to protect AWS creds run:
+>
+>`aws-vault exec ninedemons-admin_role -- docker-machine create --driver amazonec2 --amazonec2-ami ami-026f49896b1af2759 --amazonec2-instance-type m5.2xlarge --amazonec2-open-port 8080 --amazonec2-region us-east-2 --amazonec2-root-size 200 o11y-workshop`
 
-3. Install docker:
+2. Set your shell environment to use the new instance:
 ```
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-sudo apt-get update
-apt-cache policy docker-ce
-sudo apt-get install -y docker-ce
-sudo service docker start
+eval $(docker-machine env o11y-workshop)
 ```
 
-4. Install docker-compose:
+3. Now you can do all the docker stuff you would running locally. So `docker-compose up` in `observability-workshop/stack/stack-local-default`
+
+4. To get the public IP of your instance:
 ```
-sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-sudo chmod +x /usr/local/bin/docker-compose
+docker-machine ip o11y-workshop
 ```
 
-5. install codebase:
+5. To run the traffic generator to upload traffic :
 ```
-sudo apt install git-all
-git clone https://github.com/xellsys/observability-workshop.git
-
-```
-
-6. In order to support running elastic search locally, begin by setting the max_map per [this github comment](https://github.com/docker-library/elasticsearch/issues/98#issuecomment-218071315):
-```
-sudo sysctl -w vm.max_map_count=262144
+go run main.go -d ~/work/flickrscrape/result -u http://3.17.156.205:8080/api/images | \
+  vegeta attack -rate=10/m -lazy -format=json -duration=30s | \
+  tee results.bin | \
+  vegeta report
 ```
 
-7. Start the app:
-```
-cd observability-workshop/stack/stack-local-default/
-docker-compose up
-```
+6. When done do `docker-machine rm o11y-workshop`
