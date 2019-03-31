@@ -10,11 +10,12 @@
 ## High level prep schedule (based on: [workshop_schedule.md](./workshop_schedule.md))
 
 April 1: Dry run morning
-* A working stack
-  * Hook in image orchestrator services
-* Documented way to start up the stack ()
-* A way to add load to the system (https://github.com/sneakybeaky/o11y-traffic#usage-feed-targets-into-vegeta)
-  * Documented
+* ~~A working stack~~
+  * Make kibana start with an index already set up
+  * Hook in image orchestrator services..accepts requests with some encoded series of operations such as “rotate through 90 degrees, transform to PNG, grayscale, rotate through -270 degrees,...”
+* ~~Documented way to start up the stack ([run the stack on an aws ec2 instance](./run_stack_on_aws.md))~~
+* ~~A way to add load to the system~~
+  * ~~Documented (https://github.com/sneakybeaky/o11y-traffic#usage-feed-targets-into-vegeta)~~
   * Nice to have, make the traffic a “pre-canned” experiences through the application
 * Cheat sheets for how to explore the architecture
   * e.g. commands (docker cli, prom query, kibana query, grafana)
