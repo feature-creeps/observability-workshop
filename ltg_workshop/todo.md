@@ -15,7 +15,7 @@ April 1: Dry run morning
 * ~~A working stack~~
   * Make kibana start with an index already set up
   * confirm traces are going thru to openzipkin (would like to use the dependency graphing feature)
-  * figure our why grafana is spitting out errors (i have reviewed the only dashboard in there are there are no global or per graph alerts...)
+  * figure out why grafana is spitting out errors (i have reviewed the only dashboard in there are there are no global or per graph alerts...)
   * Hook in image orchestrator services..accepts requests with some encoded series of operations such as “rotate through 90 degrees, transform to PNG, grayscale, rotate through -270 degrees,...”
 * ~~Documented way to start up the stack ([run the stack on an aws ec2 instance](./run_stack_on_aws.md))~~
 * ~~A way to add load to the system~~
