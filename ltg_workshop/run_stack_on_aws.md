@@ -2,11 +2,17 @@
 
 2. Create a running instance of type `md5.2xlarge` and in region `us-east-2` use this command. You may need to shift these variables depending on your account allotment.
 ```
-docker-machine create --driver amazonec2 --amazonec2-instance-type m5.2xlarge --amazonec2-open-port 8080 --amazonec2-region us-east-2 --amazonec2-root-size 200 o11y-workshop
+docker-machine create --driver amazonec2--amazonec2-region us-east-2 /
+--amazonec2-open-port 8080 --amazonec2-open-port 5601 --amazonec2-open-port 3000 --amazonec2-open-port 9090 /
+--amazonec2-instance-type m5.2xlarge --amazonec2-root-size 200 /
+o11y-workshop
 ```
 > Note: If you use `aws-vault` to protect AWS creds run:
 >
->`aws-vault exec ninedemons-admin_role -- docker-machine create --driver amazonec2 --amazonec2-ami ami-026f49896b1af2759 --amazonec2-instance-type m5.2xlarge --amazonec2-open-port 8080 --amazonec2-region us-east-2 --amazonec2-root-size 200 o11y-workshop`
+>`aws-vault exec ninedemons-admin_role -- docker-machine create --driver amazonec2--amazonec2-region us-east-2 /
+--amazonec2-open-port 8080 --amazonec2-open-port 5601 --amazonec2-open-port 3000 --amazonec2-open-port 9090 /
+--amazonec2-instance-type m5.2xlarge --amazonec2-root-size 200 /
+o11y-workshop`
 
 2. Set your shell environment to use the new instance:
 ```
