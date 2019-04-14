@@ -38,7 +38,7 @@ public class ImageService {
 
     private BufferedImage rotate(BufferedImage image, int degrees) {
         AffineTransform tx = new AffineTransform();
-        tx.rotate(Math.toRadians(degrees), image.getWidth() / 2, image.getHeight() / 2);
+        tx.rotate(Math.toRadians(degrees), image.getWidth() / 2 - 1, image.getHeight() / 2 - 1);
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
         return op.filter(image, null);
     }

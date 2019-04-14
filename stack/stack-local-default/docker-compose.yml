@@ -3,13 +3,24 @@ services:
 
   ## Domain
 
+  imageorchestrator:
+    build: ../services/imageorchestrator
+    depends_on:
+    - fluentbit
+    ports:
+    - 80:8080
+    # the logdriver is being resolved by the daemon which has no access to the docker network dns
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: localhost:24224
+        tag: fluentd
+
   imageholder:
     build: ../services/imageholder
     depends_on:
     - mongodb
     - fluentbit
-    environment:
-      SERVICE_CHECK_HTTP: '/health'
     ports:
     - 8080:8080
     # the logdriver is being resolved by the daemon which has no access to the docker network dns
@@ -23,8 +34,6 @@ services:
     build: ../services/imagerotator
     depends_on:
     - fluentbit
-    environment:
-      SERVICE_CHECK_HTTP: '/health'
     ports:
     - 8081:8080
     # the logdriver is being resolved by the daemon which has no access to the docker network dns
@@ -38,8 +47,6 @@ services:
     build: ../services/imagegrayscale
     depends_on:
     - fluentbit
-    environment:
-      SERVICE_CHECK_HTTP: '/actuator/health'
     ports:
     - 8082:8080
     # the logdriver is being resolved by the daemon which has no access to the docker network dns

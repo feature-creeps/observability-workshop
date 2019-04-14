@@ -11,16 +11,17 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 
 # gradle cache
 COPY build.gradle .
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
 
 # application
 COPY src/ src/
-RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle bootJar
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle clean build
 
-FROM openjdk:8-alpine
+FROM openjdk:8-jre
 
-COPY --from=builder /service/build/libs/imagegrayscale.jar /app/imagegrayscale.jar
+COPY --from=builder /service/build/libs/imageorchestrator.jar /
+COPY --from=builder /service/src/main/docker/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 8080 5005
-
-ENTRYPOINT ["java"]
-CMD ["-jar", "/app/imagegrayscale.jar"]
+ENTRYPOINT ["/entrypoint.sh"]

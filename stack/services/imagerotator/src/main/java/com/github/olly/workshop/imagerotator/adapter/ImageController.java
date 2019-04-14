@@ -26,7 +26,7 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("rotate")
-    public ResponseEntity rotateImage(@RequestParam("file") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
+    public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());

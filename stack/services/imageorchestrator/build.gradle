@@ -4,9 +4,13 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
     }
 }
 
@@ -14,6 +18,7 @@ apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: "de.db.vz.msintplugin"
 
 ext {
     set('springCloudVersion', 'Greenwich.RC2')
@@ -24,7 +29,7 @@ version = null
 sourceCompatibility = 1.8
 
 bootJar {
-    baseName = 'imageholder'
+    baseName = 'imageorchestrator'
 }
 
 repositories {
@@ -40,10 +45,16 @@ dependencyManagement {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.springframework.boot:spring-boot-starter-data-rest'
     compile 'org.springframework.cloud:spring-cloud-starter-sleuth'
     compile 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    compile 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
+
+    compile 'io.springfox:springfox-swagger2:2.9.2'
+    compile 'io.springfox:springfox-swagger-ui:2.9.2'
+    
+    compile group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.8'
 
     compile 'commons-io:commons-io:2.6'
     compile 'org.apache.commons:commons-lang3:3.0'
@@ -80,6 +91,7 @@ boolean isResolveableConfiguration(configuration) {
     def nonResolveableConfigurations = ['apiElements', 'implementation',
                                         'runtimeElements', 'runtimeOnly',
                                         'testImplementation', 'testRuntimeOnly',
+                                        'integrationTestImplementation', 'integrationTestRuntimeOnly',
                                         'generatedImplementation', 'generatedRuntimeOnly']
 
     if (nonResolveableConfigurations.contains(configuration.getName())) {

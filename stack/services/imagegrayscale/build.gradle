@@ -22,6 +22,10 @@ group = 'devops-school'
 version = null
 sourceCompatibility = JavaVersion.VERSION_1_8
 
+bootJar {
+	baseName = 'imagegrayscale'
+}
+
 repositories {
 	jcenter()
 	mavenCentral()

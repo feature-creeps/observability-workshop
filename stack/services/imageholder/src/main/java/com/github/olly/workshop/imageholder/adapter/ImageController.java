@@ -115,7 +115,7 @@ public class ImageController {
     }
 
     @PostMapping()
-    public ResponseEntity uploadImage(@RequestParam("file") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
+    public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
         if (!file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);

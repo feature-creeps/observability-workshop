@@ -1,6 +1,6 @@
 FROM openjdk:8-jdk as builder
 
-WORKDIR /imageholder
+WORKDIR /service
 
 ARG GRADLE_VERSION=5.1.1
 
@@ -19,8 +19,8 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle clean build
 
 FROM openjdk:8-jre
 
-COPY --from=builder /imageholder/build/libs/imageholder.jar /
-COPY --from=builder /imageholder/src/main/docker/entrypoint.sh /
+COPY --from=builder /service/build/libs/imageholder.jar /
+COPY --from=builder /service/src/main/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8080 5005
