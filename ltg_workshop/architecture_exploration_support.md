@@ -18,7 +18,7 @@ usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]
 ```
 
 Now that you see these instructions you can use them to connect!
-# TODO: do we need to just give the full ssh command?
+> TODO: do we need to just give the full ssh command?
 
 **Question: What is running on this computer?**
 
