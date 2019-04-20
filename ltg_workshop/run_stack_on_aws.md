@@ -19,19 +19,29 @@ Depending on your local setup you may need to provide additional information. Fo
 eval $(docker-machine env o11y-workshop)
 ```
 
-3. Now you can do all the docker stuff you would running locally. So `docker-compose up` in `observability-workshop/stack/stack-local-default`
+3. The machine will need one additional setting to successfully run Elastic Search. To set this, first ssh to the machine:
+```
+docker-machine ssh o11y-workshop
+```
+and then run the following command:
+```
+sudo sysctl -w vm.max_map_count=262144
+```
+before exiting back to your local machine.
 
-4. To get the public IP of your instance:
+4. Now you can do all the docker stuff you would running locally. So `docker-compose up` in `observability-workshop/stack/stack-local-default`
+
+5. To get the public IP of your instance:
 ```
 docker-machine ip o11y-workshop
 ```
 
-5. To run the traffic generator to upload traffic :
+6. To run the traffic generator to upload traffic :
 ```
-go run main.go -d ~/work/flickrscrape/result -u http://3.17.156.205:8080/api/images | \
+go run main.go -d ~/work/flickrscrape/result -u http://<public_ip_of_docker_machine>:8080/api/images | \
   vegeta attack -rate=10/m -lazy -format=json -duration=30s | \
   tee results.bin | \
   vegeta report
 ```
 
-6. When done do `docker-machine rm o11y-workshop`
+7. When done do `docker-machine rm o11y-workshop`
