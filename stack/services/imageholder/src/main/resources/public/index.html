@@ -1,19 +1,82 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<h1>Simple image upload / display</h1>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-<a href="/display.html">Display image</a>
-<br/>
-<a href="/displayRandom.html">Display random image</a>
-<br/>
-<a href="/delete.html">Delete images</a>
-<br/>
-<a href="/upload.html">Upload image</a>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
+    <title>Photo album</title>
+  </head>
+  <body class="d-flex flex-column h-100">
+    <nav class="navbar sticky-top navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="index.html">
+            <img src="logo.png" style="width: 75px; height: 50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" href="../index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../displayRandom.html">Display Random</a>
+                </li>            
+                <li class="nav-item">
+                    <a class="nav-link" href="../display.html">Display Image</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../upload.html">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../delete.html">Delete</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+        <div class="jumbotron">
+            <div class="container">
+                <h1 class="display-3">Build your own photoalbum today!</h1>
+                <p>With our tools you can select what photos to include in your personalised and randomised slideshow.</p>
+                <p><a href="upload.html" class="btn btn-primary btn-lg">Get started today</a></p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Manage your photos</h2>
+                    <p>Manage what photos you want included by uploading or removing photos from your album</p>
+                    <p><a class="btn btn-secondary" href="upload.html" role="button">Upload new photos »</a></p>
+                    <p><a class="btn btn-secondary" href="delete.html" role="button">Delete existing photos »</a></p>    
+                </div>
+                <div class="col-md-6">
+                    <h2>View your album</h2>
+                    <p>Take a look at your photos either as individual memories as a randomised group.</p>
+                    <p><a class="btn btn-secondary" href="display.html" role="button">View specific photos »</a></p>
+                    <p><a class="btn btn-secondary" href="display.html" role="button">View random photos »</a></p>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </main>
+
+    <footer class="navbar sticky-bottom navbar-expand-md fixed-bottom navbar-light bg-light">
+        <div class="container">
+            <span class="text-muted">LTG Workshops 2019</span>
+        </div>
+    </footer>
+        
 </body>
 </html>
