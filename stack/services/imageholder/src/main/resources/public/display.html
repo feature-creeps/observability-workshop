@@ -52,10 +52,14 @@
 
             <p class="lead">Available image ids:</p>
             <embed src="/api/images" width="800"></embed>
-
-            <form method="GET" enctype="multipart/form-data" id="displayImageForm" action="/api/images/image">
-                ID: <input type="text" name="id"/><br/><br/>
-                <input type="submit" value="Submit" id="displayButton"/>
+            <br/>
+            <form class="form-inline" method="GET" enctype="multipart/form-data" id="displayImageForm" action="/api/images/image">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label class="m-3" for="displayId">Image ID:</label>
+                    <input id="displayId" name="id" class="form-control" type="text"></input>
+                </div>
+                <input TYPE="hidden" NAME="redirect" VALUE="image.html">
+                <button class="btn btn-primary mb-2" type="submit" id="displayButton">Display</button>
             </form>
         </div>
     </div>

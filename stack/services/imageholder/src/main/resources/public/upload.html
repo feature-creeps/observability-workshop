@@ -48,17 +48,17 @@
 
     <main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
         <div class="container">
-            <div class="starter-template">
-                <h1>Upload</h1>
-
-                <form method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/images">
-                    <input type="file" name="image"></input>
-                    <br/><br/>
-                    name: <input type="text" name="name"/>
-                    <br/><br/>
-                    <input type="submit" value="Submit" id="uploadButton"/>
-                </form>
-            </div>
+            <h1>Upload</h1>
+            <form class="form-group" method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/images">
+                <label for="uploadFile">Image to upload:</label>
+                <input type="file" class="form-control-file" name="image" id="uploadFile">
+                <br/><br/>
+                <div class="form-group">
+                    <label class="m-3" for="uploadName">Name: </label>
+                    <input id=uploadName class="form-control" type="text"></input>
+                </div>
+                <button class="btn btn-primary btn-sm btn-block" type="submit" id="uploadButton">Upload</button>
+            </form>
         </div>
     </main>
 
