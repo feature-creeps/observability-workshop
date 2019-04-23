@@ -13,18 +13,29 @@
 
 April 1: Dry run morning
 * ~~A working stack~~
-  * Make kibana start with an index already set up
-  * confirm traces are going thru to openzipkin (would like to use the dependency graphing feature)
-  * figure out why grafana is spitting out errors (i have reviewed the only dashboard in there are there are no global or per graph alerts...)
-  * Hook in image orchestrator services..accepts requests with some encoded series of operations such as “rotate through 90 degrees, transform to PNG, grayscale, rotate through -270 degrees,...”
+  * ~~confirm traces are going thru to openzipkin~~
+  * Need to get the dependency graphing feature working (@benny)
+  * ~~Figure out why grafana is spitting out errors~~
+  * ~~Hook in image orchestrator services..accepts requests with some encoded series of operations such as “rotate through 90 degrees, transform to PNG, grayscale, rotate through -270 degrees,...”~~
 * ~~Documented way to start up the stack ([run the stack on an aws ec2 instance](./run_stack_on_aws.md))~~
 * ~~A way to add load to the system~~
   * ~~Documented (https://github.com/sneakybeaky/o11y-traffic#usage-feed-targets-into-vegeta)~~
-  * Nice to have, make the traffic a “pre-canned” experiences through the application
-* Cheat sheets for how to explore the architecture
-  * e.g. commands (docker cli, prom query, kibana query, grafana)
+  * ~~Nice to have, make the traffic a “pre-canned” experiences through the application~~
+
+Tech clean up:
+ * add orchastrator to the nav bar
+ * make display, upload, delete, orchastrator reply back with html page rather than just json
+ * make persist image tick box work for orchastrator
+ * traffic generator for orchastrator (@Jon)
+ * Reintroduce image holder dashboard (micrometer upgrade for guages because of label values needing to be hard coded?) (@Benny)
+ * Make kibana start with an index already set up (maybe small script) (@Benny)
+ * Move repo to shared ownership/org (@Benny)
+ * optional: introduce converter (png -> jpeg)
+ * optional: dropdown of imageholder images in image orchastrastor
 
 April 20: Dry run the observable fault
+* Cheat sheets for how to explore the architecture
+  * e.g. commands (docker cli, prom query, kibana query, grafana)
 * Identified the fault we want to inject
   * Requirements for issue: Visible in metrics, logs, and traces
 * Documented way to create it
