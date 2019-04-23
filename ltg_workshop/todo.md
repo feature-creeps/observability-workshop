@@ -12,6 +12,8 @@
 ## High level prep schedule (based on: [workshop_schedule.md](./workshop_schedule.md))
 
 April 1: Dry run morning
+* DryRun on how to SSH access from linux/windows
+  * "in an ideal world you would not need ssh to explore the architecture. let's see how that works out."
 * ~~A working stack~~
   * ~~confirm traces are going thru to openzipkin~~
   * ~~Figure out why grafana is spitting out errors~~
@@ -23,7 +25,7 @@ April 1: Dry run morning
 
 Tech clean up:
  * add orchastrator to the nav bar
- * make display, upload, delete, orchastrator reply back with html page rather than just json
+ * make display, upload, delete, orchastrator reply back with html page rather than just json (@Benny)
  * Need to get the dependency graphing feature working within OpenZipkin (@Benny)
  * Traffic generator for orchastrator (@Jon)
  * Reintroduce image holder dashboard for Grafana - micrometer upgrade for guages because of label values needing to be hard coded? (@Benny)
