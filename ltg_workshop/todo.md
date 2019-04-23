@@ -14,7 +14,6 @@
 April 1: Dry run morning
 * ~~A working stack~~
   * ~~confirm traces are going thru to openzipkin~~
-  * Need to get the dependency graphing feature working (@benny)
   * ~~Figure out why grafana is spitting out errors~~
   * ~~Hook in image orchestrator services..accepts requests with some encoded series of operations such as “rotate through 90 degrees, transform to PNG, grayscale, rotate through -270 degrees,...”~~
 * ~~Documented way to start up the stack ([run the stack on an aws ec2 instance](./run_stack_on_aws.md))~~
@@ -25,11 +24,12 @@ April 1: Dry run morning
 Tech clean up:
  * add orchastrator to the nav bar
  * make display, upload, delete, orchastrator reply back with html page rather than just json
- * make persist image tick box work for orchastrator
- * traffic generator for orchastrator (@Jon)
- * Reintroduce image holder dashboard (micrometer upgrade for guages because of label values needing to be hard coded?) (@Benny)
- * Make kibana start with an index already set up (maybe small script) (@Benny)
- * Move repo to shared ownership/org (@Benny)
+ * Need to get the dependency graphing feature working within OpenZipkin (@Benny)
+ * Traffic generator for orchastrator (@Jon)
+ * Reintroduce image holder dashboard for Grafana - micrometer upgrade for guages because of label values needing to be hard coded? (@Benny)
+ * Make kibana start with an index already set up - maybe small script (@Benny)
+ * Move repo to shared ownership/org (@Jon)
+ * optional: make persist image tick box work for orchastrator - currently it always persists
  * optional: introduce converter (png -> jpeg)
  * optional: dropdown of imageholder images in image orchastrastor
 
