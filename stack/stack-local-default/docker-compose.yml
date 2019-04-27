@@ -164,6 +164,19 @@ services:
     - ES_HTTP_LOGGING=BODY
     depends_on:
     - elasticsearch
+
+  zipkin-dependencies:
+    image: openzipkin/zipkin-dependencies
+    container_name: zipkin-dependencies
+    ports:
+      - 9412:9412
+    environment:
+      - STORAGE_TYPE=elasticsearch
+      - ES_HOSTS=elasticsearch
+      - ZIPKIN_LOG_LEVEL=DEBUG
+      - ES_HTTP_LOGGING=BODY
+    depends_on:
+      - elasticsearch
   
   dependencies:
     image: openzipkin/zipkin-dependencies
