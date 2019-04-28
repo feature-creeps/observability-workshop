@@ -6,3 +6,12 @@
 # gradle
 **/.gradle
 **/build
+**/bin
+
+# Eclipse
+.classpath
+.project
+.settings
+
+*.jar
+**/.vscode
