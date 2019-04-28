@@ -1,21 +1,19 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.olly.workshop.imageorchestrator.model.Image;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.util.Collection;
 
 @Service
 public class ImageGrayscaleClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageGrayscaleClient.class);
     @Autowired
     RestTemplate restTemplate;
 
@@ -38,13 +36,12 @@ public class ImageGrayscaleClient {
         theMulitpartRequest.add("image", fileEntity);
 
 
-
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
 
 
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale:8080/api/image/grayscale", HttpMethod.POST, requestEntity,byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale:8080/api/image/grayscale", HttpMethod.POST, requestEntity, byte[].class);
 
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");
