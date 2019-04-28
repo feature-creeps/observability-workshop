@@ -39,6 +39,10 @@ public class ImageController {
 
         byte[] rotatedImage = imageService.rotate(file, intDegrees);
 
+        if (rotatedImage == null) {
+            return new ResponseEntity<>("Failed to rotate image", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 

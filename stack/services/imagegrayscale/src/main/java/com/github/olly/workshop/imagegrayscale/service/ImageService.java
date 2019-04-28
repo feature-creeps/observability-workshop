@@ -1,5 +1,7 @@
 package com.github.olly.workshop.imagegrayscale.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +20,7 @@ public class ImageService {
 
     @Autowired
     MetricsService metricsService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public byte[] grayscale(MultipartFile image) {
         try {
@@ -28,15 +31,14 @@ public class ImageService {
 
             final byte[] imageBytes = bufferedImageToByteArray(grayScaleImage, formatName);
 
-            metricsService.imageToGrayscale(image.getContentType(),imageBytes.length);
+            metricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
 
             return imageBytes;
 
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed applying grayscale", e);
+            return null;
         }
-
-        return null;
     }
 
 

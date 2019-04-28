@@ -34,8 +34,7 @@ public class ImageService {
         try {
             originalImage = loadImage(transformationRequest.getImageId());
         } catch (Throwable ex) {
-            ex.printStackTrace();
-            LOGGER.error("Failed loading image with id {} from imageholder", transformationRequest.getImageId());
+            LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
             return null;
         }
 

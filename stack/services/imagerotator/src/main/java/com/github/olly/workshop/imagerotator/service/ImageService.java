@@ -1,5 +1,8 @@
 package com.github.olly.workshop.imagerotator.service;
 
+import com.github.olly.workshop.imagerotator.adapter.ImageController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +21,7 @@ public class ImageService {
 
     @Autowired
     MetricsService metricsService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public byte[] rotate(MultipartFile file, int degrees) {
         try {
@@ -30,7 +34,7 @@ public class ImageService {
 
             return imageBytes;
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Failed rotating image", e);
         }
 
         return null;

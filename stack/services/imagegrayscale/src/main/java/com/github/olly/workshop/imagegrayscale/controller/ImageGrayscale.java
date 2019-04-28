@@ -35,6 +35,11 @@ public class ImageGrayscale {
 
         byte[] transformed = imageService.grayscale(image);
 
+        if (transformed == null) {
+            return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 

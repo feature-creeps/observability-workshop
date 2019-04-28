@@ -1,0 +1,26 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <mdc/>
+                <timestamp/>
+                <message/>
+                <context/>
+                <loggerName/>
+                <stackTrace/>
+                <arguments/>
+                <logLevel/>
+                <tags/>
+                <logstashMarkers/>
+                <pattern>
+                    <pattern>
+                        { "service" : "imagerotator" }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

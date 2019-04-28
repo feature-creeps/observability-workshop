@@ -6,55 +6,47 @@ services:
   imageorchestrator:
     build: ../services/imageorchestrator
     depends_on:
-    - fluentbit
+    - fluentd
     ports:
     - 80:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
     logging:
-      driver: fluentd
+      driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: fluentd
 
   imageholder:
     build: ../services/imageholder
     depends_on:
     - mongodb
-    - fluentbit
+    - fluentd
     ports:
     - 8080:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
     logging:
-      driver: fluentd
+      driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: fluentd
 
   imagerotator:
     build: ../services/imagerotator
     depends_on:
-    - fluentbit
+    - fluentd
     ports:
     - 8081:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
     logging:
-      driver: fluentd
+      driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: fluentd
 
   imagegrayscale:
     build: ../services/imagegrayscale
     depends_on:
-    - fluentbit
+    - fluentd
     ports:
     - 8082:8080
-    # the logdriver is being resolved by the daemon which has no access to the docker network dns
     logging:
-      driver: fluentd
+      driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: fluentd
 
   ## Storage
 
@@ -62,32 +54,31 @@ services:
   mongodb:
     image: mongo:3.2.12
     depends_on:
-    - fluentbit
+    - fluentd
     ports:
     - '27017'
     volumes:
     - olly-mongodb:/data/db
     logging:
-      driver: fluentd
+      driver: "fluentd"
       options:
         fluentd-address: localhost:24224
-        tag: fluentd
-
 
   ## Logging
 
   # log collector
-  fluentbit:
-    build: ../services/fluentbit
+  fluentd:
+    build: ../services/fluentd
+    depends_on:
+    - elasticsearch
+    volumes:
+    - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    links:
+    - "elasticsearch"
     ports:
-    - 24231:24231
-    - 24224:24224
-    - 24224:24224/udp
-    logging:
-      driver: json-file
-      options:
-        max-size: 100m
-        max-file: "5"
+    - "24224:24224"
+    - "24224:24224/udp"
 
   # search engine, storage
   elasticsearch:
@@ -98,6 +89,13 @@ services:
     ports:
     - 9200:9200
 
+  kibana-index:
+    build: ../services/kibana-index
+    depends_on:
+    - kibana
+    - elasticsearch
+    restart: on-failure
+
   # logs visualizer
   kibana:
     image: docker.elastic.co/kibana/kibana:6.1.1
@@ -107,7 +105,6 @@ services:
     - olly-prometheus:/prometheus
     ports:
     - 5601:5601
-
 
   ## Monitoring
 
@@ -154,8 +151,7 @@ services:
   # Trace UI
   zipkin:
     image: openzipkin/zipkin
-    container_name: zipkin
-    ports: 
+    ports:
     - 9411:9411
     environment:
     - STORAGE_TYPE=elasticsearch
@@ -177,10 +173,9 @@ services:
       - ES_HTTP_LOGGING=BODY
     depends_on:
       - elasticsearch
-  
+
   dependencies:
     image: openzipkin/zipkin-dependencies
-    container_name: dependencies
     entrypoint: crond -f
     environment:
     - STORAGE_TYPE=elasticsearch
