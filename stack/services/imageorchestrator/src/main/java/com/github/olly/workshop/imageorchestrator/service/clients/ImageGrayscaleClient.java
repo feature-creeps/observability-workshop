@@ -16,18 +16,46 @@ import java.io.IOException;
 public class ImageGrayscaleClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageGrayscaleClient.class);
+    @Autowired
+    RestTemplate restTemplate;
 
-    public HttpEntity transform(HttpEntity multipart) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost("http://imagegrayscale:8080/api/image/grayscale");
-        uploadFile.setEntity(multipart);
-        CloseableHttpResponse response = null;
-        try {
-            response = httpClient.execute(uploadFile);
-            return response.getEntity();
-        } catch (IOException e) {
-            LOGGER.error("Received error response from imagegrayscale", e);
-            return null;
+
+    public Image transform(Image image) {
+
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder("form-data")
+                .name("image")
+                .filename("image")
+                .build();
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        fileMap.add(HttpHeaders.CONTENT_TYPE, image.getMimeType());
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(image.getData(), fileMap);
+
+        MultiValueMap<String, Object> theMulitpartRequest = new LinkedMultiValueMap<>();
+
+        theMulitpartRequest.add("image", fileEntity);
+
+
+
+        HttpHeaders theMultipartHeaders = new HttpHeaders();
+        theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
+
+
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale:8080/api/image/grayscale", HttpMethod.POST, requestEntity,byte[].class);
+
+
+        Collection<String> contentTypes = response.getHeaders().get("content-type");
+        String contentType = "image/png";
+        if (contentTypes.size() > 0) {
+            String[] temp = new String[contentTypes.size()];
+            contentTypes.toArray(temp);
+            contentType = temp[0];
         }
+
+        return new Image(response.getBody(), contentType);
+
     }
 }

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.2.RELEASE'
+        springBootVersion = '2.1.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -13,6 +13,10 @@ buildscript {
         classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
     }
 }
+plugins {
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'java'
+}
 
 apply plugin: 'java'
 apply plugin: 'groovy'
@@ -21,7 +25,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: "de.db.vz.msintplugin"
 
 ext {
-    set('springCloudVersion', 'Greenwich.RC2')
+    set('springCloudVersion', 'Greenwich.SR1')
 }
 
 group = 'devops-school'

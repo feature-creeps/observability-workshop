@@ -4,6 +4,7 @@ import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscaleClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageRotatorClient;
+import feign.form.FormData;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
@@ -62,15 +63,7 @@ public class TransformationService {
     }
 
     private Image transformGrayscale(Image image) {
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addBinaryBody("image", image.getData(), ContentType.create(image.getMimeType()), "image");
-        HttpEntity response = imageGrayscaleClient.transform(builder.build());
-        try {
-            return new Image(IOUtils.toByteArray(response.getContent()), response.getContentType().getValue());
-        } catch (IOException e) {
-            LOGGER.error("Failed to transform to grayscale");
-            return image;
-        }
+        return imageGrayscaleClient.transform(image);
     }
 
     private Image transformRotate(Image image, Map<String, String> properties) {
