@@ -2,6 +2,8 @@ package com.github.olly.workshop.imageorchestrator.service.clients;
 
 
 import com.github.olly.workshop.imageorchestrator.model.Image;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,12 @@ public class ImageRotatorClient {
     @Autowired
     RestTemplate restTemplate;
 
-    public Image transform(Image image) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageRotatorClient.class);
+
+
+    public Image transform(Image image, String degrees) {
+
+        LOGGER.info("Rotating image by {} degrees",degrees);
 
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
@@ -33,7 +40,7 @@ public class ImageRotatorClient {
         MultiValueMap<String, Object> theMulitpartRequest = new LinkedMultiValueMap<>();
 
         theMulitpartRequest.add("image", fileEntity);
-
+        theMulitpartRequest.add("degrees", degrees);
 
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);

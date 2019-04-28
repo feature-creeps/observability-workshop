@@ -64,7 +64,8 @@ public class TransformationService {
     }
 
     private Image transformRotate(Image image, Map<String, String> properties) {
-        Image transformed =  imageRotatorClient.transform(image);
+
+        Image transformed =  imageRotatorClient.transform(image,properties.get("degrees"));
         LOGGER.info("Rotated image OK");
         return transformed;
     }
