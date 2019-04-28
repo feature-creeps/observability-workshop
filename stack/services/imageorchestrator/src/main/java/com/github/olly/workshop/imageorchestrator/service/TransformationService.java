@@ -4,17 +4,11 @@ import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscaleClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageRotatorClient;
-import feign.form.FormData;
-import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -63,19 +57,15 @@ public class TransformationService {
     }
 
     private Image transformGrayscale(Image image) {
-        return imageGrayscaleClient.transform(image);
+        Image transformed =  imageGrayscaleClient.transform(image);
+        LOGGER.info("Converted image to grayscale OK");
+        return transformed;
+
     }
 
     private Image transformRotate(Image image, Map<String, String> properties) {
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addBinaryBody("image", image.getData(), ContentType.create(image.getMimeType()), "image");
-        builder.addTextBody("degrees", properties.get("degrees"));
-        HttpEntity response = imageRotatorClient.transform(builder.build());
-        try {
-            return new Image(IOUtils.toByteArray(response.getContent()), response.getContentType().getValue());
-        } catch (IOException e) {
-            LOGGER.error("Failed to transform to grayscale");
-            return image;
-        }
+        Image transformed =  imageRotatorClient.transform(image);
+        LOGGER.info("Rotated image OK");
+        return transformed;
     }
 }

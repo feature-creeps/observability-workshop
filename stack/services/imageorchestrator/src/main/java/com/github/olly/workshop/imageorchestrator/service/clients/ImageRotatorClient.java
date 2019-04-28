@@ -1,33 +1,59 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.olly.workshop.imageorchestrator.model.Image;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.util.Collection;
 
 @Service
 public class ImageRotatorClient {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageRotatorClient.class);
+    @Autowired
+    RestTemplate restTemplate;
 
-    public HttpEntity transform(HttpEntity multipart) {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost uploadFile = new HttpPost("http://imagerotator:8080/api/image/rotate");
-        uploadFile.setEntity(multipart);
-        CloseableHttpResponse response = null;
-        try {
-            response = httpClient.execute(uploadFile);
-            return response.getEntity();
-        } catch (IOException e) {
-            LOGGER.error("Received error response from imagerotator", e);
-            return null;
+    public Image transform(Image image) {
+
+
+        MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
+        ContentDisposition contentDisposition = ContentDisposition
+                .builder("form-data")
+                .name("image")
+                .filename("image")
+                .build();
+        fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
+        fileMap.add(HttpHeaders.CONTENT_TYPE, image.getMimeType());
+        org.springframework.http.HttpEntity<byte[]> fileEntity = new org.springframework.http.HttpEntity<>(image.getData(), fileMap);
+
+        MultiValueMap<String, Object> theMulitpartRequest = new LinkedMultiValueMap<>();
+
+        theMulitpartRequest.add("image", fileEntity);
+
+
+        HttpHeaders theMultipartHeaders = new HttpHeaders();
+        theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
+        org.springframework.http.HttpEntity<MultiValueMap<String, Object>> requestEntity = new org.springframework.http.HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
+
+
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagerotator:8080/api/image/rotate", HttpMethod.POST, requestEntity, byte[].class);
+
+
+        Collection<String> contentTypes = response.getHeaders().get("content-type");
+        String contentType = "image/png";
+        if (contentTypes.size() > 0) {
+            String[] temp = new String[contentTypes.size()];
+            contentTypes.toArray(temp);
+            contentType = temp[0];
         }
+
+        return new Image(response.getBody(), contentType);
+
     }
+
+
 }
