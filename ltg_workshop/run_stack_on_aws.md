@@ -9,8 +9,9 @@
 1. Create a running instance of type `md5.2xlarge` and in region `eu-west-2` use this command. You may need to shift these variables depending on your account allotment.
 ```
 docker-machine create --driver amazonec2 --amazonec2-region eu-west-2 \
---amazonec2-open-port 8080 --amazonec2-open-port 5601 --amazonec2-open-port 3000 \
---amazonec2-open-port 9090 --amazonec2-open-port 16686 --amazonec2-open-port 9411 \
+--amazonec2-open-port 8080 --amazonec2-open-port 80 \
+--amazonec2-open-port 5601 --amazonec2-open-port 3000 \
+--amazonec2-open-port 9090 --amazonec2-open-port 9411 \
 --amazonec2-instance-type m5.2xlarge --amazonec2-root-size 200 \
 o11y-workshop
 ```
