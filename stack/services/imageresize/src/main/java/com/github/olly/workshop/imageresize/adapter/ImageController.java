@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageresize.adapter;
 
+import com.github.olly.workshop.imageresize.config.LoggingContextUtil;
 import com.github.olly.workshop.imageresize.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,14 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private LoggingContextUtil lcu;
+
     @PostMapping("resize")
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
+
+        lcu.mdcPut(file.getContentType(), factor);
+
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());

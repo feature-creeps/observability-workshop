@@ -16,7 +16,7 @@
                 <logstashMarkers/>
                 <pattern>
                     <pattern>
-                        { "service" : "imageholder" }
+                        { "service" : "imageorchestrator" }
                     </pattern>
                 </pattern>
             </providers>

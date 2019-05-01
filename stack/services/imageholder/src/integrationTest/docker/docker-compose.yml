@@ -1,0 +1,37 @@
+version: '3'
+services:
+
+  ## Domain
+
+  imageorchestrator:
+    build: ../../../../imageorchestrator
+    environment:
+      JAVA_DEBUG: "true"
+    ports:
+    - 8080:8080
+    - 5005:5005
+
+  imageholder:
+    build: ../../../../imageholder
+    depends_on:
+    - mongodb
+    ports:
+    - 8080
+
+  imagerotator:
+    build: ../../../../imagerotator
+    ports:
+    - 8080
+
+  imagegrayscale:
+    build: ../../../../imagegrayscale
+    ports:
+    - 8080
+
+  ## Storage
+
+  # database
+  mongodb:
+    image: mongo:3.2.12
+    ports:
+    - '27017'

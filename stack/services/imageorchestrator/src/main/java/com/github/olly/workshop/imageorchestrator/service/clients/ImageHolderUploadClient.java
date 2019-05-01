@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 
+import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ public class ImageHolderUploadClient {
     @Autowired
     RestTemplate restTemplate;
 
+    @Autowired
+    LoggingContextUtil lcu;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageHolderUploadClient.class);
 
@@ -43,9 +46,17 @@ public class ImageHolderUploadClient {
 
         ResponseEntity<String> response = restTemplate.exchange("http://imageholder:8080/api/images", HttpMethod.POST, requestEntity, String.class);
 
-        LOGGER.info("Successfully uploaded transformed image to the imageholder with id {}", response.getBody());
+        image.setId(extractImageId(response));
 
-        image.setId(response.getBody());
+        lcu.mdcPut(image);
+        LOGGER.info("Successfully uploaded transformed image to the imageholder with id {}", image.getId());
     }
 
+    private String extractImageId(ResponseEntity<String> response) {
+        if (response != null && response.getBody() != null) {
+            String[] split = response.getBody().split(" ");
+            return split[split.length - 1];
+        }
+        return "";
+    }
 }

@@ -3,6 +3,7 @@ package com.github.olly.workshop.imagegrayscale.controller;
 import com.github.olly.workshop.imagegrayscale.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +23,8 @@ public class ImageGrayscale {
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
+
+        MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
 
         if (image.getContentType() != null &&

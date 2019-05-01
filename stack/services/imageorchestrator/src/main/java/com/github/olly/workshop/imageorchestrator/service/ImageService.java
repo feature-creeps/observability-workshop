@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
+import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
@@ -26,6 +27,9 @@ public class ImageService {
     @Autowired
     private ImageHolderUploadClient imageHolderUploadClient;
 
+    @Autowired
+    private LoggingContextUtil lcu;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public Image transform(TransformationRequest transformationRequest) {
@@ -38,8 +42,11 @@ public class ImageService {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
             return null;
         }
+        lcu.mdcPut(originalImage);
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
+
+        lcu.mdcPut(transformedImage);
 
         metricsService.imageTransformed(transformedImage.getMimeType());
 

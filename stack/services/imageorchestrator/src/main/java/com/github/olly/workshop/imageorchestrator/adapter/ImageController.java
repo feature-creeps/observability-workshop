@@ -1,9 +1,9 @@
 package com.github.olly.workshop.imageorchestrator.adapter;
 
+import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.ImageService;
-import com.github.olly.workshop.imageorchestrator.service.MetricsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,13 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private LoggingContextUtil lcu;
+
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
 
+        lcu.mdcPut(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
@@ -37,7 +41,7 @@ public class ImageController {
         }
 
         Image transformedImage = imageService.transform(transformationRequest);
-
+        lcu.mdcPut(transformedImage);
         // return final image
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();

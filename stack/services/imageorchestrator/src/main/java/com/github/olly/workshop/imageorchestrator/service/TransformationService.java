@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
+import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscaleClient;
@@ -28,12 +29,16 @@ public class TransformationService {
     @Autowired
     private ImageResizeClient imageResizeClient;
 
+    @Autowired
+    private LoggingContextUtil lcu;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
 
 
     public Image transform(Image image, List<Transformation> transformations) {
 
         for (Transformation transformation : transformations) {
+            lcu.mdcPut(transformation);
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());

@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageholder.adapter;
 
+import com.github.olly.workshop.imageholder.config.LoggingContextUtil;
 import com.github.olly.workshop.imageholder.model.Image;
 import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.service.MetricsService;
@@ -7,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -34,6 +35,9 @@ public class ImageController {
     @Autowired
     private MetricsService metricsService;
 
+    @Autowired
+    private LoggingContextUtil loggingContextUtil;
+
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
@@ -49,6 +53,7 @@ public class ImageController {
     @GetMapping(value = "/random")
     public ResponseEntity getRandomImage() {
         Image image = imageService.getRandomImage();
+        loggingContextUtil.mdcPut(image);
 
         if (image == null) {
             LOGGER.warn("No images in database!");
@@ -74,12 +79,13 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.getImageById(id);
+        loggingContextUtil.mdcPut(image);
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
             throw new NotFoundException("Image not found");
         }
-        
+
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
@@ -97,6 +103,8 @@ public class ImageController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
+        loggingContextUtil.mdcPut(imageService.getImageById(id));
+
         LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
@@ -116,7 +124,10 @@ public class ImageController {
 
     @PostMapping()
     public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
-        if (!file.getContentType().startsWith("image/")) {
+
+        MDC.put("mimeType", file.getContentType());
+
+        if (file.getContentType() != null && !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);
         }
@@ -125,12 +136,16 @@ public class ImageController {
         image.setData(IOUtils.toByteArray(file.getInputStream()));
         image.setContentType(file.getContentType());
 
+        loggingContextUtil.mdcPut(image);
+
         if (name == null || name.isEmpty()) {
             image.setName("unknown_" + RandomStringUtils.randomNumeric(10));
         } else {
             image.setName(name);
         }
         image = imageService.save(image);
+
+        loggingContextUtil.mdcPut(image);
 
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);

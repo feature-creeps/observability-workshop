@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imagerotator.adapter;
 
+import com.github.olly.workshop.imagerotator.config.LoggingContextUtil;
 import com.github.olly.workshop.imagerotator.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +26,14 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private LoggingContextUtil lcu;
+
     @PostMapping("rotate")
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
+
+        lcu.mdcPut(file.getContentType(), degrees);
+
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());

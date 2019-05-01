@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class ImageService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public Image save(Image image) {
+        image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
