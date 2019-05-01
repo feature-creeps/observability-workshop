@@ -1,0 +1,84 @@
+<html>
+<head>
+  <script src="orchestrate.component.js" type="text/javascript"></script>
+</head>
+<body>
+
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-4">Orchestrate image transformations</h1>
+    </div>
+  </div>
+  <div class="container">
+    <form id="imageTransform" action="#" method="post" class="form-group">
+
+      <div class="form-group">
+        <select
+          id="image"
+          name="image"
+          class="form-control btn-primary"
+          (input)="showImage($event.target.value)">
+          <option *ngFor="let image of images"
+                  [value]="image.id">
+            {{image.id}} - {{image.name}}
+          </option>
+        </select>
+        <div class="img-preview-container" style="padding: 10px">
+          <img height="100px" [src]="displayImage">
+        </div>
+      </div>
+
+      <!-- GRAYSCALE -->
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="grayscale" name="grayscale">
+        <label class="form-check-label" for="grayscale">Apply Grayscale</label>
+      </div>
+
+      <!-- ROTATE -->
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="rotate" name="rotate">
+        <label class="form-check-label" for="rotate">Apply Rotation</label>
+      </div>
+
+      <div class="form-group">
+        <label for="degrees">Rotation Degrees</label>
+        <input class="form-control" id="degrees" name="degrees" placeholder="Enter degrees, eg 90">
+      </div>
+
+      <!-- RESIZE -->
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="resize" name="resize">
+        <label class="form-check-label" for="resize">Resize</label>
+      </div>
+
+      <div class="form-group">
+        <label for="factor">Resizing factor</label>
+        <input class="form-control" id="factor" name="factor" placeholder="Enter factor: (0..n]">
+      </div>
+
+      <!-- PERSIST -->
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="persist" name="persist">
+        <label class="form-check-label" for="persist">Persist image</label>
+      </div>
+
+
+      <input type="submit" class="btn btn-primary btn-sm btn-block"/>
+      <pre id="output"></pre>
+      <pre id="transformedImage"></pre>
+
+
+      <a href="/">Home</a>
+    </form>
+
+  </div>
+
+  <div class="col-3">
+  </div>
+</main>
+</body>
+</html>
+
+
+

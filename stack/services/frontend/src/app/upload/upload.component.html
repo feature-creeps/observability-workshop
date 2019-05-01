@@ -1,0 +1,39 @@
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-4">Upload</h1>
+    </div>
+  </div>
+  <div class="container">
+    <form class="form-group" method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/images">
+      <div class="file-field">
+        <label class="btn btn-primary btn-sm btn-block mt-0" for="uploadFile">Choose file</label>
+        <input #imageInput
+               class="inputfile"
+               name="image"
+               type="file"
+               accept="image/*"
+               id="uploadFile"
+               (change)="processFile(imageInput)">
+      </div>
+      <div *ngIf="selectedFile" class="img-preview-container">
+
+        <div class="img-preview{{selectedFile.status === 'fail' ? '-error' : ''}}"
+             [ngStyle]="{'background-image': 'url('+ selectedFile.src + ')'}">
+        </div>
+
+        <div *ngIf="selectedFile.pending" class="img-loading-overlay">
+          <div class="img-spinning-circle"></div>
+        </div>
+
+        <div *ngIf="selectedFile.status === 'ok'" class="alert alert-success"> Image Uploaded Succesfuly!</div>
+        <div *ngIf="selectedFile.status === 'fail'" class="alert alert-danger"> Image Upload Failed!</div>
+      </div>
+      <div class="form-group">
+        <label class="m-3" for="uploadName">Name: </label>
+        <input id=uploadName name="name" class="form-control" type="text"/>
+      </div>
+      <button class="btn btn-primary btn-sm btn-block" type="submit" id="uploadButton">Upload</button>
+    </form>
+  </div>
+</main>
