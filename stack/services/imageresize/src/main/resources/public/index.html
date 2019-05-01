@@ -5,14 +5,14 @@
 </head>
 <body>
 
-<h1>Simple image rotate</h1>
+<h1>Simple image resize</h1>
 
-<form method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/image/rotate">
+<form method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/image/resize">
     file: <label class="custom-file-upload">
     <input type="file" name="image"><b>File Upload</b></input>
 </label>
     <br/><br/>
-    degrees: <input type="text" name="degrees"/>
+    factor: <input type="text" name="factor"/>
     <br/><br/>
     <input type="submit" value="Submit" id="uploadButton"/>
 </form>
