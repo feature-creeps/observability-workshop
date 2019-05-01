@@ -11,12 +11,15 @@ public class TransformationRequest {
 
     private final String imageId;
     private final List<Transformation> transformations;
+    private final Boolean persist;
 
     @JsonCreator
     public TransformationRequest(@JsonProperty("imageId") String imageId,
-                                 @JsonProperty("transformations") List<Transformation> transformations) {
+                                 @JsonProperty("transformations") List<Transformation> transformations,
+                                 @JsonProperty("persist") Boolean persist) {
         this.imageId = imageId;
         this.transformations = transformations;
+        this.persist = persist;
     }
 
     public String getImageId() {
@@ -25,6 +28,10 @@ public class TransformationRequest {
 
     public List<Transformation> getTransformations() {
         return transformations;
+    }
+
+    public Boolean getPersist() {
+        return persist;
     }
 
     @Override

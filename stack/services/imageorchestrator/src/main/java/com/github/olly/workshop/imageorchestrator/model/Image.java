@@ -4,6 +4,16 @@ public class Image {
     private byte[] data;
     private String mimeType;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
     public Image(byte[] data, String mimeType) {
         this.data = data;
         this.mimeType = mimeType;
@@ -21,14 +31,4 @@ public class Image {
         return data != null && data.length > 0;
     }
 
-//    public static Image from(ImageDto imageDto) {
-//        // retrieve from imageholder
-//        if (!StringUtils.isEmpty(imageDto.getReference())) {
-//
-//
-//        // decode from base64
-//        } else {
-//            asimageDto.getImageBase64()
-//        }
-//    }
 }

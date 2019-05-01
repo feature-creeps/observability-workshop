@@ -26,13 +26,6 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
-    @Autowired
-    private MetricsService metricsService;
-
-
-    // rest controller only receiving a json object in the right format and returning it
-    // format:
-    //
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
 
@@ -56,50 +49,4 @@ public class ImageController {
             return new ResponseEntity<>("Failed transforming image", HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @PostMapping("transform")
-//    public ResponseEntity transformImage(@RequestBody TransformationRequest transformationRequest) throws IOException {
-//
-//        LOGGER.info("Receiving new image transformation request for id {}", id);
-//
-//        // todo get image
-//        byte[] imageData = imageHolderClient.getImage(id);
-//
-//
-//        String imageType = "";
-//
-//
-//        Set<ImageTransformation> transformations = new HashSet<>();
-//
-//        if (grayscale != null) {
-//            ImageTransformation grayscaleTransformation = new ImageTransformation("imagegrayscale", null);
-//            transformations.add(grayscaleTransformation);
-//        }
-//
-//        if (resize != null) {
-//            ImageTransformation resizeTransformation = new ImageTransformation("imageresize",
-//                    new ActionsBuilder()
-//                            .add("x", Integer.valueOf(x))
-//                            .add("y", Integer.valueOf(y)).build());
-//            // todo impl
-//            // transformations.add(resizeTransformation);
-//        }
-//
-//        if (rotate != null) {
-//            ImageTransformation rotateTransformation = new ImageTransformation("imagerotator",
-//                    new ActionsBuilder()
-//                            .add("degrees", Integer.valueOf(degrees)).build());
-//            transformations.add(rotateTransformation);
-//        }
-//
-//        imageService.orchestrate(new ImageOrchestration(transformations, imgBase64, imageData, imageType));
-//
-//
-//        if (persist != null) {
-//            LOGGER.info("Save transformed image with name {}", name);
-//            // todo post to imageholder
-//        }
-//
-//        return new ResponseEntity<>("Uploaded image with id " + id, HttpStatus.CREATED);
-//    }
 }

@@ -45,6 +45,7 @@ public class ImageHolderUploadClient {
 
         LOGGER.info("Successfully uploaded transformed image to the imageholder with id {}", response.getBody());
 
+        image.setId(response.getBody());
     }
 
 }

@@ -4,6 +4,7 @@ import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderUploadClient;
+import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,9 @@ public class ImageService {
 
         metricsService.imageTransformed(transformedImage.getMimeType());
 
-        imageHolderUploadClient.upload(transformedImage);
+        if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
+            imageHolderUploadClient.upload(transformedImage);
+        }
 
         return transformedImage;
     }
