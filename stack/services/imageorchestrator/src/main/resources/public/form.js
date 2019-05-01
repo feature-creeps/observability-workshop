@@ -54,6 +54,17 @@ function success(data, textStatus, jqXHR) {
             });
         }
 
+        // resize
+        var resize = form.querySelector("#resize");
+        if (resize.checked) {
+            transformations.push({
+                "type": "resize",
+                "properties": {
+                    "factor": form.querySelector("#factor").value
+                }
+            });
+        }
+
         // persist
         var persist = form.querySelector("#persist");
         if (persist.checked) {
