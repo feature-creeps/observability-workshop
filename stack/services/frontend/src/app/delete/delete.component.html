@@ -5,8 +5,8 @@
     </div>
   </div>
   <div class="container">
-    <form method="POST" enctype="multipart/form-data" id="deleteImageForm"
-          action="http://localhost:8080/api/images/delete">
+    <form (ngSubmit)="deleteOne()"
+          #deleteIdForm="ngForm">
       <div class="form-group">
         <select class="form-control btn-primary"
                 (input)="showImage($event.target.value)">
@@ -16,15 +16,21 @@
           </option>
         </select>
 
-        <img height="100px" [src]="displayImage" style="padding: 20px">
+        <img id="preview" height="100px" [src]="displayImage" style="padding: 20px">
+        <div height="100px"><span id="info"></span></div>
         <br/>
-        <button class="col-md-4 btn btn-primary btn-block" type="submit" id="deleteOneButton">Delete this image</button>
+        <button class="col-md-4 btn btn-primary btn-block"
+                type="submit"
+                id="deleteOneButton">Delete this image
+        </button>
       </div>
     </form>
     <br/>
     <br/>
-    <form method="POST" id="deleteAllImagesForm" action="http://localhost:8080/api/images/delete/all">
-        <button class="col-md-6 btn btn-danger btn-block" type="submit" id="deleteAllButton">Delete ALL images</button>
+    <form (ngSubmit)="deleteAll()"
+          #deleteAllForm="ngForm"
+          id="deleteAllImagesForm">
+      <button class="col-md-6 btn btn-danger btn-block" type="submit" id="deleteAllButton">Delete ALL images</button>
     </form>
   </div>
 </main>
