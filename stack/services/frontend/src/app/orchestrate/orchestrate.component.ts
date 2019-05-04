@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-orchestrate',
@@ -20,11 +21,15 @@ export class OrchestrateComponent implements OnInit {
   public displayImage;
 
   async retrieveImages() {
-    let data = await this.http.get<Array<Image>>('http://localhost:8080/api/images').toPromise();
+    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
     if (data.length > 0) {
+      document.getElementById("preview").hidden = false;
       this.images = data;
       this.setIds(data);
       this.showImage(this.images[0].id);
+    } else {
+      document.getElementById("info").innerText = "No images found";
+      document.getElementById("preview").hidden = true;
     }
   }
 
@@ -41,7 +46,7 @@ export class OrchestrateComponent implements OnInit {
 
   async showImage(id: string) {
 
-    let data = await this.http.get('http://localhost:8080/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
 
       this.displayImage = this.createImageFromBlob(data);

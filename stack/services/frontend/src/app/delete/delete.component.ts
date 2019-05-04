@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-delete',
@@ -23,14 +24,24 @@ export class DeleteComponent implements OnInit {
 
   async deleteOne() {
     let res;
+    if (this.deleteId == undefined) {
+      let info = document.getElementById("info");
+      info.innerText = "No image selected";
+      info.className = "btn btn-sm btn-block btn-warning"
+      return
+    }
     try {
-      res = await this.http.delete('http://localhost:8080/api/images/' + this.deleteId, {responseType: 'Blob'}).toPromise();
+      res = await this.http.delete(environment.backend.imageholder + '/api/images/' + this.deleteId, {responseType: 'text'}).toPromise();
     } catch (e) {
-      console.log(e)
+      let info = document.getElementById("info");
+      info.innerText = "Failed to delete " + this.deleteId;
+      info.className = "btn btn-sm btn-block btn-danger"
     }
     if (res != null) {
       console.log("image deleted " + this.deleteId);
-      document.getElementById("info").innerText = "Deleted " + this.deleteId;
+      let info = document.getElementById("info");
+      info.innerText = "Successfully deleted " + this.deleteId;
+      info.className = "btn btn-sm btn-block btn-success"
       this.retrieveImages();
     }
   }
@@ -38,21 +49,21 @@ export class DeleteComponent implements OnInit {
   async deleteAll() {
     let res;
     try {
-      res = await this.http.post('http://localhost:8080/api/images/delete/all').toPromise();
+      res = await this.http.post(environment.backend.imageholder + '/api/images/delete/all', null,{responseType: 'text'}).toPromise();
     } catch (e) {
-      console.log(e)
-      // todo: deletion works but somehow response fails
-      console.log("Deleted all images");
-      document.getElementById("info").innerText = "Deleted all images";
+      let info = document.getElementById("info");
+      info.innerText = "Failed to delete all images";
+      info.className = "btn btn-sm btn-block btn-danger"
     }
     if (res != null) {
-      console.log("Deleted all images");
-      document.getElementById("info").innerText = "Deleted all images";
+      let info = document.getElementById("info");
+      info.innerText = "Successfully deleted all images";
+      info.className = "btn btn-sm btn-block btn-success"
     }
   }
 
   async retrieveImages() {
-    let data = await this.http.get<Array<Image>>('http://localhost:8080/api/images').toPromise();
+    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
     if (data.length > 0) {
       document.getElementById("preview").hidden = false;
       this.images = data;
@@ -74,7 +85,7 @@ export class DeleteComponent implements OnInit {
   }
 
   async showImage(id: string) {
-    let data = await this.http.get('http://localhost:8080/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
       this.deleteId = id;

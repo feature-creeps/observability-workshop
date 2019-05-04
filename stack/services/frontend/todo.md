@@ -1,17 +1,30 @@
 ### todo
-* set up environments to support backend service configuration
-* set up nginx
-* set up nginx to act as an api proxy
-* redirect to display page after uploading a new image / or give any feedback
-* style text next to upload buttons
-* show transformed image after orchestration
+* use an api proxy
 * fix orchestrate form
-* propagating the name in upload does not work
+* show transformed image after orchestration
+* refresh component when on component and clicking on same route (button)
+* force refresh when navigating to random. currently the last displayed image is still shown after deletion
+* show nicer info in random component if there are now images (like other components) 
+* improve Dockerfile to cache node modules
+* improve Dockerfile to make use of multi stage
+* change tab icon
+
+### nice to have
 * generic orchestrator frontend (plug and play image manipulations)
-* add an album view
 * display button/id towards particular image in random component
-* show nice info if there are now images (random, display, delete, orchestrate)
-* make delete all button more responsive and fix the "error response in the console"
+* add an album view
+
+### may be
+* redirect to display page after uploading a new image
+* set up nginx (if required)
+* style text next to upload buttons
 
 ### done
+* support backend service configuration
+* set up environments
 * fix delete form
+* show nice info if there are no images (display, delete, orchestrate)
+* show info if there are now images (random)
+* give feedback after uploading an image
+* fix: propagating the name in upload does not work
+* make delete all button more responsive and fix the "error response in the console"

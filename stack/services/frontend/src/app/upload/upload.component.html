@@ -14,7 +14,7 @@
                type="file"
                accept="image/*"
                id="uploadFile"
-               (change)="processFile(imageInput)">
+               (change)="processFile(imageInput, nameInput)">
       </div>
       <div *ngIf="selectedFile" class="img-preview-container">
 
@@ -31,9 +31,12 @@
       </div>
       <div class="form-group">
         <label class="m-3" for="uploadName">Name: </label>
-        <input id=uploadName name="name" class="form-control" type="text"/>
+        <input #nameInput id=uploadName name="name" class="form-control" type="text"/>
       </div>
-      <button class="btn btn-primary btn-sm btn-block" type="submit" id="uploadButton">Upload</button>
+      <button class="btn btn-primary btn-sm btn-block" type="submit" id="uploadButton" (click)="uploadImage(nameInput)">
+        Upload
+      </button>
+      <span id="info"></span>
     </form>
   </div>
 </main>

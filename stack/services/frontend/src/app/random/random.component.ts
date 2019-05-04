@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-random',
@@ -14,8 +15,10 @@ export class RandomComponent implements OnInit {
     this.changeImage()
   }
 
+  randomImageUrl: string = environment.backend.imageholder + '/api/images/random';
+
   changeImage() {
-    document.getElementById("image").setAttribute("src", "http://localhost:8080/api/images/random?decache=" + new Date().getTime())
+    document.getElementById("image").setAttribute("src", this.randomImageUrl + '?decache=' + new Date().getTime())
     // todo: nice to have would be displaying the id of the randomly selected image
   }
 }

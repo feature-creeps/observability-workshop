@@ -1,20 +1,22 @@
 import {map} from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { HttpClient } from '@angular/common/http'
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http'
+import {Observable} from 'rxjs';
+import {environment} from "../../environments/environment";
 
 @Injectable({providedIn: "root"})
 export class UploadService {
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient) {
+  }
 
-
-  public uploadImage(image: File): Observable<string | any> {
+  public uploadImage(image: File, name: string): Observable<string | any> {
     const formData = new FormData();
+    console.log(name);
 
     formData.append('image', image);
+    formData.append('name', name);
 
-    return this.http.post('http://localhost:8080/api/images', formData).pipe(map(((json: any) =>  json.imageUrl)));
+    return this.http.post(environment.backend.imageholder + '/api/images', formData, {responseType: 'text'}).pipe(map(((json: any) => json.imageUrl)));
   }
 }

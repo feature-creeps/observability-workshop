@@ -6,8 +6,9 @@
   </div>
 
   <div class="container">
-    <input _ngcontent-eyl-c4="" class="btn btn-primary btn-sm btn-block" type="button" (click)="changeImage()" value="Next random"/>
+    <input _ngcontent-eyl-c4="" class="btn btn-primary btn-sm btn-block" type="button" (click)="changeImage()"
+           value="Next random"/>
     <br/>
-    <img id="image" width="100%" src="http://localhost:8080/api/images/random">
+    <img id="image" width="100%" src={{randomImageUrl}} alt="No images found">
   </div>
 </main>
