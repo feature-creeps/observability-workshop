@@ -38,7 +38,7 @@ export class UploadComponent {
       let info = document.getElementById("info");
       info.hidden = false
       info.innerText = "No image selected"
-      info.className = "btn btn-sm btn-block btn-warning"
+      info.className = "btn btn-block btn-warning dima-btn"
       return
     }
 
@@ -47,14 +47,14 @@ export class UploadComponent {
         let info = document.getElementById("info");
         info.hidden = false
         info.innerText = "Upload successful"
-        info.className = "btn btn-sm btn-block btn-success"
+        info.className = "btn btn-block btn-success dima-btn"
       },
       (err) => {
         console.log(err)
         let info = document.getElementById("info");
         info.hidden = false
         info.innerText = "Upload failed"
-        info.className = "btn btn-sm btn-block btn-danger"
+        info.className = "btn btn-block btn-danger dima-btn"
       })
   }
 }

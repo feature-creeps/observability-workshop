@@ -45,7 +45,6 @@ export class DisplayComponent implements OnInit {
   }
 
   async showImage(id: string) {
-
     let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
 

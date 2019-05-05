@@ -19,7 +19,7 @@
         <img id="preview" height="100px" [src]="displayImage" style="padding: 20px" alt="No images found">
         <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
         <br/>
-        <button class="col-md-4 btn btn-primary btn-block"
+        <button class="col-md-4 btn btn-primary btn-block dima-btn"
                 type="submit"
                 id="deleteOneButton">Delete this image
         </button>
@@ -30,7 +30,7 @@
     <form (ngSubmit)="deleteAll()"
           #deleteAllForm="ngForm"
           id="deleteAllImagesForm">
-      <button class="col-md-6 btn btn-danger btn-block" type="submit" id="deleteAllButton">Delete ALL images</button>
+      <button class="col-md-6 btn btn-danger btn-block dima-btn" type="submit" id="deleteAllButton">Delete ALL images</button>
     </form>
   </div>
 </main>

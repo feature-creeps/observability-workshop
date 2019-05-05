@@ -3,11 +3,8 @@
 * fix orchestrate form
 * show transformed image after orchestration
 * refresh component when on component and clicking on same route (button)
-* force refresh when navigating to random. currently the last displayed image is still shown after deletion
-* show nicer info in random component if there are now images (like other components) 
 * improve Dockerfile to cache node modules
 * improve Dockerfile to make use of multi stage
-* change tab icon
 
 ### nice to have
 * generic orchestrator frontend (plug and play image manipulations)
@@ -28,3 +25,8 @@
 * give feedback after uploading an image
 * fix: propagating the name in upload does not work
 * make delete all button more responsive and fix the "error response in the console"
+* change tab icon
+* force refresh when navigating to random. currently the last displayed image is still shown after deletion
+* rebuild random component to use angular httpClient
+* show nicer info in random component if there are now images (like other components) 
+* all button font-size to 16px (similar to select)

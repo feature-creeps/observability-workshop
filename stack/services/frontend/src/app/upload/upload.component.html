@@ -7,7 +7,7 @@
   <div class="container">
     <form class="form-group" method="POST" enctype="multipart/form-data" id="uploadImageForm" action="/api/images">
       <div class="file-field">
-        <label class="btn btn-primary btn-sm btn-block mt-0" for="uploadFile">Choose file</label>
+        <label class="btn btn-primary btn-block mt-0 dima-btn" for="uploadFile">Choose file</label>
         <input #imageInput
                class="inputfile"
                name="image"
@@ -33,7 +33,7 @@
         <label class="m-3" for="uploadName">Name: </label>
         <input #nameInput id=uploadName name="name" class="form-control" type="text"/>
       </div>
-      <button class="btn btn-primary btn-sm btn-block" type="submit" id="uploadButton" (click)="uploadImage(nameInput)">
+      <button class="btn btn-primary btn-block dima-btn" type="submit" id="uploadButton" (click)="uploadImage(nameInput)">
         Upload
       </button>
       <span id="info"></span>

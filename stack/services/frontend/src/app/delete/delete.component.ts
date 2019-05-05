@@ -27,7 +27,7 @@ export class DeleteComponent implements OnInit {
     if (this.deleteId == undefined) {
       let info = document.getElementById("info");
       info.innerText = "No image selected";
-      info.className = "btn btn-sm btn-block btn-warning"
+      info.className = "btn btn-block btn-warning dima-btn"
       return
     }
     try {
@@ -35,13 +35,13 @@ export class DeleteComponent implements OnInit {
     } catch (e) {
       let info = document.getElementById("info");
       info.innerText = "Failed to delete " + this.deleteId;
-      info.className = "btn btn-sm btn-block btn-danger"
+      info.className = "btn btn-block btn-danger dima-btn"
     }
     if (res != null) {
       console.log("image deleted " + this.deleteId);
       let info = document.getElementById("info");
       info.innerText = "Successfully deleted " + this.deleteId;
-      info.className = "btn btn-sm btn-block btn-success"
+      info.className = "btn btn-block btn-success dima-btn"
       this.retrieveImages();
     }
   }
@@ -53,12 +53,12 @@ export class DeleteComponent implements OnInit {
     } catch (e) {
       let info = document.getElementById("info");
       info.innerText = "Failed to delete all images";
-      info.className = "btn btn-sm btn-block btn-danger"
+      info.className = "btn btn-block btn-danger dima-btn"
     }
     if (res != null) {
       let info = document.getElementById("info");
       info.innerText = "Successfully deleted all images";
-      info.className = "btn btn-sm btn-block btn-success"
+      info.className = "btn btn-block btn-success dima-btn"
     }
   }
 
