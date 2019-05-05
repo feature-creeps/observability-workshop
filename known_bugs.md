@@ -10,5 +10,5 @@
 
 #### embraced
 
-* resize/rotate cannot handle jpg
+* rotate cannot handle jpg
 * image size larger than 10mb fails

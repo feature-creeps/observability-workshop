@@ -34,14 +34,32 @@ scrape_configs:
 - job_name: imageholder
   metrics_path: /actuator/prometheus
   static_configs:
-  # TODO configure multiple targets on demand
   - targets: ['imageholder:8080']
 
 - job_name: imagerotator
   metrics_path: /actuator/prometheus
   static_configs:
-  # TODO configure multiple targets on demand
   - targets: ['imagerotator:8080']
+
+- job_name: imageresize
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets: ['imageresize:8080']
+
+- job_name: imagegrayscale
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets: ['imagegrayscale:8080']
+
+- job_name: imageflip
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets: ['imageflip:8080']
+
+- job_name: imageorchestrator
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets: ['imageorchestrator:8080']
 
 # local exception monitoring
 - job_name: elcep

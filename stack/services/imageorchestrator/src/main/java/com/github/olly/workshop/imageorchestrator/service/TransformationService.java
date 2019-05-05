@@ -3,6 +3,7 @@ package com.github.olly.workshop.imageorchestrator.service;
 import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
+import com.github.olly.workshop.imageorchestrator.service.clients.ImageFlipClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscaleClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageResizeClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageRotatorClient;
@@ -30,6 +31,9 @@ public class TransformationService {
     private ImageResizeClient imageResizeClient;
 
     @Autowired
+    private ImageFlipClient imageFlipClient;
+
+    @Autowired
     private LoggingContextUtil lcu;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
@@ -42,21 +46,30 @@ public class TransformationService {
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), "grayscale");
+                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), "rotate");
+                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), "resize");
+                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
+                    break;
+                case flip:
+                    image = flip(image, transformation.getProperties());
+                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
-                    LOGGER.warn("Skipping unrecognized transformation: {}", transformation.getType());
+                    LOGGER.warn("Skipping unrecognized transformation: {}", transformation.getType().name());
             }
         }
         return image;
+    }
+
+    private Image flip(Image image, Map<String, String> properties) {
+        LOGGER.info("Performing flip transformation with properties {}", properties);
+        return transformFlip(image, properties);
     }
 
     private Image resize(Image image, Map<String, String> properties) {
@@ -74,21 +87,26 @@ public class TransformationService {
         return transformGrayscale(image);
     }
 
+    private Image transformFlip(Image image, Map<String, String> properties) {
+        Image transformed = imageFlipClient.transform(image, Boolean.valueOf(properties.get("vertical")), Boolean.valueOf(properties.get("horizontal")));
+        LOGGER.info("Flipped image OK");
+        return transformed;
+    }
+
     private Image transformGrayscale(Image image) {
-        Image transformed =  imageGrayscaleClient.transform(image);
+        Image transformed = imageGrayscaleClient.transform(image);
         LOGGER.info("Converted image to grayscale OK");
         return transformed;
-
     }
 
     private Image transformRotate(Image image, Map<String, String> properties) {
-        Image transformed =  imageRotatorClient.transform(image,properties.get("degrees"));
+        Image transformed = imageRotatorClient.transform(image, properties.get("degrees"));
         LOGGER.info("Rotated image OK");
         return transformed;
     }
 
     private Image transformResize(Image image, Map<String, String> properties) {
-        Image transformed =  imageResizeClient.transform(image, properties.get("factor"));
+        Image transformed = imageResizeClient.transform(image, properties.get("factor"));
         LOGGER.info("Resized image OK");
         return transformed;
     }

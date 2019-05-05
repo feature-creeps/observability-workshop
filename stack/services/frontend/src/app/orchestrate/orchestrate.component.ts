@@ -142,6 +142,17 @@ export class OrchestrateComponent implements OnInit {
       tfr.transformations.push(tr);
     }
 
+    // flip
+    let vertical = formInput.querySelectorAll("#vertical")[0].checked;
+    let horizontal = formInput.querySelectorAll("#horizontal")[0].checked;
+    if (vertical || horizontal) {
+      let tr: Transformation = new Transformation();
+      tr.type = TransformationType.flip;
+      tr.properties.vertical = vertical;
+      tr.properties.horizontal = horizontal;
+      tfr.transformations.push(tr);
+    }
+
     // persist
     tfr.persist = formInput.querySelectorAll("#persist")[0].checked;
     if (tfr.persist) {
@@ -165,7 +176,8 @@ interface Image {
 enum TransformationType {
   rotate = "rotate",
   grayscale = "grayscale",
-  resize = "resize"
+  resize = "resize",
+  flip = "flip"
 }
 
 class Transformation {
