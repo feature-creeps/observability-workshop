@@ -21,6 +21,7 @@ Depending on your local setup you may need to provide additional information. Fo
 - If you use `aws-vault` to protect AWS creds add this before the above command: `aws-vault exec ninedemons-admin_role -- `
 - If you get an error about ENI compatability add this flag to the command: `--amazonec2-ami ami-068f09e337d7da0c4`
 - If you have any issues bringing up an instance or have previously done so, you may need to clean out the docker-machines found at `~/.docker/machine/machines/` and or clean out the AWS Keys which can be found by running `aws ec2 describe-key-pairs`
+- If you haven't provisioned a machine in this region before, Amazon may need to validate your request first. This usually only takes a few minutes, but it can result in your instance request hanging (you won't be able to talk to it). If that happens, use `docker-machine rm <machine name>` to remove the instance then re-run `docker-machine create`.
 
 ### Installing on the machine
 
@@ -42,6 +43,7 @@ before exiting back to your local machine.
 1. Now you can do all the docker stuff you would running locally. So `docker-compose up` in `observability-workshop/stack/stack-local-default`
 
 ### Generating traffic
+> Note: you will need to have go and vegeta installed on your machine before proceeding
 
 1. To run the traffic generator to upload traffic :
 ```
@@ -55,6 +57,9 @@ go run main.go -d ~/work/flickrscrape/result -u http://<public_ip_of_docker_mach
 
 1. When done do `docker-machine rm o11y-workshop`
 
+If you plan to do further work with this instance, you can run `docker-machine stop o11y-workshop` instead of rm. Be aware that when you start the instance again (using `docker-machine start o11y-workshop`) the IP address will have changed as it is assigned dynamically at startup. 
+
+You will also need to regenerate certificates for the machine, using `docker-machine regenerate-certs o11y-workshop`.
 
 ## Accessing the machine
 
