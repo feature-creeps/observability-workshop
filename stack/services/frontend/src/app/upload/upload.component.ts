@@ -27,34 +27,44 @@ export class UploadComponent {
     });
 
     reader.readAsDataURL(file);
-    document.getElementById("info").hidden = true
+    UploadComponent.infoHide()
     nameInput.value = ""
   }
 
   uploadImage(nameInput: any) {
     const name: string = nameInput.value;
-
+    UploadComponent.infoHide()
     if (this.selectedFile == undefined) {
-      let info = document.getElementById("info");
-      info.hidden = false
-      info.innerText = "No image selected"
-      info.className = "btn btn-block btn-warning dima-btn"
+      UploadComponent.info("No image selected", InfoType.warning)
       return
     }
 
     this.uploadService.uploadImage(this.selectedFile.file, name).subscribe(
       (res) => {
-        let info = document.getElementById("info");
-        info.hidden = false
-        info.innerText = "Upload successful"
-        info.className = "btn btn-block btn-success dima-btn"
+        UploadComponent.info("Upload successful", InfoType.success)
       },
       (err) => {
         console.log(err)
-        let info = document.getElementById("info");
-        info.hidden = false
-        info.innerText = "Upload failed"
-        info.className = "btn btn-block btn-danger dima-btn"
+        UploadComponent.info("Upload failed", InfoType.danger)
       })
   }
+
+  private static infoHide() {
+    document.getElementById("info").hidden = true
+  }
+
+  private static info(text: string, type: InfoType) {
+    let info = document.getElementById("info");
+    info.hidden = false
+    info.innerText = text
+    info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
+  }
 }
+
+enum InfoType {
+  warning,
+  danger,
+  success
+}
+
+

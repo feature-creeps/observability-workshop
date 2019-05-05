@@ -30,3 +30,4 @@
 * rebuild random component to use angular httpClient
 * show nicer info in random component if there are now images (like other components) 
 * all button font-size to 16px (similar to select)
+* refresh animation on upload successful info (to indicate consecutive successful uploads)

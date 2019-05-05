@@ -38,28 +38,42 @@ export class DeleteComponent implements OnInit {
       info.className = "btn btn-block btn-danger dima-btn"
     }
     if (res != null) {
-      console.log("image deleted " + this.deleteId);
-      let info = document.getElementById("info");
-      info.innerText = "Successfully deleted " + this.deleteId;
-      info.className = "btn btn-block btn-success dima-btn"
+      this.deletedOne();
+      this.clearSelection();
       this.retrieveImages();
     }
+  }
+
+  private deletedOne() {
+    let info = document.getElementById("info");
+    info.innerText = "Successfully deleted " + this.deleteId;
+    info.className = "btn btn-block btn-success dima-btn"
   }
 
   async deleteAll() {
     let res;
     try {
-      res = await this.http.post(environment.backend.imageholder + '/api/images/delete/all', null,{responseType: 'text'}).toPromise();
+      res = await this.http.post(environment.backend.imageholder + '/api/images/delete/all', null, {responseType: 'text'}).toPromise();
     } catch (e) {
       let info = document.getElementById("info");
       info.innerText = "Failed to delete all images";
       info.className = "btn btn-block btn-danger dima-btn"
     }
     if (res != null) {
-      let info = document.getElementById("info");
-      info.innerText = "Successfully deleted all images";
-      info.className = "btn btn-block btn-success dima-btn"
+      DeleteComponent.deletedAllImages();
+      this.clearSelection()
     }
+  }
+
+  private static deletedAllImages() {
+    document.getElementById("preview").hidden = true;
+    let info = document.getElementById("info");
+    info.innerText = "Successfully deleted all images";
+    info.className = "btn btn-block btn-success dima-btn"
+  }
+
+  private clearSelection() {
+    this.images = []
   }
 
   async retrieveImages() {
@@ -70,9 +84,13 @@ export class DeleteComponent implements OnInit {
       this.setIds(data);
       this.showImage(this.images[0].id);
     } else {
-      document.getElementById("info").innerText = "No images found";
-      document.getElementById("preview").hidden = true;
+      DeleteComponent.noImages();
     }
+  }
+
+  private static noImages() {
+    document.getElementById("info").innerText = "No images found";
+    document.getElementById("preview").hidden = true;
   }
 
   setIds(data: Array<Image>): String[] {
