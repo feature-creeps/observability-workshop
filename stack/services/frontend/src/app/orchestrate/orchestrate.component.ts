@@ -79,6 +79,7 @@ export class OrchestrateComponent implements OnInit {
   //=======
   async sendRequest(formInput: any) {
     this.hideTransformed()
+    this.hideInfo()
 
     if (this.displayId == undefined) {
       OrchestrateComponent.info("No image selected", InfoType.warning);
@@ -93,13 +94,11 @@ export class OrchestrateComponent implements OnInit {
       res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', tr,
         {headers: headers, responseType: 'blob'}).toPromise();
     } catch (e) {
-      console.log("orchestration request failed")
       console.log(e)
       this.hideTransformed()
       OrchestrateComponent.info("Transformation failed", InfoType.danger);
       return;
     }
-    console.log("orchestration request successfull")
     this.showTransformed(res)
     OrchestrateComponent.info("Transformation successful", InfoType.success)
     this.retrieveImages()
@@ -114,7 +113,6 @@ export class OrchestrateComponent implements OnInit {
 
   buildJson(formInput: any) {
     let tfr: TransformationRequest = new TransformationRequest(this.displayId)
-
 
     // rotate
     let rotate = formInput.querySelectorAll("#rotate")[0];
@@ -146,9 +144,15 @@ export class OrchestrateComponent implements OnInit {
 
     // persist
     tfr.persist = formInput.querySelectorAll("#persist")[0].checked;
+    if (tfr.persist) {
+      tfr.name = formInput.querySelectorAll("#name")[0].value
+    }
 
-    console.log(tfr)
     return tfr;
+  }
+
+  private hideInfo() {
+    document.getElementById("info").hidden = true
   }
 }
 
@@ -170,10 +174,10 @@ class Transformation {
 }
 
 class TransformationRequest {
-
   imageId: string;
   transformations: Transformation[];
   persist: boolean;
+  name: string;
 
   constructor(imageId: string) {
     this.imageId = imageId;

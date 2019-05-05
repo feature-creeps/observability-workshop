@@ -23,7 +23,7 @@ public class ImageHolderUploadClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageHolderUploadClient.class);
 
-    public void upload(Image image) {
+    public void upload(Image image, String name) {
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -33,16 +33,16 @@ public class ImageHolderUploadClient {
                 .build();
         fileMap.add(HttpHeaders.CONTENT_DISPOSITION, contentDisposition.toString());
         fileMap.add(HttpHeaders.CONTENT_TYPE, image.getMimeType());
-        org.springframework.http.HttpEntity<byte[]> fileEntity = new org.springframework.http.HttpEntity<>(image.getData(), fileMap);
+        HttpEntity<byte[]> fileEntity = new HttpEntity<>(image.getData(), fileMap);
 
-        MultiValueMap<String, Object> theMulitpartRequest = new LinkedMultiValueMap<>();
+        MultiValueMap<String, Object> multiPartRequest = new LinkedMultiValueMap<>();
 
-        theMulitpartRequest.add("image", fileEntity);
-
+        multiPartRequest.add("image", fileEntity);
+        multiPartRequest.add("name", new HttpEntity<>(name));
 
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        org.springframework.http.HttpEntity<MultiValueMap<String, Object>> requestEntity = new org.springframework.http.HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiPartRequest, theMultipartHeaders);
 
         ResponseEntity<String> response = restTemplate.exchange("http://imageholder:8080/api/images", HttpMethod.POST, requestEntity, String.class);
 

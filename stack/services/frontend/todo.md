@@ -18,6 +18,7 @@
 * style text next to upload buttons
 * redirect to display page after uploading a new image
 * make name field mandatory and identical (do not allow name collision)
+* check if cors configuration can be removed once we use the proxy conf successfully
 
 ### done
 * support backend service configuration

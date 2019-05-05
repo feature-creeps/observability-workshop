@@ -51,7 +51,7 @@ public class ImageService {
         metricsService.imageTransformed(transformedImage.getMimeType());
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
-            imageHolderUploadClient.upload(transformedImage);
+            imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
 
         return transformedImage;

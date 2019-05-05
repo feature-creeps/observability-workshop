@@ -12,7 +12,6 @@ export class UploadService {
 
   public uploadImage(image: File, name: string): Observable<string | any> {
     const formData = new FormData();
-    console.log(name);
 
     formData.append('image', image);
     formData.append('name', name);
