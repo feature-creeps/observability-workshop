@@ -15,13 +15,17 @@ public class TransformationRequest {
     private final List<Transformation> transformations;
     private final Boolean persist;
 
+    private final String name;
+
     @JsonCreator
     public TransformationRequest(@JsonProperty("imageId") String imageId,
                                  @JsonProperty("transformations") List<Transformation> transformations,
-                                 @JsonProperty("persist") Boolean persist) {
+                                 @JsonProperty("persist") Boolean persist,
+                                 @JsonProperty("name") String name) {
         this.imageId = imageId;
         this.transformations = transformations;
         this.persist = persist;
+        this.name = name;
     }
 
     public String getImageId() {
@@ -34,6 +38,10 @@ public class TransformationRequest {
 
     public Boolean getPersist() {
         return persist;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List getTransformationTypes() {

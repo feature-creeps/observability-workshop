@@ -66,6 +66,7 @@ public class ImageController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
+        headers.set("imageId", image.getId());
 
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }

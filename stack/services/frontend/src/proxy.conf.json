@@ -1,0 +1,22 @@
+{
+  "/imageholder/*": {
+    "target": "http://imageholder:8080/",
+    "secure": false
+  },
+  "/imageorchestrator/*": {
+    "target": "http://imageorchestrator:8080/",
+    "secure": false
+  },
+  "/imageresize/*": {
+    "target": "http://imageresize:8080/",
+    "secure": false
+  },
+  "/imagerotator/*": {
+    "target": "http://imagerotator:8080/",
+    "secure": false
+  },
+  "/imagegrayscale/*": {
+    "target": "http://imagegrayscale:8080/",
+    "secure": false
+  }
+}

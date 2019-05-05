@@ -1,0 +1,19 @@
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-4">Display</h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <select class="form-control btn-primary"
+            (input)="showImage($event.target.value)">
+      <option *ngFor="let image of images"
+              [value]="image.id">
+        {{image.id}} - {{image.name}}
+      </option>
+    </select>
+    <img id="preview" class="show-image" [src]="displayImage" alt="No images found">
+    <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
+  </div>
+</main>
