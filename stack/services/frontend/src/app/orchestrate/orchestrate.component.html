@@ -11,14 +11,14 @@
     </div>
   </div>
   <div class="container">
-    <form id="imageTransform" action="#" method="post" class="form-group">
+    <form #formInput id="imageTransform" action="#" method="post" class="form-group">
 
       <div class="form-group">
         <select
           id="image"
           name="image"
           class="form-control btn-primary"
-          (input)="showImage($event.target.value)">
+          (input)="showPreview($event.target.value)">
           <option *ngFor="let image of images"
                   [value]="image.id">
             {{image.id}} - {{image.name}}
@@ -26,7 +26,10 @@
         </select>
         <div class="img-preview-container" style="padding: 10px">
           <img id="preview" height="100px" [src]="displayImage" alt="No images found">
-          <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
+          <div style="margin-top:10px;" height="100px" id="previewInfo" hidden="true">
+            <span id="previewInfoText"></span>
+            <a id="previewInfoLink" routerLink="/upload">here</a>
+          </div>
         </div>
       </div>
 
@@ -40,22 +43,14 @@
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="rotate" name="rotate">
         <label class="form-check-label" for="rotate">Apply Rotation</label>
-      </div>
-
-      <div class="form-group">
-        <label for="degrees">Rotation Degrees</label>
-        <input class="form-control" id="degrees" name="degrees" placeholder="Enter degrees, eg 90">
+        <input class="form-control" id="degrees" name="degrees" placeholder="Enter rotation degrees, eg 90">
       </div>
 
       <!-- RESIZE -->
       <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="resize" name="resize">
         <label class="form-check-label" for="resize">Resize</label>
-      </div>
-
-      <div class="form-group">
-        <label for="factor">Resizing factor</label>
-        <input class="form-control" id="factor" name="factor" placeholder="Enter factor: (0..n]">
+        <input class="form-control" id="factor" name="factor" placeholder="Enter resizing factor: (0..n]">
       </div>
 
       <!-- PERSIST -->
@@ -65,12 +60,9 @@
       </div>
 
 
-      <input type="submit" class="btn btn-primary btn-block dima-btn"/>
-      <pre id="output"></pre>
-      <pre id="transformedImage"></pre>
-
-
-      <a href="/">Home</a>
+      <input type="submit" class="btn btn-primary btn-block dima-btn" (click)="sendRequest(formInput)"/>
+      <div><span style="margin-top:10px;" id="info"></span></div>
+      <img id="transformedImage" hidden="true" class="show-image" [src]="transformedImage">
     </form>
 
   </div>

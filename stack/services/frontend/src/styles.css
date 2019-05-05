@@ -24,3 +24,9 @@ body, input[type="text"], button {
 .dima-btn {
   font-size: 16px;
 }
+
+.show-image {
+  max-width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

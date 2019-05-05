@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {environment} from "../../environments/environment";
 
 @Component({
@@ -8,7 +8,6 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./orchestrate.component.css']
 })
 export class OrchestrateComponent implements OnInit {
-
   constructor(private http: HttpClient) {
   }
 
@@ -19,6 +18,8 @@ export class OrchestrateComponent implements OnInit {
   public data;
   public images;
   public displayImage;
+  public transformedImage;
+  private displayId: string;
 
   async retrieveImages() {
     let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
@@ -26,9 +27,10 @@ export class OrchestrateComponent implements OnInit {
       document.getElementById("preview").hidden = false;
       this.images = data;
       this.setIds(data);
-      this.showImage(this.images[0].id);
+      this.showPreview(this.images[0].id);
     } else {
-      document.getElementById("info").innerText = "No images found";
+      document.getElementById("previewInfo").hidden = false;
+      document.getElementById("previewInfoText").innerText = "No images found. Upload some ";
       document.getElementById("preview").hidden = true;
     }
   }
@@ -44,24 +46,109 @@ export class OrchestrateComponent implements OnInit {
     return list;
   }
 
-  async showImage(id: string) {
-
+  async showPreview(id: string) {
     let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
-
-      this.displayImage = this.createImageFromBlob(data);
+      this.displayId = id;
+      let reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.displayImage = reader.result;
+      }, false);
+      if (data) {
+        reader.readAsDataURL(data);
+      }
     }
   }
 
-  createImageFromBlob(image: Blob) {
+  showTransformed(data: Blob) {
+    document.getElementById("transformedImage").hidden = false;
     let reader = new FileReader();
     reader.addEventListener("load", () => {
-      this.displayImage = reader.result;
+      this.transformedImage = reader.result;
     }, false);
-
-    if (image) {
-      reader.readAsDataURL(image);
+    if (data) {
+      reader.readAsDataURL(data);
     }
+  }
+
+  private hideTransformed() {
+    this.transformedImage = "";
+    document.getElementById("transformedImage").hidden = true;
+  }
+
+  //=======
+  async sendRequest(formInput: any) {
+    this.hideTransformed()
+
+    if (this.displayId == undefined) {
+      OrchestrateComponent.info("No image selected", InfoType.warning);
+      return
+    }
+
+    let tr = JSON.stringify(this.buildJson(formInput))
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
+    let res;
+    try {
+      res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', tr,
+        {headers: headers, responseType: 'blob'}).toPromise();
+    } catch (e) {
+      console.log("orchestration request failed")
+      console.log(e)
+      this.hideTransformed()
+      OrchestrateComponent.info("Transformation failed", InfoType.danger);
+      return;
+    }
+    console.log("orchestration request successfull")
+    this.showTransformed(res)
+    OrchestrateComponent.info("Transformation successful", InfoType.success)
+    this.retrieveImages()
+  }
+
+  private static info(text: string, type: InfoType) {
+    let info = document.getElementById("info");
+    info.hidden = false
+    info.innerText = text
+    info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
+  }
+
+  buildJson(formInput: any) {
+    let tfr: TransformationRequest = new TransformationRequest(this.displayId)
+
+
+    // rotate
+    let rotate = formInput.querySelectorAll("#rotate")[0];
+    if (rotate.checked == true) {
+      let tr: Transformation = new Transformation();
+      tr.type = TransformationType.rotate;
+      let degrees = formInput.querySelectorAll("#degrees")[0].value;
+      tr.properties.degrees = degrees
+      tfr.transformations.push(tr);
+    }
+
+    // resize
+    let resize = formInput.querySelectorAll("#resize")[0];
+    if (resize.checked == true) {
+      let tr: Transformation = new Transformation();
+      tr.type = TransformationType.resize;
+      let factor = formInput.querySelectorAll("#factor")[0].value;
+      tr.properties.factor = factor
+      tfr.transformations.push(tr);
+    }
+
+    // grayscale
+    let grayscale = formInput.querySelectorAll("#grayscale")[0].checked;
+    if (grayscale == true) {
+      let tr: Transformation = new Transformation();
+      tr.type = TransformationType.grayscale;
+      tfr.transformations.push(tr);
+    }
+
+    // persist
+    tfr.persist = formInput.querySelectorAll("#persist")[0].checked;
+
+    console.log(tfr)
+    return tfr;
   }
 }
 
@@ -70,3 +157,35 @@ interface Image {
   contentType: String;
   name: String;
 }
+
+enum TransformationType {
+  rotate = "rotate",
+  grayscale = "grayscale",
+  resize = "resize"
+}
+
+class Transformation {
+  type: TransformationType;
+  properties: any = {};
+}
+
+class TransformationRequest {
+
+  imageId: string;
+  transformations: Transformation[];
+  persist: boolean;
+
+  constructor(imageId: string) {
+    this.imageId = imageId;
+    this.transformations = [];
+    this.persist = true;
+  }
+}
+
+enum InfoType {
+  warning,
+  danger,
+  success
+}
+
+
