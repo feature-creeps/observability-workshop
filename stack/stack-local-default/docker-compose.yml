@@ -37,6 +37,17 @@ services:
       options:
         fluentd-address: localhost:24224
 
+  traffic-gen:
+    build: ../services/traffic-gen
+    depends_on:
+      - imageholder
+      - imageorchestrator
+    restart: on-failure
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
   imagerotator:
     build: ../services/imagerotator
     depends_on:
