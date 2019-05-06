@@ -151,4 +151,13 @@ public class ImageController {
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
+
+    @GetMapping(value = "/nameContaining/{fragment}")
+    public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
+
+        LOGGER.info("Finding all images with the name containing '{}'",fragment);
+        return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
+
+    }
+
 }
