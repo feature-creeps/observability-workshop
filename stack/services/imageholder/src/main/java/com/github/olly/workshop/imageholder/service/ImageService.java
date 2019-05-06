@@ -31,6 +31,10 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
+    public Collection<Image> findWithNamesContaining(String fragment) {
+        return imageRepository.findByNameContaining(fragment);
+    }
+
 
     public Image getImageById(String id) {
         return imageRepository.findById(id).orElse(null);
