@@ -5,6 +5,8 @@ services:
 
   frontend:
     build: ../services/frontend
+    depends_on:
+      - fluentd
     ports:
       - 80:4200
     logging:
