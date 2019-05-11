@@ -41,7 +41,7 @@ public class ImageController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
-        return new ResponseEntity<>(imageService.getAllImages(), HttpStatus.OK);
+        return new ResponseEntity<>(imageService.getAllImagesLight(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/throw")
@@ -117,7 +117,7 @@ public class ImageController {
     // so much hack
     @PostMapping(value = "/delete/all")
     public ResponseEntity deleteAllImages() {
-        Collection<String> allImageIds = imageService.getAllImages().stream().map(Image::getId).collect(Collectors.toList());
+        Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
         LOGGER.info("Deleting all images: {}", allImageIds);
         allImageIds.forEach(this::deleteImage);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);

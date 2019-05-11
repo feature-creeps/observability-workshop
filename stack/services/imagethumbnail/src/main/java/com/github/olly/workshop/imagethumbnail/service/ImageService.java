@@ -15,8 +15,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class ImageService {
@@ -31,14 +29,9 @@ public class ImageService {
 
     private static final int MAX_LENGTH = 100;
 
-    private static final Map<String, Image> CACHE = new HashMap<String, Image>();
-
     public Image thumbnail(String id) {
-        if (CACHE.get(id) == null) {
-            Image image = resolveImage(id);
-            CACHE.put(id, thumbnail(image));
-        }
-        return CACHE.get(id);
+        Image image = resolveImage(id);
+        return thumbnail(image);
     }
 
     private Image resolveImage(String id) {
@@ -63,18 +56,13 @@ public class ImageService {
             String formatName = image.getContentType().split("/")[1];
             final BufferedImage bufferedImage = ImageIO.read(in);
 
-            final int scaling;
-            if (bufferedImage.getHeight() > bufferedImage.getWidth()) {
-                scaling = bufferedImage.getHeight() / MAX_LENGTH;
-            } else {
-                scaling = bufferedImage.getWidth() / MAX_LENGTH;
-            }
-
+            final int scaling = bufferedImage.getHeight() / MAX_LENGTH;
             final int width = bufferedImage.getWidth() / scaling;
-            final int height = bufferedImage.getHeight() / scaling;
+            final int height = MAX_LENGTH;
 
             final BufferedImage thumbnail = resize(bufferedImage, width, height, !isPng(formatName));
             final byte[] imageBytes = bufferedImageToByteArray(thumbnail, formatName);
+            thumbnail.flush();
 
             metricsService.imageThumbnailed(image.getContentType());
 

@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageholder.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.annotation.Id;
 
 public class Image {
@@ -45,20 +46,20 @@ public class Image {
         return this;
     }
 
-
-    @Override
-    public String toString() {
-        return "Image{" +
-                "id=" + id +
-                ", contentType='" + contentType + '\'' +
-                '}';
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("contentType", contentType)
+                .append("name", name)
+                .toString();
     }
 }

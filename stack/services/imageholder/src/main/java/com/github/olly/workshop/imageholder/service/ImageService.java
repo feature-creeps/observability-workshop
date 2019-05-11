@@ -31,6 +31,10 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
+    public Collection<Image> getAllImagesLight() {
+        return imageRepository.findAllIds();
+    }
+
     public Collection<Image> findWithNamesContaining(String fragment) {
         return imageRepository.findByNameContaining(fragment);
     }
@@ -55,10 +59,12 @@ public class ImageService {
     }
 
     public Image getRandomImage() {
-        Collection<Image> allImages = getAllImages();
+        Collection<Image> allImages = getAllImagesLight();
 
-        return allImages.stream()
+        final Image image = allImages.stream()
                 .skip((int) (allImages.size() * Math.random()))
                 .findFirst().orElse(null);
+
+        return image != null ? getImageById(image.getId()) : null;
     }
 }

@@ -61,6 +61,11 @@ scrape_configs:
   static_configs:
   - targets: ['imageorchestrator:8080']
 
+- job_name: imagethumbnail
+  metrics_path: /actuator/prometheus
+  static_configs:
+  - targets: ['imagethumbnail:8080']
+
 # local exception monitoring
 - job_name: elcep
   static_configs:
