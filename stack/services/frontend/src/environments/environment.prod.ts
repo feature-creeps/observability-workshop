@@ -1,10 +1,11 @@
 export const environment = {
   production: true,
   backend: {
-    imageorchestrator: 'http://imageorchestrator',
-    imageholder: 'http://imageholder',
-    imagerotator: 'http://imagerotator',
-    imagegrayscale: 'http://imagegrayscale',
-    imageresize: 'http://imageresize'
+    imageorchestrator: 'imageorchestrator',
+    imageholder: 'imageholder',
+    imagerotator: 'imagerotator',
+    imagegrayscale: 'imagegrayscale',
+    imageflip: 'imageflip',
+    imageresize: 'imageresize'
   }
 };

@@ -1,5 +1,4 @@
-# base image
-FROM node:10.15.3
+FROM node:10.15.3 AS builder
 
 # install chrome for protractor tests
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -19,7 +18,21 @@ RUN npm install
 RUN npm install -g @angular/cli@1.7.1
 
 # add app
-COPY . /usr/src/app
+COPY src /usr/src/app/src
+COPY angular.json /usr/src/app/
+COPY tsconfig.json /usr/src/app/
 
-# start app
-CMD ng serve --host 0.0.0.0
+RUN ng build --prod
+
+
+FROM nginx
+
+COPY nginx.conf /etc/nginx/
+
+## Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
+
+## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
+COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
