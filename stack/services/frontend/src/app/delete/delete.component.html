@@ -12,7 +12,7 @@
                 (input)="showImage($event.target.value)">
           <option *ngFor="let image of images"
                   [value]="image.id">
-            {{image.id}} - {{image.name}}
+            {{image.name}} [{{image.id}}]
           </option>
         </select>
 
