@@ -15,6 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class ImageService {
@@ -29,9 +31,14 @@ public class ImageService {
 
     private static final int MAX_LENGTH = 100;
 
+    public static final Map<String, Image> CACHE = new HashMap<>();
+
     public Image thumbnail(String id) {
-        Image image = resolveImage(id);
-        return thumbnail(image);
+        if (CACHE.get(id) == null) {
+            Image image = resolveImage(id);
+            CACHE.put(id, thumbnail(image));
+        }
+        return CACHE.get(id);
     }
 
     private Image resolveImage(String id) {
@@ -100,5 +107,9 @@ public class ImageService {
         byte[] imageInByte = baos.toByteArray();
         baos.close();
         return imageInByte;
+    }
+
+    public void dropFromCache(String id) {
+        CACHE.remove(id);
     }
 }

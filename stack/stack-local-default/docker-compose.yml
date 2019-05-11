@@ -93,7 +93,7 @@ services:
       - fluentd
     ports:
       - 8086:8080
-    mem_limit: 640m
+    mem_limit: 4g
     logging:
       driver: "fluentd"
       options:

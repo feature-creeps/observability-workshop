@@ -1,9 +1,12 @@
 package com.github.olly.workshop.imagethumbnail.service;
 
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 public class MetricsService {
@@ -17,4 +20,8 @@ public class MetricsService {
                 .increment();
     }
 
+    private MetricsService() {
+        Gauge.builder("application_images_thumbnails_cached", ImageService.CACHE, Map::size)
+                .register(Metrics.globalRegistry);
+    }
 }

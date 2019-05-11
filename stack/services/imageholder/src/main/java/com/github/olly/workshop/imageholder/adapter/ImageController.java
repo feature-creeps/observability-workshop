@@ -4,6 +4,7 @@ import com.github.olly.workshop.imageholder.config.LoggingContextUtil;
 import com.github.olly.workshop.imageholder.model.Image;
 import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.service.MetricsService;
+import com.github.olly.workshop.imageholder.service.client.ImageThumbnailClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public class ImageController {
 
     @Autowired
     private MetricsService metricsService;
+
+    @Autowired
+    private ImageThumbnailClient imageThumbnailClient;
 
     @Autowired
     private LoggingContextUtil loggingContextUtil;
@@ -108,6 +112,7 @@ public class ImageController {
 
         LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
+            imageThumbnailClient.informThumbnail(id);
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
             throw new NotFoundException("Image with id " + id + " not found!");
@@ -155,7 +160,7 @@ public class ImageController {
     @GetMapping(value = "/nameContaining/{fragment}")
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
 
-        LOGGER.info("Finding all images with the name containing '{}'",fragment);
+        LOGGER.info("Finding all images with the name containing '{}'", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
 
     }

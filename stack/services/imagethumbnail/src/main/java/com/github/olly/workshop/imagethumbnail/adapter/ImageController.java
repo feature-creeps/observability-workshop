@@ -11,10 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api/images")
@@ -48,5 +45,11 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(image.getContentType()));
 
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteImageFromCache(@PathVariable("id") String id) {
+        imageService.dropFromCache(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
