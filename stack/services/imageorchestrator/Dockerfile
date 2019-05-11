@@ -15,7 +15,7 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
 
 # application
 COPY src/ src/
-RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle clean build
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle build
 
 FROM openjdk:11-jre
 

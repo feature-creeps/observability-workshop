@@ -91,6 +91,17 @@ services:
       options:
         fluentd-address: localhost:24224
 
+  imagethumbnail:
+    build: ../services/imagethumbnail
+    depends_on:
+    - fluentd
+    ports:
+    - 8086:8080
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
 
   ## Storage
 

@@ -6,6 +6,7 @@ export const environment = {
     imagerotator: 'imagerotator',
     imagegrayscale: 'imagegrayscale',
     imageflip: 'imageflip',
-    imageresize: 'imageresize'
+    imageresize: 'imageresize',
+    imagethumbnail: 'imagethumbnail'
   }
 };

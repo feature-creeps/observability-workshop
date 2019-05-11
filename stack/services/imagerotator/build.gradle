@@ -20,6 +20,10 @@ apply plugin: 'groovy'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+bootJar {
+    baseName = 'imagerotator'
+}
+
 ext {
     set('springCloudVersion', 'Greenwich.SR1')
 }

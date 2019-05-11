@@ -103,7 +103,7 @@ export class DeleteComponent implements OnInit {
   }
 
   async showImage(id: string) {
-    let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
       this.deleteId = id;

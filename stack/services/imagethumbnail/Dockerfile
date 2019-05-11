@@ -19,7 +19,7 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle build
 
 FROM openjdk:11-jre
 
-COPY --from=builder /service/build/libs/imageresize.jar /
+COPY --from=builder /service/build/libs/imagethumbnail.jar /
 COPY --from=builder /service/src/main/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 

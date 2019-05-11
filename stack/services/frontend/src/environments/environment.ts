@@ -9,7 +9,9 @@ export const environment = {
     imageholder: 'http://localhost:8081',
     imagerotator: 'http://localhost:8082',
     imagegrayscale: 'http://localhost:8083',
-    imageresize: 'http://localhost:8084'
+    imageresize: 'http://localhost:8084',
+    imageflip: 'http://localhost:8085',
+    imagethumbnail: 'http://localhost:8086'
   }
 };
 

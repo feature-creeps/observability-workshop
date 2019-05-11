@@ -1,6 +1,6 @@
 FROM openjdk:11-jdk as builder
 
-WORKDIR /imageflip
+WORKDIR /service
 
 ARG GRADLE_VERSION=5.1.1
 
@@ -15,12 +15,12 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
 
 # application
 COPY src/ src/
-RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle clean build
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle build
 
 FROM openjdk:11-jre
 
-COPY --from=builder /imageflip/build/libs/imageflip.jar /
-COPY --from=builder /imageflip/src/main/docker/entrypoint.sh /
+COPY --from=builder /service/build/libs/imageflip.jar /
+COPY --from=builder /service/src/main/docker/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
 
 EXPOSE 8080 5005

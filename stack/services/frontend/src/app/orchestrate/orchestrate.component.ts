@@ -47,7 +47,7 @@ export class OrchestrateComponent implements OnInit {
   }
 
   async showPreview(id: string) {
-    let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
       this.displayId = id;
       let reader = new FileReader();
