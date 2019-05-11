@@ -14,7 +14,6 @@ plugins {
 	id 'war'
 	id 'org.springframework.boot' version '2.1.2.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-	id 'com.bmuschko.docker-spring-boot-application' version '4.3.0'
 }
 
 
@@ -57,14 +56,5 @@ dependencies {
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}
-
-docker {
-	String imageTag = "${project.group}/${project.name}:${project.version}"
-	springBootApplication {
-		baseImage = 'openjdk:8-alpine'
-		ports = [9090, 8080]
-		tag = imageTag
 	}
 }

@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk as builder
+FROM openjdk:11-jdk as builder
 
 WORKDIR /service
 
@@ -16,7 +16,7 @@ COPY build.gradle .
 COPY src/ src/
 RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle bootJar
 
-FROM openjdk:8-alpine
+FROM openjdk:11-jre
 
 COPY --from=builder /service/build/libs/imagegrayscale.jar /app/imagegrayscale.jar
 

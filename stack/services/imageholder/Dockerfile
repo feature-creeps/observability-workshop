@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk as builder
+FROM openjdk:11-jdk as builder
 
 WORKDIR /service
 
@@ -17,7 +17,7 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
 COPY src/ src/
 RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle clean build
 
-FROM openjdk:8-jre
+FROM openjdk:11-jre
 
 COPY --from=builder /service/build/libs/imageholder.jar /
 COPY --from=builder /service/src/main/docker/entrypoint.sh /
