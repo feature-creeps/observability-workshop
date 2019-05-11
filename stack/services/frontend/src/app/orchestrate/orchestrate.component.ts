@@ -101,7 +101,6 @@ export class OrchestrateComponent implements OnInit {
     }
     this.showTransformed(res)
     OrchestrateComponent.info("Transformation successful", InfoType.success)
-    this.retrieveImages()
   }
 
   private static info(text: string, type: InfoType) {
