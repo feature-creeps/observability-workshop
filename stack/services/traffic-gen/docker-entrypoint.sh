@@ -9,6 +9,8 @@ tar xzvf vegeta-12.4.0-linux-amd64.tar.gz
 chmod a+x vegeta
 mv vegeta /usr/local/bin
 
+echo "Fetching upload traffic generator"
+
 wget -q https://github.com/feature-creeps/upload-traffic-gen/releases/download/v0.3.0/upload-traffic-gen_0.3.0_Linux_x86_64.tar.gz
 tar xzvf upload-traffic-gen_0.3.0_Linux_x86_64.tar.gz
 chmod a+x upload-traffic-gen
@@ -16,7 +18,7 @@ mv upload-traffic-gen /usr/local/bin
 
 echo "Waiting for imgeholder service to come up"
 
-until $(curl --output /dev/null --silent --head --fail http://imageholder:8080/api/images); do
+until $(curl --output /dev/null --silent --head --fail http://imageholder:8080/actuator/health); do
       printf '.'
       sleep 5
 done
@@ -31,4 +33,21 @@ echo "imageholder running - uploading images"
 echo "Uploaded images"
 
 
+echo "Fetching transformation traffic generator"
 
+wget -q https://github.com/feature-creeps/transform-traffic-gen/releases/download/v0.1.0/transform-traffic-gen_0.1.0_Linux_x86_64.tar.gz
+tar xzvf transform-traffic-gen_0.1.0_Linux_x86_64.tar.gz
+chmod a+x transform-traffic-gen
+mv transform-traffic-gen /usr/local/bin
+
+echo "Waiting for imageorchestrator service to come up"
+
+until $(curl --output /dev/null --silent --head --fail http://imageholder:8080/actuator/health); do
+      printf '.'
+      sleep 5
+done
+
+echo "imageorchestrator running - sending random transformation requests"
+
+/usr/local/bin/transform-traffic-gen  -n 300 -f  "http://imageholder:8080/api/images/nameContaining/gen_up_" -t  "http://imageorchestrator:8080/api/images/transform" | \
+  /usr/local/bin/vegeta attack -rate=12/m -lazy -format=json -duration=10m > /dev/null
