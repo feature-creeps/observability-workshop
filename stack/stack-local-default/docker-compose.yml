@@ -157,6 +157,14 @@ services:
     ports:
     - 9200:9200
 
+  elasticsearch-exporter:
+    image: justwatch/elasticsearch_exporter:1.0.2
+    command:
+     - '-es.uri=http://elasticsearch:9200'
+    restart: always
+    ports:
+    - 9108:9108
+
   kibana-index:
     build: ../services/kibana-index
     depends_on:
@@ -231,7 +239,6 @@ services:
 
   zipkin-dependencies:
     image: openzipkin/zipkin-dependencies
-    container_name: zipkin-dependencies
     ports:
       - 9412:9412
     environment:
@@ -241,16 +248,6 @@ services:
       - ES_HTTP_LOGGING=BODY
     depends_on:
       - elasticsearch
-
-  dependencies:
-    image: openzipkin/zipkin-dependencies
-    entrypoint: crond -f
-    environment:
-    - STORAGE_TYPE=elasticsearch
-    - ES_HOSTS=elasticsearch
-    - ZIPKIN_LOG_LEVEL=DEBUG
-    depends_on:
-    - elasticsearch
 
 volumes:
   olly-elasticsearch:

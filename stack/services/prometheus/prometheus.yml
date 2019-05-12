@@ -72,9 +72,9 @@ scrape_configs:
   - targets: ['elcep:8080']
 
 # zipkin
-- job_name: 'zipkin'
+- job_name: zipkin
   scrape_interval: 5s
-  metrics_path: '/prometheus'
+  metrics_path: /prometheus
   static_configs:
     - targets: ['zipkin:9411']
   metric_relabel_configs:
@@ -93,8 +93,15 @@ scrape_configs:
       target_label: __name__
 
 # grafana
-- job_name: 'grafana'
+- job_name: grafana
   scrape_interval: 5s
-  metrics_path: '/metrics'
+  metrics_path: /metrics
   static_configs:
     - targets: ['grafana:3000']
+
+# elasticsearch
+- job_name: elasticsearch
+  scrape_interval: 30s
+  metrics_path: /metrics
+  static_configs:
+    - targets: ['elasticsearch-exporter:9108']
