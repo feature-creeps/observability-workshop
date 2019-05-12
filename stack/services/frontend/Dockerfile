@@ -25,14 +25,15 @@ COPY tsconfig.json /usr/src/app/
 RUN ng build --prod
 
 
-FROM nginx
-
-COPY nginx.conf /etc/nginx/
+FROM opentracing/nginx-opentracing
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
 
 ## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
+
+COPY nginx/nginx.conf /etc/nginx/
+COPY nginx/zipkin-config.json /etc/
 
 CMD ["nginx", "-g", "daemon off;"]
