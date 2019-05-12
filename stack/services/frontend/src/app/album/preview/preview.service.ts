@@ -10,13 +10,14 @@ export class PreviewService {
               private injector: Injector) {
   }
 
-  appendComponentToBody(component: any, id: string) {
+  appendComponentToBody(component: any, id: string, name: string) {
     // Create a component reference from the component
     const componentRef = this.componentFactoryResolver
       .resolveComponentFactory(component)
       .create(this.injector);
 
-    (<PreviewComponent>componentRef.instance).showImage(id)
+    let previewComp = (<PreviewComponent>componentRef.instance);
+    previewComp.showImage(id, name)
 
     // Attach component to the appRef so that it's inside the ng component tree
     this.appRef.attachView(componentRef.hostView);

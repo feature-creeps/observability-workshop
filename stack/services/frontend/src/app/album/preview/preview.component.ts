@@ -14,8 +14,10 @@ export class PreviewComponent {
 
   public displayImage;
   public link;
+  name: string;
 
-  public async showImage(id: string) {
+  public async showImage(id: string, name: string) {
+    this.name = name;
     this.link = environment.backend.imageholder + '/api/images/' + id
     let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {

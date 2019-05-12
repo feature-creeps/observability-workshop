@@ -1,7 +1,27 @@
 .preview-inline {
-  display: inline;
+  display: inline-block;
+  position: relative;
 }
 
 .preview-image {
   margin: 25px;
+  max-height: 100px;
+  max-width: 100px;
+}
+
+.preview-inline .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.preview-inline:hover .tooltiptext {
+  visibility: visible;
 }

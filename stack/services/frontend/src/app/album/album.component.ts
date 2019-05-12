@@ -35,7 +35,7 @@ export class AlbumComponent implements OnInit {
 
   private showPreviews(data: Array<Image>) {
     for (var i = 0; i < data.length; i++) {
-      this.previewService.appendComponentToBody(PreviewComponent, data[i].id);
+      this.previewService.appendComponentToBody(PreviewComponent, data[i].id, data[i].name);
     }
   }
 }
