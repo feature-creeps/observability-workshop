@@ -16,9 +16,10 @@ export class DisplayComponent implements OnInit {
     this.retrieveImages();
   }
 
-  public data;
-  public images;
-  public displayImage;
+  private data;
+  private images;
+  private displayImage;
+  private selectedLink: string;
 
   async retrieveImages() {
     let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
@@ -26,7 +27,7 @@ export class DisplayComponent implements OnInit {
       document.getElementById("preview").hidden = false;
       this.images = data;
       this.setIds(data);
-      this.showImage(this.images[0].id);
+      this.showImage(this.images[0].id, true);
     } else {
       document.getElementById("info").innerText = "No images found";
       document.getElementById("preview").hidden = true;
@@ -44,11 +45,22 @@ export class DisplayComponent implements OnInit {
     return list;
   }
 
-  async showImage(id: string) {
+  async showImageById(formInput: any) {
+    let id = formInput.querySelectorAll("#imageIdIn")[0].value
+    this.showImageWithId(id)
+  }
+
+  showImageWithId(id: string) {
+    this.showImage(id, false)
+  }
+
+  async showImage(id: string, hideId: boolean) {
     let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
     if (data != null) {
-
       this.displayImage = this.createImageFromBlob(data);
+      this.selectedLink = environment.backend.imageholder + '/api/images/' + id;
+      (<HTMLSelectElement>document.querySelectorAll("#imageSelect")[0]).value = id;
+      (<HTMLSelectElement>document.querySelectorAll("#imageIdIn")[0]).value = hideId ? "" : id;
     }
   }
 

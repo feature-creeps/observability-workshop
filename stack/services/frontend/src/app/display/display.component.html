@@ -6,14 +6,27 @@
   </div>
 
   <div class="container">
+    <h3>Either provide an image id directly..</h3>
+    <form #formInput id="manualImageIdEntry" action="#" method="post" class="form-group">
+
+      <div class="form-group form-check">
+        <input class="form-control" id="imageIdIn" name="imageIdIn" placeholder="Enter image id..">
+      </div>
+      <input type="submit" class="btn btn-primary btn-block dima-btn" (click)="showImageById(formInput)"/>
+    </form>
+    <br/>
+    <h3>..or select one from the list..</h3>
     <select class="form-control btn-primary"
-            (input)="showImage($event.target.value)">
+            id="imageSelect"
+            (input)="showImageWithId($event.target.value)">
       <option *ngFor="let image of images"
               [value]="image.id">
-         {{image.name}} [{{image.id}}]
+        {{image.name}} [{{image.id}}]
       </option>
     </select>
-    <img id="preview" class="show-image" [src]="displayImage" alt="No images found">
+    <a [href]="selectedLink">
+      <img id="preview" class="show-image" [src]="displayImage" alt="No images found">
+    </a>
     <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
   </div>
 </main>
