@@ -25,7 +25,7 @@ public class ImageService {
         try {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
-            final BufferedImage resizedImage = resize(ImageIO.read(in), factor);
+            final BufferedImage resizedImage = resize(ImageIO.read(in), factor, !isPng(formatName));
             final byte[] imageBytes = bufferedImageToByteArray(resizedImage, formatName);
 
             metricsService.imageResized(file.getContentType(), String.valueOf(factor));
@@ -38,8 +38,11 @@ public class ImageService {
         return null;
     }
 
-    private BufferedImage resize(BufferedImage image, Double factor) {
-        boolean preserveAlpha = true;
+    private boolean isPng(String formatName) {
+        return formatName.toLowerCase().equals("png");
+    }
+
+    private BufferedImage resize(BufferedImage image, Double factor, boolean preserveAlpha) {
 
         int scaledWidth = (int) (image.getWidth() * factor);
         int scaledHeight = (int) (image.getHeight() * factor);

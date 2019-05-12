@@ -12,38 +12,27 @@ export class OrchestrateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.retrieveImages();
+    this.retrieveImages(null);
   }
 
-  public data;
   public images;
   public displayImage;
   public transformedImage;
   private displayId: string;
 
-  async retrieveImages() {
+  async retrieveImages(id: string) {
     let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
     if (data.length > 0) {
       document.getElementById("preview").hidden = false;
       this.images = data;
-      this.setIds(data);
-      this.showPreview(this.images[0].id);
+
+      let showId = id != null ? id : this.images[0].id;
+      this.showPreview(showId);
     } else {
       document.getElementById("previewInfo").hidden = false;
       document.getElementById("previewInfoText").innerText = "No images found. Upload some ";
       document.getElementById("preview").hidden = true;
     }
-  }
-
-  setIds(data: Array<Image>): String[] {
-    let list: String[] = [];
-
-    for (var i = 0; i < data.length; i++) {
-      list.push(data[i].id)
-    }
-
-    this.data = list;
-    return list;
   }
 
   async showPreview(id: string) {
@@ -56,6 +45,7 @@ export class OrchestrateComponent implements OnInit {
       }, false);
       if (data) {
         reader.readAsDataURL(data);
+        (<HTMLSelectElement>document.querySelectorAll("#image")[0]).value = id;
       }
     }
   }
@@ -100,6 +90,7 @@ export class OrchestrateComponent implements OnInit {
       return;
     }
     this.showTransformed(res)
+    this.retrieveImages(this.displayId)
     OrchestrateComponent.info("Transformation successful", InfoType.success)
   }
 
