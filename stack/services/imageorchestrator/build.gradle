@@ -24,17 +24,17 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "de.db.vz.msintplugin"
 
+bootJar {
+    baseName = 'imageorchestrator'
+}
+
 ext {
-    set('springCloudVersion', 'Greenwich.SR1')
+	set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
 group = 'devops-school'
 version = null
-sourceCompatibility = 1.8
-
-bootJar {
-    baseName = 'imageorchestrator'
-}
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -58,9 +58,9 @@ dependencies {
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
-    implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
-    implementation 'ch.qos.logback:logback-classic:1.1.6'
-    implementation 'ch.qos.logback:logback-core:1.1.6'
+    implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
+    implementation 'ch.qos.logback:logback-classic:1.2.1'
+    implementation 'ch.qos.logback:logback-core:1.2.1'
 
     implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.8'
 
@@ -70,9 +70,9 @@ dependencies {
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    testCompile 'com.github.fakemongo:fongo:2.0.9'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.github.fakemongo:fongo:2.0.9'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 

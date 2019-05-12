@@ -14,6 +14,8 @@ public class LoggingContextUtil {
     }
 
     public void mdcClear() {
-        MDC.clear();
+        MDC.remove("mimeType");
+        MDC.remove("vertical");
+        MDC.remove("horizontal");
     }
 }

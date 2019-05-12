@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.2.RELEASE'
+        springBootVersion = '2.1.4.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -16,23 +16,27 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.6.RELEASE'
 }
 
+bootJar {
+	baseName = 'imagegrayscale'
+}
+
+ext {
+	set('springCloudVersion', 'Greenwich.RELEASE')
+}
 
 group = 'devops-school'
 version = null
 sourceCompatibility = JavaVersion.VERSION_1_8
 
-bootJar {
-	baseName = 'imagegrayscale'
-}
-
 repositories {
-	jcenter()
 	mavenCentral()
 	maven { url 'https://repo.spring.io/milestone' }
 }
 
-ext {
-	set('springCloudVersion', 'Greenwich.RELEASE')
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 dependencies {
@@ -43,9 +47,9 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 
-    implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
-	implementation 'ch.qos.logback:logback-classic:1.1.6'
-	implementation 'ch.qos.logback:logback-core:1.1.6'
+	implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
+	implementation 'ch.qos.logback:logback-classic:1.2.1'
+	implementation 'ch.qos.logback:logback-core:1.2.1'
 	
 	implementation 'io.micrometer:micrometer-core'
 	implementation 'io.micrometer:micrometer-registry-prometheus'
@@ -53,8 +57,3 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
-}

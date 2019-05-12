@@ -25,12 +25,12 @@ bootJar {
 }
 
 ext {
-    set('springCloudVersion', 'Greenwich.SR1')
+	set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
 group = 'devops-school'
 version = null
-sourceCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
@@ -49,13 +49,12 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 
+    implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
+    implementation 'ch.qos.logback:logback-classic:1.1.6'
+    implementation 'ch.qos.logback:logback-core:1.1.6'
+
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.apache.commons:commons-lang3:3.0'
-
-    implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
-    implementation 'ch.qos.logback:logback-classic:1.2.1'
-    implementation 'ch.qos.logback:logback-core:1.2.1'
-
 
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'

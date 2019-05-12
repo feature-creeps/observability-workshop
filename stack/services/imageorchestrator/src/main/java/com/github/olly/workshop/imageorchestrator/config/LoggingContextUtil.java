@@ -38,7 +38,10 @@ public class LoggingContextUtil {
     }
 
     public void mdcClear() {
-        MDC.clear();
+        MDC.remove("mimeType");
+        MDC.remove("imageId");
+        MDC.remove("persist");
+        MDC.remove("transformationType");
     }
 
     private void transformationRequest(TransformationRequest transformationRequest) {

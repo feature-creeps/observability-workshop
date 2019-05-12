@@ -13,7 +13,9 @@ public class LoggingContextUtil {
     }
 
     public void mdcClear() {
-        MDC.clear();
+        MDC.remove("mimeType");
+        MDC.remove("imageId");
+        MDC.remove("imageName");
     }
 
     private void image(Image image) {
