@@ -1,4 +1,5 @@
 import {ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector} from '@angular/core';
+import {PreviewComponent} from "./preview.component";
 
 
 @Injectable()
@@ -15,7 +16,7 @@ export class PreviewService {
       .resolveComponentFactory(component)
       .create(this.injector);
 
-    componentRef.instance.showImage(id)
+    (<PreviewComponent>componentRef.instance).showImage(id)
 
     // Attach component to the appRef so that it's inside the ng component tree
     this.appRef.attachView(componentRef.hostView);
