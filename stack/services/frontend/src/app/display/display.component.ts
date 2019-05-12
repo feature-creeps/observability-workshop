@@ -47,10 +47,10 @@ export class DisplayComponent implements OnInit {
 
   async showImageById(formInput: any) {
     let id = formInput.querySelectorAll("#imageIdIn")[0].value
-    this.showImage(id)
+    this.showImageWithId(id)
   }
 
-  showImage(id: string) {
+  showImageWithId(id: string) {
     this.showImage(id, false)
   }
 

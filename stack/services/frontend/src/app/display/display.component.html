@@ -18,7 +18,7 @@
     <h3>..or select one from the list..</h3>
     <select class="form-control btn-primary"
             id="imageSelect"
-            (input)="showImage($event.target.value)">
+            (input)="showImageWithId($event.target.value)">
       <option *ngFor="let image of images"
               [value]="image.id">
         {{image.name}} [{{image.id}}]
