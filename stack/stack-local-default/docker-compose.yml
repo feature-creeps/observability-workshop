@@ -126,6 +126,12 @@ services:
       options:
         fluentd-address: localhost:24224
 
+  mongodb-exporter:
+    image: maibornwolff/mongodb_exporter
+    ports:
+    - 9001:9001
+    command: '-mongodb.uri mongodb://mongodb:27017'
+
   ## Logging
 
   # log collector
