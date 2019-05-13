@@ -16,10 +16,10 @@ export class DisplayComponent implements OnInit {
     this.retrieveImages();
   }
 
-  private data;
-  private images;
-  private displayImage;
-  private selectedLink: string;
+  data;
+  images;
+  displayImage;
+  selectedLink: string;
 
   async retrieveImages() {
     let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
