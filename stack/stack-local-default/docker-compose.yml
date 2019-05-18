@@ -174,7 +174,7 @@ services:
 
   # logs visualizer
   kibana:
-    image: docker.elastic.co/kibana/kibana:6.1.1
+    build: ../services/kibana
     depends_on:
     - elasticsearch
     volumes:

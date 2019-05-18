@@ -14,6 +14,7 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {AlbumComponent} from './album/album.component';
 import {PreviewComponent} from "./album/preview/preview.component";
 import {PreviewService} from "./album/preview/preview.service";
+import {ToolsComponent} from "./tools/tools.component";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {PreviewService} from "./album/preview/preview.service";
     OrchestrateComponent,
     DashboardComponent,
     AlbumComponent,
-    PreviewComponent
+    PreviewComponent,
+    ToolsComponent
   ],
   imports: [
     BrowserModule,

@@ -8,6 +8,7 @@ import {DeleteComponent} from "./delete/delete.component";
 import {OrchestrateComponent} from "./orchestrate/orchestrate.component";
 import {DisplayComponent} from "./display/display.component";
 import {AlbumComponent} from "./album/album.component";
+import {ToolsComponent} from "./tools/tools.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: 'random', component: RandomComponent},
   {path: 'delete', component: DeleteComponent},
   {path: 'orchestrate', component: OrchestrateComponent},
-  {path: 'album', component: AlbumComponent}
+  {path: 'album', component: AlbumComponent},
+  {path: 'tools', component: ToolsComponent}
 ];
 
 @NgModule({

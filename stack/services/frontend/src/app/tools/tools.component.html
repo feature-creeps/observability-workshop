@@ -1,0 +1,45 @@
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-3" style="font-variant: small-caps">Observability tools</h1>
+      <p>Those tools support the observability of our application</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>View logs</h2>
+        <p>Analyse system events through structured logs</p>
+        <p>
+          <img src="assets/img/kibana.svg" class="logo">
+          <a class="btn btn-secondary dima-btn" target="_blank"
+             [href]="environment.tools.kibana" role="button">Kibana »</a>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h2>View metrics</h2>
+        <p>Visualize metrics as time series data</p>
+        <p>
+          <img src="assets/img/grafana.svg" class="logo">
+          <a class="btn btn-secondary dima-btn" target="_blank"
+             [href]="environment.tools.grafana" role="button">Grafana »</a>
+        </p>
+        <p>
+          <img src="assets/img/prometheus.svg" class="logo">
+          <a class="btn btn-secondary dima-btn" target="_blank"
+             [href]="environment.tools.prometheus" role="button">Prometheus »</a>
+        </p>
+      </div>
+      <div class="col-md-6">
+        <h2>View traces</h2>
+        <p>Follow the path of transactions through the system</p>
+        <p>
+          <img src="assets/img/zipkin.svg" class="logo">
+          <a class="btn btn-secondary dima-btn" target="_blank"
+             [href]="environment.tools.zipkin" role="button">Zipkin »</a>
+        </p>
+      </div>
+    </div>
+    <hr>
+  </div>
+</main>

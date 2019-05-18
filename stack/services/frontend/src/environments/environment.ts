@@ -12,6 +12,12 @@ export const environment = {
     imageresize: 'http://localhost:8084',
     imageflip: 'http://localhost:8085',
     imagethumbnail: 'http://localhost:8086'
+  },
+  tools: {
+    kibana: 'http://kibana.localhost',
+    grafana: 'http://grafana.localhost',
+    prometheus: 'http://prometheus.localhost',
+    zipkin: 'http://zipkin.localhost',
   }
 };
 
