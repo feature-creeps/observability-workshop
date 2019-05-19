@@ -26,7 +26,9 @@
           </option>
         </select>
         <div class="img-preview-container" style="padding: 10px">
-          <img id="preview" height="100px" [src]="displayImage" alt="No images found">
+          <a target="_blank" [href]="selectedLink">
+            <img id="preview" height="100px" [src]="displayImage" alt="No images found">
+          </a>
           <div style="margin-top:10px;" height="100px" id="previewInfo" hidden="true">
             <span id="previewInfoText"></span>
             <a id="previewInfoLink" routerLink="/upload">here</a>

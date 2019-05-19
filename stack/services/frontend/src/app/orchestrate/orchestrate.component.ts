@@ -19,6 +19,7 @@ export class OrchestrateComponent implements OnInit {
   public displayImage;
   public transformedImage;
   private displayId: string;
+  selectedLink: string;
 
   async retrieveImages(id: string) {
     let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
@@ -45,6 +46,7 @@ export class OrchestrateComponent implements OnInit {
       }, false);
       if (data) {
         reader.readAsDataURL(data);
+        this.selectedLink = environment.backend.imageholder + '/api/images/' + id;
         (<HTMLSelectElement>document.querySelectorAll("#image")[0]).value = id;
       }
     }
