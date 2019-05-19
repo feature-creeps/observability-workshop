@@ -38,7 +38,6 @@ services:
       options:
         fluentd-address: localhost:24224
 
-
   imagerotator:
     build: ../services/imagerotator
     depends_on:
@@ -150,8 +149,11 @@ services:
 
   # search engine, storage
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.1.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
     container_name: elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
     - olly-elasticsearch:/usr/share/elasticsearch/data
     ports:
