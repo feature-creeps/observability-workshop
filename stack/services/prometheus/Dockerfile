@@ -1,5 +1,6 @@
-FROM prom/prometheus:v2.4.0
+FROM prom/prometheus:v2.9.2
 
+COPY service.rules.yml /etc/prometheus/alerts.d/service.rules.yml
 COPY prometheus.yml /etc/prometheus/prometheus.yml
 
 CMD [ "--config.file=/etc/prometheus/prometheus.yml", \
