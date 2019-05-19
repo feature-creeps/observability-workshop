@@ -149,11 +149,17 @@ services:
 
   # search engine, storage
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.3
     container_name: elasticsearch
     environment:
       - bootstrap.memory_lock=true
+      - LimitMEMLOCK=infinity
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
     - olly-elasticsearch:/usr/share/elasticsearch/data
     ports:
@@ -198,7 +204,7 @@ services:
     - 3000:3000
     build: ../services/grafana
 
-  # node metrics exporter for prometheus
+  # exporters
   node-exporter:
     image: prom/node-exporter
     volumes:
@@ -213,8 +219,7 @@ services:
     ports:
     - 9100:9100
 
-  # docker daemon metrics exporter for prometheus
-  cadvisor:
+  cadvisor: # docker daemon metrics exporter
     image: google/cadvisor
     volumes:
     - /:/rootfs:ro

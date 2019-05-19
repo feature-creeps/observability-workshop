@@ -105,3 +105,9 @@ scrape_configs:
   metrics_path: /metrics
   static_configs:
     - targets: ['elasticsearch-exporter:9108']
+
+- job_name: kibana
+  scrape_interval: 30s
+  metrics_path: /_prometheus/metrics
+  static_configs:
+    - targets: ['kibana:5601']
