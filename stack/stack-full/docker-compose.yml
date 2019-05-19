@@ -253,6 +253,7 @@ services:
       - ES_HOSTS=elasticsearch
       - ZIPKIN_LOG_LEVEL=DEBUG
       - ES_HTTP_LOGGING=BODY
+      - ES_NODES_WAN_ONLY=true
     depends_on:
       - elasticsearch
 
