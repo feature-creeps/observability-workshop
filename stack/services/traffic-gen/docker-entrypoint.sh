@@ -13,7 +13,7 @@ done
 echo "imageholder running - uploading images"
 
 /usr/local/bin/upload-traffic-gen -f false -u "http://imageholder:8080/api/images" -d /images | \
-  /usr/local/bin/vegeta attack -rate=1/s -lazy -format=json -duration=1m | \
+  /usr/local/bin/vegeta attack -rate=1/s -lazy -format=json | \
   vegeta report -type json
 
 
@@ -28,5 +28,5 @@ done
 
 echo "imageorchestrator running - sending random transformation requests"
 
-/usr/local/bin/transform-traffic-gen  -n 300 -f  "http://imageholder:8080/api/images/nameContaining/uploaded" -t  "http://imageorchestrator:8080/api/images/transform" | \
-  /usr/local/bin/vegeta attack -rate=12/m -lazy -format=json -duration=10m > /dev/null
+/usr/local/bin/transform-traffic-gen  -n 10000 -f  "http://imageholder:8080/api/images/nameContaining/uploaded" -t  "http://imageorchestrator:8080/api/images/transform" | \
+  /usr/local/bin/vegeta attack -rate=12/m -lazy -format=json > /dev/null

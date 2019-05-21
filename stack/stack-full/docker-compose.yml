@@ -253,6 +253,8 @@ services:
     image: openzipkin/zipkin-dependencies
     ports:
       - 9412:9412
+    links:
+      - elasticsearch
     environment:
       - STORAGE_TYPE=elasticsearch
       - ES_HOSTS=elasticsearch
