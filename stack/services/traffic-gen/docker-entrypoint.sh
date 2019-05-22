@@ -13,7 +13,7 @@ done
 echo "imageholder running - uploading images"
 
 /usr/local/bin/upload-traffic-gen -f false -u "http://imageholder:8080/api/images" -d /images | \
-  /usr/local/bin/vegeta attack -rate=1/s -lazy -format=json | \
+  /usr/local/bin/vegeta attack -rate=1/s -lazy -format=json -duration=1m | \
   vegeta report -type json
 
 
