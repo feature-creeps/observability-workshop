@@ -28,5 +28,5 @@ done
 
 echo "imageorchestrator running - sending random transformation requests"
 
-/usr/local/bin/transform-traffic-gen  -n 10000 -f  "http://imageholder:8080/api/images/nameContaining/uploaded" -t  "http://imageorchestrator:8080/api/images/transform" | \
+/usr/local/bin/transform-traffic-gen  -n 30000 -f  "http://imageholder:8080/api/images/nameContaining/uploaded" -t  "http://imageorchestrator:8080/api/images/transform" | \
   /usr/local/bin/vegeta attack -rate=12/m -lazy -format=json > /dev/null
