@@ -3,30 +3,52 @@
 ## Learning objectives
 
 * Explain what observability is and why it is valuable
-* How to question(/test) not only applications, but system risks
 * Describe when to use different types of telemetry
 * Understand common risks of a distributed system
+* How to question(/test) not only applications, but system risks
 
 ## Schedule
 
-### Morning (9:00-12:00?)
+### Morning (9:00-12:00)
 
 Goals:
-* Confidence with the application and provided platform tools
+* Confidence with the application
+* Experience with 3 different types of telemetry data
 * Understanding "normal" for the application use
 
 Activities:
 1. Intro
 1. Model the application from the user interface
-1. --- 15 minute break ---
-1. Question the application model for risks
-1. Model the system in technical architecture
-1. --- 15 minute break ---
-1. Question the system model for risks
-1. *(should have)* Identify what observability information is needed to evaluate the risks identified
-1. Morning retro
+1. Question the application model for risks, and opportunities
 
-### Afternoon (13:00-17:00?)
+--- 15 minute break ---
+
+4. Welcome to logs
+    - Go to `discover` tab on kibana (`<ip>:5601/app/kibana#/discover`)
+    - Find one of your actions in the logs
+    
+
+    - Go to zipkin UI and answer the following questions:
+      - How many different services does the application have?
+
+
+4. Work together to group questions into best telemetry tool to answer them.
+    - Metrics:
+      - Gauges: point in time value
+      - Counters: increments over time
+      - Histograms: distribution of values
+    - Logs:
+      - Detailed statements about specific interactions
+    - Traces:
+      - Relationship between system parts to deliver responses
+
+--- 15 minute break ---
+
+4. Pick one question from each group to try and answer
+4. Think of a follow up question depending on the answer, is this answered in the same tool?
+4. Morning retro
+
+### Afternoon (13:00-17:00)
 
 Goals:
 * Understanding "normal" for the system throughput
