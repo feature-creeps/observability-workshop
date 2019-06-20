@@ -20,6 +20,8 @@ services:
     ports:
     - 8080:8080
     mem_limit: 1g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -33,6 +35,8 @@ services:
     ports:
     - 8081:8080
     mem_limit: 1g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -45,6 +49,8 @@ services:
     ports:
       - 8082:8080
     mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -57,6 +63,8 @@ services:
     ports:
       - 8083:8080
     mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -69,6 +77,8 @@ services:
     ports:
       - 8084:8080
     mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -81,6 +91,8 @@ services:
     ports:
       - 8085:8080
     mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
@@ -93,6 +105,8 @@ services:
     ports:
       - 8086:8080
     mem_limit: 4g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
     logging:
       driver: "fluentd"
       options:
