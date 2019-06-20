@@ -14,6 +14,11 @@
 1. `md5.2xlarge` machine type available
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
+ 1. The [mozilla sops](https://github.com/mozilla/sops) utility installed. 
+    - You can use `homebrew` on OS X for this - `brew install sops`
+ 1. gpg installed and the `featurecreeps` pgp key imported. This lives in the keybase team drive at /keybase/team/featurecreeps/gpg/featurecreeps.asc.
+    - `gpg --import /keybase/team/featurecreeps/gpg/featurecreeps.asc`
+    
 
 ## Creating the machine infrastructure
 
@@ -54,6 +59,16 @@ Some issues may run into:
     sudo sysctl -w vm.max_map_count=524288
     ```
     before exiting back to your local machine.
+1. (Optional) Set your shell environment to have environment variables used by the docker images. For example, the honeycomb key.
+    ```bash
+    cd ./stack/stack-full
+    export $(sops -d .sops.env)
+    ```
+    You should have the variables in your shell now. To check :
+    ```bash
+    env | fgrep HONEYCOMB
+    ```
+     
 1. To run the application, cd into `./stack/stack-full` and run `docker-compose up --build --detach`.
     - `-d` runs the application in detached mode to allow you further use of your command line. If you remove the `-d` your application will log straight to the command line window you ran `up` in.
     - `--build` rebuilds the application each time you run `up`. If you remove this it may speed up the build time but also may miss any local changes you introduce.
