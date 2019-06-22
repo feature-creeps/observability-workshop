@@ -4,25 +4,27 @@
 
 Under stack we find an application folder which contains several entities for our observability stack:
 
-| dir               | desc                                                  |
-| ---               | ---                                                   |
-| fluentbit/        | log collector                                         |
-| fluentd/          | log collector/aggregator                              |
-| grafana/          | time series visualizer                                |
-| imageholder/      | sample application for image upload and viewing       |
-| imagerotator/     | sample application for image rotation                 |
-| kibana/           | logs visualizer                                       |
-| loadbalancer/     | nginx loadbalancer                                    |
-| logstash/         | alternative log collector                             |
-| prometheus/       | time series data base                                 |
+| dir                | desc                                                  |
+| ---                | ---                                                   |
+| fluentbit/         | log collector                                         |
+| fluentd/           | log collector/aggregator                              |
+| frontend/          | app for displaying and interacting                    |
+| grafana/           | time series visualizer                                |
+| imageflip/         |                                                       |
+| imagegrayscale/    |                                                       |
+| imageholder/       | sample application for image upload and viewing       |
+| imageorchestrator/ |                                                       |
+| imageresize/       |                                                       |
+| imagerotator/      | sample application for image rotation                 |
+| imagethumbnail/    |                                                       |
+| kibana/            | logs visualizer                                       |
+| kibana-index/      |                                                       |
+| loadbalancer/      | nginx loadbalancer                                    |
+| logstash/          | alternative log collector                             |
+| prometheus/        | time series data base                                 |
+| traffic-gen/       |                                                       |
 
-In each stack-* directory is one or several *-compose.yml's:
-
-| dir                   | desc                                                                                                                      |
-| ---                   | ---                                                                                                                       |
-| stack-local-default/  | this is what we start on a single node machine which is running independently. consists of the basic stack incl app       |
-| stack-local-max/      | full stack including two load balanced sample apps using different log collectors                                         |
-| stack-distributed/    | this is what we start on each client node and one ops node. additional configuration for service discovery is required!   |
+The `stack-full` directory is one or several `*-compose.yml`'s and is where we start all services on a single node machine which is running independently. consists of the basic stack incl app
 
 ### log integration
 We use fluentd as the log collector, elastic search as the search engine and kibana as the visualizer UI.
