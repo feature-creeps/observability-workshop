@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import io.honeycomb.beeline.tracing.Beeline;
 
 @RestController
 @RequestMapping(value = "/api/image")
@@ -21,11 +22,15 @@ public class ImageGrayscale {
     @Autowired
     private ImageService imageService;
 
+    @Autowired
+    private Beeline beeline;
+
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
 
         MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
+        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
 
         if (image.getContentType() != null &&
                 !image.getContentType().startsWith("image/")) {

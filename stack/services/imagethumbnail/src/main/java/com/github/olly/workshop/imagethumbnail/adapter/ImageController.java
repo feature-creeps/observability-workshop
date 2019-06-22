@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.honeycomb.beeline.tracing.Beeline;
 
 @RestController
 @RequestMapping(value = "/api/images")
@@ -28,6 +29,9 @@ public class ImageController {
     @Autowired
     private LoggingContextUtil loggingContextUtil;
 
+    @Autowired
+    private Beeline beeline;
+
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.thumbnail(id);
@@ -40,6 +44,7 @@ public class ImageController {
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
+        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));

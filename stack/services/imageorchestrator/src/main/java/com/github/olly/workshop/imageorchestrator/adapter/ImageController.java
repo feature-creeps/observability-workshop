@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.honeycomb.beeline.tracing.Beeline;
 
 @RestController
 @RequestMapping(value = "/api/images")
@@ -28,6 +29,9 @@ public class ImageController {
 
     @Autowired
     private LoggingContextUtil lcu;
+
+    @Autowired
+    private Beeline beeline;
 
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
@@ -46,6 +50,7 @@ public class ImageController {
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
+            this.beeline.getActiveSpan().addField("content.type", MediaType.valueOf(transformedImage.getMimeType()));
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {

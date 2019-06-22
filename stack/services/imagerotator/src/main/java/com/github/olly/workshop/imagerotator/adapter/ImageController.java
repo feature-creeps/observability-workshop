@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import io.honeycomb.beeline.tracing.Beeline;
 
 import java.io.IOException;
 
@@ -28,6 +29,9 @@ public class ImageController {
 
     @Autowired
     private LoggingContextUtil lcu;
+
+    @Autowired
+    private Beeline beeline;
 
     @PostMapping("rotate")
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
@@ -52,6 +56,7 @@ public class ImageController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(file.getContentType()));
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         LOGGER.info("Successfully rotated image");
         return new ResponseEntity<>(rotatedImage, headers, HttpStatus.OK);

@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import io.honeycomb.beeline.tracing.Beeline;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -42,6 +43,9 @@ public class ImageController {
     @Autowired
     private LoggingContextUtil loggingContextUtil;
 
+    @Autowired
+    private Beeline beeline;
+
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
@@ -57,6 +61,7 @@ public class ImageController {
     @GetMapping(value = "/random")
     public ResponseEntity getRandomImage() {
         Image image = imageService.getRandomImage();
+        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         loggingContextUtil.mdcPut(image);
 
         if (image == null) {
@@ -84,6 +89,7 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.getImageById(id);
+        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         loggingContextUtil.mdcPut(image);
 
         if (image == null) {
@@ -154,6 +160,7 @@ public class ImageController {
         loggingContextUtil.mdcPut(image);
 
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
+        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
 

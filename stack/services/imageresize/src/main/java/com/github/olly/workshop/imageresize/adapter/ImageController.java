@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import io.honeycomb.beeline.tracing.Beeline;
 
 import java.io.IOException;
 
@@ -29,10 +30,14 @@ public class ImageController {
     @Autowired
     private LoggingContextUtil lcu;
 
+    @Autowired
+    private Beeline beeline;
+
     @PostMapping("resize")
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {

@@ -15,8 +15,11 @@
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
  1. The [mozilla sops](https://github.com/mozilla/sops) utility installed. 
-    - You can use `homebrew` on OS X for this - `brew install sops`
+    - This can be checked via commandline: `sops --version` (currently at: `sops 3.3.1 (latest)`)
+    - On MacOS: You can use `homebrew` to install - `brew install sops`
  1. gpg installed and the `featurecreeps` pgp key imported. This lives in the keybase team drive at /keybase/team/featurecreeps/gpg/featurecreeps.asc.
+    - This can be checked via commandline: `keybase --version` (currently at: `keybase version 4.1.0-20190612201656+952fee6c59`)
+    - You will then need to be both loged in with `keybase login` and have the app started locally with `run_keybase`
     - `gpg --import /keybase/team/featurecreeps/gpg/featurecreeps.asc`
     
 
@@ -73,8 +76,30 @@ Some issues may run into:
     - `-d` runs the application in detached mode to allow you further use of your command line. If you remove the `-d` your application will log straight to the command line window you ran `up` in.
     - `--build` rebuilds the application each time you run `up`. If you remove this it may speed up the build time but also may miss any local changes you introduce.
 
+### Access the environment
+
+1. Get the machine IP:
+    ```
+    docker-machine ip o11y-workshop
+    ```
+
+1. Go to a browser and request the ip without any port to reach the default UI:
+    `xx.xx.xx.xx`
+1. Go to a browser and request the ip with the following ports to reach additional running applications:
+    | URL                                                      | application                                                                              |
+    | ---                                                      | ---                                                                                      |
+    | xx.xx.xx.xx:3000                                         | Grafana - data graphing and visualisation (https://grafana.com/)                         |
+    | xx.xx.xx.xx:9090                                         | Prometheus - metrics dataase query engine (https://prometheus.io)                        |
+    | xx.xx.xx.xx:9411                                         | OpenZipkin - traces (https://zipkin.io/)                                                 |
+    | xx.xx.xx.xx:5601                                         | Kibana - frontend query engine for ELK logging (https://www.elastic.co/products/kibana)  |
+    | https://ui.honeycomb.io/feature-creeps/home/ltg-workshop | Honeycomb - observability playform for event based queries                               |
+
+
 ### Generating traffic
-> Note: you will need to have go and vegeta installed on your machine before proceeding
+
+*We currently run a traffic generator by default when the application is built These instructions are if you want to run an additional or different one.*
+
+> Prerequisit: you will need to have go and vegeta installed on your machine before proceeding
 
 1. To run the traffic generator to upload traffic :
 ```

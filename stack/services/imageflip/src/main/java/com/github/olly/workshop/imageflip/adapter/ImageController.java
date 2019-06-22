@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import io.honeycomb.beeline.tracing.Beeline;
 
 import java.io.IOException;
 
@@ -25,6 +26,9 @@ public class ImageController {
 
     @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private Beeline beeline;
 
     @Autowired
     private LoggingContextUtil lcu;
@@ -44,6 +48,7 @@ public class ImageController {
 
         // ISSUE: we fail on floating point values
         LOGGER.info("Receiving {} image to flip.", file.getContentType());
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
