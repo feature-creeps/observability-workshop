@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import io.honeycomb.beeline.tracing.Beeline;
 
 @Service
 public class ImageService {
@@ -21,9 +22,14 @@ public class ImageService {
     @Autowired
     MetricsService metricsService;
 
+    @Autowired
+    private Beeline beeline;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public byte[] flip(MultipartFile file, boolean vertical, boolean horizontal) {
+        this.beeline.getActiveSpan().addField("tranformation.flip.vertical", String.valueOf(vertical));
+        this.beeline.getActiveSpan().addField("tranformation.flip.horizontal", String.valueOf(horizontal));
         try {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
@@ -31,6 +37,7 @@ public class ImageService {
             final byte[] imageBytes = bufferedImageToByteArray(flippedImage, formatName);
 
             metricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
+            this.beeline.getActiveSpan().addField("tranformation.content.type", file.getContentType()) ;
 
             return imageBytes;
         } catch (IOException e) {

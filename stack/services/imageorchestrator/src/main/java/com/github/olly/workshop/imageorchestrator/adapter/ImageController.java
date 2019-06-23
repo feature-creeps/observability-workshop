@@ -38,6 +38,7 @@ public class ImageController {
 
         lcu.mdcPut(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
+        this.beeline.getActiveSpan().addField("transformation.request", transformationRequest);
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");
@@ -50,7 +51,7 @@ public class ImageController {
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
-            this.beeline.getActiveSpan().addField("content.type", MediaType.valueOf(transformedImage.getMimeType()));
+            this.beeline.getActiveSpan().addField("transformation.image.type", MediaType.valueOf(transformedImage.getMimeType()));
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {

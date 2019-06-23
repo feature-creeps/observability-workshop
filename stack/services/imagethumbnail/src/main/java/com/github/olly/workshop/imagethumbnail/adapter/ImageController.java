@@ -35,6 +35,7 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.thumbnail(id);
+        this.beeline.getActiveSpan().addField("content.id", id);
         loggingContextUtil.mdcPut(image.getContentType());
 
         if (image == null) {

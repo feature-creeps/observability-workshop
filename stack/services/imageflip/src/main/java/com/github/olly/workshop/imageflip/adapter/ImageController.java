@@ -43,6 +43,7 @@ public class ImageController {
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
+            this.beeline.getActiveSpan().addField("content.type", file.getContentType());
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 

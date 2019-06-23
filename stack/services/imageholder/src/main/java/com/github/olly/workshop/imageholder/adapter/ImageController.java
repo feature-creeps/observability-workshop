@@ -49,7 +49,8 @@ public class ImageController {
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
-        return new ResponseEntity<>(imageService.getAllImagesLight(), HttpStatus.OK);
+        Collection<Image> all_images = imageService.getAllImagesLight();
+        return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
 
     @GetMapping(value = "/throw")
@@ -61,6 +62,7 @@ public class ImageController {
     @GetMapping(value = "/random")
     public ResponseEntity getRandomImage() {
         Image image = imageService.getRandomImage();
+        this.beeline.getActiveSpan().addField("image.id", image.getId());
         this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         loggingContextUtil.mdcPut(image);
 
@@ -83,12 +85,14 @@ public class ImageController {
     // hack, cause I dont want to use JS
     @GetMapping(value = "/image")
     public ResponseEntity getImageByURLParam(@RequestParam("id") String id) {
+        this.beeline.getActiveSpan().addField("image.id", id);
         return getImage(id);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.getImageById(id);
+        this.beeline.getActiveSpan().addField("image.id", id);
         this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         loggingContextUtil.mdcPut(image);
 
@@ -109,11 +113,13 @@ public class ImageController {
     // hack, cause html forms are limited to GET/POST
     @PostMapping(value = "/delete")
     public ResponseEntity deleteImageByURLParam(@RequestParam("id") String id) {
+        this.beeline.getActiveSpan().addField("image.id", id);
         return deleteImage(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
+        this.beeline.getActiveSpan().addField("image.id", id);
         loggingContextUtil.mdcPut(imageService.getImageById(id));
 
         LOGGER.info("Deleting image with id {}", id);
@@ -129,6 +135,7 @@ public class ImageController {
     @PostMapping(value = "/delete/all")
     public ResponseEntity deleteAllImages() {
         Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
+        this.beeline.getActiveSpan().addField("images.total_count", allImageIds.size());
         LOGGER.info("Deleting all images: {}", allImageIds);
         allImageIds.forEach(this::deleteImage);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
@@ -138,6 +145,7 @@ public class ImageController {
     public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
 
         MDC.put("mimeType", file.getContentType());
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         if (file.getContentType() != null && !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
@@ -160,7 +168,6 @@ public class ImageController {
         loggingContextUtil.mdcPut(image);
 
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
-        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
 
@@ -168,6 +175,7 @@ public class ImageController {
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
 
         LOGGER.info("Finding all images with the name containing '{}'", fragment);
+        this.beeline.getActiveSpan().addField("search.fragment", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
 
     }

@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.honeycomb.beeline.tracing.Beeline;
+
 import java.util.Collection;
 
 @Service
@@ -17,10 +19,14 @@ public class ImageService {
     @Autowired
     private MetricsService metricsService;
 
+    @Autowired
+    private Beeline beeline;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public Image save(Image image) {
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
+        this.beeline.getActiveSpan().addField("image", image.getId());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
@@ -28,24 +34,31 @@ public class ImageService {
 
 
     public Collection<Image> getAllImages() {
-        return imageRepository.findAll();
+        Collection<Image> all_images = imageRepository.findAll();
+        this.beeline.getActiveSpan().addField("image.count", all_images.size());
+        return all_images;
     }
 
     public Collection<Image> getAllImagesLight() {
-        return imageRepository.findAllIds();
+        Collection<Image> all_image_ids = imageRepository.findAllIds();
+        this.beeline.getActiveSpan().addField("image.count", all_image_ids.size());
+        return all_image_ids;
     }
 
     public Collection<Image> findWithNamesContaining(String fragment) {
+        this.beeline.getActiveSpan().addField("search.fragment", fragment);
         return imageRepository.findByNameContaining(fragment);
     }
 
 
     public Image getImageById(String id) {
+        this.beeline.getActiveSpan().addField("image.id",id);
         return imageRepository.findById(id).orElse(null);
     }
 
 
     public boolean deleteImageById(String id) {
+        this.beeline.getActiveSpan().addField("image.id", id);
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);
@@ -65,6 +78,7 @@ public class ImageService {
                 .skip((int) (allImages.size() * Math.random()))
                 .findFirst().orElse(null);
 
+        this.beeline.getActiveSpan().addField("image.random.id", image.getId());
         return image != null ? getImageById(image.getId()) : null;
     }
 }

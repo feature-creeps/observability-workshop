@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import io.honeycomb.beeline.tracing.Beeline;
 
 @Service
 public class ImageService {
@@ -20,6 +21,9 @@ public class ImageService {
 
     @Autowired
     private MetricsService metricsService;
+
+    @Autowired
+    private Beeline beeline;
 
     @Autowired
     private ImageHolderClient imageHolderClient;
@@ -37,6 +41,7 @@ public class ImageService {
         // load the image from imageholder
         Image originalImage;
         try {
+            this.beeline.getActiveSpan().addField("tranformation.image.id", transformationRequest.getImageId());
             originalImage = loadImage(transformationRequest.getImageId());
         } catch (Throwable ex) {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
@@ -48,9 +53,11 @@ public class ImageService {
 
         lcu.mdcPut(transformedImage);
 
+        this.beeline.getActiveSpan().addField("tranformation.image.content.type", transformedImage.getMimeType());
         metricsService.imageTransformed(transformedImage.getMimeType());
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
+            this.beeline.getActiveSpan().addField("tranformation.image.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
 

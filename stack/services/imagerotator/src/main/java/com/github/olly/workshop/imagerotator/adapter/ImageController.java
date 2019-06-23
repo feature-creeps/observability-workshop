@@ -37,6 +37,8 @@ public class ImageController {
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
 
         lcu.mdcPut(file.getContentType(), degrees);
+        this.beeline.getActiveSpan().addField("transforation", degrees);
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
@@ -56,7 +58,6 @@ public class ImageController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(file.getContentType()));
-        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         LOGGER.info("Successfully rotated image");
         return new ResponseEntity<>(rotatedImage, headers, HttpStatus.OK);

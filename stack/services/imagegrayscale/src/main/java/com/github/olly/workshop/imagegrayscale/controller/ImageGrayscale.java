@@ -40,7 +40,6 @@ public class ImageGrayscale {
 
         LOGGER.info("Starting conversion");
 
-
         byte[] transformed = imageService.grayscale(image);
 
         if (transformed == null) {

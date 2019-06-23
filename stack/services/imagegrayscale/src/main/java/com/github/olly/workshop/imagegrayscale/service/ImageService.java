@@ -15,11 +15,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import io.honeycomb.beeline.tracing.Beeline;
+
 @Service
 public class ImageService {
 
     @Autowired
     MetricsService metricsService;
+
+    @Autowired
+    private Beeline beeline;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public byte[] grayscale(MultipartFile image) {
@@ -31,6 +37,8 @@ public class ImageService {
 
             final byte[] imageBytes = bufferedImageToByteArray(grayScaleImage, formatName);
 
+            this.beeline.getActiveSpan().addField("tranformation.content.type", image.getContentType());
+            this.beeline.getActiveSpan().addField("tranformation.content.size", imageBytes.length);
             metricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
 
             return imageBytes;

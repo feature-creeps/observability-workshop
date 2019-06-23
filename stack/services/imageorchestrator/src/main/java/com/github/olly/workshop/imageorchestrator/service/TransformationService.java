@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import io.honeycomb.beeline.tracing.Beeline;
 
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,9 @@ public class TransformationService {
 
     @Autowired
     private MetricsService metricsService;
+
+    @Autowired
+    private Beeline beeline;
 
     @Autowired
     private ImageGrayscaleClient imageGrayscaleClient;
@@ -43,24 +47,32 @@ public class TransformationService {
 
         for (Transformation transformation : transformations) {
             lcu.mdcPut(transformation);
+            this.beeline.getActiveSpan().addField("tranformation.content_type", image.getMimeType());
+            this.beeline.getActiveSpan().addField("tranformation.transformation", transformation);
+            this.beeline.getActiveSpan().addField("tranformation.properties", transformation.getProperties());
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
+                    this.beeline.getActiveSpan().addField("tranformation.greyscale", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
+                    this.beeline.getActiveSpan().addField("tranformation.rotate", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
+                    this.beeline.getActiveSpan().addField("tranformation.resize", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case flip:
                     image = flip(image, transformation.getProperties());
+                    this.beeline.getActiveSpan().addField("tranformation.flip", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
+                    this.beeline.getActiveSpan().addField("tranformation.unknown", transformation.getType().name());
                     LOGGER.warn("Skipping unrecognized transformation: {}", transformation.getType().name());
             }
         }

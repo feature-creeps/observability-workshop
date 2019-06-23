@@ -38,6 +38,7 @@ public class ImageController {
 
         lcu.mdcPut(file.getContentType(), factor);
         this.beeline.getActiveSpan().addField("content.type", file.getContentType());
+        this.beeline.getActiveSpan().addField("transformation.resize.factor", factor);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
