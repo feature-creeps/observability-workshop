@@ -38,7 +38,7 @@ public class ImageService {
     public static final Map<String, Image> CACHE = new HashMap<>();
 
     public Image thumbnail(String id) {
-        this.beeline.getActiveSpan().addField("image.id", id);
+        this.beeline.getActiveSpan().addField("content.id", id);
         if (CACHE.get(id) == null) {
             this.beeline.getActiveSpan().addField("cache.existing_id", id);
             Image image = resolveImage(id);

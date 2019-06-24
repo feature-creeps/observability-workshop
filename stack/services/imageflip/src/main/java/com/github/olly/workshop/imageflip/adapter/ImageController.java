@@ -37,23 +37,28 @@ public class ImageController {
     public ResponseEntity flipImage(@RequestParam("image") MultipartFile file,
                                     @RequestParam(value = "vertical") Boolean vertical,
                                     @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
-
+    
+        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
+        this.beeline.getActiveSpan().addField("action", "flip");
+        this.beeline.getActiveSpan().addField("transformation.flip_vertical", vertical);
+        this.beeline.getActiveSpan().addField("transformation.flip_horizontal", horizontal);
         lcu.mdcPut(file.getContentType(), vertical, horizontal);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.beeline.getActiveSpan().addField("content.type", file.getContentType());
+            this.beeline.getActiveSpan().addField("action.success", false);
+            this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
         // ISSUE: we fail on floating point values
         LOGGER.info("Receiving {} image to flip.", file.getContentType());
-        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
-
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
         if (flippedImage == null) {
+            this.beeline.getActiveSpan().addField("action.success", false);
+            this.beeline.getActiveSpan().addField("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to flip image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -61,6 +66,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully flipped image");
+        this.beeline.getActiveSpan().addField("action.success", true);
         return new ResponseEntity<>(flippedImage, headers, HttpStatus.OK);
     }
 }

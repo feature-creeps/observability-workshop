@@ -35,13 +35,13 @@ public class ImageService {
 
     public Collection<Image> getAllImages() {
         Collection<Image> all_images = imageRepository.findAll();
-        this.beeline.getActiveSpan().addField("image.count", all_images.size());
+        this.beeline.getActiveSpan().addField("content.count", all_images.size());
         return all_images;
     }
 
     public Collection<Image> getAllImagesLight() {
         Collection<Image> all_image_ids = imageRepository.findAllIds();
-        this.beeline.getActiveSpan().addField("image.count", all_image_ids.size());
+        this.beeline.getActiveSpan().addField("content.count", all_image_ids.size());
         return all_image_ids;
     }
 
@@ -52,13 +52,13 @@ public class ImageService {
 
 
     public Image getImageById(String id) {
-        this.beeline.getActiveSpan().addField("image.id",id);
+        this.beeline.getActiveSpan().addField("content.id",id);
         return imageRepository.findById(id).orElse(null);
     }
 
 
     public boolean deleteImageById(String id) {
-        this.beeline.getActiveSpan().addField("image.id", id);
+        this.beeline.getActiveSpan().addField("content.id", id);
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);
@@ -78,7 +78,7 @@ public class ImageService {
                 .skip((int) (allImages.size() * Math.random()))
                 .findFirst().orElse(null);
 
-        this.beeline.getActiveSpan().addField("image.random.id", image.getId());
+        this.beeline.getActiveSpan().addField("content.random.id", image.getId());
         return image != null ? getImageById(image.getId()) : null;
     }
 }

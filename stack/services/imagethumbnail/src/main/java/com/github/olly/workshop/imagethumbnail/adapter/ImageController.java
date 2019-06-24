@@ -40,12 +40,15 @@ public class ImageController {
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
+            this.beeline.getActiveSpan().addField("action.success", false);
+            this.beeline.getActiveSpan().addField("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
         this.beeline.getActiveSpan().addField("content.type", image.getContentType());
+        this.beeline.getActiveSpan().addField("action.success", true);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
@@ -56,6 +59,8 @@ public class ImageController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteImageFromCache(@PathVariable("id") String id) {
         imageService.dropFromCache(id);
+        this.beeline.getActiveSpan().addField("action", "delete_from_cache");
+        this.beeline.getActiveSpan().addField("action.success", false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
