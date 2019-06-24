@@ -37,7 +37,6 @@ public class ImageController {
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
-        this.beeline.getActiveSpan().addField("content.id", file.getId());
         this.beeline.getActiveSpan().addField("content.type", file.getContentType());
         this.beeline.getActiveSpan().addField("action", "resize");
         this.beeline.getActiveSpan().addField("transformation.resize_factor", factor);

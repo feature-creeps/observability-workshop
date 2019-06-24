@@ -39,7 +39,6 @@ public class ImageController {
         lcu.mdcPut(file.getContentType(), degrees);
         this.beeline.getActiveSpan().addField("transformation.rotate_degrees", degrees);
         this.beeline.getActiveSpan().addField("action", "rotate");
-        this.beeline.getActiveSpan().addField("content.id", file.getId());
         this.beeline.getActiveSpan().addField("content.type", file.getContentType());
 
         if (file.getContentType() != null &&
