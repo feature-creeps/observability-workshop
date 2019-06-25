@@ -4,6 +4,7 @@ import com.github.olly.workshop.imagethumbnail.config.LoggingContextUtil;
 import com.github.olly.workshop.imagethumbnail.model.Image;
 import com.github.olly.workshop.imagethumbnail.service.ImageService;
 import com.github.olly.workshop.imagethumbnail.service.MetricsService;
+import org.slf4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class ImageController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
-
+        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 
@@ -61,6 +62,7 @@ public class ImageController {
         imageService.dropFromCache(id);
         this.beeline.getActiveSpan().addField("action", "delete_from_cache");
         this.beeline.getActiveSpan().addField("action.success", false);
+        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -4,6 +4,7 @@ import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.ImageService;
+import org.slf4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ public class ImageController {
             LOGGER.error("Field imageId has to be set");
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "no_id");
+            MDC.put("responseCode", String.valueOf(HttpStatus.BAD_REQUEST));
             return new ResponseEntity<>("Field imageId has to be set", HttpStatus.BAD_REQUEST);
         }
         this.beeline.getActiveSpan().addField("content.id", transformationRequest.getImageId());
@@ -59,11 +61,13 @@ public class ImageController {
             this.beeline.getActiveSpan().addField("content.transformed_id", transformedImage.getId());
             this.beeline.getActiveSpan().addField("action.success", true);
             LOGGER.info("Returning transformed image");
+            MDC.put("responseCode", String.valueOf(HttpStatus.OK));
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "bad_request");
             LOGGER.error("Failed transforming image");
+            MDC.put("responseCode", String.valueOf(HttpStatus.BAD_REQUEST));
             return new ResponseEntity<>("Failed transforming image", HttpStatus.BAD_REQUEST);
         }
     }
