@@ -53,14 +53,12 @@ public class ImageController {
         this.beeline.getActiveSpan().addField("action", "get_all");
         this.beeline.getActiveSpan().addField("action.success", true);
         this.beeline.getActiveSpan().addField("image_count", all_images.size());
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
 
     @GetMapping(value = "/throw")
     public void ex() {
         LOGGER.info("Throwing an Exception now :)");
-        MDC.put("responseCode", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
         throw new RuntimeException("woohooo");
     }
 
@@ -75,7 +73,6 @@ public class ImageController {
             LOGGER.warn("No images in database!");
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "no_images_found");
-            MDC.put("responseCode", String.valueOf(HttpStatus.NOT_FOUND));
             return new ResponseEntity<>("No images in database!", HttpStatus.NOT_FOUND);
         }
 
@@ -89,7 +86,7 @@ public class ImageController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
         headers.set("imageId", image.getId());
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
+
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 
@@ -99,7 +96,6 @@ public class ImageController {
         this.beeline.getActiveSpan().addField("content.id", id);
         this.beeline.getActiveSpan().addField("action", "get");
         this.beeline.getActiveSpan().addField("action.success", true);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return getImage(id);
     }
 
@@ -114,7 +110,6 @@ public class ImageController {
             LOGGER.error("Image with id {} not found", id);
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "image_not_found");
-            MDC.put("responseCode", String.valueOf(HttpStatus.NOT_FOUND));
             throw new NotFoundException("Image not found");
         }
 
@@ -125,7 +120,7 @@ public class ImageController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
+
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 
@@ -135,7 +130,6 @@ public class ImageController {
         this.beeline.getActiveSpan().addField("content.id", id);
         this.beeline.getActiveSpan().addField("action", "delete");
         this.beeline.getActiveSpan().addField("action.success", true);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return deleteImage(id);
     }
 
@@ -149,12 +143,10 @@ public class ImageController {
         if (imageService.deleteImageById(id)) {
             imageThumbnailClient.informThumbnail(id);
             this.beeline.getActiveSpan().addField("action.success", true);
-            MDC.put("responseCode", String.valueOf(HttpStatus.OK));
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "image_not_found");
-            MDC.put("responseCode", String.valueOf(HttpStatus.NOT_FOUND));
             throw new NotFoundException("Image with id " + id + " not found!");
         }
     }
@@ -167,7 +159,6 @@ public class ImageController {
         allImageIds.forEach(this::deleteImage);
         this.beeline.getActiveSpan().addField("action", "delete_all");
         this.beeline.getActiveSpan().addField("action.success", true);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
     }
 
@@ -181,7 +172,6 @@ public class ImageController {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
-            MDC.put("responseCode", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Receiving new image");
@@ -205,7 +195,6 @@ public class ImageController {
         this.beeline.getActiveSpan().addField("content.type", file.getContentType());
         this.beeline.getActiveSpan().addField("action.success", true);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
-        MDC.put("responseCode", String.valueOf(HttpStatus.CREATED));
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
 
@@ -215,7 +204,6 @@ public class ImageController {
         this.beeline.getActiveSpan().addField("action", "search");
         this.beeline.getActiveSpan().addField("action.success", true);
         this.beeline.getActiveSpan().addField("search.fragment", fragment);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
 
     }

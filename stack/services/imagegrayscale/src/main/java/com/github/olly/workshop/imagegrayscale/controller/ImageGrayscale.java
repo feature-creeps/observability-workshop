@@ -38,7 +38,6 @@ public class ImageGrayscale {
             LOGGER.warn("Wrong content type uploaded: {}", image.getContentType());
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
-            MDC.put("responseCode", String.valueOf(HttpStatus.BAD_REQUEST));
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -49,7 +48,6 @@ public class ImageGrayscale {
         if (transformed == null) {
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "internal_server_error");
-            MDC.put("responseCode", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
             return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -60,7 +58,6 @@ public class ImageGrayscale {
 
         LOGGER.info("Successfully converted image to grayscale");
         this.beeline.getActiveSpan().addField("action.success", true);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .headers(headers)

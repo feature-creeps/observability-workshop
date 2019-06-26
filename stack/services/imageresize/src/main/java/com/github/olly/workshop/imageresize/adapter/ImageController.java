@@ -2,7 +2,6 @@ package com.github.olly.workshop.imageresize.adapter;
 
 import com.github.olly.workshop.imageresize.config.LoggingContextUtil;
 import com.github.olly.workshop.imageresize.service.ImageService;
-import org.slf4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,6 @@ public class ImageController {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
-            MDC.put("responseCode", String.valueOf(HttpStatus.BAD_REQUEST));
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -60,7 +58,6 @@ public class ImageController {
         if (resizedImage == null) {
             this.beeline.getActiveSpan().addField("action.success", false);
             this.beeline.getActiveSpan().addField("action.failure_reason", "internal_server_error");
-            MDC.put("responseCode", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR));
             return new ResponseEntity<>("Failed to resize image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -69,7 +66,6 @@ public class ImageController {
 
         LOGGER.info("Successfully resized image");
         this.beeline.getActiveSpan().addField("action.success", true);
-        MDC.put("responseCode", String.valueOf(HttpStatus.OK));
         return new ResponseEntity<>(resizedImage, headers, HttpStatus.OK);
     }
 }
