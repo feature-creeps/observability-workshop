@@ -1,6 +1,25 @@
 # Observability & Testing Workshop
 
-### Examples
+## Disclaimer
+
+This application has little to no security built in so can be at risk if left running and open to the internet and you are running this at your own risk.
+
+This is a playground for software professions to practice their debugging and instrumenting of software applications for greater observability. This point, there will always be bugs and issues that can be found. Some are planned, and others are fun coincidences. If you find something not in the [known bugs file](known_bugs.md) please creat a pull request and we would love to know about it.
+
+This application runs under the [Apache 2.0 License](LICENSE) which you can read more about [here](https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)) as well.
+
+## Running the stack
+
+### On AWS
+
+[Instructions](run_stack_on_aws.md)
+
+## Architecture
+
+[PDF diagram](architecture.pdf) or in [Pages](architecture.pages)
+> NOTE: This may need updating
+
+### Application
 
 Under stack we find an application folder which contains several entities for our observability stack:
 
