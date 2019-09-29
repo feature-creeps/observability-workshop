@@ -22,7 +22,7 @@ public class ImageService {
     MetricsService metricsService;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -31,7 +31,7 @@ public class ImageService {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
             final BufferedImage resizedImage = resize(ImageIO.read(in), factor, !isPng(formatName));
-            this.beeline.getActiveSpan().addField("tranformation.resize.factor", String.valueOf(factor));
+            this.beeline.addFieldToActiveSpan("tranformation.resize.factor", String.valueOf(factor));
             final byte[] imageBytes = bufferedImageToByteArray(resizedImage, formatName);
 
             metricsService.imageResized(file.getContentType(), String.valueOf(factor));

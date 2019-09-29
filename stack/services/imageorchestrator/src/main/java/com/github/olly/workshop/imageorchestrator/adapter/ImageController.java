@@ -3,6 +3,7 @@ package com.github.olly.workshop.imageorchestrator.adapter;
 import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
+import com.github.olly.workshop.imageorchestrator.service.BeelineService;
 import com.github.olly.workshop.imageorchestrator.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,23 +32,23 @@ public class ImageController {
     private LoggingContextUtil lcu;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
 
         lcu.mdcPut(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
-        this.beeline.getActiveSpan().addField("transformation.request", transformationRequest);
-        this.beeline.getActiveSpan().addField("action", "transform");
+        this.beeline.addFieldToActiveSpan("transformation.request", transformationRequest);
+        this.beeline.addFieldToActiveSpan("action", "transform");
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "no_id");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "no_id");
             return new ResponseEntity<>("Field imageId has to be set", HttpStatus.BAD_REQUEST);
         }
-        this.beeline.getActiveSpan().addField("content.id", transformationRequest.getImageId());
+        this.beeline.addFieldToActiveSpan("content.id", transformationRequest.getImageId());
 
         Image transformedImage = imageService.transform(transformationRequest);
         lcu.mdcPut(transformedImage);
@@ -55,14 +56,14 @@ public class ImageController {
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
-            this.beeline.getActiveSpan().addField("content.type", MediaType.valueOf(transformedImage.getMimeType()));
-            this.beeline.getActiveSpan().addField("content.transformed_id", transformedImage.getId());
-            this.beeline.getActiveSpan().addField("action.success", true);
+            this.beeline.addFieldToActiveSpan("content.type", MediaType.valueOf(transformedImage.getMimeType()));
+            this.beeline.addFieldToActiveSpan("content.transformed_id", transformedImage.getId());
+            this.beeline.addFieldToActiveSpan("action.success", true);
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "bad_request");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "bad_request");
             LOGGER.error("Failed transforming image");
             return new ResponseEntity<>("Failed transforming image", HttpStatus.BAD_REQUEST);
         }

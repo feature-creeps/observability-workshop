@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageflip.adapter;
 
 import com.github.olly.workshop.imageflip.config.LoggingContextUtil;
+import com.github.olly.workshop.imageflip.service.BeelineService;
 import com.github.olly.workshop.imageflip.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,7 @@ public class ImageController {
     private ImageService imageService;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     @Autowired
     private LoggingContextUtil lcu;
@@ -38,17 +39,17 @@ public class ImageController {
                                     @RequestParam(value = "vertical") Boolean vertical,
                                     @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
     
-        this.beeline.getActiveSpan().addField("content.type", file.getContentType());
-        this.beeline.getActiveSpan().addField("action", "flip");
-        this.beeline.getActiveSpan().addField("transformation.flip_vertical", vertical);
-        this.beeline.getActiveSpan().addField("transformation.flip_horizontal", horizontal);
+        this.beeline.addFieldToActiveSpan("content.type", file.getContentType());
+        this.beeline.addFieldToActiveSpan("action", "flip");
+        this.beeline.addFieldToActiveSpan("transformation.flip_vertical", vertical);
+        this.beeline.addFieldToActiveSpan("transformation.flip_horizontal", horizontal);
         lcu.mdcPut(file.getContentType(), vertical, horizontal);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -57,8 +58,8 @@ public class ImageController {
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
         if (flippedImage == null) {
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "internal_server_error");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to flip image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -66,7 +67,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully flipped image");
-        this.beeline.getActiveSpan().addField("action.success", true);
+        this.beeline.addFieldToActiveSpan("action.success", true);
         return new ResponseEntity<>(flippedImage, headers, HttpStatus.OK);
     }
 }

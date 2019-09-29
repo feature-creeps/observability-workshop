@@ -22,6 +22,7 @@ services:
     mem_limit: 1g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -37,6 +38,7 @@ services:
     mem_limit: 1g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -51,6 +53,7 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -65,6 +68,7 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -79,6 +83,7 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -93,6 +98,7 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:
@@ -107,6 +113,7 @@ services:
     mem_limit: 4g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
     logging:
       driver: "fluentd"
       options:

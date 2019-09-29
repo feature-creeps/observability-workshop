@@ -2,6 +2,7 @@ package com.github.olly.workshop.imagethumbnail.service;
 
 import com.github.olly.workshop.imagethumbnail.model.Image;
 import com.github.olly.workshop.imagethumbnail.service.clients.ImageHolderClient;
+import io.honeycomb.beeline.tracing.Beeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import io.honeycomb.beeline.tracing.Beeline;
 
 @Service
 public class ImageService {
@@ -29,7 +29,7 @@ public class ImageService {
     ImageHolderClient imageHolderClient;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -38,9 +38,9 @@ public class ImageService {
     public static final Map<String, Image> CACHE = new HashMap<>();
 
     public Image thumbnail(String id) {
-        this.beeline.getActiveSpan().addField("content.id", id);
+        this.beeline.addFieldToActiveSpan("content.id", id);
         if (CACHE.get(id) == null) {
-            this.beeline.getActiveSpan().addField("cache.existing_id", id);
+            this.beeline.addFieldToActiveSpan("cache.existing_id", id);
             Image image = resolveImage(id);
             CACHE.put(id, thumbnail(image));
         }
@@ -54,7 +54,7 @@ public class ImageService {
         ResponseEntity<byte[]> response = imageHolderClient.getImage(id);
 
         image.setContentType(response.getHeaders().getContentType().toString());
-        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
+        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
         image.setData(response.getBody());
 
         return image;
@@ -89,7 +89,7 @@ public class ImageService {
     }
 
     private boolean isPng(String formatName) {
-        this.beeline.getActiveSpan().addField("content.is_png", formatName.toLowerCase());
+        this.beeline.addFieldToActiveSpan("content.is_png", formatName.toLowerCase());
         return formatName.toLowerCase().equals("png");
     }
 
@@ -118,7 +118,7 @@ public class ImageService {
     }
 
     public void dropFromCache(String id) {
-        this.beeline.getActiveSpan().addField("cache.dropped_id", id);
+        this.beeline.addFieldToActiveSpan("cache.dropped_id", id);
         CACHE.remove(id);
     }
 }

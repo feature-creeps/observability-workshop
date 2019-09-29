@@ -23,7 +23,7 @@ public class TransformationService {
     private MetricsService metricsService;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     @Autowired
     private ImageGrayscaleClient imageGrayscaleClient;
@@ -47,32 +47,32 @@ public class TransformationService {
 
         for (Transformation transformation : transformations) {
             lcu.mdcPut(transformation);
-            this.beeline.getActiveSpan().addField("tranformation.content_type", image.getMimeType());
-            this.beeline.getActiveSpan().addField("tranformation.transformation", transformation);
-            this.beeline.getActiveSpan().addField("tranformation.properties", transformation.getProperties());
+            this.beeline.addFieldToActiveSpan("tranformation.content_type", image.getMimeType());
+            this.beeline.addFieldToActiveSpan("tranformation.transformation", transformation);
+            this.beeline.addFieldToActiveSpan("tranformation.properties", transformation.getProperties());
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
-                    this.beeline.getActiveSpan().addField("tranformation.greyscale", true);
+                    this.beeline.addFieldToActiveSpan("tranformation.greyscale", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
-                    this.beeline.getActiveSpan().addField("tranformation.rotate", true);
+                    this.beeline.addFieldToActiveSpan("tranformation.rotate", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
-                    this.beeline.getActiveSpan().addField("tranformation.resize", true);
+                    this.beeline.addFieldToActiveSpan("tranformation.resize", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case flip:
                     image = flip(image, transformation.getProperties());
-                    this.beeline.getActiveSpan().addField("tranformation.flip", true);
+                    this.beeline.addFieldToActiveSpan("tranformation.flip", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
-                    this.beeline.getActiveSpan().addField("tranformation.unknown", transformation.getType().name());
+                    this.beeline.addFieldToActiveSpan("tranformation.unknown", transformation.getType().name());
                     LOGGER.warn("Skipping unrecognized transformation: {}", transformation.getType().name());
             }
         }

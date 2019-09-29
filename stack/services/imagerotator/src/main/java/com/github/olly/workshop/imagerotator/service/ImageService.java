@@ -24,7 +24,7 @@ public class ImageService {
     MetricsService metricsService;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -33,7 +33,7 @@ public class ImageService {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
             final BufferedImage rotatedImage = rotate(ImageIO.read(in), degrees);
-            this.beeline.getActiveSpan().addField("tranformation.rotate.degrees", String.valueOf(degrees));
+            this.beeline.addFieldToActiveSpan("tranformation.rotate.degrees", String.valueOf(degrees));
             final byte[] imageBytes = bufferedImageToByteArray(rotatedImage, formatName);
 
             metricsService.imageRotated(file.getContentType(), String.valueOf(degrees));

@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imagegrayscale.controller;
 
+import com.github.olly.workshop.imagegrayscale.service.BeelineService;
 import com.github.olly.workshop.imagegrayscale.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,21 +24,21 @@ public class ImageGrayscale {
     private ImageService imageService;
 
     @Autowired
-    private Beeline beeline;
+    private BeelineService beeline;
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
 
-        this.beeline.getActiveSpan().addField("content.type", image.getContentType());
-        this.beeline.getActiveSpan().addField("action", "grayscale");
+        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
+        this.beeline.addFieldToActiveSpan("action", "grayscale");
         MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
 
         if (image.getContentType() != null &&
                 !image.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", image.getContentType());
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "wrong_content_type");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -46,8 +47,8 @@ public class ImageGrayscale {
         byte[] transformed = imageService.grayscale(image);
 
         if (transformed == null) {
-            this.beeline.getActiveSpan().addField("action.success", false);
-            this.beeline.getActiveSpan().addField("action.failure_reason", "internal_server_error");
+            this.beeline.addFieldToActiveSpan("action.success", false);
+            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -57,7 +58,7 @@ public class ImageGrayscale {
 
 
         LOGGER.info("Successfully converted image to grayscale");
-        this.beeline.getActiveSpan().addField("action.success", true);
+        this.beeline.addFieldToActiveSpan("action.success", true);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .headers(headers)
