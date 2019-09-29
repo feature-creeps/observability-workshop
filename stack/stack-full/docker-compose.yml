@@ -209,6 +209,25 @@ services:
 
   ## Monitoring
 
+  # metricbeat
+  metricbeat:
+    build: ../services/metricbeat
+    user: root
+    volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - olly-metricbeat:/usr/share/metricbeat/data
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - KIBANA_HOST=kibana
+    # disable strict permission checks
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    depends_on:
+      - kibana
+      - elasticsearch
+
   # metrics collector
   prometheus:
     build: ../services/prometheus
@@ -287,4 +306,6 @@ volumes:
   olly-mongodb:
     driver: local
   olly-prometheus:
+    driver: local
+  olly-metricbeat:
     driver: local
