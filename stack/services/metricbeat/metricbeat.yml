@@ -43,10 +43,15 @@ metricbeat.modules:
   #------------------------------- Prometheus Module -------------------------------
   - module: prometheus
     period: 10s
-    hosts: ["prometheus:9090"]
-    metrics_path: '/federate'
-    query:
-      'match[]': '{__name__!=""}'
+    hosts:
+      - "imageflip:8080"
+      - "imagegrayscale:8080"
+      - "imageholder:8080"
+      - "imageorchestrator:8080"
+      - "imageresize:8080"
+      - "imagerotator:8080"
+      - "imagethumbnail:8080"
+    metrics_path: '/actuator/prometheus'
     namespace: 'dima'
 
 #================================ Processors ===================================
