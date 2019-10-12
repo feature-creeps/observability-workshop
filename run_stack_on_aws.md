@@ -70,10 +70,12 @@ Some issues may run into:
     ```bash
     env | fgrep HONEYCOMB
     ```
+    > Note: If you are not using a Honeycomb key you will see a warning logged `WARNING: The HONEYCOMB_KEY variable is not set. Defaulting to a blank string.`
      
 1. To run the application, cd into `./stack/stack-full` and run `docker-compose up --build --detach`.
     - `-d` runs the application in detached mode to allow you further use of your command line. If you remove the `-d` your application will log straight to the command line window you ran `up` in.
     - `--build` rebuilds the application each time you run `up`. If you remove this it may speed up the build time but also may miss any local changes you introduce.
+    > Note: If you see an error like `ERROR: Couldn't connect to Docker daemon - you might need to run 'docker-machine start default'.` you may need to run in as sudo.
 
 ### Access the environment
 
@@ -92,11 +94,34 @@ Some issues may run into:
     | xx.xx.xx.xx:9411                                         | OpenZipkin - traces (https://zipkin.io/)                                                 |
     | xx.xx.xx.xx:5601                                         | Kibana - frontend query engine for ELK logging (https://www.elastic.co/products/kibana)  |
     | https://ui.honeycomb.io/feature-creeps/home/ltg-workshop | Honeycomb - observability playform for event based queries                               |
-
+    | xx.xx.xx.xx:8080                                         | imageorchestrator |
+    | xx.xx.xx.xx:8081                                         | imageholder |
+    | xx.xx.xx.xx:8082                                         | imagerotator |
+    | xx.xx.xx.xx:8083                                         | imagegrayscale |
+    | xx.xx.xx.xx:8084                                         | imageresize |
+    | xx.xx.xx.xx:8085                                         | imageflip |
+    | xx.xx.xx.xx:808                                          | imagethumbnail |
 
 ### Generating traffic
 
-*We currently run a traffic generator by default when the application is built These instructions are if you want to run an additional or different one.*
+#### Use the built in traffic generator
+
+We currently run a traffic generator by default when the application is built. If you want to just restart this it will generate the same traffic done at start up.
+
+> Prerequisit: you will need to have set your command line to the remote docker-machine image using `eval $(docker-machine env o11y-workshop)`
+
+Stop and remove the current traffic generator with:
+```
+docker rm $(docker stop $(docker ps -a -q --filter ancestor=dima_traffic-gen --format="{{.ID}}"))
+```
+
+Restart the traffic generator by running:
+```
+docker-compose up --detach
+```
+
+
+#### Run an additional or different traffic generator
 
 > Prerequisit: you will need to have go and vegeta installed on your machine before proceeding
 
@@ -107,6 +132,7 @@ go run main.go -d ~/work/flickrscrape/result -u http://<public_ip_of_docker_mach
   tee results.bin | \
   vegeta report
 ```
+
 
 ### Cleaning up the infrastructure
 
