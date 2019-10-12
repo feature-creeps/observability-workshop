@@ -100,7 +100,7 @@ Some issues may run into:
     | xx.xx.xx.xx:8083                                         | imagegrayscale |
     | xx.xx.xx.xx:8084                                         | imageresize |
     | xx.xx.xx.xx:8085                                         | imageflip |
-    | xx.xx.xx.xx:808                                          | imagethumbnail |
+    | xx.xx.xx.xx:8086                                         | imagethumbnail |
 
 ### Generating traffic
 
