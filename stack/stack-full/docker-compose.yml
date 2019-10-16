@@ -122,6 +122,7 @@ services:
   traffic-gen:
     build: ../services/traffic-gen
     depends_on:
+    - fluentd
     - imageholder
     - imageorchestrator
     restart: on-failure
@@ -165,8 +166,6 @@ services:
     volumes:
     - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
     - /var/run/docker.sock:/var/run/docker.sock:ro
-    links:
-    - "elasticsearch"
     ports:
     - "24224:24224"
     - "24224:24224/udp"
@@ -191,6 +190,8 @@ services:
 
   elasticsearch-exporter:
     image: justwatch/elasticsearch_exporter:1.0.2
+    depends_on:
+      - elasticsearch
     command:
      - '-es.uri=http://elasticsearch:9200'
     restart: always
@@ -296,8 +297,6 @@ services:
     image: openzipkin/zipkin-dependencies
     ports:
       - 9412:9412
-    links:
-      - elasticsearch
     environment:
       - STORAGE_TYPE=elasticsearch
       - ES_HOSTS=elasticsearch

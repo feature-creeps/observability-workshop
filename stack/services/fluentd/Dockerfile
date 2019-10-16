@@ -1,7 +1,9 @@
-FROM fluent/fluentd:v0.12-debian
+FROM fluent/fluentd:v1.7.3-debian-1.0
 
-RUN ["gem", "install", "fluent-plugin-elasticsearch", "--no-rdoc", "--no-ri", "--version", "1.9.5"]
-RUN ["gem", "install", "fluent-plugin-prometheus", "--no-rdoc", "--no-ri", "--version", "0.4.0"]
+USER root
+#RUN apt-get update && apt-get install -y ruby-dev
+RUN fluent-gem install fluent-plugin-elasticsearch
+RUN fluent-gem install fluent-plugin-prometheus
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
@@ -15,3 +17,5 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
 COPY ./fluent.conf /fluentd/etc/fluent.conf
+
+USER fluent

@@ -66,6 +66,7 @@ processors:
 #========================== Elasticsearch output ===============================
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}:9200"]
+  timeout: 180
 
 #============================== Dashboards =====================================
 setup.dashboards:
