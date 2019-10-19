@@ -4,75 +4,75 @@ services:
   ## Domain
   frontend:
     build: ../services/frontend
-    depends_on:
-      - fluentd
+    # depends_on:
+    #   - fluentd
     ports:
       - 80:80
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imageorchestrator:
     build: ../services/imageorchestrator
-    depends_on:
-    - fluentd
+    # depends_on:
+    # - fluentd
     ports:
     - 8080:8080
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imageholder:
     build: ../services/imageholder
     depends_on:
     - mongodb
-    - fluentd
+    # - fluentd
     ports:
     - 8081:8080
     mem_limit: 1g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imagerotator:
     build: ../services/imagerotator
-    depends_on:
-      - fluentd
+    # depends_on:
+    #   - fluentd
     ports:
       - 8082:8080
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imagegrayscale:
     build: ../services/imagegrayscale
-    depends_on:
-      - fluentd
+    # depends_on:
+    #   - fluentd
     ports:
       - 8083:8080
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imageresize:
     build: ../services/imageresize
@@ -96,45 +96,45 @@ services:
 
   imageflip:
     build: ../services/imageflip
-    depends_on:
-      - fluentd
+    # depends_on:
+    #   - fluentd
     ports:
       - 8085:8080
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   imagethumbnail:
     build: ../services/imagethumbnail
-    depends_on:
-      - fluentd
+    # depends_on:
+    #   - fluentd
     ports:
       - 8086:8080
     mem_limit: 4g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   traffic-gen:
     build: ../services/traffic-gen
     depends_on:
-    - fluentd
+    # - fluentd
     - imageholder
     - imageorchestrator
     restart: on-failure
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   ## Storage
 
@@ -144,16 +144,16 @@ services:
 
     # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
     command: "--wiredTigerCacheSizeGB 2"
-    depends_on:
-    - fluentd
+    # depends_on:
+    # - fluentd
     ports:
     - '27017'
     volumes:
     - olly-mongodb:/data/db
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+    # logging:
+    #   driver: "fluentd"
+    #   options:
+    #     fluentd-address: localhost:24224
 
   mongodb-exporter:
     image: maibornwolff/mongodb_exporter
@@ -164,16 +164,16 @@ services:
   ## Logging
 
   # log collector
-  fluentd:
-    build: ../services/fluentd
-    depends_on:
-    - elasticsearch
-    volumes:
-    - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
-    - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-    - "24224:24224"
-    - "24224:24224/udp"
+  # fluentd:
+  #   build: ../services/fluentd
+  #   depends_on:
+  #   - elasticsearch
+  #   volumes:
+  #   - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+  #   - /var/run/docker.sock:/var/run/docker.sock:ro
+  #   ports:
+  #   - "24224:24224"
+  #   - "24224:24224/udp"
 
   # search engine, storage
   elasticsearch:
