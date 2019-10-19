@@ -11,7 +11,7 @@
     - The AWS region you will be using needs an existing VPC in it for the application machine to be built in.
     - This can be checked via commandline: `aws ec2 describe-vpcs`.
     - To create one via commandline if needed use: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
-1. `md5.2xlarge` machine type available
+1. `m5.2xlarge` machine type available
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
  1. The [mozilla sops](https://github.com/mozilla/sops) utility installed. 
@@ -25,7 +25,7 @@
 
 ## Creating the machine infrastructure
 
-1. Create a running instance of type `md5.2xlarge`
+1. Create a running instance of type `m5.2xlarge`
     - 
     ```
     docker-machine create --driver amazonec2 --amazonec2-region eu-west-2 \
