@@ -2,7 +2,7 @@ package com.github.olly.workshop.imageholder.adapter;
 
 import com.github.olly.workshop.imageholder.config.LoggingContextUtil;
 import com.github.olly.workshop.imageholder.model.Image;
-import com.github.olly.workshop.imageholder.service.BeelineService;
+import com.github.olly.workshop.imageholder.service.EventService;
 import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.service.MetricsService;
 import com.github.olly.workshop.imageholder.service.client.ImageThumbnailClient;
@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import io.honeycomb.beeline.tracing.Beeline;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -45,15 +44,15 @@ public class ImageController {
     private LoggingContextUtil loggingContextUtil;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService eventService;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
         Collection<Image> all_images = imageService.getAllImagesLight();
-        this.beeline.addFieldToActiveSpan("action", "get_all");
-        this.beeline.addFieldToActiveSpan("action.success", true);
-        this.beeline.addFieldToActiveSpan("image_count", all_images.size());
+        this.eventService.addFieldToActiveSpan("action", "get_all");
+        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("image_count", all_images.size());
         return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
 
@@ -68,19 +67,19 @@ public class ImageController {
         Image image = imageService.getRandomImage();
         loggingContextUtil.mdcPut(image);
 
-        this.beeline.addFieldToActiveSpan("action", "random");
+        this.eventService.addFieldToActiveSpan("action", "random");
 
         if (image == null) {
             LOGGER.warn("No images in database!");
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "no_images_found");
+            this.eventService.addFieldToActiveSpan("action.success", false);
+            this.eventService.addFieldToActiveSpan("action.failure_reason", "no_images_found");
             return new ResponseEntity<>("No images in database!", HttpStatus.NOT_FOUND);
         }
 
         LOGGER.info("Returning random image with id {}", image.getId());
-        this.beeline.addFieldToActiveSpan("content.id", image.getId());
-        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("content.id", image.getId());
+        this.eventService.addFieldToActiveSpan("content.type", image.getContentType());
+        this.eventService.addFieldToActiveSpan("action.success", true);
 
         metricsService.imageViewed(image);
 
@@ -94,9 +93,9 @@ public class ImageController {
     // hack, cause I dont want to use JS
     @GetMapping(value = "/image")
     public ResponseEntity getImageByURLParam(@RequestParam("id") String id) {
-        this.beeline.addFieldToActiveSpan("content.id", id);
-        this.beeline.addFieldToActiveSpan("action", "get");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveSpan("action", "get");
+        this.eventService.addFieldToActiveSpan("action.success", true);
         return getImage(id);
     }
 
@@ -104,18 +103,18 @@ public class ImageController {
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.getImageById(id);
         loggingContextUtil.mdcPut(image);
-        this.beeline.addFieldToActiveSpan("action", "get");
-        this.beeline.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveSpan("action", "get");
+        this.eventService.addFieldToActiveSpan("content.id", id);
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "image_not_found");
+            this.eventService.addFieldToActiveSpan("action.success", false);
+            this.eventService.addFieldToActiveSpan("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
 
-        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("content.type", image.getContentType());
+        this.eventService.addFieldToActiveSpan("action.success", true);
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
@@ -128,26 +127,26 @@ public class ImageController {
     // hack, cause html forms are limited to GET/POST
     @PostMapping(value = "/delete")
     public ResponseEntity deleteImageByURLParam(@RequestParam("id") String id) {
-        this.beeline.addFieldToActiveSpan("content.id", id);
-        this.beeline.addFieldToActiveSpan("action", "delete");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveSpan("action", "delete");
+        this.eventService.addFieldToActiveSpan("action.success", true);
         return deleteImage(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
-        this.beeline.addFieldToActiveSpan("content.id", id);
-        this.beeline.addFieldToActiveSpan("action", "delete");
+        this.eventService.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveSpan("action", "delete");
         loggingContextUtil.mdcPut(imageService.getImageById(id));
 
         LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
             imageThumbnailClient.informThumbnail(id);
-            this.beeline.addFieldToActiveSpan("action.success", true);
+            this.eventService.addFieldToActiveSpan("action.success", true);
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "image_not_found");
+            this.eventService.addFieldToActiveSpan("action.success", false);
+            this.eventService.addFieldToActiveSpan("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image with id " + id + " not found!");
         }
     }
@@ -158,8 +157,8 @@ public class ImageController {
         Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
         LOGGER.info("Deleting all images: {}", allImageIds);
         allImageIds.forEach(this::deleteImage);
-        this.beeline.addFieldToActiveSpan("action", "delete_all");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("action", "delete_all");
+        this.eventService.addFieldToActiveSpan("action.success", true);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
     }
 
@@ -167,12 +166,12 @@ public class ImageController {
     public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
 
         MDC.put("mimeType", file.getContentType());
-        this.beeline.addFieldToActiveSpan("action", "upload");
+        this.eventService.addFieldToActiveSpan("action", "upload");
 
         if (file.getContentType() != null && !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveSpan("action.success", false);
+            this.eventService.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Receiving new image");
@@ -191,10 +190,10 @@ public class ImageController {
 
         loggingContextUtil.mdcPut(image);
 
-        this.beeline.addFieldToActiveSpan("content.id", image.getId());
-        this.beeline.addFieldToActiveSpan("content.name", name);
-        this.beeline.addFieldToActiveSpan("content.type", file.getContentType());
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("content.id", image.getId());
+        this.eventService.addFieldToActiveSpan("content.name", name);
+        this.eventService.addFieldToActiveSpan("content.type", file.getContentType());
+        this.eventService.addFieldToActiveSpan("action.success", true);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
@@ -202,9 +201,9 @@ public class ImageController {
     @GetMapping(value = "/nameContaining/{fragment}")
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
         LOGGER.info("Finding all images with the name containing '{}'", fragment);
-        this.beeline.addFieldToActiveSpan("action", "search");
-        this.beeline.addFieldToActiveSpan("action.success", true);
-        this.beeline.addFieldToActiveSpan("search.fragment", fragment);
+        this.eventService.addFieldToActiveSpan("action", "search");
+        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveSpan("search.fragment", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
 
     }

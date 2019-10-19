@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.honeycomb.beeline.tracing.Beeline;
-
 import java.util.Collection;
 
 @Service
@@ -20,7 +18,7 @@ public class ImageService {
     private MetricsService metricsService;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
