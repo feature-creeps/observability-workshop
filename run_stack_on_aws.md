@@ -93,7 +93,7 @@ Some issues may run into:
     | xx.xx.xx.xx:9090                                         | Prometheus - metrics dataase query engine (https://prometheus.io)                        |
     | xx.xx.xx.xx:9411                                         | OpenZipkin - traces (https://zipkin.io/)                                                 |
     | xx.xx.xx.xx:5601                                         | Kibana - frontend query engine for ELK logging (https://www.elastic.co/products/kibana)  |
-    | https://ui.honeycomb.io/feature-creeps/home/ltg-workshop | Honeycomb - observability playform for event based queries                               |
+    | https://ui.honeycomb.io/feature-creeps/home/workshop | Honeycomb - observability playform for event based queries                               |
     | xx.xx.xx.xx:8080                                         | imageorchestrator |
     | xx.xx.xx.xx:8081                                         | imageholder |
     | xx.xx.xx.xx:8082                                         | imagerotator |
