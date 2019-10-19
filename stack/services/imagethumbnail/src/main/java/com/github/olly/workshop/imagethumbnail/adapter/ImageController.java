@@ -46,7 +46,7 @@ public class ImageController {
             throw new NotFoundException("Image not found");
         }
 
-        LOGGER.info("Returning thumbnail from image with id {}", id);
+        LOGGER.info("Returning thumbnail from image with id {} of type {}", id, image.getContentType());
         metricsService.imageThumbnailed(image.getContentType());
         this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
         this.beeline.addFieldToActiveSpan("action.success", true);

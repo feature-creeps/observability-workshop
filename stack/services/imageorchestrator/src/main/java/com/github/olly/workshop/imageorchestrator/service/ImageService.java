@@ -59,6 +59,7 @@ public class ImageService {
             this.eventService.addFieldToActiveEvent("tranformation.image.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
+        LOGGER.info("Transformed image {} into image {}. Persist transformed image: {}.", originalImage.getId(), transformedImage.getId(), transformationRequest.getPersist());
 
         return transformedImage;
     }

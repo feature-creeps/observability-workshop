@@ -54,7 +54,7 @@ public class ImageController {
         }
 
         // ISSUE: we fail on floating point values
-        LOGGER.info("Receiving {} image to flip.", file.getContentType());
+        LOGGER.info("Receiving {} image to flip by {} vertical and {} horizontal.", file.getContentType(), vertical, horizontal);
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
         if (flippedImage == null) {

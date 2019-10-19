@@ -44,6 +44,7 @@ public class TransformationService {
 
     public Image transform(Image image, List<Transformation> transformations) {
 
+        LOGGER.info("Transformations to do: {}", transformations.toArray().toString());
         for (Transformation transformation : transformations) {
             lcu.mdcPut(transformation);
             this.eventService.addFieldToActiveEvent("tranformation.content_type", image.getMimeType());

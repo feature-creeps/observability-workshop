@@ -1,26 +1,15 @@
+<!-- based on http://logback.qos.ch/manual/configuration.html -->
 <configuration>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <mdc/>
-                <timestamp/>
-                <message/>
-                <context/>
-                <loggerName/>
-                <stackTrace/>
-                <arguments/>
-                <logLevel/>
-                <tags/>
-                <logstashMarkers/>
-                <pattern>
-                    <pattern>
-                        { "service" : "imagerotator" }
-                    </pattern>
-                </pattern>
-            </providers>
-        </encoder>
-    </appender>
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-    </root>
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="debug">
+    <appender-ref ref="STDOUT" />
+  </root>
 </configuration>
