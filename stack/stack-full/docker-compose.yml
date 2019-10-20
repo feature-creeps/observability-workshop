@@ -78,12 +78,17 @@ services:
     build: ../services/imageresize
     depends_on:
       - fluentd
+      - apm-server
     ports:
       - 8084:8080
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - "ELASTIC_APM_SERVICE_NAME=imageresize"
+      - "ELASTIC_APM_APPLICATION_PACKAGES=com.featurecreeps.observability-workshop"
+      - "ELASTIC_APM_SERVER_URLS=http://elasticsearch:9200"
+      - "ELASTIC_APM_CAPTURE_BODY_CONTENT_TYPES=['application/json*']"
     logging:
       driver: "fluentd"
       options:
@@ -215,6 +220,18 @@ services:
     - olly-prometheus:/prometheus
     ports:
     - 5601:5601
+
+  apm-server:
+    build: ../services/apm-server
+    ports:
+    - 8200:8200
+    depends_on:
+    - elasticsearch
+    - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   ## Monitoring
 
