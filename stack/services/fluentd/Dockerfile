@@ -1,7 +1,7 @@
 FROM fluent/fluentd:v1.7.3-debian-1.0
 
 USER root
-#RUN apt-get update && apt-get install -y ruby-dev
+
 RUN fluent-gem install fluent-plugin-elasticsearch
 RUN fluent-gem install fluent-plugin-prometheus
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
