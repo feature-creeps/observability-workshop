@@ -46,32 +46,32 @@ public class TransformationService {
 
         for (Transformation transformation : transformations) {
             lcu.mdcPut(transformation);
-            this.eventService.addFieldToActiveSpan("tranformation.content_type", image.getMimeType());
-            this.eventService.addFieldToActiveSpan("tranformation.transformation", transformation);
-            this.eventService.addFieldToActiveSpan("tranformation.properties", transformation.getProperties());
+            this.eventService.addFieldToActiveEvent("tranformation.content_type", image.getMimeType());
+            this.eventService.addFieldToActiveEvent("tranformation.transformation", transformation);
+            this.eventService.addFieldToActiveEvent("tranformation.properties", transformation.getProperties());
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveSpan("tranformation.greyscale", true);
+                    this.eventService.addFieldToActiveEvent("tranformation.greyscale", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveSpan("tranformation.rotate", true);
+                    this.eventService.addFieldToActiveEvent("tranformation.rotate", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveSpan("tranformation.resize", true);
+                    this.eventService.addFieldToActiveEvent("tranformation.resize", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case flip:
                     image = flip(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveSpan("tranformation.flip", true);
+                    this.eventService.addFieldToActiveEvent("tranformation.flip", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
-                    this.eventService.addFieldToActiveSpan("tranformation.unknown", transformation.getType().name());
+                    this.eventService.addFieldToActiveEvent("tranformation.unknown", transformation.getType().name());
                     LOGGER.warn("Skipping unrecognized transformation: {}", transformation.getType().name());
             }
         }

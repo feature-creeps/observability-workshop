@@ -38,16 +38,16 @@ public class ImageController {
 
         lcu.mdcPut(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
-        this.eventService.addFieldToActiveSpan("transformation.request", transformationRequest);
-        this.eventService.addFieldToActiveSpan("action", "transform");
+        this.eventService.addFieldToActiveEvent("transformation.request", transformationRequest);
+        this.eventService.addFieldToActiveEvent("action", "transform");
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "no_id");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "no_id");
             return new ResponseEntity<>("Field imageId has to be set", HttpStatus.BAD_REQUEST);
         }
-        this.eventService.addFieldToActiveSpan("content.id", transformationRequest.getImageId());
+        this.eventService.addFieldToActiveEvent("content.id", transformationRequest.getImageId());
 
         Image transformedImage = imageService.transform(transformationRequest);
         lcu.mdcPut(transformedImage);
@@ -55,14 +55,14 @@ public class ImageController {
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
-            this.eventService.addFieldToActiveSpan("content.type", MediaType.valueOf(transformedImage.getMimeType()));
-            this.eventService.addFieldToActiveSpan("content.transformed_id", transformedImage.getId());
-            this.eventService.addFieldToActiveSpan("action.success", true);
+            this.eventService.addFieldToActiveEvent("content.type", MediaType.valueOf(transformedImage.getMimeType()));
+            this.eventService.addFieldToActiveEvent("content.transformed_id", transformedImage.getId());
+            this.eventService.addFieldToActiveEvent("action.success", true);
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "bad_request");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "bad_request");
             LOGGER.error("Failed transforming image");
             return new ResponseEntity<>("Failed transforming image", HttpStatus.BAD_REQUEST);
         }

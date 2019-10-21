@@ -26,12 +26,14 @@ public class RequestInterceptor implements HandlerInterceptor {
             .help("Http Request Total").register();
 
     private static final String startedAt = "startedAt";
+
     @Autowired
     EventService eventService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        eventService.addFieldToActiveSpan(startedAt, LocalDateTime.now());
+        eventService.newEvent();
+        eventService.addFieldToActiveEvent(startedAt, LocalDateTime.now());
         return true;
     }
 
@@ -53,12 +55,13 @@ public class RequestInterceptor implements HandlerInterceptor {
         fields.putAll(extractResponseFields(response));
 
         final LocalDateTime now = LocalDateTime.now();
-        if (eventService.getSpans().containsKey(startedAt)) {
-            final Long duration = Duration.between((LocalDateTime) eventService.getSpans().get(startedAt), now).toMillis();
+        if (eventService.getFieldFromActiveEvent(startedAt) != null) {
+            final Long duration = Duration.between((LocalDateTime) eventService.getFieldFromActiveEvent(startedAt), now).toMillis();
             fields.put("duration_ms", duration);
         }
         fields.put("finishedAt", now);
-        eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI(), fields);
+        eventService.addFieldsToActiveEvent(fields);
+        eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI());
     }
 
     private Map<? extends String, ?> extractResponseFields(HttpServletResponse response) {

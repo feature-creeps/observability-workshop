@@ -1,98 +1,67 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
 import io.honeycomb.beeline.tracing.Beeline;
-import org.slf4j.*;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.springframework.web.context.WebApplicationContext.SCOPE_APPLICATION;
+import java.util.UUID;
 
 @Service
-@Scope(SCOPE_APPLICATION)
 public class EventService {
 
     @Autowired(required = false)
     private Beeline beeline;
 
-    private Map<String, Object> spans = baseSpan();
-    private Map<String, String> stringSpans = new HashMap<String, String>();
+    private static Map<String, Event> events = new HashMap<String, Event>();
+    private static final String EVENT_ID_KEY = "event.id";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("EventLogger");
-    private static final Marker eventMarker = MarkerFactory.getMarker("EVENT");
 
-    public void addFieldToActiveSpan(String key, Object value) {
+    public void newEvent() {
+        String id = UUID.randomUUID().toString();
+        MDC.put(EVENT_ID_KEY, id);
+        events.put(id, new Event());
+    }
+
+    public void addFieldToActiveEvent(String key, Object value) {
         // honeycomb, optional
         if (this.beeline != null) {
             beeline.getActiveSpan().addField(key, value);
         }
 
         // add single field info to our event
-        putSpan(key, value);
+        String id = getActiveEventId();
+        putSpan(id, key, value);
     }
 
-    public void addFieldsToActiveSpan(Map<String, String> fields) {
-        fields.forEach(this::putSpan);
+    public void addFieldsToActiveEvent(Map<String, Object> fields) {
+        getActiveEvent().addFields(fields);
     }
 
-    public void publishEvent(String message, Map<String, Object> additionalFields) {
-        publishAsLog(message, additionalFields);
-        clearSpans();
+    public Object getFieldFromActiveEvent(String key) {
+        return getActiveEvent().getField(key);
     }
 
-    public Map<String, Object> getSpans() {
-        return spans;
+    public void publishEvent(String message) {
+        getActiveEvent().publish(message);
+        // clean up
+        MDC.remove(EVENT_ID_KEY);
+        events.remove(getActiveEventId());
     }
 
-    private static Map<String, Object> baseSpan() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("type", "event");
-        return map;
+
+    private String getActiveEventId() {
+        return MDC.get(EVENT_ID_KEY);
     }
 
-    private void putSpan(String key, Object value) {
-        spans.put(key, value);
+    private Event getActiveEvent() {
+        String id = getActiveEventId();
+        return events.get(id);
     }
 
-    private void addSpansToMdc() {
-        stringSpans.forEach(MDC::put);
-    }
-
-    private void addAdditionalFieldsToSpan(Map<String, Object> additionalFields) {
-        if (!CollectionUtils.isEmpty(additionalFields)) {
-            additionalFields.forEach(this::putSpan);
-        }
-    }
-
-    private void publishAsLog(String message, Map<String, Object> additionalFields) {
-        addAdditionalFieldsToSpan(additionalFields);
-
-        copySpansToStringSpans();
-        addSpansToMdc();
-        LOGGER.info(eventMarker, message);
-    }
-
-    private void copySpansToStringSpans() {
-        spans.forEach((key, value) -> stringSpans.put(
-                "span" + "." + key.replaceAll("\\.", "_"),
-                valueToString(value)));
-    }
-
-    private String valueToString(Object value) {
-        if (value instanceof LocalDateTime) {
-            return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format((LocalDateTime) value);
-        } else {
-            return String.valueOf(value);
-        }
-    }
-
-    private void clearSpans() {
-        spans = baseSpan();
+    private void putSpan(String id, String key, Object value) {
+        events.get(id).addField(key, value);
     }
 }

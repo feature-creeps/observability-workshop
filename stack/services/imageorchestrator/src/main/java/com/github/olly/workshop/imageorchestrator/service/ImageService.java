@@ -40,7 +40,7 @@ public class ImageService {
         // load the image from imageholder
         Image originalImage;
         try {
-            this.eventService.addFieldToActiveSpan("tranformation.image.id", transformationRequest.getImageId());
+            this.eventService.addFieldToActiveEvent("tranformation.image.id", transformationRequest.getImageId());
             originalImage = loadImage(transformationRequest.getImageId());
         } catch (Throwable ex) {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
@@ -52,11 +52,11 @@ public class ImageService {
 
         lcu.mdcPut(transformedImage);
 
-        this.eventService.addFieldToActiveSpan("tranformation.image.content.type", transformedImage.getMimeType());
+        this.eventService.addFieldToActiveEvent("tranformation.image.content.type", transformedImage.getMimeType());
         metricsService.imageTransformed(transformedImage.getMimeType());
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
-            this.eventService.addFieldToActiveSpan("tranformation.image.persist", true);
+            this.eventService.addFieldToActiveEvent("tranformation.image.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
 

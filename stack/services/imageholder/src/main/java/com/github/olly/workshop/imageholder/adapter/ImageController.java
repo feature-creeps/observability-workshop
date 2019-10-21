@@ -50,9 +50,9 @@ public class ImageController {
     public ResponseEntity getAll() {
         LOGGER.info("Returning all images");
         Collection<Image> all_images = imageService.getAllImagesLight();
-        this.eventService.addFieldToActiveSpan("action", "get_all");
-        this.eventService.addFieldToActiveSpan("action.success", true);
-        this.eventService.addFieldToActiveSpan("image_count", all_images.size());
+        this.eventService.addFieldToActiveEvent("action", "get_all");
+        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("image_count", all_images.size());
         return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
 
@@ -67,19 +67,19 @@ public class ImageController {
         Image image = imageService.getRandomImage();
         loggingContextUtil.mdcPut(image);
 
-        this.eventService.addFieldToActiveSpan("action", "random");
+        this.eventService.addFieldToActiveEvent("action", "random");
 
         if (image == null) {
             LOGGER.warn("No images in database!");
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "no_images_found");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "no_images_found");
             return new ResponseEntity<>("No images in database!", HttpStatus.NOT_FOUND);
         }
 
         LOGGER.info("Returning random image with id {}", image.getId());
-        this.eventService.addFieldToActiveSpan("content.id", image.getId());
-        this.eventService.addFieldToActiveSpan("content.type", image.getContentType());
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.id", image.getId());
+        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("action.success", true);
 
         metricsService.imageViewed(image);
 
@@ -93,9 +93,9 @@ public class ImageController {
     // hack, cause I dont want to use JS
     @GetMapping(value = "/image")
     public ResponseEntity getImageByURLParam(@RequestParam("id") String id) {
-        this.eventService.addFieldToActiveSpan("content.id", id);
-        this.eventService.addFieldToActiveSpan("action", "get");
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("action", "get");
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return getImage(id);
     }
 
@@ -103,18 +103,18 @@ public class ImageController {
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.getImageById(id);
         loggingContextUtil.mdcPut(image);
-        this.eventService.addFieldToActiveSpan("action", "get");
-        this.eventService.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveEvent("action", "get");
+        this.eventService.addFieldToActiveEvent("content.id", id);
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "image_not_found");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
 
-        this.eventService.addFieldToActiveSpan("content.type", image.getContentType());
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("action.success", true);
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
@@ -127,26 +127,26 @@ public class ImageController {
     // hack, cause html forms are limited to GET/POST
     @PostMapping(value = "/delete")
     public ResponseEntity deleteImageByURLParam(@RequestParam("id") String id) {
-        this.eventService.addFieldToActiveSpan("content.id", id);
-        this.eventService.addFieldToActiveSpan("action", "delete");
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("action", "delete");
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return deleteImage(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
-        this.eventService.addFieldToActiveSpan("content.id", id);
-        this.eventService.addFieldToActiveSpan("action", "delete");
+        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("action", "delete");
         loggingContextUtil.mdcPut(imageService.getImageById(id));
 
         LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
             imageThumbnailClient.informThumbnail(id);
-            this.eventService.addFieldToActiveSpan("action.success", true);
+            this.eventService.addFieldToActiveEvent("action.success", true);
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "image_not_found");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image with id " + id + " not found!");
         }
     }
@@ -157,8 +157,8 @@ public class ImageController {
         Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
         LOGGER.info("Deleting all images: {}", allImageIds);
         allImageIds.forEach(this::deleteImage);
-        this.eventService.addFieldToActiveSpan("action", "delete_all");
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("action", "delete_all");
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
     }
 
@@ -166,12 +166,12 @@ public class ImageController {
     public ResponseEntity uploadImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "name", required = false) String name) throws IOException {
 
         MDC.put("mimeType", file.getContentType());
-        this.eventService.addFieldToActiveSpan("action", "upload");
+        this.eventService.addFieldToActiveEvent("action", "upload");
 
         if (file.getContentType() != null && !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.eventService.addFieldToActiveSpan("action.success", false);
-            this.eventService.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);
         }
         LOGGER.info("Receiving new image");
@@ -190,10 +190,10 @@ public class ImageController {
 
         loggingContextUtil.mdcPut(image);
 
-        this.eventService.addFieldToActiveSpan("content.id", image.getId());
-        this.eventService.addFieldToActiveSpan("content.name", name);
-        this.eventService.addFieldToActiveSpan("content.type", file.getContentType());
-        this.eventService.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.id", image.getId());
+        this.eventService.addFieldToActiveEvent("content.name", name);
+        this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
+        this.eventService.addFieldToActiveEvent("action.success", true);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
     }
@@ -201,9 +201,9 @@ public class ImageController {
     @GetMapping(value = "/nameContaining/{fragment}")
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
         LOGGER.info("Finding all images with the name containing '{}'", fragment);
-        this.eventService.addFieldToActiveSpan("action", "search");
-        this.eventService.addFieldToActiveSpan("action.success", true);
-        this.eventService.addFieldToActiveSpan("search.fragment", fragment);
+        this.eventService.addFieldToActiveEvent("action", "search");
+        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("search.fragment", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
 
     }

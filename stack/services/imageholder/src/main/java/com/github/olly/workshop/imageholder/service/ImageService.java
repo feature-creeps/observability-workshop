@@ -18,13 +18,13 @@ public class ImageService {
     private MetricsService metricsService;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public Image save(Image image) {
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
-        this.beeline.addFieldToActiveSpan("image", image.getId());
+        this.eventService.addFieldToActiveEvent("image", image.getId());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
@@ -33,30 +33,30 @@ public class ImageService {
 
     public Collection<Image> getAllImages() {
         Collection<Image> all_images = imageRepository.findAll();
-        this.beeline.addFieldToActiveSpan("content.count", all_images.size());
+        this.eventService.addFieldToActiveEvent("content.count", all_images.size());
         return all_images;
     }
 
     public Collection<Image> getAllImagesLight() {
         Collection<Image> all_image_ids = imageRepository.findAllIds();
-        this.beeline.addFieldToActiveSpan("content.count", all_image_ids.size());
+        this.eventService.addFieldToActiveEvent("content.count", all_image_ids.size());
         return all_image_ids;
     }
 
     public Collection<Image> findWithNamesContaining(String fragment) {
-        this.beeline.addFieldToActiveSpan("search.fragment", fragment);
+        this.eventService.addFieldToActiveEvent("search.fragment", fragment);
         return imageRepository.findByNameContaining(fragment);
     }
 
 
     public Image getImageById(String id) {
-        this.beeline.addFieldToActiveSpan("content.id",id);
+        this.eventService.addFieldToActiveEvent("content.id",id);
         return imageRepository.findById(id).orElse(null);
     }
 
 
     public boolean deleteImageById(String id) {
-        this.beeline.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.id", id);
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);
@@ -76,7 +76,7 @@ public class ImageService {
                 .skip((int) (allImages.size() * Math.random()))
                 .findFirst().orElse(null);
 
-        this.beeline.addFieldToActiveSpan("content.random.id", image.getId());
+        this.eventService.addFieldToActiveEvent("content.random.id", image.getId());
         return image != null ? getImageById(image.getId()) : null;
     }
 }
