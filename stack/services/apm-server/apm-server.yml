@@ -13,7 +13,6 @@ output.elasticsearch:
   password: changeme
 
 setup.kibana.host: "kibana:5601"
-# setup.dashboards.enabled: true
 
 logging.level: info
 logging.to_files: false
