@@ -1,0 +1,31 @@
+heartbeat.monitors:
+- type: icmp
+  schedule: '@every 5s'
+  hosts: [
+    "frontend",
+    "imageorchestrator",
+    "imageholder",
+    "imagerotator",
+    "imagegrayscale",
+    "imageresize",
+    "imageflip",
+    "imagethumbnail",
+    "mongodb",
+    "fluentd",
+    "elasticsearch",
+    "kibana",
+    "metricbeat",
+    "heartbeat",
+    "prometheus",
+    "grafana",
+    "cadvisor",
+    "zipkin"
+  ]
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: elastic
+  password: changeme

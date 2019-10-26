@@ -250,6 +250,16 @@ services:
       - kibana
       - elasticsearch
 
+
+  heartbeat:
+    build: ../services/heartbeat
+    user: root
+    # disable strict permission checks
+    command: ["--strict.perms=false"]
+    depends_on:
+      - kibana
+      - elasticsearch
+
   # metrics collector
   prometheus:
     build: ../services/prometheus
