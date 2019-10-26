@@ -66,6 +66,8 @@ processors:
 #========================== Elasticsearch output ===============================
 output.elasticsearch:
   hosts: ["${ELASTICSEARCH_HOST}:9200"]
+  username: elastic
+  password: changeme
   timeout: 180
   max_retries: 10
   backoff.init: 5s

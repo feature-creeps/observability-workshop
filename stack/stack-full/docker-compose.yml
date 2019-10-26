@@ -184,7 +184,8 @@ services:
       - discovery.type=single-node
       - LimitMEMLOCK=infinity
       - "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-      - xpack.security.enabled=false
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=changeme
     ulimits:
       memlock:
         soft: -1
