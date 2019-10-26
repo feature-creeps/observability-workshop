@@ -20,8 +20,8 @@ RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle build
 FROM openjdk:11-jre
 
 # apm
-ARG ELASTIC_APM_AGEN_VERSION=1.10.0
-RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGEN_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGEN_VERSION}.jar -O /elastic-apm-agent.jar
+# ARG ELASTIC_APM_AGEN_VERSION=1.10.0
+# RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGEN_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGEN_VERSION}.jar -O /elastic-apm-agent.jar
 
 COPY --from=builder /service/build/libs/imageflip.jar /
 COPY --from=builder /service/src/main/docker/entrypoint.sh /
