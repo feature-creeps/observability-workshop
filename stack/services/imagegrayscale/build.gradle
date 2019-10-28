@@ -6,15 +6,19 @@ buildscript {
 		mavenCentral()
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
 	}
 }
 
 plugins {
-	id 'war'
-	id 'org.springframework.boot' version '2.1.2.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'java'
 }
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
 bootJar {
 	baseName = 'imagegrayscale'
@@ -42,7 +46,7 @@ dependencyManagement {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'org.springframework.cloud:spring-cloud-starter'
 	implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
@@ -59,3 +63,62 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+
+task resolveDependencies {
+	doLast {
+		project.rootProject.allprojects.each { subProject ->
+			subProject.buildscript.configurations.each { configuration ->
+				resolveConfiguration(configuration)
+			}
+			subProject.configurations.each { configuration ->
+				resolveConfiguration(configuration)
+			}
+		}
+	}
+}
+
+void resolveConfiguration(configuration) {
+	if (isResolveableConfiguration(configuration)) {
+		configuration.resolve()
+	}
+}
+
+boolean isResolveableConfiguration(configuration) {
+	def nonResolveableConfigurations = ['apiElements', 'implementation',
+										'runtimeElements', 'runtimeOnly',
+										'testImplementation', 'testRuntimeOnly',
+										'generatedImplementation', 'generatedRuntimeOnly']
+
+	if (nonResolveableConfigurations.contains(configuration.getName())) {
+		return false
+	}
+	return true
+}
+
+task buildDocker(dependsOn: build) {
+	String sourceJar = "${project.buildDir}/libs/${jar.archiveName}"
+	String target = "${project.projectDir}/src/main/docker/"
+	String targetJar = "$target/$jar.archiveName"
+	String registry = 'docker.maibornwolff.de'
+	ext.tag = "$registry/${project.group}/${jar.baseName}:${project.version}"
+
+	doLast {
+		exec {
+			commandLine 'cp', sourceJar, target
+		}
+		exec {
+			commandLine 'docker', 'build', '-t', tag, target
+		}
+		exec {
+			commandLine 'rm', '-f', targetJar
+		}
+	}
+}
+
+task pushDocker(dependsOn: buildDocker) {
+	doLast {
+		exec {
+			commandLine 'docker', 'push', buildDocker.tag
+		}
+	}
+}
