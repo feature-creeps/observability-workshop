@@ -1,16 +1,23 @@
 package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Tags;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Random;
 
 @Service
 public class ImageService {
+
+    private static int MAX_IMAGES_TO_KEEP = 1000;
+
     @Autowired
     private ImageRepository imageRepository;
 
@@ -23,11 +30,26 @@ public class ImageService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public Image save(Image image) {
+        checkForImageLimit();
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
         this.eventService.addFieldToActiveEvent("image", image.getId());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
+    }
+
+    private void checkForImageLimit() {
+        final Collection<Image> allImagesLight = getAllImagesLight();
+        while (!(allImagesLight.size() >= MAX_IMAGES_TO_KEEP)) {
+            LOGGER.warn("Too many images in db: {}/{}. Deleting a random image..", allImagesLight.size(), MAX_IMAGES_TO_KEEP);
+            deleteOneRandomImage(allImagesLight);
+        }
+    }
+
+    private void deleteOneRandomImage(Collection<Image> imageIds) {
+        int rand = new Random().nextInt() % imageIds.size();
+        Image image = (Image) imageIds.toArray()[rand];
+        deleteImageById(image.getId());
     }
 
 
@@ -50,7 +72,7 @@ public class ImageService {
 
 
     public Image getImageById(String id) {
-        this.eventService.addFieldToActiveEvent("content.id",id);
+        this.eventService.addFieldToActiveEvent("content.id", id);
         return imageRepository.findById(id).orElse(null);
     }
 

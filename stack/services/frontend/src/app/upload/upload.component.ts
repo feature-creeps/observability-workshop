@@ -35,17 +35,17 @@ export class UploadComponent {
     const name: string = nameInput.value;
     UploadComponent.infoHide()
     if (this.selectedFile == undefined) {
-      UploadComponent.info("No image selected", InfoType.warning)
+      UploadComponent.info("No image selected", null, InfoType.warning)
       return
     }
 
     this.uploadService.uploadImage(this.selectedFile.file, name).subscribe(
       (res) => {
-        UploadComponent.info("Upload successful", InfoType.success)
+        UploadComponent.info("Upload successful", res, InfoType.success)
       },
       (err) => {
         console.log(err)
-        UploadComponent.info("Upload failed", InfoType.danger)
+        UploadComponent.info("Upload failed", null, InfoType.danger)
       })
   }
 
@@ -53,10 +53,14 @@ export class UploadComponent {
     document.getElementById("info").hidden = true
   }
 
-  private static info(text: string, type: InfoType) {
-    let info = document.getElementById("info");
+  private static info(text: string, id: string, type: InfoType) {
+    let info = <HTMLInputElement>document.getElementById("info");
     info.hidden = false
-    info.innerText = text
+    if (id != null) {
+      info.value = text + " with id: " + id
+    } else {
+      info.value = text
+    }
     info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
   }
 }

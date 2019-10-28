@@ -16,6 +16,7 @@ export class UploadService {
     formData.append('image', image);
     formData.append('name', name);
 
-    return this.http.post(environment.backend.imageholder + '/api/images', formData, {responseType: 'text'}).pipe(map(((json: any) => json.imageUrl)));
+    return this.http
+      .post(environment.backend.imageholder + '/api/images', formData, {responseType: 'text'})
   }
 }

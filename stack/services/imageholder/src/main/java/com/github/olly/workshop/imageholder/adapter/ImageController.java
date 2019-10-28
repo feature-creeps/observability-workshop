@@ -195,7 +195,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("action.success", true);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
-        return new ResponseEntity<>("Uploaded image with id " + image.getId(), HttpStatus.CREATED);
+        return new ResponseEntity<>(image.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/nameContaining/{fragment}")
@@ -205,7 +205,5 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("action.success", true);
         this.eventService.addFieldToActiveEvent("search.fragment", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
-
     }
-
 }
