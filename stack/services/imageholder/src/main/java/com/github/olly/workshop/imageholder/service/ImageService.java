@@ -1,13 +1,10 @@
 package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
-import io.micrometer.core.instrument.MeterRegistry;
-import io.micrometer.core.instrument.Tags;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -40,7 +37,7 @@ public class ImageService {
 
     private void checkForImageLimit() {
         final Collection<Image> allImagesLight = getAllImagesLight();
-        while (!(allImagesLight.size() >= MAX_IMAGES_TO_KEEP)) {
+        while (allImagesLight.size() >= MAX_IMAGES_TO_KEEP) {
             LOGGER.warn("Too many images in db: {}/{}. Deleting a random image..", allImagesLight.size(), MAX_IMAGES_TO_KEEP);
             deleteOneRandomImage(allImagesLight);
         }
