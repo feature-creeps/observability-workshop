@@ -102,9 +102,9 @@ export class OrchestrateComponent implements OnInit {
   }
 
   private static info(text: string, type: InfoType) {
-    let info = document.getElementById("info");
+    let info = <HTMLInputElement>document.getElementById("info");
     info.hidden = false
-    info.innerText = text
+    info.value = text
     info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
   }
 
