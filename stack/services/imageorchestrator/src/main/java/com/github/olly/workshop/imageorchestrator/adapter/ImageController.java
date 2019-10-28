@@ -55,6 +55,7 @@ public class ImageController {
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
+            headers.set("Image-ID", transformedImage.getId());
             this.eventService.addFieldToActiveEvent("content.type", MediaType.valueOf(transformedImage.getMimeType()));
             this.eventService.addFieldToActiveEvent("content.transformed_id", transformedImage.getId());
             this.eventService.addFieldToActiveEvent("action.success", true);
