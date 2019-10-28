@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {environment} from "../../environments/environment";
 
 @Component({
@@ -52,14 +52,14 @@ export class OrchestrateComponent implements OnInit {
     }
   }
 
-  showTransformed(data: Blob) {
+  showTransformed(data: HttpResponse<any>) {
     document.getElementById("transformedImage").hidden = false;
     let reader = new FileReader();
     reader.addEventListener("load", () => {
       this.transformedImage = reader.result;
     }, false);
     if (data) {
-      reader.readAsDataURL(data);
+      reader.readAsDataURL(data.body);
     }
   }
 
@@ -78,22 +78,27 @@ export class OrchestrateComponent implements OnInit {
       return
     }
 
-    let tr = JSON.stringify(this.buildJson(formInput))
+    let transformationRequest = this.buildJson(formInput);
+    let transformationRequestString = JSON.stringify(transformationRequest)
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json; charset=utf-8');
     let res;
     try {
-      res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', tr,
-        {headers: headers, responseType: 'blob'}).toPromise();
+      res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', transformationRequestString,
+        {observe: "response", headers: headers, responseType: 'blob'}).toPromise();
     } catch (e) {
       console.log(e)
       this.hideTransformed()
       OrchestrateComponent.info("Transformation failed", InfoType.danger);
       return;
     }
-    this.showTransformed(res)
+    this.showTransformed(<HttpResponse<any>>res)
     this.retrieveImages(this.displayId)
-    OrchestrateComponent.info("Transformation successful", InfoType.success)
+    if (transformationRequest.persist) {
+      OrchestrateComponent.info("Transformation successful. Persisted with ID: " + res.headers.get("Image ID"), InfoType.success)
+    } else {
+      OrchestrateComponent.info("Transformation successful", InfoType.success)
+    }
   }
 
   private static info(text: string, type: InfoType) {
