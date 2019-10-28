@@ -95,7 +95,7 @@ export class OrchestrateComponent implements OnInit {
     this.showTransformed(<HttpResponse<any>>res)
     this.retrieveImages(this.displayId)
     if (transformationRequest.persist) {
-      OrchestrateComponent.info("Transformation successful. Persisted with ID: " + res.headers.get("Image ID"), InfoType.success)
+      OrchestrateComponent.info("Transformation successful. Persisted with ID: " + res.headers.get("Image-ID"), InfoType.success)
     } else {
       OrchestrateComponent.info("Transformation successful", InfoType.success)
     }
