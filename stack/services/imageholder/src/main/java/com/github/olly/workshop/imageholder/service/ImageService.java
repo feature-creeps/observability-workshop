@@ -98,4 +98,8 @@ public class ImageService {
         this.eventService.addFieldToActiveEvent("content.random.id", image.getId());
         return image != null ? getImageById(image.getId()) : null;
     }
+
+    double numberOfImagesInDb() {
+        return imageRepository.findAllIds().size();
+    }
 }

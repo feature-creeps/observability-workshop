@@ -4,25 +4,31 @@ import com.github.olly.workshop.imageholder.model.Image;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.geo.Metric;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
 
 @Service
 public class MetricsService {
 
-    @Autowired
-    MeterRegistry registry;
+    private final MeterRegistry registry;
 
-    public static Double numberOfImagesInDb;
+    private final ImageService imageService;
+
+    private static Gauge imagesInDatabase;
+
+    public MetricsService(MeterRegistry registry, ImageService imageService) {
+        this.registry = registry;
+        this.imageService = imageService;
+
+        imagesInDatabase = Gauge
+                .builder("application_images_in_database", imageService, ImageService::numberOfImagesInDb)
+                .register(registry);
+    }
+
 
     public void imageUploaded(Image image) {
         Metrics.counter("application_images_uploaded_total",
                 "type", image.getContentType())
                 .increment();
-        //imagesInDatabase.labels(image.getContentType()).inc();
     }
 
     public void imageViewed(Image image) {
@@ -37,6 +43,5 @@ public class MetricsService {
                 "type", image.getContentType(),
                 "name", image.getName())
                 .increment();
-        //imagesInDatabase.labels(image.getContentType()).dec();
     }
 }

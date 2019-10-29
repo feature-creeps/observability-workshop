@@ -1,5 +1,8 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
+import com.github.olly.workshop.imageorchestrator.model.Image;
+import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
+import com.github.olly.workshop.imageorchestrator.model.TransformationType;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,16 @@ public class MetricsService {
                 .increment();
     }
 
-    public void imageTransformed(String type) {
-        Metrics.counter("application_image_transformed_total",
-                "type", type)
+    public void imageTransformed(Image sourceImage, Image transformedImage, TransformationRequest transformationRequest) {
+        Metrics.counter("application_images_transformed_total",
+                "sourceType", sourceImage.getMimeType(),
+                "sourceId", sourceImage.getId(),
+                "targetType", transformedImage.getMimeType(),
+                "persist", String.valueOf(transformationRequest.getPersist()),
+                "flip", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.flip)),
+                "grayscale", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.grayscale)),
+                "resize", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.resize)),
+                "rotate", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.rotate)))
                 .increment();
     }
 }

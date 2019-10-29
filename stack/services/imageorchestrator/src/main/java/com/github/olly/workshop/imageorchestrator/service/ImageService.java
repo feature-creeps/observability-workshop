@@ -53,7 +53,7 @@ public class ImageService {
         lcu.mdcPut(transformedImage);
 
         this.eventService.addFieldToActiveEvent("tranformation.image.content.type", transformedImage.getMimeType());
-        metricsService.imageTransformed(transformedImage.getMimeType());
+        metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
             this.eventService.addFieldToActiveEvent("tranformation.image.persist", true);
