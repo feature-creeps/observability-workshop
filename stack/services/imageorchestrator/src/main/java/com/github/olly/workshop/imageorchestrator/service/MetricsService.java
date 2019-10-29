@@ -23,9 +23,9 @@ public class MetricsService {
 
     public void imageTransformed(Image sourceImage, Image transformedImage, TransformationRequest transformationRequest) {
         Metrics.counter("application_images_transformed_total",
-                "sourceType", sourceImage.getMimeType(),
-                "sourceId", sourceImage.getId(),
-                "targetType", transformedImage.getMimeType(),
+                "sourceType", String.valueOf(sourceImage.getMimeType()),
+                "sourceId", String.valueOf(sourceImage.getId()),
+                "targetType", String.valueOf(transformedImage.getMimeType()),
                 "persist", String.valueOf(transformationRequest.getPersist()),
                 "flip", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.flip)),
                 "grayscale", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.grayscale)),
