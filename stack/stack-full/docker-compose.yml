@@ -311,7 +311,7 @@ services:
     - 9411:9411
     environment:
     - STORAGE_TYPE=elasticsearch
-    - ES_HOSTS=elasticsearch
+    - ES_HOSTS=elasticsearch:9200
     - ZIPKIN_LOG_LEVEL=DEBUG
     - ES_HTTP_LOGGING=BODY
     - ES_USERNAME=elastic
@@ -325,7 +325,7 @@ services:
       - 9412:9412
     environment:
       - STORAGE_TYPE=elasticsearch
-      - ES_HOSTS=elasticsearch
+      - ES_HOSTS=elasticsearch:9200
       - ZIPKIN_LOG_LEVEL=DEBUG
       - ES_HTTP_LOGGING=BODY
       - ES_NODES_WAN_ONLY=true
