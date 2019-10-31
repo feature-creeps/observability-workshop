@@ -1,4 +1,5 @@
 {
   "service_name": "frontend",
-  "collector_host": "zipkin"
+  "collector_host": "zipkin",
+  "collector_port": 9411
 }
