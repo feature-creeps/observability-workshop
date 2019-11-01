@@ -16,9 +16,11 @@
             {{image.name}} [{{image.id}}]
           </option>
         </select>
-        <a target="_blank" [href]="selectedLink">
-          <img id="preview" height="100px" [src]="displayImage" style="padding: 20px" alt="No images found">
-        </a>
+        <div style="padding: 20px;height:100px">
+          <a>
+            <img id="preview" height="100px" [src]="displayImage" alt="No image found">
+          </a>
+        </div>
         <br/>
         <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
         <br/>
