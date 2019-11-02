@@ -88,6 +88,10 @@ public class ImageService {
         }
     }
 
+    public void deleteAllImages() {
+        imageRepository.deleteAll();
+    }
+
     public Image getRandomImage() {
         Collection<Image> allImages = getAllImagesLight();
 

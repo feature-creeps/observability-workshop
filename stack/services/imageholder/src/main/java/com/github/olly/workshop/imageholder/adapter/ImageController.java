@@ -160,7 +160,7 @@ public class ImageController {
     public ResponseEntity deleteAllImages() {
         Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
         LOGGER.info("Deleting all {} images", allImageIds.size());
-        allImageIds.forEach(this::deleteImage);
+        imageService.deleteAllImages();
         this.eventService.addFieldToActiveEvent("action", "delete_all");
         this.eventService.addFieldToActiveEvent("action.success", true);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
