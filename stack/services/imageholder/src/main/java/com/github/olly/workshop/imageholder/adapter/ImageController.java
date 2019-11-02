@@ -79,7 +79,7 @@ public class ImageController {
         LOGGER.info("Returning random image with id {}", image.getId());
         this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size", image.getData().length);
+        this.eventService.addFieldToActiveEvent("content.size", image.getSize());
         this.eventService.addFieldToActiveEvent("action.success", true);
 
         metricsService.imageViewed(image);
@@ -115,7 +115,7 @@ public class ImageController {
         }
 
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size", image.getData().length);
+        this.eventService.addFieldToActiveEvent("content.size", image.getSize());
         this.eventService.addFieldToActiveEvent("action.success", true);
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
@@ -185,7 +185,7 @@ public class ImageController {
         image.setData(IOUtils.toByteArray(file.getInputStream()));
         image.setContentType(file.getContentType());
 
-        MDC.put("imageSize", String.valueOf(file.getBytes().length));
+        MDC.put("imageSize", String.valueOf(file.getSize()));
         loggingContextUtil.mdcPut(image);
 
         if (name == null || name.isEmpty()) {
@@ -200,7 +200,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.name", name);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
+        this.eventService.addFieldToActiveEvent("content.size", file.getSize());
         this.eventService.addFieldToActiveEvent("action.success", true);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>(image.getId(), HttpStatus.CREATED);

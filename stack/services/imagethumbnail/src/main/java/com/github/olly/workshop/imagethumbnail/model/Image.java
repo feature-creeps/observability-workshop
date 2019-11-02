@@ -42,6 +42,13 @@ public class Image {
         return this;
     }
 
+    public int getSize() {
+        if (getData() != null) {
+            return data.length;
+        } else {
+            return -1;
+        }
+    }
 
     public byte[] getData() {
         return data;

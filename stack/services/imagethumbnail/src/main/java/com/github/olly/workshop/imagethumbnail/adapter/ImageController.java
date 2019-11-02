@@ -48,8 +48,8 @@ public class ImageController {
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size.new", image.getData().length);
-        this.eventService.addFieldToActiveEvent("content.size", image.getData().length);
+        this.eventService.addFieldToActiveEvent("content.size.new", image.getSize());
+        this.eventService.addFieldToActiveEvent("content.size", image.getSize());
         this.eventService.addFieldToActiveEvent("action.success", true);
 
         HttpHeaders headers = new HttpHeaders();

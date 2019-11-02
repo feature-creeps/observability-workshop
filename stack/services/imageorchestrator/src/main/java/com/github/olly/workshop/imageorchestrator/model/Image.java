@@ -19,6 +19,14 @@ public class Image {
         this.mimeType = mimeType;
     }
 
+    public int getSize() {
+        if (getData() != null) {
+            return data.length;
+        } else {
+            return -1;
+        }
+    }
+
     public byte[] getData() {
         return data;
     }
