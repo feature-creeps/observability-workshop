@@ -23,21 +23,21 @@ public class ImageGrayscale {
     private ImageService imageService;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
 
-        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
-        this.beeline.addFieldToActiveSpan("action", "grayscale");
+        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("action", "grayscale");
         MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
 
         if (image.getContentType() != null &&
                 !image.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", image.getContentType());
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -46,8 +46,8 @@ public class ImageGrayscale {
         byte[] transformed = imageService.grayscale(image);
 
         if (transformed == null) {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -57,7 +57,7 @@ public class ImageGrayscale {
 
 
         LOGGER.info("Successfully converted image to grayscale");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .headers(headers)

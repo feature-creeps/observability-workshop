@@ -22,7 +22,7 @@ public class ImageService {
     MetricsService metricsService;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -35,8 +35,8 @@ public class ImageService {
 
             final byte[] imageBytes = bufferedImageToByteArray(grayScaleImage, formatName);
 
-            this.beeline.addFieldToActiveSpan("tranformation.content.type", image.getContentType());
-            this.beeline.addFieldToActiveSpan("tranformation.content.size", imageBytes.length);
+            this.eventService.addFieldToActiveEvent("tranformation.content.type", image.getContentType());
+            this.eventService.addFieldToActiveEvent("tranformation.content.size", imageBytes.length);
             metricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
 
             return imageBytes;

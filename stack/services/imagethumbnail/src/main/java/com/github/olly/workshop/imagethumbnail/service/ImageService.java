@@ -28,7 +28,7 @@ public class ImageService {
     ImageHolderClient imageHolderClient;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -37,9 +37,9 @@ public class ImageService {
     public static final Map<String, Image> CACHE = new HashMap<>();
 
     public Image thumbnail(String id) {
-        this.beeline.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.id", id);
         if (CACHE.get(id) == null) {
-            this.beeline.addFieldToActiveSpan("cache.existing_id", id);
+            this.eventService.addFieldToActiveEvent("cache.existing_id", id);
             Image image = resolveImage(id);
             CACHE.put(id, thumbnail(image));
         }
@@ -53,7 +53,7 @@ public class ImageService {
         ResponseEntity<byte[]> response = imageHolderClient.getImage(id);
 
         image.setContentType(response.getHeaders().getContentType().toString());
-        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         image.setData(response.getBody());
 
         return image;
@@ -88,7 +88,7 @@ public class ImageService {
     }
 
     private boolean isPng(String formatName) {
-        this.beeline.addFieldToActiveSpan("content.is_png", formatName.toLowerCase());
+        this.eventService.addFieldToActiveEvent("content.is_png", formatName.toLowerCase());
         return formatName.toLowerCase().equals("png");
     }
 
@@ -117,7 +117,7 @@ public class ImageService {
     }
 
     public void dropFromCache(String id) {
-        this.beeline.addFieldToActiveSpan("cache.dropped_id", id);
+        this.eventService.addFieldToActiveEvent("cache.dropped_id", id);
         CACHE.remove(id);
     }
 }

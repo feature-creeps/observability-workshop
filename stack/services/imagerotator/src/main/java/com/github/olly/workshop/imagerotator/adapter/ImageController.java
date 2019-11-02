@@ -31,20 +31,20 @@ public class ImageController {
     private LoggingContextUtil lcu;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     @PostMapping("rotate")
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
 
         lcu.mdcPut(file.getContentType(), degrees);
-        this.beeline.addFieldToActiveSpan("transformation.rotate_degrees", degrees);
-        this.beeline.addFieldToActiveSpan("action", "rotate");
-        this.beeline.addFieldToActiveSpan("content.type", file.getContentType());
+        this.eventService.addFieldToActiveEvent("transformation.rotate_degrees", degrees);
+        this.eventService.addFieldToActiveEvent("action", "rotate");
+        this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
@@ -56,8 +56,8 @@ public class ImageController {
         byte[] rotatedImage = imageService.rotate(file, intDegrees);
 
         if (rotatedImage == null) {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to rotate image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -65,7 +65,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully rotated image");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return new ResponseEntity<>(rotatedImage, headers, HttpStatus.OK);
     }
 }

@@ -22,13 +22,13 @@ public class ImageService {
     MetricsService metricsService;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
     public byte[] flip(MultipartFile file, boolean vertical, boolean horizontal) {
-        this.beeline.addFieldToActiveSpan("tranformation.flip.vertical", String.valueOf(vertical));
-        this.beeline.addFieldToActiveSpan("tranformation.flip.horizontal", String.valueOf(horizontal));
+        this.eventService.addFieldToActiveEvent("tranformation.flip.vertical", String.valueOf(vertical));
+        this.eventService.addFieldToActiveEvent("tranformation.flip.horizontal", String.valueOf(horizontal));
         try {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
@@ -36,7 +36,7 @@ public class ImageService {
             final byte[] imageBytes = bufferedImageToByteArray(flippedImage, formatName);
 
             metricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
-            this.beeline.addFieldToActiveSpan("tranformation.content.type", file.getContentType()) ;
+            this.eventService.addFieldToActiveEvent("tranformation.content.type", file.getContentType()) ;
 
             return imageBytes;
         } catch (IOException e) {

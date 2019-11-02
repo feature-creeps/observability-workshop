@@ -30,25 +30,25 @@ public class ImageController {
     private LoggingContextUtil loggingContextUtil;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.thumbnail(id);
-        this.beeline.addFieldToActiveSpan("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.id", id);
         loggingContextUtil.mdcPut(image.getContentType());
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "image_not_found");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
-        this.beeline.addFieldToActiveSpan("content.type", image.getContentType());
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("action.success", true);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
@@ -59,8 +59,8 @@ public class ImageController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity deleteImageFromCache(@PathVariable("id") String id) {
         imageService.dropFromCache(id);
-        this.beeline.addFieldToActiveSpan("action", "delete_from_cache");
-        this.beeline.addFieldToActiveSpan("action.success", false);
+        this.eventService.addFieldToActiveEvent("action", "delete_from_cache");
+        this.eventService.addFieldToActiveEvent("action.success", false);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

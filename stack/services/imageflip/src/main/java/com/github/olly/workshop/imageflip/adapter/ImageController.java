@@ -28,7 +28,7 @@ public class ImageController {
     private ImageService imageService;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     @Autowired
     private LoggingContextUtil lcu;
@@ -38,17 +38,17 @@ public class ImageController {
                                     @RequestParam(value = "vertical") Boolean vertical,
                                     @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
     
-        this.beeline.addFieldToActiveSpan("content.type", file.getContentType());
-        this.beeline.addFieldToActiveSpan("action", "flip");
-        this.beeline.addFieldToActiveSpan("transformation.flip_vertical", vertical);
-        this.beeline.addFieldToActiveSpan("transformation.flip_horizontal", horizontal);
+        this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
+        this.eventService.addFieldToActiveEvent("action", "flip");
+        this.eventService.addFieldToActiveEvent("transformation.flip_vertical", vertical);
+        this.eventService.addFieldToActiveEvent("transformation.flip_horizontal", horizontal);
         lcu.mdcPut(file.getContentType(), vertical, horizontal);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -57,8 +57,8 @@ public class ImageController {
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
         if (flippedImage == null) {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to flip image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -66,7 +66,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully flipped image");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return new ResponseEntity<>(flippedImage, headers, HttpStatus.OK);
     }
 }

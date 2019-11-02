@@ -31,21 +31,21 @@ public class ImageController {
     private LoggingContextUtil lcu;
 
     @Autowired
-    private EventService beeline;
+    private EventService eventService;
 
     @PostMapping("resize")
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
-        this.beeline.addFieldToActiveSpan("content.type", file.getContentType());
-        this.beeline.addFieldToActiveSpan("action", "resize");
-        this.beeline.addFieldToActiveSpan("transformation.resize_factor", factor);
+        this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
+        this.eventService.addFieldToActiveEvent("action", "resize");
+        this.eventService.addFieldToActiveEvent("transformation.resize_factor", factor);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "wrong_content_type");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
@@ -56,8 +56,8 @@ public class ImageController {
         byte[] resizedImage = imageService.resize(file, intFactor);
 
         if (resizedImage == null) {
-            this.beeline.addFieldToActiveSpan("action.success", false);
-            this.beeline.addFieldToActiveSpan("action.failure_reason", "internal_server_error");
+            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to resize image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -65,7 +65,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully resized image");
-        this.beeline.addFieldToActiveSpan("action.success", true);
+        this.eventService.addFieldToActiveEvent("action.success", true);
         return new ResponseEntity<>(resizedImage, headers, HttpStatus.OK);
     }
 }
