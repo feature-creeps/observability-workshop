@@ -61,7 +61,7 @@ export class UploadComponent {
     } else {
       info.value = text
     }
-    info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
+    info.className = "fade-in btn-block btn-" + InfoType[type] + " dima-btn"
   }
 }
 

@@ -105,7 +105,7 @@ export class OrchestrateComponent implements OnInit {
     let info = <HTMLInputElement>document.getElementById("info");
     info.hidden = false
     info.value = text
-    info.className = "fade-in btn btn-block btn-" + InfoType[type] + " dima-btn"
+    info.className = "fade-in btn-block btn-" + InfoType[type] + " dima-btn"
   }
 
   buildJson(formInput: any) {
