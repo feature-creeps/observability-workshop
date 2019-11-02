@@ -15,8 +15,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import io.honeycomb.beeline.tracing.Beeline;
-
 @Service
 public class ImageService {
 
@@ -24,7 +22,7 @@ public class ImageService {
     MetricsService metricsService;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 

@@ -2,10 +2,9 @@ package com.github.olly.workshop.imagethumbnail.adapter;
 
 import com.github.olly.workshop.imagethumbnail.config.LoggingContextUtil;
 import com.github.olly.workshop.imagethumbnail.model.Image;
-import com.github.olly.workshop.imagethumbnail.service.BeelineService;
+import com.github.olly.workshop.imagethumbnail.service.EventService;
 import com.github.olly.workshop.imagethumbnail.service.ImageService;
 import com.github.olly.workshop.imagethumbnail.service.MetricsService;
-import io.honeycomb.beeline.tracing.Beeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ public class ImageController {
     private LoggingContextUtil loggingContextUtil;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService beeline;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {

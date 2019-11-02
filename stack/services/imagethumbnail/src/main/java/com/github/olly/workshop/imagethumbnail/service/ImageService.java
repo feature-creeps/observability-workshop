@@ -2,7 +2,6 @@ package com.github.olly.workshop.imagethumbnail.service;
 
 import com.github.olly.workshop.imagethumbnail.model.Image;
 import com.github.olly.workshop.imagethumbnail.service.clients.ImageHolderClient;
-import io.honeycomb.beeline.tracing.Beeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class ImageService {
     ImageHolderClient imageHolderClient;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService beeline;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 

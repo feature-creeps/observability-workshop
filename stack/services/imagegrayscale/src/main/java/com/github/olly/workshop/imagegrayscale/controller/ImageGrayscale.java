@@ -1,6 +1,6 @@
 package com.github.olly.workshop.imagegrayscale.controller;
 
-import com.github.olly.workshop.imagegrayscale.service.BeelineService;
+import com.github.olly.workshop.imagegrayscale.service.EventService;
 import com.github.olly.workshop.imagegrayscale.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import io.honeycomb.beeline.tracing.Beeline;
 
 @RestController
 @RequestMapping(value = "/api/image")
@@ -24,7 +23,7 @@ public class ImageGrayscale {
     private ImageService imageService;
 
     @Autowired
-    private BeelineService beeline;
+    private EventService beeline;
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
