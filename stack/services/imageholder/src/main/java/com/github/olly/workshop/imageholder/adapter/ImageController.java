@@ -141,7 +141,11 @@ public class ImageController {
 
         LOGGER.info("Deleting image with id {}", id);
         if (imageService.deleteImageById(id)) {
-            imageThumbnailClient.informThumbnail(id);
+            try {
+                imageThumbnailClient.informThumbnail(id);
+            } catch (Exception ex) {
+                LOGGER.warn("Failed informing imagethumbnail service of image deletion", ex);
+            }
             this.eventService.addFieldToActiveEvent("action.success", true);
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
