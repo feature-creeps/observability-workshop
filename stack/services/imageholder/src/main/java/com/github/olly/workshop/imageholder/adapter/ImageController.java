@@ -155,7 +155,7 @@ public class ImageController {
     @PostMapping(value = "/delete/all")
     public ResponseEntity deleteAllImages() {
         Collection<String> allImageIds = imageService.getAllImagesLight().stream().map(Image::getId).collect(Collectors.toList());
-        LOGGER.info("Deleting all images: {}", allImageIds);
+        LOGGER.info("Deleting all {} images", allImageIds.size());
         allImageIds.forEach(this::deleteImage);
         this.eventService.addFieldToActiveEvent("action", "delete_all");
         this.eventService.addFieldToActiveEvent("action.success", true);
