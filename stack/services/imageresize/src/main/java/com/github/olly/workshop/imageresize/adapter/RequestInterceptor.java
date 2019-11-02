@@ -5,7 +5,7 @@ import io.prometheus.client.Counter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class RequestInterceptor implements HandlerInterceptor {
+public class RequestInterceptor extends HandlerInterceptorAdapter {
 
     private static final Counter requestTotal = Counter.build()
             .name("http_requests_total")
