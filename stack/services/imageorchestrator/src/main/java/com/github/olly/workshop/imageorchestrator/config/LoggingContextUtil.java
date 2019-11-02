@@ -40,6 +40,7 @@ public class LoggingContextUtil {
     public void mdcClear() {
         MDC.remove("mimeType");
         MDC.remove("imageId");
+        MDC.remove("imageName");
         MDC.remove("persist");
         MDC.remove("transformationType");
     }
@@ -47,6 +48,7 @@ public class LoggingContextUtil {
     private void transformationRequest(TransformationRequest transformationRequest) {
         if (transformationRequest != null) {
             MDC.put("imageId", transformationRequest.getImageId());
+            MDC.put("imageName", transformationRequest.getName());
             MDC.put("persist", transformationRequest.getPersist().toString());
             MDC.put("transformationType", transformationRequest.getTransformationTypes().toString());
             transformationRequest.getTransformations().forEach(LoggingContextUtil::transformationProperties);
