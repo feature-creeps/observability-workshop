@@ -77,7 +77,7 @@ public class ImageController {
         }
 
         LOGGER.info("Returning random image with id {}", image.getId());
-        this.eventService.addFieldToActiveEvent("content.id", image.getId());
+        this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("action.success", true);
 
@@ -93,7 +93,7 @@ public class ImageController {
     // hack, cause I dont want to use JS
     @GetMapping(value = "/image")
     public ResponseEntity getImageByURLParam(@RequestParam("id") String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         this.eventService.addFieldToActiveEvent("action", "get");
         this.eventService.addFieldToActiveEvent("action.success", true);
         return getImage(id);
@@ -104,7 +104,7 @@ public class ImageController {
         Image image = imageService.getImageById(id);
         loggingContextUtil.mdcPut(image);
         this.eventService.addFieldToActiveEvent("action", "get");
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
@@ -127,7 +127,7 @@ public class ImageController {
     // hack, cause html forms are limited to GET/POST
     @PostMapping(value = "/delete")
     public ResponseEntity deleteImageByURLParam(@RequestParam("id") String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         this.eventService.addFieldToActiveEvent("action", "delete");
         this.eventService.addFieldToActiveEvent("action.success", true);
         return deleteImage(id);
@@ -135,7 +135,7 @@ public class ImageController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteImage(@PathVariable("id") String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         this.eventService.addFieldToActiveEvent("action", "delete");
         loggingContextUtil.mdcPut(imageService.getImageById(id));
 
@@ -194,7 +194,7 @@ public class ImageController {
 
         loggingContextUtil.mdcPut(image);
 
-        this.eventService.addFieldToActiveEvent("content.id", image.getId());
+        this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.name", name);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("action.success", true);

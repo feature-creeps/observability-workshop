@@ -37,7 +37,7 @@ public class ImageService {
     public static final Map<String, Image> CACHE = new HashMap<>();
 
     public Image thumbnail(String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         if (CACHE.get(id) == null) {
             this.eventService.addFieldToActiveEvent("cache.existing_id", id);
             Image image = resolveImage(id);

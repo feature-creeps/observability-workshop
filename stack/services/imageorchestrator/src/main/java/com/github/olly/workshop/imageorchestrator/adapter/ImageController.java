@@ -47,7 +47,7 @@ public class ImageController {
             this.eventService.addFieldToActiveEvent("action.failure_reason", "no_id");
             return new ResponseEntity<>("Field imageId has to be set", HttpStatus.BAD_REQUEST);
         }
-        this.eventService.addFieldToActiveEvent("content.id", transformationRequest.getImageId());
+        this.eventService.addFieldToActiveEvent("content.imageId", transformationRequest.getImageId());
 
         Image transformedImage = imageService.transform(transformationRequest);
         lcu.mdcPut(transformedImage);

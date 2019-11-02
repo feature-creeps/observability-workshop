@@ -69,13 +69,13 @@ public class ImageService {
 
 
     public Image getImageById(String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         return imageRepository.findById(id).orElse(null);
     }
 
 
     public boolean deleteImageById(String id) {
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId.toBeDeleted", id);
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);

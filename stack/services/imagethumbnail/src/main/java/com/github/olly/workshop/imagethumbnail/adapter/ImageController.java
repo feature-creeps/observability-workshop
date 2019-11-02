@@ -35,7 +35,7 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.thumbnail(id);
-        this.eventService.addFieldToActiveEvent("content.id", id);
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         loggingContextUtil.mdcPut(image.getContentType());
 
         if (image == null) {
