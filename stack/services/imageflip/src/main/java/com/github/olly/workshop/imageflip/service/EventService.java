@@ -19,10 +19,11 @@ public class EventService {
     private static final String EVENT_ID_KEY = "event.id";
 
 
-    public void newEvent() {
+    public String newEvent() {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
         events.put(id, new Event());
+        return id;
     }
 
     public void addFieldToActiveEvent(String key, Object value) {
@@ -53,7 +54,12 @@ public class EventService {
 
 
     private String getActiveEventId() {
-        return MDC.get(EVENT_ID_KEY);
+        final String id = MDC.get(EVENT_ID_KEY);
+        if (id == null) {
+            return newEvent();
+        } else {
+            return id;
+        }
     }
 
     private Event getActiveEvent() {
