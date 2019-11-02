@@ -29,7 +29,7 @@ public class ImageService {
     public Image save(Image image) {
         checkForImageLimit();
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
-        this.eventService.addFieldToActiveEvent("image", image.getId());
+        this.eventService.addFieldToActiveEvent("imageId", image.getId());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
@@ -44,7 +44,7 @@ public class ImageService {
     }
 
     private void deleteOneRandomImage(Collection<Image> imageIds) {
-        int rand = new Random().nextInt() % imageIds.size();
+        int rand = new Random().nextInt(imageIds.size());
         Image image = (Image) imageIds.toArray()[rand];
         deleteImageById(image.getId());
     }
