@@ -41,6 +41,7 @@ public class ImageService {
         if (CACHE.get(id) == null) {
             this.eventService.addFieldToActiveEvent("cache.existing_id", id);
             Image image = resolveImage(id);
+            this.eventService.addFieldToActiveEvent("content.size.original", image.getData().length);
             CACHE.put(id, thumbnail(image));
         }
         return CACHE.get(id);

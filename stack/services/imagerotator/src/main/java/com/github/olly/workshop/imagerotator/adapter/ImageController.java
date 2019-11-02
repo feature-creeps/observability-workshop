@@ -40,6 +40,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("transformation.rotate_degrees", degrees);
         this.eventService.addFieldToActiveEvent("action", "rotate");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
+        this.eventService.addFieldToActiveEvent("content.size.original", file.getBytes().length);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
@@ -60,6 +61,9 @@ public class ImageController {
             this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to rotate image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
+        this.eventService.addFieldToActiveEvent("content.size.new", rotatedImage.length);
+        this.eventService.addFieldToActiveEvent("content.size", rotatedImage.length);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(file.getContentType()));

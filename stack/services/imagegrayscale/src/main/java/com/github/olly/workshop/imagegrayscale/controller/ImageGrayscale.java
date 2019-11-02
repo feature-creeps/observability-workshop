@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping(value = "/api/image")
 public class ImageGrayscale {
@@ -39,6 +41,11 @@ public class ImageGrayscale {
             this.eventService.addFieldToActiveEvent("action.success", false);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
+        }
+        try {
+            this.eventService.addFieldToActiveEvent("content.size.original", image.getBytes().length);
+        } catch (IOException e) {
+            this.eventService.addFieldToActiveEvent("content.size.original", -1);
         }
 
         LOGGER.info("Starting conversion");

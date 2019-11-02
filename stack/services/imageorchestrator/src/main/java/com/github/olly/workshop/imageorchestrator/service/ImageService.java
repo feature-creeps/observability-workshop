@@ -47,6 +47,7 @@ public class ImageService {
             return null;
         }
         lcu.mdcPut(originalImage);
+        this.eventService.addFieldToActiveEvent("content.size.original", originalImage.getData().length);
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
