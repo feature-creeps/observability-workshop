@@ -14,6 +14,8 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -28,6 +30,8 @@ services:
     mem_limit: 1g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -40,6 +44,8 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -52,6 +58,8 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -64,6 +72,8 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -76,6 +86,8 @@ services:
     mem_limit: 2g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
@@ -88,6 +100,8 @@ services:
     mem_limit: 4g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
