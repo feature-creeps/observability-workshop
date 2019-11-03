@@ -130,10 +130,42 @@ services:
 
   ## Logging
 
+  # search engine, storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    container_name: elasticsearch
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - LimitMEMLOCK=infinity
+      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=changeme
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - olly-elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
 
-  ## Monitoring
+  kibana-index:
+    build: ../services/kibana-index
+    depends_on:
+      - kibana
+      - elasticsearch
+    restart: on-failure
 
-
+  # logs visualizer
+  kibana:
+    build: ../services/kibana
+    depends_on:
+      - elasticsearch
+    volumes:
+      - olly-prometheus:/prometheus
+    ports:
+      - 5601:5601
 
 volumes:
   olly-elasticsearch:
