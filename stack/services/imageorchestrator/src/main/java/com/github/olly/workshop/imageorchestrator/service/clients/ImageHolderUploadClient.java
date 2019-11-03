@@ -1,7 +1,7 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 
-import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
+import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,7 @@ public class ImageHolderUploadClient {
     RestTemplate restTemplate;
 
     @Autowired
-    LoggingContextUtil lcu;
+    LogTraceContextUtil contextUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageHolderUploadClient.class);
 
@@ -48,7 +48,7 @@ public class ImageHolderUploadClient {
 
         image.setId(extractImageId(response));
 
-        lcu.mdcPut(image);
+        contextUtil.put(image);
         LOGGER.info("Successfully uploaded transformed image to the imageholder with id {}", image.getId());
     }
 

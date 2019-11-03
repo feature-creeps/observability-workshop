@@ -1,27 +1,38 @@
 package com.github.olly.workshop.imageorchestrator.config;
 
+import brave.SpanCustomizer;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoggingContextUtil {
+public class LogTraceContextUtil {
 
-    public void mdcPut(Transformation transformation) {
+    private final SpanCustomizer span;
+    private final Boolean TRACING_TAGS_ENABLED;
+
+    public LogTraceContextUtil(SpanCustomizer span,
+                               @Value("${TRACING_TAGS_ENABLED:true}") Boolean tracingTagsEnabled) {
+        this.span = span;
+        this.TRACING_TAGS_ENABLED = tracingTagsEnabled;
+    }
+
+    public void put(Transformation transformation) {
         transformation(transformation);
     }
 
-    public void mdcPut(Image image) {
+    public void put(Image image) {
         image(image);
     }
 
-    public void mdcPut(TransformationRequest transformationRequest) {
+    public void put(TransformationRequest transformationRequest) {
         transformationRequest(transformationRequest);
     }
 
-    public void mdcPut(Object... objects) {
+    public void put(Object... objects) {
         for (Object object : objects) {
             if (object instanceof Image) {
                 image((Image) object);
@@ -35,17 +46,17 @@ public class LoggingContextUtil {
 
     private void transformationRequest(TransformationRequest transformationRequest) {
         if (transformationRequest != null) {
-            MDC.put("imageId", transformationRequest.getImageId());
-            MDC.put("imageName", transformationRequest.getName());
-            MDC.put("persist", String.valueOf(transformationRequest.getPersist()));
-            MDC.put("transformationType", String.valueOf(transformationRequest.getTransformationTypes()));
-            transformationRequest.getTransformations().forEach(LoggingContextUtil::transformationProperties);
+            put("imageId", transformationRequest.getImageId());
+            put("imageName", transformationRequest.getName());
+            put("persist", String.valueOf(transformationRequest.getPersist()));
+            put("transformationType", String.valueOf(transformationRequest.getTransformationTypes()));
+            transformationRequest.getTransformations().forEach(LogTraceContextUtil::transformationProperties);
         }
     }
 
     private void transformation(Transformation transformation) {
         if (transformation != null) {
-            MDC.put("transformationType", transformation.getType().name());
+            put("transformationType", transformation.getType().name());
             transformationProperties(transformation);
         }
     }
@@ -58,8 +69,15 @@ public class LoggingContextUtil {
 
     private void image(Image image) {
         if (image != null) {
-            MDC.put("mimeType", image.getMimeType());
-            MDC.put("imageId", image.getId());
+            put("mimeType", image.getMimeType());
+            put("imageId", image.getId());
+        }
+    }
+
+    private void put(String key, String value) {
+        MDC.put(key, value);
+        if (TRACING_TAGS_ENABLED) {
+            span.tag(key, value);
         }
     }
 }

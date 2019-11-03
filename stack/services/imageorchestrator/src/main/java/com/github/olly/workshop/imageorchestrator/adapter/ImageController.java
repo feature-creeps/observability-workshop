@@ -1,6 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.adapter;
 
-import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
+import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.EventService;
@@ -28,7 +28,7 @@ public class ImageController {
     private ImageService imageService;
 
     @Autowired
-    private LoggingContextUtil lcu;
+    private LogTraceContextUtil contextUtil;
 
     @Autowired
     private EventService eventService;
@@ -36,7 +36,7 @@ public class ImageController {
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
 
-        lcu.mdcPut(transformationRequest);
+        contextUtil.put(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
         this.eventService.addFieldToActiveEvent("transformation.request", transformationRequest);
         this.eventService.addFieldToActiveEvent("action", "transform");
@@ -50,7 +50,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.imageId", transformationRequest.getImageId());
 
         Image transformedImage = imageService.transform(transformationRequest);
-        lcu.mdcPut(transformedImage);
+        contextUtil.put(transformedImage);
         // return final image
         if (transformedImage != null) {
             HttpHeaders headers = new HttpHeaders();

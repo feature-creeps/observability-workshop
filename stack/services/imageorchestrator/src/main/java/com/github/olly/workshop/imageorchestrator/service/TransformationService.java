@@ -1,6 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
-import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
+import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageFlipClient;
@@ -37,7 +37,7 @@ public class TransformationService {
     private ImageFlipClient imageFlipClient;
 
     @Autowired
-    private LoggingContextUtil lcu;
+    private LogTraceContextUtil contextUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
 
@@ -45,7 +45,7 @@ public class TransformationService {
     public Image transform(Image image, List<Transformation> transformations) {
 
         for (Transformation transformation : transformations) {
-            lcu.mdcPut(transformation);
+            contextUtil.put(transformation);
             this.eventService.addFieldToActiveEvent("tranformation.content_type", image.getMimeType());
             this.eventService.addFieldToActiveEvent("tranformation.transformation", transformation);
             this.eventService.addFieldToActiveEvent("tranformation.properties", transformation.getProperties());

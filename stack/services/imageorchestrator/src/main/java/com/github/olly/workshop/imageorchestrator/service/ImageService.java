@@ -1,6 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.service;
 
-import com.github.olly.workshop.imageorchestrator.config.LoggingContextUtil;
+import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
@@ -31,7 +31,7 @@ public class ImageService {
     private ImageHolderUploadClient imageHolderUploadClient;
 
     @Autowired
-    private LoggingContextUtil lcu;
+    private LogTraceContextUtil contextUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -46,12 +46,12 @@ public class ImageService {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
             return null;
         }
-        lcu.mdcPut(originalImage);
+        contextUtil.put(originalImage);
         this.eventService.addFieldToActiveEvent("content.size.original", originalImage.getSize());
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
-        lcu.mdcPut(transformedImage);
+        contextUtil.put(transformedImage);
 
         this.eventService.addFieldToActiveEvent("tranformation.image.content.type", transformedImage.getMimeType());
         metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);

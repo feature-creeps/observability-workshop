@@ -20,6 +20,7 @@ services:
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
+      - TRACING_TAGS_ENABLED=false
 
   imageholder:
     build: ../services/imageholder

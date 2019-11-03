@@ -27,7 +27,7 @@ services:
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
-      - TRACING_TAGS_ENABLED=false
+      - TRACING_TAGS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
