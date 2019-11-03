@@ -51,8 +51,6 @@ public class ImageService {
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
-        contextUtil.put(transformedImage);
-
         this.eventService.addFieldToActiveEvent("tranformation.image.content.type", transformedImage.getMimeType());
         metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
@@ -66,6 +64,6 @@ public class ImageService {
 
     private Image loadImage(String id) {
         ResponseEntity<byte[]> response = imageHolderClient.getImage(id);
-        return new Image(response.getBody(), response.getHeaders().getContentType().toString());
+        return new Image(response.getBody(), response.getHeaders().getContentType().toString(), id);
     }
 }

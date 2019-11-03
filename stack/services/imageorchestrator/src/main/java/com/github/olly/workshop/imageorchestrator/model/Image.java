@@ -18,6 +18,11 @@ public class Image {
         this.data = data;
         this.mimeType = mimeType;
     }
+    public Image(byte[] data, String mimeType, String id) {
+        this.data = data;
+        this.mimeType = mimeType;
+        this.id = id;
+    }
 
     public int getSize() {
         if (getData() != null) {
