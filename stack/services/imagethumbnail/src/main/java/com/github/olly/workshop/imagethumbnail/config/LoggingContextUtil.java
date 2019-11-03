@@ -7,11 +7,6 @@ import org.springframework.stereotype.Component;
 public class LoggingContextUtil {
 
     public void mdcPut(String mimeType) {
-        mdcClear();
         MDC.put("mimeType", mimeType);
-    }
-
-    public void mdcClear() {
-        MDC.remove("mimeType");
     }
 }

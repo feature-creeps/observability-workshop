@@ -8,14 +8,7 @@ import org.springframework.stereotype.Component;
 public class LoggingContextUtil {
 
     public void mdcPut(Image image) {
-        mdcClear();
         image(image);
-    }
-
-    public void mdcClear() {
-        MDC.remove("mimeType");
-        MDC.remove("imageId");
-        MDC.remove("imageName");
     }
 
     private void image(Image image) {

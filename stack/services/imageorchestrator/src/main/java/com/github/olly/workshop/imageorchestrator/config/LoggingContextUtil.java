@@ -10,22 +10,18 @@ import org.springframework.stereotype.Component;
 public class LoggingContextUtil {
 
     public void mdcPut(Transformation transformation) {
-        mdcClear();
         transformation(transformation);
     }
 
     public void mdcPut(Image image) {
-        mdcClear();
         image(image);
     }
 
     public void mdcPut(TransformationRequest transformationRequest) {
-        mdcClear();
         transformationRequest(transformationRequest);
     }
 
     public void mdcPut(Object... objects) {
-        mdcClear();
         for (Object object : objects) {
             if (object instanceof Image) {
                 image((Image) object);
@@ -35,14 +31,6 @@ public class LoggingContextUtil {
                 transformationRequest((TransformationRequest) object);
             }
         }
-    }
-
-    public void mdcClear() {
-        MDC.remove("mimeType");
-        MDC.remove("imageId");
-        MDC.remove("imageName");
-        MDC.remove("persist");
-        MDC.remove("transformationType");
     }
 
     private void transformationRequest(TransformationRequest transformationRequest) {
