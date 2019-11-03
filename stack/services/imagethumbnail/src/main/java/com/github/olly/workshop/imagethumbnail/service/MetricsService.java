@@ -15,8 +15,7 @@ public class MetricsService {
     @Autowired
     MeterRegistry registry;
 
-    @Value("${business.metrics.enabled:true}")
-    private Boolean BUSINESS_METRICS_ENABLED;
+    private final Boolean BUSINESS_METRICS_ENABLED;
 
     public void imageThumbnailed(String contentType) {
         if (BUSINESS_METRICS_ENABLED) {
@@ -26,7 +25,10 @@ public class MetricsService {
         }
     }
 
-    private MetricsService() {
+    @Autowired
+    private MetricsService(@Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
+        this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
+
         if (BUSINESS_METRICS_ENABLED) {
             Gauge.builder("application_images_thumbnails_cached", ImageService.CACHE, Map::size)
                     .register(Metrics.globalRegistry);

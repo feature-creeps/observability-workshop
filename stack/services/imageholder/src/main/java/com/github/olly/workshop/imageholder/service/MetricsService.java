@@ -4,6 +4,7 @@ import com.github.olly.workshop.imageholder.model.Image;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +17,14 @@ public class MetricsService {
 
     private static Gauge imagesInDatabase;
 
-    @Value("${business.metrics.enabled:true}")
-    private Boolean BUSINESS_METRICS_ENABLED;
+    private final Boolean BUSINESS_METRICS_ENABLED;
 
-    public MetricsService(MeterRegistry registry, ImageService imageService) {
+    @Autowired
+    public MetricsService(MeterRegistry registry, ImageService imageService,
+                          @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
         this.registry = registry;
         this.imageService = imageService;
+        this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
 
         if (BUSINESS_METRICS_ENABLED) {
             imagesInDatabase = Gauge
