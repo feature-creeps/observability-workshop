@@ -336,7 +336,7 @@ services:
 
   # Trace UI
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin-slim
     ports:
     - 9411:9411
     environment:
