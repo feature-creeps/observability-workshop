@@ -23,7 +23,7 @@ public class TransformationRequest {
                                  @JsonProperty("persist") Boolean persist,
                                  @JsonProperty("name") String name) {
         this.imageId = imageId;
-        this.transformations = transformations;
+        this.transformations = transformations != null ? transformations : Collections.emptyList();
         this.persist = persist;
         this.name = name;
     }
