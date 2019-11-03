@@ -176,6 +176,7 @@ services:
   # log collector
   fluentd:
     build: ../services/fluentd
+    command: -qq
     depends_on:
     - elasticsearch
     volumes:
