@@ -7,6 +7,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
     ports:
       - 80:80
 
@@ -20,6 +21,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imageholder:
     build: ../services/imageholder
@@ -33,6 +35,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagerotator:
     build: ../services/imagerotator
@@ -44,6 +47,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagegrayscale:
     build: ../services/imagegrayscale
@@ -55,6 +59,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imageresize:
     build: ../services/imageresize
@@ -66,6 +71,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imageflip:
     build: ../services/imageflip
@@ -77,6 +83,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagethumbnail:
     build: ../services/imagethumbnail
@@ -88,6 +95,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   traffic-gen:
     build: ../services/traffic-gen

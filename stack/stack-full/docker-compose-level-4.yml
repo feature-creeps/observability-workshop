@@ -10,7 +10,7 @@ services:
       - 80:80
     environment:
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -28,7 +28,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -47,7 +47,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -65,7 +65,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -83,7 +83,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -101,7 +101,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -119,7 +119,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -137,7 +137,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -225,6 +225,15 @@ services:
     - olly-prometheus:/prometheus
     ports:
     - 5601:5601
+
+  heartbeat:
+    build: ../services/heartbeat
+    user: root
+    # disable strict permission checks
+    command: ["--strict.perms=false"]
+    depends_on:
+      - kibana
+      - elasticsearch
 
 volumes:
   olly-elasticsearch:

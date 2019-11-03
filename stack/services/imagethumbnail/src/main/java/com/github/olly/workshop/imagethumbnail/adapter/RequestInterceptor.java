@@ -20,6 +20,7 @@ import java.util.Map;
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
 
+    // fixme
     private static final Counter requestTotal = Counter.build()
             .name("http_requests_total")
             .labelNames("method", "handler", "status", "path")

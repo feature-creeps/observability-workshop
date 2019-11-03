@@ -11,6 +11,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -28,6 +29,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -46,6 +48,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -63,6 +66,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -80,6 +84,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -97,6 +102,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -114,6 +120,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -131,6 +138,7 @@ services:
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -167,12 +175,6 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  mongodb-exporter:
-    image: maibornwolff/mongodb_exporter
-    ports:
-    - 9001:9001
-    command: '-mongodb.uri mongodb://mongodb:27017'
-
   ## Logging
 
   # log collector
@@ -207,16 +209,6 @@ services:
     ports:
     - 9200:9200
 
-  elasticsearch-exporter:
-    image: justwatch/elasticsearch_exporter:1.0.2
-    depends_on:
-      - elasticsearch
-    command:
-     - '-es.uri=http://elasticsearch:9200'
-    restart: always
-    ports:
-    - 9108:9108
-
   kibana-index:
     build: ../services/kibana-index
     depends_on:
@@ -233,123 +225,6 @@ services:
     - olly-prometheus:/prometheus
     ports:
     - 5601:5601
-
-  apm-server:
-    build: ../services/apm-server
-    ports:
-    - 8200:8200
-    depends_on:
-    - elasticsearch
-    - fluentd
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
-
-  ## Monitoring
-
-  # metricbeat
-  metricbeat:
-    build: ../services/metricbeat
-    user: root
-    volumes:
-      - /proc:/hostfs/proc:ro
-      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
-      - /:/hostfs:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - olly-metricbeat:/usr/share/metricbeat/data
-    environment:
-      - ELASTICSEARCH_HOST=elasticsearch
-      - KIBANA_HOST=kibana
-    # disable strict permission checks
-    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
-    depends_on:
-      - kibana
-      - elasticsearch
-
-
-  heartbeat:
-    build: ../services/heartbeat
-    user: root
-    # disable strict permission checks
-    command: ["--strict.perms=false"]
-    depends_on:
-      - kibana
-      - elasticsearch
-
-  # metrics collector
-  prometheus:
-    build: ../services/prometheus
-    ports:
-    - 9090:9090
-
-  # monitoring visualizer
-  grafana:
-    ports:
-    - 3000:3000
-    build: ../services/grafana
-
-  # exporters
-  node-exporter:
-    image: prom/node-exporter
-    volumes:
-    - /proc:/host/proc:ro
-    - /sys:/host/sys:ro
-    - /:/rootfs:ro
-    command:
-    - '--path.procfs=/host/proc'
-    - '--path.sysfs=/host/sys'
-    - --collector.filesystem.ignored-mount-points
-    - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
-    ports:
-    - 9100:9100
-
-  cadvisor: # docker daemon metrics exporter
-    image: google/cadvisor
-    volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
-    ports:
-    - 9110:8080
-  
-  nginx-exporter:
-    image: sophos/nginx-vts-exporter:latest
-    environment:
-    - NGINX_STATUS="http://localhost/status/format/json"
-
-  ## Tracing
-
-  # Trace UI
-  zipkin:
-    image: openzipkin/zipkin
-    ports:
-    - 9411:9411
-    environment:
-    - STORAGE_TYPE=elasticsearch
-    - ES_HOSTS=elasticsearch:9200
-    - ZIPKIN_LOG_LEVEL=DEBUG
-    - ES_HTTP_LOGGING=BODY
-    - ES_USERNAME=elastic
-    - ES_PASSWORD=changeme
-    depends_on:
-    - elasticsearch
-
-  zipkin-dependencies:
-    image: openzipkin/zipkin-dependencies
-    ports:
-      - 9412:9412
-    environment:
-      - STORAGE_TYPE=elasticsearch
-      - ES_HOSTS=elasticsearch:9200
-      - ZIPKIN_LOG_LEVEL=DEBUG
-      - ES_HTTP_LOGGING=BODY
-      - ES_NODES_WAN_ONLY=true
-      - ES_USERNAME=elastic
-      - ES_PASSWORD=changeme
-    depends_on:
-      - elasticsearch
 
 volumes:
   olly-elasticsearch:
