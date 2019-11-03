@@ -3,6 +3,7 @@ package com.github.olly.workshop.imagegrayscale.service;
 import io.honeycomb.beeline.tracing.Beeline;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,6 +15,9 @@ public class EventService {
 
     @Autowired(required = false)
     private Beeline beeline;
+
+    @Value("${events.enabled:true}")
+    private Boolean EVENTS_ENABLED;
 
     private static Map<String, Event> events = new HashMap<String, Event>();
     private static final String EVENT_ID_KEY = "event.id";
@@ -46,6 +50,9 @@ public class EventService {
     }
 
     public void publishEvent(String message) {
+        if (!EVENTS_ENABLED) {
+            return;
+        }
         getActiveEvent().publish(message);
         // clean up
         MDC.remove(EVENT_ID_KEY);

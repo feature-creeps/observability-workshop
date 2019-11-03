@@ -10,6 +10,7 @@ services:
       - 80:80
     environment:
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -26,6 +27,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -43,6 +45,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -59,6 +62,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -75,6 +79,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -91,6 +96,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -107,6 +113,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -123,6 +130,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
