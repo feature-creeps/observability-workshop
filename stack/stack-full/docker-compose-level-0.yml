@@ -1,0 +1,110 @@
+version: '2.1'
+services:
+
+  ## Domain
+  frontend:
+    build: ../services/frontend
+    ports:
+      - 80:80
+
+  imageorchestrator:
+    build: ../services/imageorchestrator
+    ports:
+    - 8080:8080
+    mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imageholder:
+    build: ../services/imageholder
+    depends_on:
+    - mongodb
+    ports:
+    - 8081:8080
+    mem_limit: 1g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imagerotator:
+    build: ../services/imagerotator
+    ports:
+      - 8082:8080
+    mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imagegrayscale:
+    build: ../services/imagegrayscale
+    ports:
+      - 8083:8080
+    mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imageresize:
+    build: ../services/imageresize
+    ports:
+      - 8084:8080
+    mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imageflip:
+    build: ../services/imageflip
+    ports:
+      - 8085:8080
+    mem_limit: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  imagethumbnail:
+    build: ../services/imagethumbnail
+    ports:
+      - 8086:8080
+    mem_limit: 4g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - HONEYCOMB_ENABLED
+
+  traffic-gen:
+    build: ../services/traffic-gen
+    depends_on:
+    - imageholder
+    - imageorchestrator
+    restart: on-failure
+
+  ## Storage
+
+  # database
+  mongodb:
+    image: mongo:3.2.12
+
+    # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
+    command: "--wiredTigerCacheSizeGB 2"
+    ports:
+    - '27017'
+    volumes:
+    - olly-mongodb:/data/db
+
+  ## Logging
+
+
+  ## Monitoring
+
+
+
+volumes:
+  olly-elasticsearch:
+    driver: local
+  olly-mongodb:
+    driver: local
+  olly-prometheus:
+    driver: local
+  olly-metricbeat:
+    driver: local
