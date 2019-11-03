@@ -8,6 +8,8 @@ services:
       - fluentd
     ports:
       - 80:80
+    environment:
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -23,6 +25,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -39,6 +42,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -54,6 +58,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -69,6 +74,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -84,6 +90,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -99,6 +106,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:
@@ -114,6 +122,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
     logging:
       driver: "fluentd"
       options:

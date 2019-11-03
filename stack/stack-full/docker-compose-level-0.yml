@@ -4,6 +4,8 @@ services:
   ## Domain
   frontend:
     build: ../services/frontend
+    environment:
+      - SPRING_PROFILES_ACTIVE=line-log
     ports:
       - 80:80
 
@@ -15,6 +17,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imageholder:
     build: ../services/imageholder
@@ -26,6 +29,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imagerotator:
     build: ../services/imagerotator
@@ -35,6 +39,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imagegrayscale:
     build: ../services/imagegrayscale
@@ -44,6 +49,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imageresize:
     build: ../services/imageresize
@@ -53,6 +59,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imageflip:
     build: ../services/imageflip
@@ -62,6 +69,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   imagethumbnail:
     build: ../services/imagethumbnail
@@ -71,6 +79,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=line-log
 
   traffic-gen:
     build: ../services/traffic-gen
