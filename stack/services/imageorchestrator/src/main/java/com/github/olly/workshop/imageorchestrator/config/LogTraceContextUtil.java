@@ -48,8 +48,8 @@ public class LogTraceContextUtil {
         if (transformationRequest != null) {
             put("imageId", transformationRequest.getImageId());
             put("imageName", transformationRequest.getName());
-            put("persist", String.valueOf(transformationRequest.getPersist()));
-            put("transformationType", String.valueOf(transformationRequest.getTransformationTypes()));
+            put("persist", transformationRequest.getPersist());
+            put("transformationType", transformationRequest.getTransformationTypes());
             transformationRequest.getTransformations().forEach(LogTraceContextUtil::transformationProperties);
         }
     }
@@ -75,9 +75,9 @@ public class LogTraceContextUtil {
     }
 
     private void put(String key, String value) {
-        MDC.put(key, value);
+        MDC.put(key, String.valueOf((Object) value));
         if (TRACING_TAGS_ENABLED) {
-            span.tag(key, value);
+            span.tag(key, String.valueOf((Object) value));
         }
     }
 }
