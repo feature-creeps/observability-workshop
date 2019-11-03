@@ -8,10 +8,6 @@ services:
       - fluentd
     ports:
       - 80:80
-    environment:
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
