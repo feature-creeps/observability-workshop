@@ -37,8 +37,8 @@ public class LoggingContextUtil {
         if (transformationRequest != null) {
             MDC.put("imageId", transformationRequest.getImageId());
             MDC.put("imageName", transformationRequest.getName());
-            MDC.put("persist", transformationRequest.getPersist().toString());
-            MDC.put("transformationType", transformationRequest.getTransformationTypes().toString());
+            MDC.put("persist", String.valueOf(transformationRequest.getPersist()));
+            MDC.put("transformationType", String.valueOf(transformationRequest.getTransformationTypes()));
             transformationRequest.getTransformations().forEach(LoggingContextUtil::transformationProperties);
         }
     }
