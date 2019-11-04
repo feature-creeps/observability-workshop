@@ -324,7 +324,7 @@ services:
 
   # Trace UI
   zipkin:
-    image: openzipkin/zipkin
+    image: openzipkin/zipkin:2.17
     ports:
     - 9411:9411
     environment:
@@ -334,6 +334,7 @@ services:
     - ES_HTTP_LOGGING=BODY
     - ES_USERNAME=elastic
     - ES_PASSWORD=changeme
+    - ZIPKIN_UI_USE_LENS=true
     depends_on:
     - elasticsearch
 
