@@ -36,10 +36,11 @@ public class ImageService {
     }
 
     private void checkForImageLimit() {
-        final Collection<Image> allImagesLight = getAllImagesLight();
+        Collection<Image> allImagesLight = getAllImagesLight();
         while (allImagesLight.size() >= MAX_IMAGES_TO_KEEP) {
             LOGGER.warn("Too many images in db: {}/{}. Deleting a random image..", allImagesLight.size(), MAX_IMAGES_TO_KEEP);
             deleteOneRandomImage(allImagesLight);
+            allImagesLight = getAllImagesLight();
         }
     }
 
