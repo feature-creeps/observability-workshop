@@ -3,7 +3,7 @@ services:
 
   ## Domain
   frontend:
-    build: ../services/frontend
+    build: ../application/frontend
     depends_on:
       - fluentd
     ports:
@@ -14,7 +14,7 @@ services:
         fluentd-address: localhost:24224
 
   imageorchestrator:
-    build: ../services/imageorchestrator
+    build: ../application/imageorchestrator
     depends_on:
     - fluentd
     ports:
@@ -25,7 +25,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
       - TRACING_TAGS_ENABLED=false
     logging:
@@ -34,7 +34,7 @@ services:
         fluentd-address: localhost:24224
 
   imageholder:
-    build: ../services/imageholder
+    build: ../application/imageholder
     depends_on:
     - mongodb
     - fluentd
@@ -46,7 +46,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -54,7 +54,7 @@ services:
         fluentd-address: localhost:24224
 
   imagerotator:
-    build: ../services/imagerotator
+    build: ../application/imagerotator
     depends_on:
       - fluentd
     ports:
@@ -65,7 +65,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -73,7 +73,7 @@ services:
         fluentd-address: localhost:24224
 
   imagegrayscale:
-    build: ../services/imagegrayscale
+    build: ../application/imagegrayscale
     depends_on:
       - fluentd
     ports:
@@ -84,7 +84,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -92,7 +92,7 @@ services:
         fluentd-address: localhost:24224
 
   imageresize:
-    build: ../services/imageresize
+    build: ../application/imageresize
     depends_on:
       - fluentd
     ports:
@@ -103,7 +103,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -111,7 +111,7 @@ services:
         fluentd-address: localhost:24224
 
   imageflip:
-    build: ../services/imageflip
+    build: ../application/imageflip
     depends_on:
       - fluentd
     ports:
@@ -122,7 +122,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -130,7 +130,7 @@ services:
         fluentd-address: localhost:24224
 
   imagethumbnail:
-    build: ../services/imagethumbnail
+    build: ../application/imagethumbnail
     depends_on:
       - fluentd
     ports:
@@ -141,7 +141,7 @@ services:
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
       - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=false
+      - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
@@ -149,7 +149,7 @@ services:
         fluentd-address: localhost:24224
 
   traffic-gen:
-    build: ../services/traffic-gen
+    build: ../infrastructure/traffic-gen
     depends_on:
     - fluentd
     - imageholder
@@ -183,7 +183,7 @@ services:
 
   # log collector
   fluentd:
-    build: ../services/fluentd
+    build: ../infrastructure/fluentd
     command: -qq
     depends_on:
     - elasticsearch
@@ -215,7 +215,7 @@ services:
     - 9200:9200
 
   kibana-index:
-    build: ../services/kibana-index
+    build: ../infrastructure/kibana-index
     depends_on:
     - kibana
     - elasticsearch
@@ -223,13 +223,22 @@ services:
 
   # logs visualizer
   kibana:
-    build: ../services/kibana
+    build: ../infrastructure/kibana
     depends_on:
     - elasticsearch
     volumes:
     - olly-prometheus:/prometheus
     ports:
     - 5601:5601
+
+  heartbeat:
+    build: ../infrastructure/heartbeat
+    user: root
+    # disable strict permission checks
+    command: ["--strict.perms=false"]
+    depends_on:
+      - kibana
+      - elasticsearch
 
 volumes:
   olly-elasticsearch:

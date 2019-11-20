@@ -1,0 +1,20 @@
+actions:
+
+  1:
+    action: delete_indices
+    description: >-
+      Delete non system indices older than 3 days.
+    options:
+      ignore_empty_list: True
+      timeout_override:
+      continue_if_exception: False
+      disable_action: False
+    filters:
+    - filtertype: age
+      source: creation_date
+      direction: older
+      unit: days
+      unit_count: 3
+    - filtertype: pattern
+      kind: regex
+      value: '^[^\.].*'
