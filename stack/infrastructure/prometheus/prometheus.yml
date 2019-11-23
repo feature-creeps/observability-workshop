@@ -97,3 +97,9 @@ scrape_configs:
   metrics_path: /_prometheus/metrics
   static_configs:
     - targets: ['kibana:5601']
+
+- job_name: loki
+  scrape_interval: 30s
+  metrics_path: /metrics
+  static_configs:
+    - targets: ['loki:3100']
