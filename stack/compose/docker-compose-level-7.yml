@@ -200,6 +200,12 @@ services:
     - "24224:24224"
     - "24224:24224/udp"
 
+  loki:
+    image: grafana/loki:v1.0.0
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+
   # search engine, storage
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1

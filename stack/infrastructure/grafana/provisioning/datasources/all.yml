@@ -7,3 +7,19 @@ datasources:
   is_default: true
   version: 1
   editable: true
+- name: 'Prometheus Loki'
+  type: 'prometheus'
+  access: 'proxy'
+  org_id: 1
+  url: 'http://loki:3100/loki'
+  is_default: false
+  version: 1
+  editable: true
+- name: 'Loki'
+  type: 'loki'
+  access: 'proxy'
+  org_id: 1
+  url: 'http://loki:3100'
+  is_default: false
+  version: 1
+  editable: true

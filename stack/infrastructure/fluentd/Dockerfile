@@ -4,6 +4,7 @@ USER root
 
 RUN fluent-gem install fluent-plugin-elasticsearch
 RUN fluent-gem install fluent-plugin-prometheus
+RUN fluent-gem install fluent-plugin-grafana-loki
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \

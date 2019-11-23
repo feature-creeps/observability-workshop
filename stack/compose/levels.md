@@ -40,23 +40,27 @@ We have set up multiple docker compose yamls to represent different levels of Ob
 * events in EFK
 * structured, one liner logs, aggregated & centralized in EFK
 * technical & business monitoring in prometheus / grafana
+* labeled logs in loki / grafana
 * no tracing
 
 ##### Level 7
 * events in EFK
 * structured, one liner logs, aggregated & centralized in EFK
 * technical & business monitoring in prometheus / grafana
+* labeled logs in loki / grafana
 * non centextual tracing in zipkin
 
 ##### Level 8
 * events in EFK
 * structured, one liner logs, aggregated & centralized in EFK
 * technical & business monitoring in prometheus / grafana
+* labeled logs in loki / grafana
 * centextual tracing in zipkin
 
 ##### Level 8
 * events in EFK
 * structured, one liner logs, aggregated & centralized in EFK
 * technical & business monitoring in prometheus / grafana
+* labeled logs in loki / grafana
 * centextual tracing in zipkin
 * APM (tracing) in EFK
