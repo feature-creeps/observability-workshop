@@ -14,7 +14,7 @@ for INDEX in $INDICES; do
           -H "kbn-xsrf: anything" \
           "http://elastic:changeme@$KIBANA_HOST:5601/api/saved_objects/index-pattern/$INDEX" \
           -d"{\"attributes\":{\"title\":\"$INDEX*\",\"timeFieldName\":\"@timestamp\"}}"
-       let EXIT=$EXIT + $?
+       let EXIT=$EXIT+$?
     fi
 done
 
