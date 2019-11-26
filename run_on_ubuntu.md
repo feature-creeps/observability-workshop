@@ -36,3 +36,23 @@ runuser -l olly -c 'git clone https://github.com/feature-creeps/observability-wo
 # start stack
 runuser -l olly -c 'docker-compose -f $HOME/observability-workshop/stack/stack-full/docker-compose.yml up --build -d'
 ```
+
+To reset the stack every night we add a cronjob:
+```bash
+# add a reset.sh script with the following content and chmod +x
+# #!/bin/bash
+# 
+# docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
+# 	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
+# 	down -v --remove-orphans
+# 
+# docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
+# 	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
+# 	up --build -d
+
+# edit cronjobs
+crontab -e
+
+# add this line
+# 0 0 * * * /home/olly/reset.sh
+```
