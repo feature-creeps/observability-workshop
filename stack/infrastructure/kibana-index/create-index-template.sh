@@ -1,4 +1,4 @@
-#!/binbash
+#!/bin/bash
 
 curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -H 'Content-Type: application/json' -d'
 {
