@@ -1,66 +1,67 @@
 # Levels of the stack
 
+We have set up multiple docker compose yaml to represent different levels of Observability within the same stack.
 
-We have set up multiple docker compose yamls to represent different levels of Observability within the same stack.
+## Level 0
+* Logs: unstructured, not aggregated or centralized.
+* Monitoring: none
+* Tracing: none
+* *Challenge: In what order did a multiple transformation occur*
 
-##### Level 0
-* unstructured, one liner logs, not aggregated & centralized
-* no monitoring
-* no tracing
+## Level 1
+* Logs: unstructured, aggregated & centralized in EFK
+* Monitoring: none
+* Tracing: none
+* *Challenge: *
 
-##### Level 1
-* unstructured, one liner logs, aggregated & centralized in EFK
-* no monitoring
-* no tracing
+## Level 2
+* Logs: structured, aggregated & centralized in EFK
+* Monitoring: none
+* Tracing: none
+* *Challenge: *
 
-##### Level 2
-* structured, one liner logs, aggregated & centralized in EFK
-* no monitoring
-* no tracing
+## Level 3
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: none
+* Tracing: none
+* *Challenge: *
 
-##### Level 3
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* no monitoring
-* no tracing
+## Level 4
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime (blackbox) monitoring in EFK
+* Tracing: none
+* *Challenge: *
 
-##### Level 4
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* only uptime (blackbox) monitoring
-* no tracing
+## Level 5
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime and technical monitoring in prometheus / grafana
+* Tracing: none
+* *Challenge: *
 
-##### Level 5
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* only technical monitoring in prometheus / grafana
-* no tracing
-
-##### Level 6
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* technical & business monitoring in prometheus / grafana
+## Level 6
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
-* no tracing
+* Tracing: none
+* *Challenge: *
 
-##### Level 7
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* technical & business monitoring in prometheus / grafana
+## Level 7
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
-* non centextual tracing in zipkin
+* Tracing: basic service to service tracing in zipkin
+* *Challenge: *
 
-##### Level 8
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* technical & business monitoring in prometheus / grafana
+## Level 8
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
-* centextual tracing in zipkin
+* Tracing: business context event data included in service to service tracing in zipkin
+* *Challenge: *
 
-##### Level 8
-* events in EFK
-* structured, one liner logs, aggregated & centralized in EFK
-* technical & business monitoring in prometheus / grafana
+## Level 8
+* Logs: structured events and logs, aggregated & centralized in EFK
+* Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
-* centextual tracing in zipkin
-* APM (tracing) in EFK
+* Tracing: business context event data included in service to service tracing in zipkin and APM (tracing) in EFK
+* *Challenge: *

@@ -34,7 +34,7 @@ runuser -l olly -c 'echo "<insert key here>" > /home/olly/.ssh/authorized_keys'
 runuser -l olly -c 'git clone https://github.com/feature-creeps/observability-workshop.git $HOME/observability-workshop'
 
 # start stack
-runuser -l olly -c 'docker-compose -f $HOME/observability-workshop/stack/stack-full/docker-compose.yml up --build -d'
+runuser -l olly -c '$HOME/observability-workshop/start-stack-in-level.sh 5'
 ```
 
 To reset the stack every night we add a cronjob:

@@ -1,6 +1,6 @@
 # Creating a workshop machine
 
-## Prerequisits
+## Prerequisites
 
 > NOTE: These instructions are all written from the point of view of region `eu-west-2`. This is not required but please change each location of this region name if you choose to use a different one.
 
@@ -9,17 +9,17 @@
     - Once you have an account set up, you will need to set up the [aws command line tool](https://docs.aws.amazon.com/cli/index.html).
 1. A VPC
     - The AWS region you will be using needs an existing VPC in it for the application machine to be built in.
-    - This can be checked via commandline: `aws ec2 describe-vpcs`.
-    - To create one via commandline if needed use: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
+    - This can be checked via command-line: `aws ec2 describe-vpcs`.
+    - To create one via command-line if needed use: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
 1. `m5.2xlarge` machine type available
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
  1. The [mozilla sops](https://github.com/mozilla/sops) utility installed. 
-    - This can be checked via commandline: `sops --version` (currently at: `sops 3.3.1 (latest)`)
+    - This can be checked via command-line: `sops --version` (currently at: `sops 3.3.1 (latest)`)
     - On MacOS: You can use `homebrew` to install - `brew install sops`
  1. gpg installed and the `featurecreeps` pgp key imported. This lives in the keybase team drive at /keybase/team/featurecreeps/gpg/featurecreeps.asc.
-    - This can be checked via commandline: `keybase --version` (currently at: `keybase version 4.1.0-20190612201656+952fee6c59`)
-    - You will then need to be both loged in with `keybase login` and have the app started locally with `run_keybase`
+    - This can be checked via command-line: `keybase --version` (currently at: `keybase version 4.1.0-20190612201656+952fee6c59`)
+    - You will then need to be both logged in with `keybase login` and have the app started locally with `run_keybase`
     - `gpg --import /keybase/team/featurecreeps/gpg/featurecreeps.asc`
     
 
@@ -63,7 +63,7 @@ Some issues may run into:
     before exiting back to your local machine.
 1. (Optional) Set your shell environment to have environment variables used by the docker images. For example, the honeycomb key.
     ```bash
-    cd ./stack/stack-full
+    cd ./stack/compose
     export $(sops -d .sops.env)
     ```
     You should have the variables in your shell now. To check :
@@ -71,103 +71,32 @@ Some issues may run into:
     env | fgrep HONEYCOMB
     ```
     > Note: If you are not using a Honeycomb key you will see a warning logged `WARNING: The HONEYCOMB_KEY variable is not set. Defaulting to a blank string.`
-     
-1. To run the application, cd into `./stack/stack-full` and run `docker-compose up --build --detach`.
-    - `-d` runs the application in detached mode to allow you further use of your command line. If you remove the `-d` your application will log straight to the command line window you ran `up` in.
-    - `--build` rebuilds the application each time you run `up`. If you remove this it may speed up the build time but also may miss any local changes you introduce.
-    > Note: If you see an error like `ERROR: Couldn't connect to Docker daemon - you might need to run 'docker-machine start default'.` you may need to run in as sudo.
 
-### Access the environment
+## Access
+
+A prerequisite for all the following instructions is to first set your shell environment to use the new instance:
+```
+eval $(docker-machine env o11y-workshop)
+```
+
+### Accessing the running applications
 
 1. Get the machine IP:
     ```
     docker-machine ip o11y-workshop
     ```
-
 1. Go to a browser and request the ip without any port to reach the default UI:
     `xx.xx.xx.xx`
-1. Go to a browser and request the ip with the following ports to reach additional running applications:
-    | URL                                                      | application                                                                              |
-    | ---                                                      | ---                                                                                      |
-    | xx.xx.xx.xx:3000                                         | Grafana - data graphing and visualisation (https://grafana.com/)                         |
-    | xx.xx.xx.xx:9090                                         | Prometheus - metrics dataase query engine (https://prometheus.io)                        |
-    | xx.xx.xx.xx:9411                                         | OpenZipkin - traces (https://zipkin.io/)                                                 |
-    | xx.xx.xx.xx:5601                                         | Kibana - frontend query engine for ELK logging (https://www.elastic.co/products/kibana)  |
-    | https://ui.honeycomb.io/feature-creeps/home/workshop | Honeycomb - observability playform for event based queries                               |
-    | xx.xx.xx.xx:8080                                         | imageorchestrator |
-    | xx.xx.xx.xx:8081                                         | imageholder |
-    | xx.xx.xx.xx:8082                                         | imagerotator |
-    | xx.xx.xx.xx:8083                                         | imagegrayscale |
-    | xx.xx.xx.xx:8084                                         | imageresize |
-    | xx.xx.xx.xx:8085                                         | imageflip |
-    | xx.xx.xx.xx:8086                                         | imagethumbnail |
 
-### Generating traffic
+### Accessing the machine as the original creator
 
-#### Use the built in traffic generator
+ssh to the machine:
 
-We currently run a traffic generator by default when the application is built. If you want to just restart this it will generate the same traffic done at start up.
+1. `docker-machine ssh o11y-workshop`
 
-> Prerequisit: you will need to have set your command line to the remote docker-machine image using `eval $(docker-machine env o11y-workshop)`
-
-Stop and remove the current traffic generator with:
-```
-docker rm $(docker stop $(docker ps -a -q --filter ancestor=dima_traffic-gen --format="{{.ID}}"))
-```
-
-Restart the traffic generator by running:
-```
-docker-compose up --detach
-```
-
-
-#### Run an additional or different traffic generator
-
-> Prerequisit: you will need to have go and vegeta installed on your machine before proceeding
-
-1. To run the traffic generator to upload traffic :
-```
-go run main.go -d ~/work/flickrscrape/result -u http://<public_ip_of_docker_machine>:8080/api/images | \
-  vegeta attack -rate=10/m -lazy -format=json -duration=30s | \
-  tee results.bin | \
-  vegeta report
-```
-
-
-### Cleaning up the infrastructure
-
-1. To remove the machine, do `docker-machine rm o11y-workshop`
-
->NOTE: 
-> 
-> If you plan to do further work with this instance, you can run `docker-machine stop o11y-workshop` instead of rm. Be aware that when you start the instance again (using `docker-machine start o11y-workshop`) the IP address will have changed as it is assigned dynamically at startup. 
-> 
-> You will also need to regenerate certificates for the machine, using `docker-machine regenerate-certs o11y-workshop`.
-
-## Accessing the machine
-
-### Accessing the machine locally
-
-1. Set your shell environment to use the new instance:
-```
-eval $(docker-machine env o11y-workshop)
-```
-
-1. docker-machine ssh o11y-workshop
-
-### Accessing the machine remotely
+### Accessing the machine from a different computer
 
 The owner of the machine must provide other users with both the IP and the private key.
-
-1. Machine owner can set their shell environment to use the instance:
-```
-eval $(docker-machine env o11y-workshop)
-```
-
-1. To get the public IP of your instance:
-```
-docker-machine ip o11y-workshop
-```
 
 1. To get the private key for the machine:
 ```
@@ -176,7 +105,7 @@ cat $(docker-machine inspect -f {{.Driver.SSHKeyPath}} o11y-workshop)
 
 1. Save that private key in a known location on your computer (e.g. home/workshopkey)
 
-#### *nix and mac ssh
+#### ...ssh from *nix / mac
 
 1. Run the ssh command while specifically identifying the private key to use:
 ```
@@ -184,7 +113,7 @@ ssh -i ~/workshopkey ubuntu@ip.of.docker.machine
 ```
 > Note: You may need to confirm your ssh key file is set to secure enough permissions, you can review common settings here: https://superuser.com/questions/215504/permissions-on-private-key-in-ssh-folder
 
-#### Windows ssh
+#### ...ssh from windows
 
 If you have windows 10, you can turn on an optional feature of SSH Client:
 https://www.maketecheasier.com/use-windows10-openssh-client/
@@ -196,3 +125,13 @@ https://support.rackspace.com/how-to/log-into-a-linux-server-with-an-ssh-private
 
 HOW TO USE WINDOWS 10: 
 changing key ownership: https://superuser.com/questions/1296024/windows-ssh-permissions-for-private-key-are-too-open
+
+## Cleaning up the infrastructure
+
+1. To remove the machine, do `docker-machine rm o11y-workshop`
+
+>NOTE: 
+> 
+> If you plan to do further work with this instance, you can run `docker-machine stop o11y-workshop` instead of rm. Be aware that when you start the instance again (using `docker-machine start o11y-workshop`) the IP address will have changed as it is assigned dynamically at startup. 
+> 
+> You will also need to regenerate certificates for the machine, using `docker-machine regenerate-certs o11y-workshop`.

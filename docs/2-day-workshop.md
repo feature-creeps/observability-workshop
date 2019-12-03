@@ -35,9 +35,9 @@ To introduce the power of arbitrarily wide, context rich events and how to lever
 
 **Activities:**
 
-* Domain mapping: *Results in feature and risk assessment of the webapp*
+* Domain mapping: *Results in feature and risk assessment of the WebApp*
 * Architecture lecture: *Adding system architecture as influence of risk*
-* Tooling lecture: *First explosure to type of data structures and visualisation*
+* Tooling lecture: *First exposure to type of data structures and visualisation*
 * Full journey: *First look at tracing through to logs and higher level metrics*
 * Deep dive on logs: *Explore events vs logs and how to work with the data*
 * Deep dive on metrics: *Exposure to prometheus and how work with the data*
@@ -59,48 +59,39 @@ Before each activity, run [`start-stack-in-level.sh #`](../start-stack-in-level.
     * Description: *Unstructured logs on the machine*
         * Prerequisite: *SSH key on the box*
     * Key focus: *Aggregation*
-    * Task to try: *Check a log across multiple services*
+
 * Level 1
     * Description: *Unstructured logs in aggregate*
     * Key focus: *Can search across servers / services but requires strict text searches and maybe regex*
-    * Task to try: **
 
 * Level 2
     * Description: *Structured logs*
     * Key focus: *Structure allows easier filtering*
-    * Task to try: **
 
 * Level 3
     * Description: *Event logging*
     * Key focus: *All the context of a transaction is in a single location*
-    * Task to try: **
 
 * Level 4
     * Description: *Uptime monitoring*
     * Key focus: *Can be alerted to start looking into the logs, but what does UP mean?*
-    * Task to try: **
 
 * Level 5
     * Description: *Technical / server monitoring*
     * Key focus: *Technical metrics can provide a lot of insight into system use, but also require gymnastics to apply to business context*
-    * Task to try: **
 
 * Level 6
     * Description: *Business context monitoring*
     * Key focus: *Readability and clarity on what matters to your business*
-    * Task to try: **
 
 * Level 7
     * Description: *Basic tracing*
     * Key focus: *Can see an error in the context of the larger request*
-    * Task to try: **
 
 * Level 8
     * Description: *Context rich traces*
     * Key focus: *Having context built in decreases copy / paste between tools*
-    * Task to try: **
 
 * Level 9
     * Description: *All data in a single location*
     * Key focus: *Building all visualisations off a single context rich / arbitrarily wide event provides flexibility and explorability*
-    * Task to try: **

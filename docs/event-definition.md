@@ -1,23 +1,23 @@
-#event
+# event
 
+## definition
 
-### definition
 * encompasses one unit of work being executed by one process
     * examples:
         * HTTP call to a service endpoint
         * message received via message broker (listener triggered)
         * cron job triggered
         * file/dir listener triggered
-        * ...?
 * properties
-    * unique id
-    * a start time
-    * an end time 
-    * a duration
-    * a type (HTTP call, message, cron job, ..)
-    * reference to other events
-    * an arbritrary number of domain specific fields
-
+    * required:
+        * unique id
+        * a start time
+        * an end time 
+        * a duration
+    * optional:
+        * a type (HTTP call, message, cron job, ..)
+        * reference to other events
+        * an arbitrary number of domain specific fields
 
 ### challenges
 * all the properties of an event are domain specific
