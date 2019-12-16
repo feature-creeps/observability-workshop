@@ -13,26 +13,29 @@ public class MetricsService {
 
     private final MeterRegistry registry;
 
-    private final ImageService imageService;
+    private final ImageRepository imageRepository;
 
     private static Gauge imagesInDatabase;
 
     private final Boolean BUSINESS_METRICS_ENABLED;
 
     @Autowired
-    public MetricsService(MeterRegistry registry, ImageService imageService,
+    public MetricsService(MeterRegistry registry, ImageRepository imageRepository,
                           @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
         this.registry = registry;
-        this.imageService = imageService;
+        this.imageRepository = imageRepository;
         this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
 
         if (BUSINESS_METRICS_ENABLED) {
             imagesInDatabase = Gauge
-                    .builder("application_images_in_database", imageService, ImageService::numberOfImagesInDb)
+                    .builder("application_images_in_database", this, MetricsService::numberOfImagesInDb)
                     .register(registry);
         }
     }
 
+    private double numberOfImagesInDb() {
+        return imageRepository.findAllIds().size();
+    }
 
     public void imageUploaded(Image image) {
         if (BUSINESS_METRICS_ENABLED) {
