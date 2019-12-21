@@ -99,7 +99,9 @@ public class TransformationService {
     }
 
     private Image transformFlip(Image image, Map<String, String> properties) {
-        Image transformed = imageFlipClient.transform(image, Boolean.valueOf(properties.get("vertical")), Boolean.valueOf(properties.get("horizontal")));
+        Image transformed = imageFlipClient.transform(image,
+                Boolean.parseBoolean(properties.get("vertical")),
+                Boolean.parseBoolean(properties.get("horizontal")));
         LOGGER.info("Flipped image OK");
         return transformed;
     }
