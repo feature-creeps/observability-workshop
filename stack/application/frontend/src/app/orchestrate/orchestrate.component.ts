@@ -112,21 +112,20 @@ export class OrchestrateComponent implements OnInit {
     let tfr: TransformationRequest = new TransformationRequest(this.displayId)
 
     // rotate
-    let rotate = formInput.querySelectorAll("#rotate")[0];
-    if (rotate.checked == true) {
+    let degrees = formInput.querySelectorAll("#degrees")[0].value;
+    if (degrees) {
       let tr: Transformation = new Transformation();
       tr.type = TransformationType.rotate;
-      let degrees = formInput.querySelectorAll("#degrees")[0].value;
       tr.properties.degrees = degrees
       tfr.transformations.push(tr);
     }
 
     // resize
     let resize = formInput.querySelectorAll("#resize")[0];
-    if (resize.checked == true) {
+    let factor = formInput.querySelectorAll("#factor")[0].value
+    if (factor) {
       let tr: Transformation = new Transformation();
       tr.type = TransformationType.resize;
-      let factor = formInput.querySelectorAll("#factor")[0].value;
       tr.properties.factor = factor
       tfr.transformations.push(tr);
     }
