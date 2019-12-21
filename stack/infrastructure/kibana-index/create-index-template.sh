@@ -19,11 +19,11 @@ curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -
       "span.finishedAt":    { "type": "date" },
       "span.response_status":    { "type": "integer" },
       "span.startedAt":    { "type": "date" },
-      "span.tranformation_flip":    { "type": "boolean" },
-      "span.tranformation_greyscale":    { "type": "boolean" },
-      "span.tranformation_image_persist":    { "type": "boolean" },
-      "span.tranformation_resize":    { "type": "boolean" },
-      "span.tranformation_rotate":    { "type": "boolean" }
+      "span.transformation_flip":    { "type": "boolean" },
+      "span.transformation_greyscale":    { "type": "boolean" },
+      "span.transformation_image_persist":    { "type": "boolean" },
+      "span.transformation_resize":    { "type": "boolean" },
+      "span.transformation_rotate":    { "type": "boolean" }
     }
   }
 }

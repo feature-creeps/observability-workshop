@@ -40,7 +40,7 @@ public class ImageService {
         // load the image from imageholder
         Image originalImage;
         try {
-            this.eventService.addFieldToActiveEvent("tranformation.image.id", transformationRequest.getImageId());
+            this.eventService.addFieldToActiveEvent("transformation.image.id", transformationRequest.getImageId());
             originalImage = loadImage(transformationRequest.getImageId());
         } catch (Throwable ex) {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
@@ -51,11 +51,11 @@ public class ImageService {
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
-        this.eventService.addFieldToActiveEvent("tranformation.image.content.type", transformedImage.getMimeType());
+        this.eventService.addFieldToActiveEvent("transformation.image.content.type", transformedImage.getMimeType());
         metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
-            this.eventService.addFieldToActiveEvent("tranformation.image.persist", true);
+            this.eventService.addFieldToActiveEvent("transformation.image.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
 

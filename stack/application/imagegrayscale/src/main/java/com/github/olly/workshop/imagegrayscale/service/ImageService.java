@@ -35,8 +35,8 @@ public class ImageService {
 
             final byte[] imageBytes = bufferedImageToByteArray(grayScaleImage, formatName);
 
-            this.eventService.addFieldToActiveEvent("tranformation.content.type", image.getContentType());
-            this.eventService.addFieldToActiveEvent("tranformation.content.size", imageBytes.length);
+            this.eventService.addFieldToActiveEvent("transformation.content.type", image.getContentType());
+            this.eventService.addFieldToActiveEvent("transformation.content.size", imageBytes.length);
             metricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
 
             return imageBytes;

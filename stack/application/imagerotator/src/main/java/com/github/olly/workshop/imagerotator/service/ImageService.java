@@ -31,7 +31,7 @@ public class ImageService {
             InputStream in = new ByteArrayInputStream(file.getBytes());
             String formatName = file.getContentType().split("/")[1];
             final BufferedImage rotatedImage = rotate(ImageIO.read(in), degrees);
-            this.eventService.addFieldToActiveEvent("tranformation.rotate.degrees", String.valueOf(degrees));
+            this.eventService.addFieldToActiveEvent("transformation.rotate.degrees", String.valueOf(degrees));
             final byte[] imageBytes = bufferedImageToByteArray(rotatedImage, formatName);
 
             metricsService.imageRotated(file.getContentType(), String.valueOf(degrees));
