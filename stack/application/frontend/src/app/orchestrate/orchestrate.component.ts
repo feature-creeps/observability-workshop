@@ -121,7 +121,6 @@ export class OrchestrateComponent implements OnInit {
     }
 
     // resize
-    let resize = formInput.querySelectorAll("#resize")[0];
     let factor = formInput.querySelectorAll("#factor")[0].value
     if (factor) {
       let tr: Transformation = new Transformation();
