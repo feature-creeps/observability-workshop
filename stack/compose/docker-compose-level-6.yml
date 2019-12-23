@@ -134,7 +134,7 @@ services:
     depends_on:
       - fluentd
     ports:
-      - 8086:8080
+      - 8080
     mem_limit: 4g
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}

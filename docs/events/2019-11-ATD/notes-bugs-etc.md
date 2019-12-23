@@ -1,5 +1,4 @@
 ### Notes:
-* for boolean fields like "flip" assure that it is not only true and non-existent, but also false
 * Endpoint is null in many cases
 * Review log levels (especially for 4xx/5xx)
 * We have many exceptions in elastic for some time. Need to look into that. Might affect performance if not functionality.
@@ -20,10 +19,11 @@
 
 
 ### WIP
-* If resize number put in, tickbox can be not clicked and resize is still in
-  ** in branch remove-checkboxes
+* for boolean fields like "flip" assure that it is not only true and non-existent, but also false
 * Align fields between structured logs and events.
   ** in branch align-log-fields
 ### DONE
 * We have to add the index template to elasticsearch on startup (before any documents are written).
 * Align credentials to services.
+* If resize number put in, tickbox can be not clicked and resize is still in
+  ** in branch remove-checkboxes
