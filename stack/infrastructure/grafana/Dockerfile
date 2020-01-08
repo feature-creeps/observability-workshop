@@ -1,4 +1,4 @@
-FROM grafana/grafana:6.1.6
+FROM grafana/grafana:6.5.2
 ENV GF_PATHS_CONFIG /etc/grafana/config.ini
 ADD ./provisioning /etc/grafana/provisioning
 ADD ./config.ini $GF_PATHS_CONFIG
