@@ -11,5 +11,9 @@ export class ToolsComponent {
   constructor() {
   }
 
+  getToolURL(port: string) {
+    return "http://" + window.location.hostname + port
+  }
+
   environment = environment;
 }

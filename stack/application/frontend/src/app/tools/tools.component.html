@@ -13,7 +13,7 @@
         <p>
           <img src="assets/img/kibana.svg" class="logo">
           <a class="btn btn-secondary dima-btn" target="_blank"
-             [href]="environment.tools.kibana" role="button">Kibana »</a>
+             [href]="getToolURL(environment.tools.kibana)" role="button">Kibana »</a>
         </p>
       </div>
       <div class="col-md-6">
@@ -22,12 +22,12 @@
         <p>
           <img src="assets/img/grafana.svg" class="logo">
           <a class="btn btn-secondary dima-btn" target="_blank"
-             [href]="environment.tools.grafana" role="button">Grafana »</a>
+             [href]="getToolURL(environment.tools.grafana)" role="button">Grafana »</a>
         </p>
         <p>
           <img src="assets/img/prometheus.svg" class="logo">
           <a class="btn btn-secondary dima-btn" target="_blank"
-             [href]="environment.tools.prometheus" role="button">Prometheus »</a>
+             [href]="getToolURL(environment.tools.prometheus)" role="button">Prometheus »</a>
         </p>
       </div>
       <div class="col-md-6">
@@ -36,7 +36,7 @@
         <p>
           <img src="assets/img/zipkin.svg" class="logo">
           <a class="btn btn-secondary dima-btn" target="_blank"
-             [href]="environment.tools.zipkin" role="button">Zipkin »</a>
+             [href]="getToolURL(environment.tools.zipkin)" role="button">Zipkin »</a>
         </p>
       </div>
     </div>

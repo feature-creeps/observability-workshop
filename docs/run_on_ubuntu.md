@@ -19,7 +19,7 @@ apt-get install -y docker-ce docker-ce-cli containerd.io
 curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# increase max map count
+# increase max map count for elastic search
 sysctl -w vm.max_map_count=262144
 
 # create user
@@ -34,25 +34,28 @@ runuser -l olly -c 'echo "<insert key here>" > /home/olly/.ssh/authorized_keys'
 runuser -l olly -c 'git clone https://github.com/feature-creeps/observability-workshop.git $HOME/observability-workshop'
 
 # start stack
-runuser -l olly -c '$HOME/observability-workshop/start-stack-in-level.sh 5'
+runuser -l olly -c '$HOME/observability-workshop/start-stack-in-level.sh 9'
 ```
 
 To reset the stack every night we add a cronjob:
+* add a `reset.sh` script with the following content and `chmod +x`
 ```bash
-# add a reset.sh script with the following content and chmod +x
-# #!/bin/bash
-# 
-# docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
-# 	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
-# 	down -v --remove-orphans
-# 
-# docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
-# 	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
-# 	up --build -d
+#!/bin/bash
 
-# edit cronjobs
+docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
+	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
+	down -v --remove-orphans
+
+docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
+	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
+	up --build -d
+```
+
+* edit cronjobs
+```
 crontab -e
-
-# add this line
-# 0 0 * * * /home/olly/reset.sh
+```
+* add this line
+```
+0 0 * * * /home/olly/reset.sh
 ```
