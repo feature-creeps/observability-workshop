@@ -40,22 +40,22 @@ public class ImageService {
         // load the image from imageholder
         Image originalImage;
         try {
-            this.eventService.addFieldToActiveEvent("transformation.image.id", transformationRequest.getImageId());
+            this.eventService.addFieldToActiveEvent("content.transformed.imageId", transformationRequest.getImageId());
             originalImage = loadImage(transformationRequest.getImageId());
         } catch (Throwable ex) {
             LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
             return null;
         }
         contextUtil.put(originalImage);
-        this.eventService.addFieldToActiveEvent("content.size.original", originalImage.getSize());
+        this.eventService.addFieldToActiveEvent("content.size", originalImage.getSize());
 
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
-        this.eventService.addFieldToActiveEvent("transformation.image.content.type", transformedImage.getMimeType());
+        this.eventService.addFieldToActiveEvent("content.transformed.type", transformedImage.getMimeType());
         metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
-            this.eventService.addFieldToActiveEvent("transformation.image.persist", true);
+            this.eventService.addFieldToActiveEvent("content.transformed.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
 

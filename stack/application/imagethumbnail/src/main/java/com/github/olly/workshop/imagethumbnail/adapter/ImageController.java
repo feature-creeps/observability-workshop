@@ -35,6 +35,7 @@ public class ImageController {
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {
         Image image = imageService.thumbnail(id);
+        this.eventService.addFieldToActiveEvent("action", "thumbnail");
         this.eventService.addFieldToActiveEvent("content.imageId", id);
         loggingContextUtil.mdcPut(image.getContentType());
 
@@ -47,9 +48,8 @@ public class ImageController {
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
-        this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size.new", image.getSize());
-        this.eventService.addFieldToActiveEvent("content.size", image.getSize());
+        this.eventService.addFieldToActiveEvent("content.transformed.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("content.transformed.size", image.getSize());
         this.eventService.addFieldToActiveEvent("action.success", true);
 
         HttpHeaders headers = new HttpHeaders();

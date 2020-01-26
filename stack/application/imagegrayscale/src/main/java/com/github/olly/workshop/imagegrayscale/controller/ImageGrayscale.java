@@ -43,9 +43,9 @@ public class ImageGrayscale {
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
         }
         try {
-            this.eventService.addFieldToActiveEvent("content.size.original", image.getBytes().length);
+            this.eventService.addFieldToActiveEvent("content.size", image.getBytes().length);
         } catch (IOException e) {
-            this.eventService.addFieldToActiveEvent("content.size.original", -1);
+            this.eventService.addFieldToActiveEvent("content.size", -1);
         }
 
         LOGGER.info("Starting conversion");

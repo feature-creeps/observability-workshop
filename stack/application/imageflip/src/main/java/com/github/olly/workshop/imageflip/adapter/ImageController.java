@@ -39,7 +39,7 @@ public class ImageController {
                                     @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
 
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size.original", file.getBytes().length);
+        this.eventService.addFieldToActiveEvent("content.length", file.getBytes().length);
         this.eventService.addFieldToActiveEvent("action", "flip");
         this.eventService.addFieldToActiveEvent("transformation.flip_vertical", vertical);
         this.eventService.addFieldToActiveEvent("transformation.flip_horizontal", horizontal);
@@ -62,8 +62,7 @@ public class ImageController {
             this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to flip image", HttpStatus.INTERNAL_SERVER_ERROR);
         } else {
-            this.eventService.addFieldToActiveEvent("content.size.new", flippedImage.length);
-            this.eventService.addFieldToActiveEvent("content.size", flippedImage.length);
+            this.eventService.addFieldToActiveEvent("content.transformed.length", flippedImage.length);
         }
 
         HttpHeaders headers = new HttpHeaders();

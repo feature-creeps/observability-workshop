@@ -29,7 +29,7 @@ public class ImageService {
     public Image save(Image image) {
         checkForImageLimit();
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
-        this.eventService.addFieldToActiveEvent("imageId", image.getId());
+        this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         Image save = imageRepository.save(image);
         metricsService.imageUploaded(image);
         return save;
@@ -53,13 +53,13 @@ public class ImageService {
 
     public Collection<Image> getAllImages() {
         Collection<Image> all_images = imageRepository.findAll();
-        this.eventService.addFieldToActiveEvent("content.count", all_images.size());
+        this.eventService.addFieldToActiveEvent("total_images", all_images.size());
         return all_images;
     }
 
     public Collection<Image> getAllImagesLight() {
         Collection<Image> all_image_ids = imageRepository.findAllIds();
-        this.eventService.addFieldToActiveEvent("content.count", all_image_ids.size());
+        this.eventService.addFieldToActiveEvent("total_images", all_image_ids.size());
         return all_image_ids;
     }
 
@@ -76,7 +76,8 @@ public class ImageService {
 
 
     public boolean deleteImageById(String id) {
-        this.eventService.addFieldToActiveEvent("content.imageId.toBeDeleted", id);
+        this.eventService.addFieldToActiveEvent("action", "delete");
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);
@@ -100,7 +101,8 @@ public class ImageService {
                 .skip((int) (allImages.size() * Math.random()))
                 .findFirst().orElse(null);
 
-        this.eventService.addFieldToActiveEvent("content.random.id", image.getId());
+        this.eventService.addFieldToActiveEvent("action", "delete_random");
+        this.eventService.addFieldToActiveEvent("content.imageId", id);
         return image != null ? getImageById(image.getId()) : null;
     }
 }

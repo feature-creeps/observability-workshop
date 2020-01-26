@@ -36,7 +36,7 @@ public class ImageService {
             final byte[] imageBytes = bufferedImageToByteArray(flippedImage, formatName);
 
             metricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
-            this.eventService.addFieldToActiveEvent("transformation.content.type", file.getContentType()) ;
+            this.eventService.addFieldToActiveEvent("content.type", file.getContentType()) ;
 
             return imageBytes;
         } catch (IOException e) {

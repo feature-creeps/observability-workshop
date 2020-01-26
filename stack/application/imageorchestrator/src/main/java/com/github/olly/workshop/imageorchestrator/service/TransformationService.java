@@ -46,8 +46,8 @@ public class TransformationService {
 
         for (Transformation transformation : transformations) {
             contextUtil.put(transformation);
-            this.eventService.addFieldToActiveEvent("transformation.content_type", image.getMimeType());
-            this.eventService.addFieldToActiveEvent("transformation.transformation", transformation);
+            this.eventService.addFieldToActiveEvent("content.type", image.getMimeType());
+            this.eventService.addFieldToActiveEvent("transformation", transformation);
             this.eventService.addFieldToActiveEvent("transformation.properties", transformation.getProperties());
             switch (transformation.getType()) {
                 case grayscale:

@@ -57,11 +57,10 @@ public class ImageController {
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
             headers.set("Image-ID", transformedImage.getId());
             headers.set("access-control-expose-headers", "Image-ID");
-            this.eventService.addFieldToActiveEvent("content.type", MediaType.valueOf(transformedImage.getMimeType()));
-            this.eventService.addFieldToActiveEvent("content.size.new", transformedImage.getSize());
-            this.eventService.addFieldToActiveEvent("content.size", transformedImage.getSize());
-            this.eventService.addFieldToActiveEvent("content.transformed_id", transformedImage.getId());
-            this.eventService.addFieldToActiveEvent("action.success", true);
+            this.eventService.addFieldToActiveEvent("content.transformed.type", MediaType.valueOf(transformedImage.getMimeType()));
+            this.eventService.addFieldToActiveEvent("content.transformed.size", transformedImage.getSize());
+            this.eventService.addFieldToActiveEvent("content.transformed.id", transformedImage.getId());
+            this.eventService.addFieldToActiveEvent("action.transformed.success", true);
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {

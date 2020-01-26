@@ -38,9 +38,9 @@ public class ImageController {
 
         lcu.mdcPut(file.getContentType(), factor);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
-        this.eventService.addFieldToActiveEvent("content.size.original", file.getBytes().length);
+        this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
         this.eventService.addFieldToActiveEvent("action", "resize");
-        this.eventService.addFieldToActiveEvent("transformation.resize_factor", factor);
+        this.eventService.addFieldToActiveEvent("transformation.resize.factor", factor);
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
@@ -55,8 +55,7 @@ public class ImageController {
         LOGGER.info("Receiving {} image to resize by {} factor", file.getContentType(), intFactor);
 
         byte[] resizedImage = imageService.resize(file, intFactor);
-        this.eventService.addFieldToActiveEvent("content.size.new", resizedImage.length);
-        this.eventService.addFieldToActiveEvent("content.size", resizedImage.length);
+        this.eventService.addFieldToActiveEvent("content.transformed.size", resizedImage.length);
 
         if (resizedImage == null) {
             this.eventService.addFieldToActiveEvent("action.success", false);
