@@ -11,15 +11,15 @@
 * properties
     * required:
         * unique id
-        * a start time
-        * an end time 
+        * a starting timestamp
         * a duration
     * optional:
         * a type (HTTP call, message, cron job, ..)
-        * reference to other events
+        * reference to other events (parent id, trace id, ...)
         * an arbitrary number of domain specific fields
 
 ### challenges
+
 * all the properties of an event are domain specific
     * either in value format
         * eg how a date is represented
