@@ -18,9 +18,9 @@ There will always be bugs and issues that can be found. Some are planned, and ot
 
 ### Preparing infrastructure
 
-On AWS: [Instructions](docs/run_stack_on_aws.md)
+This stack takes a fair bit of RAM to run successfully, therefore we suggest running on a cloud VM. You can do this anywhere but if you would like to create one in AWS we have these [Instructions](docs/create_vm_in_aws.md)
 
-On ubuntu: [Instructions](docs/run_on_ubuntu.md)
+Once you have an ubuntu vm, you will need to install and run the application via these [Instructions](docs/run_stack_on_ubuntu.md)
 
 ### Selecting the application to run
 
