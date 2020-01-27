@@ -102,7 +102,8 @@ public class ImageService {
                 .findFirst().orElse(null);
 
         this.eventService.addFieldToActiveEvent("action", "delete_random");
+        final String id = image != null ? image.getId() : "null";
         this.eventService.addFieldToActiveEvent("content.imageId", id);
-        return image != null ? getImageById(image.getId()) : null;
+        return getImageById(id);
     }
 }
