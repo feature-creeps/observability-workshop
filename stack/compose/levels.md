@@ -24,26 +24,26 @@ We have set up multiple docker compose yaml to represent different [levels of Ob
 * Logs: structured events and logs, aggregated & centralized in EFK
 * Monitoring: none
 * Tracing: none
-* *Challenge: *
+* *Challenge:* (Given you can `docker rm dima_imagegrayscale_1`) *What has the uptime been for grayscale for the last 10 minutes?*
 
 ## [Level 4](./docker-compose-level-4.yml)
 * Logs: structured events and logs, aggregated & centralized in EFK
 * Monitoring: uptime (blackbox) monitoring in EFK
 * Tracing: none
-* *Challenge:*
+* *Challenge: How many requests are made per minute for the last 30 minutes to `/api/image/flip`?*
 
 ## [Level 5](./docker-compose-level-5.yml)
 * Logs: structured events and logs, aggregated & centralized in EFK
 * Monitoring: uptime and technical monitoring in prometheus / grafana
 * Tracing: none
-* *Challenge:*
+* *Challenge: How many images were grayscaled vs resized in the last hour?*
 
 ## [Level 6](./docker-compose-level-6.yml)
 * Logs: structured events and logs, aggregated & centralized in EFK
 * Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
 * Tracing: none
-* *Challenge:*
+* *Challenge: How many services are used to persist a resized image?*
 
 ## [Level 7](./docker-compose-level-7.yml)
 * Logs: structured events and logs, aggregated & centralized in EFK
