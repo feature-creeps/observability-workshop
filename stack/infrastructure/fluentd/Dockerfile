@@ -4,7 +4,7 @@ USER root
 
 RUN fluent-gem install fluent-plugin-elasticsearch
 RUN fluent-gem install fluent-plugin-prometheus
-RUN fluent-gem install fluent-plugin-grafana-loki
+#RUN fluent-gem install fluent-plugin-grafana-loki
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \
@@ -17,6 +17,7 @@ RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
                   $buildDeps \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/* /var/tmp/* /usr/lib/ruby/gems/*/cache/*.gem
+COPY out_loki.rb /fluentd/plugins/out_loki.rb
 COPY ./fluent.conf /fluentd/etc/fluent.conf
 
 USER fluent

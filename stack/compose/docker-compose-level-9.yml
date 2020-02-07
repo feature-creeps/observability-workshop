@@ -190,7 +190,6 @@ services:
   # log collector
   fluentd:
     build: ../infrastructure/fluentd
-    command: -qq
     depends_on:
     - elasticsearch
     volumes:
