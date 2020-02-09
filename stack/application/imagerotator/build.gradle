@@ -28,7 +28,7 @@ ext {
 	set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
-group = 'devops-school'
+group = 'feature-creeps'
 version = null
 sourceCompatibility = JavaVersion.VERSION_1_8
 
