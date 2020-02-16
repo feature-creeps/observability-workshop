@@ -43,7 +43,7 @@ We have set up multiple docker compose yaml to represent different [levels of Ob
 * Monitoring: uptime, technical & business monitoring in prometheus / grafana
 * labeled logs in loki / grafana
 * Tracing: none
-* *Challenge: How many services are used to persist a resized image?*
+* *Challenge: When you resize and persist an image, which service during that request took the longest?*
 
 ## [Level 7](./docker-compose-level-7.yml)
 * Logs: structured events and logs, aggregated & centralized in EFK
