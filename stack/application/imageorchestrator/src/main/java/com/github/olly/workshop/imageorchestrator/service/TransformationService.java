@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class TransformationService {
@@ -44,30 +46,30 @@ public class TransformationService {
 
     public Image transform(Image image, List<Transformation> transformations) {
 
+        List<String> collectTransformations = IntStream.range(0, transformations.size())
+                .mapToObj(index -> transformations.get(index).getType().toString())
+                .collect(Collectors.toList());
+        this.eventService.addFieldToActiveEvent("transformations", collectTransformations);
+
         for (Transformation transformation : transformations) {
             contextUtil.put(transformation);
             this.eventService.addFieldToActiveEvent("content.type", image.getMimeType());
-            this.eventService.addFieldToActiveEvent("transformation", transformation);
             this.eventService.addFieldToActiveEvent("transformation.properties", transformation.getProperties());
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveEvent("transformation.greyscale", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveEvent("transformation.rotate", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveEvent("transformation.resize", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case flip:
                     image = flip(image, transformation.getProperties());
-                    this.eventService.addFieldToActiveEvent("transformation.flip", true);
                     metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
