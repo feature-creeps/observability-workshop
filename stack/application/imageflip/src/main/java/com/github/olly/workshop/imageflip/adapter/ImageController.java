@@ -53,7 +53,6 @@ public class ImageController {
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
         }
 
-        // ISSUE: we fail on floating point values
         LOGGER.info("Receiving {} image to flip.", file.getContentType());
         byte[] flippedImage = imageService.flip(file, vertical, horizontal);
 
