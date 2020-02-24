@@ -60,7 +60,7 @@ dependencies {
     implementation 'io.micrometer:micrometer-core'
     implementation 'io.micrometer:micrometer-registry-prometheus'
 
-    implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.0'
+    implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
     
     implementation 'org.springframework.boot:spring-boot-starter-test'
 
