@@ -44,6 +44,7 @@ public class ImageGrayscale {
         try {
             this.eventService.addFieldToActiveEvent("content.size", image.getBytes().length);
         } catch (IOException e) {
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("content.size", -1);
         }
 

@@ -146,6 +146,7 @@ public class ImageController {
             try {
                 imageThumbnailClient.informThumbnail(id);
             } catch (Exception ex) {
+                this.eventService.addFieldToActiveEvent("app.error", 1);
                 LOGGER.warn("Failed informing imagethumbnail service of image deletion", ex);
             }
             this.eventService.addFieldToActiveEvent("app.error", 0);

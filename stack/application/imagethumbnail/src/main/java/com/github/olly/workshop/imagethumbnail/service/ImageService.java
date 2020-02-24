@@ -82,6 +82,7 @@ public class ImageService {
 
             return imageBytes;
         } catch (IOException e) {
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             LOGGER.error("Failed thumbnailing image", e);
         }
 
