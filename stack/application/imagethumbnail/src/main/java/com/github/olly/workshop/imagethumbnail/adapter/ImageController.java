@@ -50,11 +50,11 @@ public class ImageController {
         metricsService.imageThumbnailed(image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("app.error", 0);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
 
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 

@@ -51,8 +51,8 @@ public class ImageController {
         LOGGER.info("Returning all images");
         Collection<Image> all_images = imageService.getAllImagesLight();
         this.eventService.addFieldToActiveEvent("action", "get_all");
-        this.eventService.addFieldToActiveEvent("app.error", 0);
         this.eventService.addFieldToActiveEvent("image_count", all_images.size());
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
 
@@ -80,7 +80,6 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("app.error", 0);
 
         metricsService.imageViewed(image);
 
@@ -88,6 +87,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(image.getContentType()));
         headers.set("imageId", image.getId());
 
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 
@@ -116,13 +116,13 @@ public class ImageController {
 
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("app.error", 0);
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
 
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
     }
 
@@ -202,8 +202,8 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.name", name);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getSize());
-        this.eventService.addFieldToActiveEvent("app.error", 0);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(image.getId(), HttpStatus.CREATED);
     }
 
@@ -211,8 +211,8 @@ public class ImageController {
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
         LOGGER.info("Finding all images with the name containing '{}'", fragment);
         this.eventService.addFieldToActiveEvent("action", "search");
-        this.eventService.addFieldToActiveEvent("app.error", 0);
         this.eventService.addFieldToActiveEvent("search.fragment", fragment);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
     }
 }
