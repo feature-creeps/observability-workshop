@@ -26,8 +26,8 @@ services:
   imageorchestrator:
     build: ../application/imageorchestrator
     image: localhost:5000/dima_imageorchestrator
-    depends_on:
-    - fluentd
+#    depends_on:
+#    - fluentd
     ports:
     - 8080:8080
     deploy:
@@ -45,14 +45,15 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
       - TRACING_TAGS_ENABLED=true
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: localhost:24224
+#    logging:
+#      driver: "fluentd"
+#      options:
+#        fluentd-address: localhost:24224
     restart: always
 
   imageholder:
@@ -78,6 +79,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
@@ -109,6 +111,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
@@ -140,6 +143,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
@@ -171,6 +175,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
@@ -202,6 +207,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
@@ -233,6 +239,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=true
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=json-log
       - EVENTS_ENABLED=true
       - BUSINESS_METRICS_ENABLED=true
