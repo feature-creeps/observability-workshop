@@ -39,7 +39,6 @@ public class ImageController {
         contextUtil.put(transformationRequest);
         LOGGER.info("Received new transformation request {}", transformationRequest);
         this.eventService.addFieldToActiveEvent("transformation.request", transformationRequest);
-        this.eventService.addFieldToActiveEvent("action", "transform");
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");

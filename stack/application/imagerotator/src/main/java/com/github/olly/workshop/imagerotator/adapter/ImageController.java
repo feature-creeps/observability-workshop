@@ -38,7 +38,6 @@ public class ImageController {
 
         lcu.mdcPut(file.getContentType(), degrees);
         this.eventService.addFieldToActiveEvent("transformation.rotate.degrees", degrees);
-        this.eventService.addFieldToActiveEvent("action", "rotate");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
 

@@ -39,7 +39,6 @@ public class ImageController {
         lcu.mdcPut(file.getContentType(), factor);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
-        this.eventService.addFieldToActiveEvent("action", "resize");
         this.eventService.addFieldToActiveEvent("transformation.resize.factor", factor);
 
         if (file.getContentType() != null &&

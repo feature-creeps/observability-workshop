@@ -40,7 +40,6 @@ public class ImageController {
 
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.length", file.getBytes().length);
-        this.eventService.addFieldToActiveEvent("action", "flip");
         this.eventService.addFieldToActiveEvent("transformation.flip_vertical", vertical);
         this.eventService.addFieldToActiveEvent("transformation.flip_horizontal", horizontal);
         lcu.mdcPut(file.getContentType(), vertical, horizontal);
