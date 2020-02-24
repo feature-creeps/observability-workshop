@@ -6,7 +6,7 @@ services:
     build: ../application/frontend
     image: localhost:5000/dima_frontend
     ports:
-    - 80:80
+      - 80:80
 
   imageorchestrator:
     build: ../application/imageorchestrator
@@ -23,13 +23,14 @@ services:
         limits:
           memory: 2g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
-    - TRACING_TAGS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
+      - TRACING_TAGS_ENABLED=false
 
   imageholder:
     build: ../application/imageholder
@@ -48,18 +49,19 @@ services:
         limits:
           memory: 1g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagerotator:
     build: ../application/imagerotator
     image: localhost:5000/dima_imagerotator
     ports:
-    - 8082:8080
+      - 8082:8080
     deploy:
       replicas: 2
       update_config:
@@ -70,18 +72,19 @@ services:
         limits:
           memory: 2g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagegrayscale:
     build: ../application/imagegrayscale
     image: localhost:5000/dima_imagegrayscale
     ports:
-    - 8083:8080
+      - 8083:8080
     deploy:
       replicas: 2
       update_config:
@@ -92,18 +95,19 @@ services:
         limits:
           memory: 2g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imageresize:
     build: ../application/imageresize
     image: localhost:5000/dima_imageresize
     ports:
-    - 8084:8080
+      - 8084:8080
     deploy:
       replicas: 2
       update_config:
@@ -114,18 +118,19 @@ services:
         limits:
           memory: 2g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imageflip:
     build: ../application/imageflip
     image: localhost:5000/dima_imageflip
     ports:
-    - 8085:8080
+      - 8085:8080
     deploy:
       replicas: 2
       update_config:
@@ -136,18 +141,19 @@ services:
         limits:
           memory: 2g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   imagethumbnail:
     build: ../application/imagethumbnail
     image: localhost:5000/dima_imagethumbnail
     ports:
-    - 8080
+      - 8080
     deploy:
       replicas: 2
       update_config:
@@ -158,12 +164,13 @@ services:
         limits:
           memory: 4g
     environment:
-    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    - APM_ENABLED=false
-    - HONEYCOMB_ENABLED
-    - SPRING_PROFILES_ACTIVE=line-log
-    - EVENTS_ENABLED=false
-    - BUSINESS_METRICS_ENABLED=false
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=false
+      - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
+      - SPRING_PROFILES_ACTIVE=line-log
+      - EVENTS_ENABLED=false
+      - BUSINESS_METRICS_ENABLED=false
 
   traffic-gen:
     build: ../infrastructure/traffic-gen
@@ -192,27 +199,27 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
     environment:
-    - bootstrap.memory_lock=true
-    - discovery.type=single-node
-    - LimitMEMLOCK=infinity
-    #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-    - xpack.security.enabled=true
-    - ELASTIC_PASSWORD=changeme
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - LimitMEMLOCK=infinity
+      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=changeme
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-    - olly-elasticsearch:/usr/share/elasticsearch/data
+      - olly-elasticsearch:/usr/share/elasticsearch/data
     ports:
-    - 9200:9200
+      - 9200:9200
 
   kibana-index:
     build: ../infrastructure/kibana-index
     image: localhost:5000/kibana-index
     depends_on:
-    - kibana
-    - elasticsearch
+      - kibana
+      - elasticsearch
     restart: on-failure
 
   # logs visualizer
@@ -220,11 +227,11 @@ services:
     build: ../infrastructure/kibana
     image: localhost:5000/kibana
     depends_on:
-    - elasticsearch
+      - elasticsearch
     volumes:
-    - olly-prometheus:/prometheus
+      - olly-prometheus:/prometheus
     ports:
-    - 5601:5601
+      - 5601:5601
 
 volumes:
   olly-elasticsearch:
