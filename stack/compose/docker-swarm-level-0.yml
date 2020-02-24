@@ -1,0 +1,237 @@
+version: '3.7'
+services:
+
+  ## Domain
+  frontend:
+    build: ../application/frontend
+    image: localhost:5000/dima_frontend
+    ports:
+    - 80:80
+
+  imageorchestrator:
+    build: ../application/imageorchestrator
+    image: localhost:5000/dima_imageorchestrator
+    ports:
+    - 8080:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 2g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+    - TRACING_TAGS_ENABLED=false
+
+  imageholder:
+    build: ../application/imageholder
+    image: localhost:5000/dima_imageholder
+    depends_on:
+    - mongodb
+    ports:
+    - 8081:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 1g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  imagerotator:
+    build: ../application/imagerotator
+    image: localhost:5000/dima_imagerotator
+    ports:
+    - 8082:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 2g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  imagegrayscale:
+    build: ../application/imagegrayscale
+    image: localhost:5000/dima_imagegrayscale
+    ports:
+    - 8083:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 2g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  imageresize:
+    build: ../application/imageresize
+    image: localhost:5000/dima_imageresize
+    ports:
+    - 8084:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 2g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  imageflip:
+    build: ../application/imageflip
+    image: localhost:5000/dima_imageflip
+    ports:
+    - 8085:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 2g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  imagethumbnail:
+    build: ../application/imagethumbnail
+    image: localhost:5000/dima_imagethumbnail
+    ports:
+    - 8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      resources:
+        limits:
+          memory: 4g
+    environment:
+    - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+    - APM_ENABLED=false
+    - HONEYCOMB_ENABLED
+    - SPRING_PROFILES_ACTIVE=line-log
+    - EVENTS_ENABLED=false
+    - BUSINESS_METRICS_ENABLED=false
+
+  traffic-gen:
+    build: ../infrastructure/traffic-gen
+    image: localhost:5000/dima_traffic-gen
+    depends_on:
+    - imageholder
+    - imageorchestrator
+    restart: on-failure
+
+  ## Storage
+
+  # database
+  mongodb:
+    image: mongo:3.2.12
+
+    # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
+    command: "--wiredTigerCacheSizeGB 2"
+    ports:
+    - '27017'
+    volumes:
+    - olly-mongodb:/data/db
+
+  ## Logging
+
+  # search engine, storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    environment:
+    - bootstrap.memory_lock=true
+    - discovery.type=single-node
+    - LimitMEMLOCK=infinity
+    #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
+    - xpack.security.enabled=true
+    - ELASTIC_PASSWORD=changeme
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+    - olly-elasticsearch:/usr/share/elasticsearch/data
+    ports:
+    - 9200:9200
+
+  kibana-index:
+    build: ../infrastructure/kibana-index
+    image: localhost:5000/kibana-index
+    depends_on:
+    - kibana
+    - elasticsearch
+    restart: on-failure
+
+  # logs visualizer
+  kibana:
+    build: ../infrastructure/kibana
+    image: localhost:5000/kibana
+    depends_on:
+    - elasticsearch
+    volumes:
+    - olly-prometheus:/prometheus
+    ports:
+    - 5601:5601
+
+volumes:
+  olly-elasticsearch:
+    driver: local
+  olly-mongodb:
+    driver: local
+  olly-prometheus:
+    driver: local
+  olly-metricbeat:
+    driver: local

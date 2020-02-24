@@ -1,0 +1,489 @@
+version: '3.7'
+services:
+
+  ## Domain
+  frontend:
+    build: ../application/frontend
+    image: localhost:5000/dima_frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+    depends_on:
+      - fluentd
+    ports:
+      - 80:80
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imageorchestrator:
+    build: ../application/imageorchestrator
+    image: localhost:5000/dima_imageorchestrator
+    depends_on:
+    - fluentd
+    ports:
+    - 8080:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+      - TRACING_TAGS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imageholder:
+    build: ../application/imageholder
+    image: localhost:5000/dima_imageholder
+    depends_on:
+    - mongodb
+    - fluentd
+    ports:
+    - 8081:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 1g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imagerotator:
+    build: ../application/imagerotator
+    image: localhost:5000/dima_imagerotator
+    depends_on:
+      - fluentd
+    ports:
+      - 8082:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imagegrayscale:
+    build: ../application/imagegrayscale
+    image: localhost:5000/dima_imagegrayscale
+    depends_on:
+      - fluentd
+    ports:
+      - 8083:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imageresize:
+    build: ../application/imageresize
+    image: localhost:5000/dima_imageresize
+    depends_on:
+      - fluentd
+    ports:
+      - 8084:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imageflip:
+    build: ../application/imageflip
+    image: localhost:5000/dima_imageflip
+    depends_on:
+      - fluentd
+    ports:
+      - 8085:8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 2g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  imagethumbnail:
+    build: ../application/imagethumbnail
+    image: localhost:5000/dima_imagethumbnail
+    depends_on:
+      - fluentd
+    ports:
+      - 8080
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          memory: 4g
+    environment:
+      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
+      - APM_ENABLED=true
+      - HONEYCOMB_ENABLED
+      - SPRING_PROFILES_ACTIVE=json-log
+      - EVENTS_ENABLED=true
+      - BUSINESS_METRICS_ENABLED=true
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+    restart: always
+
+  traffic-gen:
+    build: ../infrastructure/traffic-gen
+    image: localhost:5000/dima_traffic-gen
+    deploy:
+      restart_policy:
+        condition: on-failure
+    depends_on:
+    - fluentd
+    - imageholder
+    - imageorchestrator
+    restart: on-failure
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+  ## Storage
+
+  # database
+  mongodb:
+    image: mongo:3.2.12
+    # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
+    command: "--wiredTigerCacheSizeGB 2"
+    depends_on:
+    - fluentd
+    ports:
+    - '27017'
+    volumes:
+    - olly-mongodb:/data/db
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+
+  mongodb-exporter:
+    image: maibornwolff/mongodb_exporter
+    ports:
+    - 9001:9001
+    command: '-mongodb.uri mongodb://mongodb:27017'
+
+  ## Logging
+
+  # log collector
+  fluentd:
+    build: ../infrastructure/fluentd
+    image: localhost:5000/fluentd
+    command: -qq
+    depends_on:
+    - elasticsearch
+    volumes:
+    - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+    - "24224:24224"
+    - "24224:24224/udp"
+
+  loki:
+    image: grafana/loki:v1.2.0
+    ports:
+      - 3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+
+  # search engine, storage
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    environment:
+      - bootstrap.memory_lock=true
+      - discovery.type=single-node
+      - LimitMEMLOCK=infinity
+      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
+      - xpack.security.enabled=true
+      - ELASTIC_PASSWORD=changeme
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+    - olly-elasticsearch:/usr/share/elasticsearch/data
+    ports:
+    - 9200:9200
+
+  elasticsearch-exporter:
+    image: justwatch/elasticsearch_exporter:1.0.2
+    deploy:
+      restart_policy:
+        condition: any
+    depends_on:
+      - elasticsearch
+    command:
+     - '-es.uri=http://elasticsearch:9200'
+    restart: always
+    ports:
+    - 9108:9108
+
+  kibana-index:
+    build: ../infrastructure/kibana-index
+    image: localhost:5000/kibana-index
+    deploy:
+      restart_policy:
+        condition: any
+    depends_on:
+    - kibana
+    - elasticsearch
+    restart: on-failure
+
+  # logs visualizer
+  kibana:
+    build: ../infrastructure/kibana
+    image: localhost:5000/kibana
+    deploy:
+      restart_policy:
+        condition: any
+    depends_on:
+    - elasticsearch
+    volumes:
+    - olly-prometheus:/prometheus
+    ports:
+    - 5601:5601
+
+  apm-server:
+    build: ../infrastructure/apm-server
+    image: localhost:5000/apm-server
+    ports:
+    - 8200:8200
+    depends_on:
+    - elasticsearch
+
+  ## Monitoring
+
+  # metricbeat
+  metricbeat:
+    build: ../infrastructure/metricbeat
+    image: localhost:5000/metricbeat
+    user: root
+    volumes:
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - olly-metricbeat:/usr/share/metricbeat/data
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - KIBANA_HOST=kibana
+    # disable strict permission checks
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    depends_on:
+      - kibana
+      - elasticsearch
+
+
+  heartbeat:
+    build: ../infrastructure/heartbeat
+    image: localhost:5000/heartbeat
+    user: root
+    # disable strict permission checks
+    command: ["--strict.perms=false"]
+    depends_on:
+      - kibana
+      - elasticsearch
+
+  # metrics collector
+  prometheus:
+    build: ../infrastructure/prometheus
+    image: localhost:5000/prometheus
+    ports:
+    - 9090:9090
+
+  # monitoring visualizer
+  grafana:
+    ports:
+    - 3000:3000
+    build: ../infrastructure/grafana
+    image: localhost:5000/grafana
+
+  # exporters
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+    - /proc:/host/proc:ro
+    - /sys:/host/sys:ro
+    - /:/rootfs:ro
+    command:
+    - '--path.procfs=/host/proc'
+    - '--path.sysfs=/host/sys'
+    - --collector.filesystem.ignored-mount-points
+    - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+    ports:
+    - 9100:9100
+
+  cadvisor: # docker daemon metrics exporter
+    image: google/cadvisor
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+    - 9110:8080
+  
+  nginx-exporter:
+    image: sophos/nginx-vts-exporter:latest
+    environment:
+    - NGINX_STATUS="http://localhost/status/format/json"
+
+  ## Tracing
+
+  # Trace UI
+  zipkin:
+    image: openzipkin/zipkin:2.17
+    ports:
+    - 9411:9411
+    environment:
+    - STORAGE_TYPE=elasticsearch
+    - ES_HOSTS=elasticsearch:9200
+    - ZIPKIN_LOG_LEVEL=DEBUG
+    - ES_HTTP_LOGGING=BODY
+    - ES_USERNAME=elastic
+    - ES_PASSWORD=changeme
+    depends_on:
+    - elasticsearch
+
+  zipkin-dependencies:
+    image: openzipkin/zipkin-dependencies
+    ports:
+      - 9412:9412
+    environment:
+      - STORAGE_TYPE=elasticsearch
+      - ES_HOSTS=elasticsearch:9200
+      - ZIPKIN_LOG_LEVEL=DEBUG
+      - ES_HTTP_LOGGING=BODY
+      - ES_NODES_WAN_ONLY=true
+      - ES_USERNAME=elastic
+      - ES_PASSWORD=changeme
+    depends_on:
+      - elasticsearch
+
+volumes:
+  olly-elasticsearch:
+    driver: local
+  olly-mongodb:
+    driver: local
+  olly-prometheus:
+    driver: local
+  olly-metricbeat:
+    driver: local
