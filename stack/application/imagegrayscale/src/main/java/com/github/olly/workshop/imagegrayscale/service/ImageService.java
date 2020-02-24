@@ -43,6 +43,7 @@ public class ImageService {
 
         } catch (IOException e) {
             this.eventService.addFieldToActiveEvent("app.error", 1);
+            this.eventService.addFieldToActiveEvent("app.exception", e);
             LOGGER.error("Failed applying grayscale", e);
             return null;
         }

@@ -42,9 +42,10 @@ public class ImageService {
         try {
             this.eventService.addFieldToActiveEvent("content.transformed.imageId", transformationRequest.getImageId());
             originalImage = loadImage(transformationRequest.getImageId());
-        } catch (Throwable ex) {
+        } catch (Throwable e) {
             this.eventService.addFieldToActiveEvent("app.error", 1);
-            LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", ex);
+            this.eventService.addFieldToActiveEvent("app.exception", e);
+            LOGGER.error("Failed loading image with id " + transformationRequest.getImageId() + " from imageholder", e);
             return null;
         }
         contextUtil.put(originalImage);
