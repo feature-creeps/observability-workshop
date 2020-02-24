@@ -16,6 +16,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -32,6 +33,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -45,6 +47,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -58,6 +61,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -71,6 +75,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -84,6 +89,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
@@ -97,6 +103,7 @@ services:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
       - APM_ENABLED=false
       - HONEYCOMB_ENABLED
+      - HONEYCOMB_DATASET
       - SPRING_PROFILES_ACTIVE=line-log
       - EVENTS_ENABLED=false
       - BUSINESS_METRICS_ENABLED=false
