@@ -43,7 +43,7 @@ public class ImageController {
 
         if (StringUtils.isEmpty(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "no_id");
             return new ResponseEntity<>("Field imageId has to be set", HttpStatus.BAD_REQUEST);
         }
@@ -64,7 +64,7 @@ public class ImageController {
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "bad_request");
             LOGGER.error("Failed transforming image");
             return new ResponseEntity<>("Failed transforming image", HttpStatus.BAD_REQUEST);

@@ -38,7 +38,7 @@ public class ImageGrayscale {
         if (image.getContentType() != null &&
                 !image.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", image.getContentType());
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
         }
@@ -53,7 +53,7 @@ public class ImageGrayscale {
         byte[] transformed = imageService.grayscale(image);
 
         if (transformed == null) {
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -64,7 +64,7 @@ public class ImageGrayscale {
 
 
         LOGGER.info("Successfully converted image to grayscale");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(image.getContentType()))
                 .headers(headers)

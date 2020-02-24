@@ -44,7 +44,7 @@ public class ImageController {
 
         if (file.getContentType() != null &&
                 !file.getContentType().startsWith("image/")) {
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
@@ -57,7 +57,7 @@ public class ImageController {
         byte[] rotatedImage = imageService.rotate(file, intDegrees);
 
         if (rotatedImage == null) {
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to rotate image", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -68,7 +68,7 @@ public class ImageController {
         headers.setContentType(MediaType.valueOf(file.getContentType()));
 
         LOGGER.info("Successfully rotated image");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>(rotatedImage, headers, HttpStatus.OK);
     }
 }

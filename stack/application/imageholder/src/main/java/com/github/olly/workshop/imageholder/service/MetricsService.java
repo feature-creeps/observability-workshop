@@ -40,7 +40,8 @@ public class MetricsService {
     public void imageUploaded(Image image) {
         if (BUSINESS_METRICS_ENABLED) {
             Metrics.counter("application_images_uploaded_total",
-                    "type", image.getContentType())
+                    "type", image.getContentType(),
+                    "name", image.getName())
                     .increment();
         }
     }

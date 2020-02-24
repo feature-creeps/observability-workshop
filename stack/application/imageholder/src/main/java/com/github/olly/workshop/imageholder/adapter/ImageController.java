@@ -51,7 +51,7 @@ public class ImageController {
         LOGGER.info("Returning all images");
         Collection<Image> all_images = imageService.getAllImagesLight();
         this.eventService.addFieldToActiveEvent("action", "get_all");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         this.eventService.addFieldToActiveEvent("image_count", all_images.size());
         return new ResponseEntity<>(all_images, HttpStatus.OK);
     }
@@ -71,7 +71,7 @@ public class ImageController {
 
         if (image == null) {
             LOGGER.warn("No images in database!");
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "no_images_found");
             return new ResponseEntity<>("No images in database!", HttpStatus.NOT_FOUND);
         }
@@ -80,7 +80,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
 
         metricsService.imageViewed(image);
 
@@ -96,7 +96,7 @@ public class ImageController {
     public ResponseEntity getImageByURLParam(@RequestParam("id") String id) {
         this.eventService.addFieldToActiveEvent("content.imageId", id);
         this.eventService.addFieldToActiveEvent("action", "get");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return getImage(id);
     }
 
@@ -109,14 +109,14 @@ public class ImageController {
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
 
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         LOGGER.info("Returning image with id {}", id);
         metricsService.imageViewed(image);
 
@@ -131,7 +131,7 @@ public class ImageController {
     public ResponseEntity deleteImageByURLParam(@RequestParam("id") String id) {
         this.eventService.addFieldToActiveEvent("content.imageId", id);
         this.eventService.addFieldToActiveEvent("action", "delete");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return deleteImage(id);
     }
 
@@ -148,10 +148,10 @@ public class ImageController {
             } catch (Exception ex) {
                 LOGGER.warn("Failed informing imagethumbnail service of image deletion", ex);
             }
-            this.eventService.addFieldToActiveEvent("action.success", true);
+            this.eventService.addFieldToActiveEvent("app.error", 0);
             return new ResponseEntity<>("deleted image with id " + id, HttpStatus.OK);
         } else {
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image with id " + id + " not found!");
         }
@@ -164,7 +164,7 @@ public class ImageController {
         LOGGER.info("Deleting all {} images", allImageIds.size());
         imageService.deleteAllImages();
         this.eventService.addFieldToActiveEvent("action", "delete_all");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
     }
 
@@ -176,7 +176,7 @@ public class ImageController {
 
         if (file.getContentType() != null && !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
             return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.FORBIDDEN);
         }
@@ -201,7 +201,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.name", name);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getSize());
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         LOGGER.info("Save new image with id {} and name {}", image.getId(), name);
         return new ResponseEntity<>(image.getId(), HttpStatus.CREATED);
     }
@@ -210,7 +210,7 @@ public class ImageController {
     public ResponseEntity findWithNameContaining(@PathVariable("fragment") String fragment) {
         LOGGER.info("Finding all images with the name containing '{}'", fragment);
         this.eventService.addFieldToActiveEvent("action", "search");
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
         this.eventService.addFieldToActiveEvent("search.fragment", fragment);
         return new ResponseEntity<>(imageService.findWithNamesContaining(fragment), HttpStatus.OK);
     }

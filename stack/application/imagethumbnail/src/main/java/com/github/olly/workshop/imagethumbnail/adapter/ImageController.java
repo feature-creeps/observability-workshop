@@ -41,7 +41,7 @@ public class ImageController {
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
-            this.eventService.addFieldToActiveEvent("action.success", false);
+            this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
@@ -50,7 +50,7 @@ public class ImageController {
         metricsService.imageThumbnailed(image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.size", image.getSize());
-        this.eventService.addFieldToActiveEvent("action.success", true);
+        this.eventService.addFieldToActiveEvent("app.error", 0);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
@@ -62,7 +62,7 @@ public class ImageController {
     public ResponseEntity deleteImageFromCache(@PathVariable("id") String id) {
         imageService.dropFromCache(id);
         this.eventService.addFieldToActiveEvent("action", "delete_from_cache");
-        this.eventService.addFieldToActiveEvent("action.success", false);
+        this.eventService.addFieldToActiveEvent("app.error", 1);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
