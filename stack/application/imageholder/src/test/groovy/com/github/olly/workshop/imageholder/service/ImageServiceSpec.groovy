@@ -109,7 +109,7 @@ class ImageServiceSpec extends Specification {
         }
 
         @Override
-        public MongoClient mongoClient() {
+        MongoClient mongoClient() {
             MongoServer mongoServer = new MongoServer(new MemoryBackend())
             mongoServer.bind()
             return new MongoClient(new ServerAddress(mongoServer.getLocalAddress()))

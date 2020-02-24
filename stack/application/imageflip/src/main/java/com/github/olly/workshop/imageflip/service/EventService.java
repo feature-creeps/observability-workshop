@@ -13,15 +13,12 @@ import java.util.UUID;
 @Service
 public class EventService {
 
+    private static final String EVENT_ID_KEY = "event.id";
+    private static Map<String, Event> events = new HashMap<String, Event>();
     @Autowired(required = false)
     private Beeline beeline;
-
     @Value("${events.enabled:true}")
     private Boolean EVENTS_ENABLED;
-
-    private static Map<String, Event> events = new HashMap<String, Event>();
-    private static final String EVENT_ID_KEY = "event.id";
-
 
     public String newEvent() {
         String id = UUID.randomUUID().toString();
@@ -34,6 +31,17 @@ public class EventService {
         // honeycomb, optional
         if (this.beeline != null) {
             beeline.getActiveSpan().addField(key, value);
+        }
+
+        // add single field info to our event
+        String id = getActiveEventId();
+        putSpan(id, key, value);
+    }
+
+    public void addTraceFieldToActiveEvent(String key, Object value) {
+        // honeycomb, optional
+        if (this.beeline != null) {
+            beeline.getActiveSpan().addTraceField(key, value);
         }
 
         // add single field info to our event

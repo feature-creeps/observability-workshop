@@ -37,8 +37,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e)
-            throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
         // Update counters
         metricsService.httpRequestReceived(request.getMethod(), request.getContextPath(), Integer.toString(response.getStatus()), request.getServletPath());
 

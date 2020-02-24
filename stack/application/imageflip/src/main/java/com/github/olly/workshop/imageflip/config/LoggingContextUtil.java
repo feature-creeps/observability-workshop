@@ -13,6 +13,6 @@ public class LoggingContextUtil {
     }
 
     private void put(String key, Object value) {
-        MDC.put(key, String.valueOf((Object) value));
+        MDC.put(key, String.valueOf(value));
     }
 }

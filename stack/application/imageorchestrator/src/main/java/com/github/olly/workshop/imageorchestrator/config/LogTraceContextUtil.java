@@ -75,9 +75,9 @@ public class LogTraceContextUtil {
     }
 
     private void put(String key, String value) {
-        MDC.put(key, String.valueOf((Object) value));
+        MDC.put(key, String.valueOf(value));
         if (TRACING_TAGS_ENABLED) {
-            span.tag(key, String.valueOf((Object) value));
+            span.tag(key, String.valueOf(value));
         }
     }
 }
