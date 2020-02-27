@@ -26,8 +26,8 @@ services:
   imageorchestrator:
     build: ../application/imageorchestrator
     image: localhost:5000/dima_imageorchestrator
-#    depends_on:
-#    - fluentd
+    depends_on:
+    - fluentd
     ports:
     - 8080:8080
     deploy:
@@ -41,19 +41,20 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
-      - TRACING_TAGS_ENABLED=true
-#    logging:
-#      driver: "fluentd"
-#      options:
-#        fluentd-address: localhost:24224
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
     restart: always
 
   imageholder:
@@ -75,14 +76,16 @@ services:
       resources:
         limits:
           memory: 1g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -96,6 +99,8 @@ services:
       - fluentd
     ports:
       - 8082:8080
+    env_file:
+      - .env
     deploy:
       replicas: 2
       update_config:
@@ -107,14 +112,16 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -139,14 +146,16 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -171,14 +180,16 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -203,14 +214,16 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -235,14 +248,16 @@ services:
       resources:
         limits:
           memory: 4g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
+      - level_env_vars/override_6.env
+      - level_env_vars/override_8.env
+      - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=true
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=true
     logging:
       driver: "fluentd"
       options:
@@ -314,13 +329,9 @@ services:
   # search engine, storage
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
-    environment:
-      - bootstrap.memory_lock=true
-      - discovery.type=single-node
-      - LimitMEMLOCK=infinity
-      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-      - xpack.security.enabled=true
-      - ELASTIC_PASSWORD=changeme
+    container_name: elasticsearch
+    env_file:
+      - .elasticsearch.env
     ulimits:
       memlock:
         soft: -1
@@ -389,9 +400,8 @@ services:
       - /:/hostfs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - olly-metricbeat:/usr/share/metricbeat/data
-    environment:
-      - ELASTICSEARCH_HOST=elasticsearch
-      - KIBANA_HOST=kibana
+    env_file:
+      - .metricbeat.env
     # disable strict permission checks
     command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
     depends_on:
@@ -460,13 +470,8 @@ services:
     image: openzipkin/zipkin:2.17
     ports:
     - 9411:9411
-    environment:
-    - STORAGE_TYPE=elasticsearch
-    - ES_HOSTS=elasticsearch:9200
-    - ZIPKIN_LOG_LEVEL=DEBUG
-    - ES_HTTP_LOGGING=BODY
-    - ES_USERNAME=elastic
-    - ES_PASSWORD=changeme
+    env_file:
+      - .zipkin.env
     depends_on:
     - elasticsearch
 
@@ -474,14 +479,8 @@ services:
     image: openzipkin/zipkin-dependencies
     ports:
       - 9412:9412
-    environment:
-      - STORAGE_TYPE=elasticsearch
-      - ES_HOSTS=elasticsearch:9200
-      - ZIPKIN_LOG_LEVEL=DEBUG
-      - ES_HTTP_LOGGING=BODY
-      - ES_NODES_WAN_ONLY=true
-      - ES_USERNAME=elastic
-      - ES_PASSWORD=changeme
+    env_file:
+      - .zipkin.env
     depends_on:
       - elasticsearch
 
