@@ -1,4 +1,4 @@
-version: '2.4'
+version: '3.7'
 services:
 
   ## Domain
@@ -19,7 +19,10 @@ services:
     - fluentd
     ports:
     - 8080:8080
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -42,7 +45,10 @@ services:
     - fluentd
     ports:
     - 8081:8080
-    mem_limit: 1g
+    deploy:
+      resources:
+        limits:
+          memory: 1g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -64,7 +70,10 @@ services:
       - fluentd
     ports:
       - 8082:8080
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -86,7 +95,10 @@ services:
       - fluentd
     ports:
       - 8083:8080
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -108,7 +120,10 @@ services:
       - fluentd
     ports:
       - 8084:8080
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -130,7 +145,10 @@ services:
       - fluentd
     ports:
       - 8085:8080
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 2g
     env_file:
       - .env
       - level_env_vars/base.env
@@ -152,7 +170,10 @@ services:
       - fluentd
     ports:
       - 8080
-    mem_limit: 4g
+    deploy:
+      resources:
+        limits:
+          memory: 4g
     env_file:
       - .env
       - level_env_vars/base.env
