@@ -20,14 +20,13 @@ services:
     ports:
     - 8080:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
-      - TRACING_TAGS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -41,13 +40,13 @@ services:
     ports:
     - 8081:8080
     mem_limit: 1g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -60,13 +59,13 @@ services:
     ports:
       - 8082:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -79,13 +78,13 @@ services:
     ports:
       - 8083:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -98,13 +97,13 @@ services:
     ports:
       - 8084:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -117,13 +116,13 @@ services:
     ports:
       - 8085:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -136,13 +135,13 @@ services:
     ports:
       - 8080
     mem_limit: 4g
+    env_file:
+      - .env
+      - level_env_vars/base.env
+      - level_env_vars/override_2.env
+      - level_env_vars/override_3.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=json-log
-      - EVENTS_ENABLED=true
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -204,13 +203,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
     container_name: elasticsearch
-    environment:
-      - bootstrap.memory_lock=true
-      - discovery.type=single-node
-      - LimitMEMLOCK=infinity
-      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-      - xpack.security.enabled=true
-      - ELASTIC_PASSWORD=changeme
+    env_file:
+      - .elasticsearch.env
     ulimits:
       memlock:
         soft: -1
@@ -259,9 +253,8 @@ services:
       - /:/hostfs:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - olly-metricbeat:/usr/share/metricbeat/data
-    environment:
-      - ELASTICSEARCH_HOST=elasticsearch
-      - KIBANA_HOST=kibana
+    env_file:
+      - .metricbeat.env
     # disable strict permission checks
     command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
     depends_on:

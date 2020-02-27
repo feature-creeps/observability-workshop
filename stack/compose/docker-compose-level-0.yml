@@ -15,15 +15,11 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
-      - TRACING_TAGS_ENABLED=false
 
   imageholder:
     build: ../application/imageholder
@@ -35,14 +31,11 @@ services:
       resources:
         limits:
           memory: 1g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   imagerotator:
     build: ../application/imagerotator
@@ -52,14 +45,11 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   imagegrayscale:
     build: ../application/imagegrayscale
@@ -69,14 +59,11 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   imageresize:
     build: ../application/imageresize
@@ -86,14 +73,11 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   imageflip:
     build: ../application/imageflip
@@ -103,14 +87,11 @@ services:
       resources:
         limits:
           memory: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   imagethumbnail:
     build: ../application/imagethumbnail
@@ -120,14 +101,11 @@ services:
       resources:
         limits:
           memory: 4g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - HONEYCOMB_DATASET
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
 
   traffic-gen:
     build: ../infrastructure/traffic-gen
@@ -155,13 +133,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
     container_name: elasticsearch
-    environment:
-      - bootstrap.memory_lock=true
-      - discovery.type=single-node
-      - LimitMEMLOCK=infinity
-      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-      - xpack.security.enabled=true
-      - ELASTIC_PASSWORD=changeme
+    env_file:
+      - .elasticsearch.env
     ulimits:
       memlock:
         soft: -1
