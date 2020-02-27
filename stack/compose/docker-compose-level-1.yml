@@ -20,14 +20,11 @@ services:
     ports:
     - 8080:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
-      - TRACING_TAGS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -41,13 +38,11 @@ services:
     ports:
     - 8081:8080
     mem_limit: 1g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -60,13 +55,11 @@ services:
     ports:
       - 8082:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -79,13 +72,11 @@ services:
     ports:
       - 8083:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -98,13 +89,11 @@ services:
     ports:
       - 8084:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -117,13 +106,11 @@ services:
     ports:
       - 8085:8080
     mem_limit: 2g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -136,13 +123,11 @@ services:
     ports:
       - 8080
     mem_limit: 4g
+    env_file:
+      - .env
+      - level_env_vars/base.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-      - APM_ENABLED=false
-      - HONEYCOMB_ENABLED
-      - SPRING_PROFILES_ACTIVE=line-log
-      - EVENTS_ENABLED=false
-      - BUSINESS_METRICS_ENABLED=false
     logging:
       driver: "fluentd"
       options:
@@ -198,13 +183,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
     container_name: elasticsearch
-    environment:
-      - bootstrap.memory_lock=true
-      - discovery.type=single-node
-      - LimitMEMLOCK=infinity
-      #- "ES_JAVA_OPTS=-Xms1g -Xmx1g -Des.enforce.bootstrap.checks=true"
-      - xpack.security.enabled=true
-      - ELASTIC_PASSWORD=changeme
+    env_file:
+      - .elasticsearch.env
     ulimits:
       memlock:
         soft: -1
