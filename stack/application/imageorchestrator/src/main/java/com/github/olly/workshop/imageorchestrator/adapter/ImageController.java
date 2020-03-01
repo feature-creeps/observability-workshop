@@ -59,7 +59,6 @@ public class ImageController {
             this.eventService.addFieldToActiveEvent("content.transformed.type", MediaType.valueOf(transformedImage.getMimeType()));
             this.eventService.addFieldToActiveEvent("content.transformed.size", transformedImage.getSize());
             this.eventService.addFieldToActiveEvent("content.transformed.id", transformedImage.getId());
-            this.eventService.addFieldToActiveEvent("action.transformed.success", true);
             LOGGER.info("Returning transformed image");
             return new ResponseEntity<>(transformedImage.getData(), headers, HttpStatus.OK);
         } else {
