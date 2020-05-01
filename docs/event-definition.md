@@ -29,3 +29,20 @@
     * an endless loop might never emit an event
     * event publishing might fail
     * we must assure that there is nothing being executed after publishing of the event
+    
+    
+    
+### events vs logs
+
+* you are not guaranteed to get a log line for every event that happens
+  * events are thorough
+* you probably get multiple log lines for singular events
+  * contain a lot redundant data
+* logs are arbitrarily positioned in your code base
+* more relevant & uniform structure
+* context (fields) limited to the progress until the log line is written
+* log lines might lie: "transformation successful" just before the termination of the transaction, but it does actually fail after that
+* event has transaction encapsulating meta data:
+  * duration, start/end time, 
+* log is a point in time, event encapsulates a transation/request/workload/..
+* 
