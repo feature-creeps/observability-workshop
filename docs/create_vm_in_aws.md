@@ -1,31 +1,30 @@
-# Creating a workshop machine
+# Creating a virtual machine using AWS 
 
 ## Prerequisites
 
-> NOTE: These instructions are all written from the point of view of region `eu-west-2`. This is not required but please change each location of this region name if you choose to use a different one.
+> NOTE: These instructions are all written from the point of view of Amazon region `eu-west-2`. This is not required but please change each location of this region name if you choose to use a different one.
 
 1. AWS account and developer command line credentials
     - Please follow along with AWS documentation if you have not yet created your own account.
     - Once you have an account set up, you will need to set up the [aws command line tool](https://docs.aws.amazon.com/cli/index.html).
-1. A VPC
+2. A VPC (Virtual Private Cloud)
+    - When you create an account a VPC is by default created for you. This can be checked via command-line: `aws ec2 describe-vpcs`
     - The AWS region you will be using needs an existing VPC in it for the application machine to be built in.
-    - This can be checked via command-line: `aws ec2 describe-vpcs`.
-    - To create one via command-line if needed use: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
-1. `m5.2xlarge` machine type available
+    - If you wish to create a second VPC you can do so via command-line: `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
+3. Your AMI (Amazon Machine Instance) 
+    - AMI's are region dependent. You can pick any flavour of instance. For the purposes of this tutorial we have used Ubuntu 
+    - You should consider machine type `m5.2xlarge` is what is used here 
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
- 1. The [mozilla sops](https://github.com/mozilla/sops) utility installed. 
-    - This can be checked via command-line: `sops --version` (currently at: `sops 3.3.1 (latest)`)
-    - On MacOS: You can use `homebrew` to install - `brew install sops`
- 1. gpg installed and the `featurecreeps` pgp key imported. This lives in the keybase team drive at /keybase/team/featurecreeps/gpg/featurecreeps.asc.
-    - This can be checked via command-line: `keybase --version` (currently at: `keybase version 4.1.0-20190612201656+952fee6c59`)
-    - You will then need to be both logged in with `keybase login` and have the app started locally with `run_keybase`
-    - `gpg --import /keybase/team/featurecreeps/gpg/featurecreeps.asc`
-    
+4. Honeycomb 
+   This stack will startup with or without a Honeycomb key. If you wish to integrate that data from the stack into Honeycomb you will need a key. Right now you need to ask one of the organisers for a key. 
+5. Docker Machine 
+Download Docker and Docker Machine. Docker Machine allows you to install the docker engine on your virtual host of choice and then manage these hosts using docker-machine commands.  
 
 ## Creating the machine infrastructure
 
-1. Create a running instance of type `m5.2xlarge`
+
+1. Create a running instance of type `m5.2xlarge` using docker-machine
     - 
     ```
     docker-machine create --driver amazonec2 --amazonec2-region eu-west-2 \
