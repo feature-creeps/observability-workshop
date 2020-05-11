@@ -24,10 +24,11 @@ Download Docker and Docker Machine. Docker Machine allows you to install the doc
 ## Creating the machine infrastructure
 
 
-1. Create a running instance of type `m5.2xlarge` using docker-machine
+1. Create a running instance of type `m5.2xlarge` using docker-machine. Replace ami-068f09e337d7da0c4 with the name of your ami instance. 
     - 
     ```
     docker-machine create --driver amazonec2 --amazonec2-region eu-west-2 \
+    --amazonec2-ami ami-068f09e337d7da0c4 \
     --amazonec2-open-port 5601 --amazonec2-open-port 3000 \
     --amazonec2-open-port 9090 --amazonec2-open-port 9411 \
     --amazonec2-open-port 80 --amazonec2-open-port 8080 \
