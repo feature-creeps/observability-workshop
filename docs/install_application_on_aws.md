@@ -28,27 +28,4 @@ git clone https://github.com/feature-creeps/observability-workshop.git $HOME/obs
 
 # start stack
 $HOME/observability-workshop/start-stack-in-level.sh 9
-```
-
-To reset the stack every night we add a cronjob:
-* add a `reset.sh` script with the following content and `chmod +x`
-```bash
-#!/bin/bash
-
-docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
-	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
-	down -v --remove-orphans
-
-docker-compose --project-directory /home/olly/observability-workshop/stack/compose/ \
-	-f /home/olly/observability-workshop/stack/compose/docker-compose-level-9.yml \
-	up --build -d
-```
-
-* edit cronjobs
-```
-crontab -e
-```
-* add this line
-```
-0 0 * * * /home/olly/reset.sh
-```
+``
