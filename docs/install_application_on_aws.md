@@ -1,4 +1,6 @@
-* start up a vm with at least 16gb of memory for instructions on how to do this read on to create a vm on aws
+
+start up a vm with at least 16gb of memory. Instructions on how to create an amazon instance can be found in <>
+
 The AWS instance does not recommend root access. Instead use sudo before the following commands. 
 ```bash
 # install docker
