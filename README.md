@@ -40,7 +40,7 @@ Our application is made up of a WebApp to upload, manipulate, view, and delete i
 
 #### Key application credentials
 
-Grafana credentials: admin/admin
+Grafana credentials: grafana/changeme
 
 Kibana credentials: elastic/changeme
 
