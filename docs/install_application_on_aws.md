@@ -54,12 +54,28 @@ sudo git clone https://github.com/feature-creeps/observability-workshop.git $HOM
 sudo $HOME/observability-workshop/start-stack-in-level.sh 9
 
 ## Check Stack is working
-check the IP Address 
+1) First find your IP address 
+wget -qO- http://instance-data/latest/meta-data/public-ipv4
+2) Put ip address into your browser, this should show the DIMA website 
+3) Check all the telemetry stuff (see the ports below)
+
+#### Telemetry infrastructure components (`stack/infrastructure`)
+
+| dir                         | desc                                      |Running port |
+| ---                         | ---                                       | --          |
+| grafana/                    | time series visualizer                    | 3000        |
+| kibana/                     | time series visualizer                    | 5601        |
+| prometheus/                 | time series data base                     | 9090        |
+| zipkin                      | tracing (in the docker-compose files)     | 9411        |
+
 
 ## Stopping the Stack 
 sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml down -v --remove-orphans
 
 ## Restarting the Stack 
-sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ \
-	-f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml \
-	up --build -d
+sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml up --build -d
+
+## Removing AWS Instance 
+If you get stuck, sometimes the easiest thing to do remove what you have and begin from fresh. 
+docker-machine rm o11y-workshop
+
