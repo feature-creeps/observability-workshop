@@ -16,6 +16,7 @@ docker-machine ssh o11y-workshop
 
 ## Install docker
 <question for abby is this needed isn't docker already installed?> 
+
 1) Get your instance up to date 
 sudo apt-get update
 2) Install some stuff need for the workshop 
@@ -76,6 +77,8 @@ sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stac
 sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml up --build -d
 
 ## Removing AWS Instance 
-If you get stuck, sometimes the easiest thing to do remove what you have and begin from fresh. 
+1) If you get stuck, sometimes the easiest thing to do remove what you have and begin from fresh. \
+into your instance type: exit 
+2) Once you are on your local machine type: \
 docker-machine rm o11y-workshop
 
