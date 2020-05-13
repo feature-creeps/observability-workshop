@@ -12,32 +12,39 @@ Instructions on how to create an amazon instance of this size can be can be foun
 
 # install docker
 <question for abby is this needed isn't docker already installed?> 
+1) Get your instance up to date 
 sudo apt-get update
+2) Install some stuff need for the workshop 
 sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
     gnupg-agent \
     software-properties-common
+3) Download Docker gpg 
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add - 
+4) Download the latest docker instance for ubuntu 
 sudo add-apt-repository \
    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
    $(lsb_release -cs) \
    stable"
+4) Refresh and update to make sure its all latest everything 
 sudo apt-get update
+5) Download docker compose 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+6)  Change the directory permissions 
 sudo chmod +x /usr/local/bin/docker-compose
 
 # increase max map count for elastic search
 sudo sysctl -w vm.max_map_count=262144
 
 # set HONEYCOMB enviornment variable
-export HONEYCOMB_KEY=<thekey> 
+export HONEYCOMB_KEY=<ask workshop owners for this>
 (check the key is set properly) 
 echo $HONEYCOMB_KEY 
 
 # checkout repo
 sudo git clone https://github.com/feature-creeps/observability-workshop.git $HOME/observability-workshop
 
-# start stack
+# install and start stack
 $HOME/observability-workshop/start-stack-in-level.sh 9
