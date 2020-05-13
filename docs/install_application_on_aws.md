@@ -57,11 +57,9 @@ sudo $HOME/observability-workshop/start-stack-in-level.sh 9
 check the IP Address 
 
 ## Stopping the Stack 
-sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ \
-	-f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml \
-	down -v --remove-orphans
+sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml down -v --remove-orphans
 
 ## Restarting the Stack 
-docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ \
+sudo docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ \
 	-f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml \
 	up --build -d
