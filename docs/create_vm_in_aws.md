@@ -18,13 +18,14 @@
     `aws ec2 create-vpc --cidr-block 10.0.0.0/16`
     ```
 3. An AMI (Amazon Machine Instance) 
-    - AMI's are region dependent. Pick a Ubuntu flavour 
-    - use machine type `m5.2xlarge` 
+    - AMI's are region dependent. [Pick a Ubuntu flavour](https://cloud-images.ubuntu.com/locator/ec2/)
+   
+4. - use machine type `m5.2xlarge` 
     - It is common for AWS to limit the larger machine types for newer accounts. You can check your machine type limits following [these](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) instructions.
     - If you do need to request a limit increase this can take a few days so be sure to request in the same region as your VPC to limit requesting a second time.
-4. Honeycomb key 
+5. Honeycomb key 
    This stack will startup with or without a Honeycomb key. If you wish to integrate that data from the stack into Honeycomb you will need a key. Right now you need to ask one of the organisers for a key. 
-5. Docker Machine 
+6. Docker Machine 
 Download Docker and Docker Machine. Docker Machine allows you to install the docker engine on your virtual host of choice and then manage these hosts using docker-machine commands.  
 
 ## Creating the machine infrastructure 
