@@ -1,4 +1,5 @@
-# Creating a virtual machine using AZURE for the purposes of installing the observability workshop stack. Alot of these instructions were taken from 
+# Creating a virtual machine using AZURE for the purposes of installing the observability workshop stack. 
+Some of these instructions were taken from 
 Parveeen Khan's blog post https://www.parveenkhans.com/2020/02/testing-tour-stop-10-pairing-up-on.html
 
 ## BackGround 
