@@ -30,8 +30,9 @@ Download Docker and Docker Machine. Docker Machine allows you to install the doc
 ## Creating the machine infrastructure 
 1. On your local machine, open up a shell (in Mac the application is called terminal). 
 2. Create a running instance called o11y-workshop, of type `m5.2xlarge` using command docker-machine. 
-> Note. Replace ami-068f09e337d7da0c4 with the name of your ami instance.  
-    ``` bash
+> Note. Replace ami-068f09e337d7da0c4 with the name of your ami instance. 
+
+ ``` bash 
     docker-machine create --driver amazonec2 --amazonec2-region us-west-2 \
     --amazonec2-ami ami-06ffade19910cbfc0 \
     --amazonec2-open-port 5601 --amazonec2-open-port 3000 \
