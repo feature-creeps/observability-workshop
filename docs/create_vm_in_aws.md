@@ -33,7 +33,7 @@ Download Docker and Docker Machine. Docker Machine allows you to install the doc
 > Note. Replace ami-068f09e337d7da0c4 with the name of your ami instance.  
 
     ``` bash
-    docker-machine create --driver amazonec2 --amazonec2-region eu-west-2 \
+    docker-machine create --driver amazonec2 --amazonec2-region us-west-2 \
     --amazonec2-ami ami-0916731d2f176f937 \
     --amazonec2-open-port 5601 --amazonec2-open-port 3000 \
     --amazonec2-open-port 9090 --amazonec2-open-port 9411 \
