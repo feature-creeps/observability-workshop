@@ -90,7 +90,7 @@ $HOME/observability-workshop/start-stack-in-level.sh 9
 ## Check Stack is working
 1) First find your IP address
 ``` bash
-wget -qO- http://instance-data/latest/meta-data/public-ipv4
+dig +short myip.opendns.com @resolver1.opendns.com
 ```
 2) Put ip address into your browser, this should show the DIMA website 
 3) Check all the telemetry stuff (see the ports below)
