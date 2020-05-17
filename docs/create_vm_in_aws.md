@@ -44,7 +44,7 @@ Download Docker and Docker Machine. Docker Machine allows you to install the doc
     --amazonec2-open-port 8085 --amazonec2-open-port 8086 \
     --amazonec2-instance-type m5.2xlarge --amazonec2-root-size 200 \
     o11y-workshop
-    ```
+ ```
 Some issues may run into:
 - If you have any issues bringing up an instance or have previously done so, you may need to clean out the docker-machines by running `docker-machine rm o11y-workshop` and/or removing files found at `~/.docker/machine/machines/` and/or clean out the AWS Keys which can be found by running `aws ec2 describe-key-pairs`
 - If you haven't provisioned a machine in this region before, Amazon may need to validate your request first. This usually only takes a few minutes, but it can result in your instance request hanging (you won't be able to talk to it). If that happens, use `docker-machine rm o11y-workshop` to remove the instance then re-run `docker-machine create`.
