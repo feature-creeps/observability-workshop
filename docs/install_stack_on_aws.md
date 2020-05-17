@@ -10,9 +10,13 @@ Instructions on how to create an amazon instance of this size can be can be foun
 3) Your user id is ubuntu. (If this is not the case where you see ubuntu in the instructions below replace with your user id)
 4) You don't have root access and will be using sudo 
 
-## Startup your AWS instance from your local machine
+## Startup your AWS instance from your local machine and SSH in:
+``` bash
 eval $(docker-machine env o11y-workshop)
+``` 
+``` bash
 docker-machine ssh o11y-workshop
+```
 
 ## Sudo 
 setup sudo so you don't have to use it at each command
@@ -102,6 +106,7 @@ wget -qO- http://instance-data/latest/meta-data/public-ipv4
 
 
 ## Stopping the Stack 
+>Note replace ubuntu with your user id if its not ubuntu. To find out what it is type whoami 
 ``` bash
 docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml down -v --remove-orphans
 ```
