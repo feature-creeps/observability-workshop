@@ -34,7 +34,7 @@ Download Docker and Docker Machine. Docker Machine allows you to install the doc
 
     ``` bash
     docker-machine create --driver amazonec2 --amazonec2-region us-west-2 \
-    --amazonec2-ami ami-069e76142be85166b \
+    --amazonec2-ami ami-06ffade19910cbfc0 \
     --amazonec2-open-port 5601 --amazonec2-open-port 3000 \
     --amazonec2-open-port 9090 --amazonec2-open-port 9411 \
     --amazonec2-open-port 80 --amazonec2-open-port 8080 \
