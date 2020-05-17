@@ -51,6 +51,10 @@ add-apt-repository \
 ``` bash
 apt-get update
 ```
+4a) Install Docker 
+``` bash
+apt-get install -y docker-ce docker-ce-cli containerd.io
+```
 5) Download docker compose 
 ``` bash
 curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
