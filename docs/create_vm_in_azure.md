@@ -16,9 +16,58 @@ We're assuming you are new to AZURE and don't have resource groups setup
 1) Create a free account on Azure
 Sign up and get an account on Azure where the virtual machine will be created - https://azure.microsoft.com/. (I'd recommend you do this a few hours before you plan to start creating the VM. It felt that AZURE took a while to setup my account properly)  
 
-2) Bash shell on your local computer 
+2) Know your AZURE subscription id 
+- Login to the AZURE Portal 
+- Home > Subscriptions its the long key that looks like 1b2aefd2-a41e-7g31-9a05-645c3ed5e38f
 
-3) SSH KEy 
+2) Bash shell on your local computer 
+3) Install AZURE CLI using docker 
+``` bash 
+docker run -it mcr.microsoft.com/azure-cli
+``` 
+4) Create Resource Group using CLI 
+``` bash 
+az group create --name olly --location <yourregion>
+``` 
+5) Create VM 
+``` bash
+$ docker-machine create --driver azure --azure-subscription-id 1b2aefd2-a41e-434a-9a05-645c3ed5e38f \
+--azure-location <region> \ 
+--azure-image <image name region dependent > 
+--azure-open-port 5601 --azure-open-port 3000 \
+--azure-open-port 9090 --azure-open-port 9411 \
+--azure-open-port 80 --azure-open-port 8080 \
+--azure-open-port 8081 --azure-open-port 8082 \
+--azure-open-port 8083 --azure-open-port 8084 \
+--azure-open-port 8085 --azure-open-port 8086 \
+--azure-size D4s_v3 --azure-size-gb 200 --azure-data-disk-sizes-gb 200
+--azure-admin-username olly
+ o11y-workshop
+ ```
+ 
+ --amazonec2-region eu-west-2 \
+--amazonec2-ami ami-0916731d2f176f937 \
+--amazonec2-open-port 5601 --amazonec2-open-port 3000 \
+--amazonec2-open-port 9090 --amazonec2-open-port 9411 \
+--amazonec2-open-port 80 --amazonec2-open-port 8080 \
+--amazonec2-open-port 8081 --amazonec2-open-port 8082 \
+--amazonec2-open-port 8083 --amazonec2-open-port 8084 \
+--amazonec2-open-port 8085 --amazonec2-open-port 8086 \
+--amazonec2-instance-type m5.2xlarge --amazonec2-root-size 200 \
+o11y-workshop
+Running pre-create checks...
+Microsoft Azure: To sign in, use a web browser to open the page https://aka.ms/devicelogin.
+Enter the code [...] to authenticate.
+Give permission for Docker Machine for Azure 
+  
+  
+az vm create \
+    --resource-group myResourceGroup \
+    --name o11y-workshop \
+    --image win2016datacenter \
+    --admin-username azureuser 
+    
+5) SSH KEy 
 1) Create an SSH Key for security purposes [full instructions here](https://docs.microsoft.com/en-gb/azure/virtual-machines/linux/quick-create-portal)
 -Type 
 ``` bash
@@ -75,4 +124,5 @@ Next we want to connect and login to our VM. We need to login to install the wor
 whoami 
 ``` 
 - You are now ready to install the workshop stack 
+
 
