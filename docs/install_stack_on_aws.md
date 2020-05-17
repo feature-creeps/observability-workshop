@@ -108,12 +108,12 @@ wget -qO- http://instance-data/latest/meta-data/public-ipv4
 ## Stopping the Stack 
 >Note replace ubuntu with your user id if its not ubuntu. To find out what it is type whoami 
 ``` bash
-docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml down -v --remove-orphans
+docker-compose --project-directory $HOME/observability-workshop/stack/compose/ -f $HOME/observability-workshop/stack/compose/docker-compose-level-9.yml down -v --remove-orphans
 ```
 
 ## Restarting the Stack 
 ``` bash
-docker-compose --project-directory /home/ubuntu/observability-workshop/stack/compose/ -f /home/ubuntu/observability-workshop/stack/compose/docker-compose-level-9.yml up --build -d
+docker-compose --project-directory $HOME/observability-workshop/stack/compose/ -f $HOME/observability-workshop/stack/compose/docker-compose-level-9.yml up --build -d
 ```
 
 ## Removing AWS Instance 
