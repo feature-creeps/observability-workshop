@@ -6,5 +6,23 @@
     </div>
   </div>
 
-  <div id="album" class="container"></div>
+  <div class="container">
+    <form (ngSubmit)="previousPage()">
+      <button class="btn btn-primary btn-block dima-btn"
+              type="submit"
+              disabled="disabled"
+              id="prevButton">Previous page..
+      </button>
+    </form>
+    <br/>
+    <form (ngSubmit)="nextPage()">
+      <button class="btn btn-primary btn-block dima-btn"
+              type="submit"
+              id="nextButton">Next page..
+      </button>
+    </form>
+    <div class="btn btn-block dima-btn">
+      <span>Current page: </span><span [textContent]="currentPage"></span></div>
+    <div id="album"></div>
+  </div>
 </main>

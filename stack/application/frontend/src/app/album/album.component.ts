@@ -22,19 +22,87 @@ export class AlbumComponent implements OnInit {
   public ids;
   public images;
   public displayImage;
+  private data
+  private MAX_IMAGES_DISPLAYED = 15
+  private firstImageDisplayed = 0
+  private currentPage = 1
+
+  private clearImages() {
+    var e = document.querySelectorAll("#album")[0];
+    var child = e.lastElementChild;
+    while (child) {
+      e.removeChild(child);
+      child = e.lastElementChild;
+    }
+  }
+
+  nextPage() {
+    this.clearImages()
+    this.firstImageDisplayed = this.firstImageDisplayed + this.MAX_IMAGES_DISPLAYED
+    this.showPreviews(this.data, this.firstImageDisplayed)
+    this.enablePrevButton();
+    this.currentPage++
+    if (this.atEnd()) {
+      this.disableNextButton();
+    }
+  }
+
+  previousPage() {
+    this.clearImages()
+    this.firstImageDisplayed = this.firstImageDisplayed - this.MAX_IMAGES_DISPLAYED
+    this.showPreviews(this.data, this.firstImageDisplayed)
+    this.enableNextButton();
+    this.currentPage--
+    if (this.atStart()) {
+      this.disablePrevButton();
+    }
+  }
+
+  private disableNextButton() {
+    this.nextButton().setAttribute("disabled", "disabled")
+  }
+
+  private enablePrevButton() {
+    this.prevButton().removeAttribute("disabled")
+  }
+
+  private disablePrevButton() {
+    this.prevButton().setAttribute("disabled", "disabled")
+  }
+
+  private enableNextButton() {
+    this.nextButton().removeAttribute("disabled")
+  }
+
+  private prevButton() {
+    return document.querySelectorAll("#prevButton")[0]
+  }
+
+  private nextButton() {
+    return document.querySelectorAll("#nextButton")[0]
+  }
+
+  private atEnd() {
+    return this.firstImageDisplayed + this.MAX_IMAGES_DISPLAYED >= this.data.length;
+  }
+
+  private atStart() {
+    return this.firstImageDisplayed - this.MAX_IMAGES_DISPLAYED < 0;
+  }
 
   async retrieveImages() {
-    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
-    if (data.length > 0) {
-      this.images = data;
-      this.showPreviews(data)
+    this.data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
+    if (this.data.length > 0) {
+      this.images = this.data;
+      this.showPreviews(this.data, this.firstImageDisplayed)
     } else {
       // todo handle
     }
   }
 
-  private showPreviews(data: Array<Image>) {
-    for (var i = 0; i < data.length; i++) {
+  private showPreviews(data: Array<Image>, firstIndex) {
+    let maxImageIndex = firstIndex + this.MAX_IMAGES_DISPLAYED
+    for (var i = firstIndex; i < data.length && i < maxImageIndex; i++) {
       this.previewService.appendComponentToBody(PreviewComponent, data[i].id, data[i].name);
     }
   }

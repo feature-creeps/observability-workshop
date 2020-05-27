@@ -37,7 +37,6 @@ public class ImageController {
         Image image = imageService.thumbnail(id);
         this.eventService.addFieldToActiveEvent("action", "thumbnail");
         this.eventService.addFieldToActiveEvent("content.imageId", id);
-        loggingContextUtil.mdcPut(image.getContentType());
 
         if (image == null) {
             LOGGER.error("Image with id {} not found", id);
@@ -45,6 +44,8 @@ public class ImageController {
             this.eventService.addFieldToActiveEvent("action.failure_reason", "image_not_found");
             throw new NotFoundException("Image not found");
         }
+
+        loggingContextUtil.mdcPut(image.getContentType());
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
         metricsService.imageThumbnailed(image.getContentType());
