@@ -22,10 +22,10 @@ export class AlbumComponent implements OnInit {
   public ids;
   public images;
   public displayImage;
+  public currentPage = 1
   private data
   private MAX_IMAGES_DISPLAYED = 15
   private firstImageDisplayed = 0
-  private currentPage = 1
 
   private clearImages() {
     var e = document.querySelectorAll("#album")[0];
