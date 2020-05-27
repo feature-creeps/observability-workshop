@@ -385,7 +385,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(application_transformations_total[30s]))",
+          "expr": "sum(increase(application_transformations_total[5m]))",
           "format": "time_series",
           "intervalFactor": 1,
           "refId": "A"
@@ -395,7 +395,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "sum(increase(application_transformations_total[30s]))",
+      "title": "sum(increase(application_transformations_total[5m]))",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -468,7 +468,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(increase(application_transformations_total[30s]))by(transformation)",
+          "expr": "sum(increase(application_transformations_total[5m]))by(transformation)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "{{transformation}}",
@@ -479,7 +479,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "sum(increase(application_transformations_total[30s]))by(transformation)",
+      "title": "sum(increase(application_transformations_total[5m]))by(transformation)",
       "tooltip": {
         "shared": true,
         "sort": 0,
