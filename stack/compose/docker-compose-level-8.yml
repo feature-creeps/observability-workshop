@@ -374,6 +374,7 @@ services:
       - 9412:9412
     env_file:
       - .zipkin.env
+    restart: on-failure
     depends_on:
       - elasticsearch
 

@@ -320,7 +320,7 @@ services:
     - /var/lib/docker/:/var/lib/docker:ro
     ports:
     - 9110:8080
-  
+
   nginx-exporter:
     image: sophos/nginx-vts-exporter:latest
     environment:
@@ -344,6 +344,7 @@ services:
       - 9412:9412
     env_file:
       - .zipkin.env
+    restart: on-failure
     depends_on:
       - elasticsearch
 
