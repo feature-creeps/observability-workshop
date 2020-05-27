@@ -4,6 +4,7 @@ package com.github.olly.workshop.imagegrayscale.controller;
 import com.github.olly.workshop.imagegrayscale.service.EventService;
 import com.github.olly.workshop.imagegrayscale.service.MetricsService;
 import io.prometheus.client.Counter;
+import net.logstash.logback.encoder.org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -52,6 +53,15 @@ public class RequestInterceptor implements HandlerInterceptor {
             final Long duration = Duration.between((LocalDateTime) eventService.getFieldFromActiveEvent(startedAt), now).toMillis();
             fields.put("duration_ms", duration);
         }
+
+        if (e != null) {
+            fields.put("exception_thrown", "true");
+            fields.put("exception_message", e.getMessage());
+            fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
+        } else {
+            fields.put("exception_thrown", "false");
+        }
+
         fields.put("finishedAt", now);
         eventService.addFieldsToActiveEvent(fields);
         eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI());

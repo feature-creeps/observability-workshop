@@ -3,6 +3,7 @@ package com.github.olly.workshop.imageresize.adapter;
 import com.github.olly.workshop.imageresize.service.EventService;
 import com.github.olly.workshop.imageresize.service.MetricsService;
 import io.prometheus.client.Counter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -51,6 +52,15 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             final Long duration = Duration.between((LocalDateTime) eventService.getFieldFromActiveEvent(startedAt), now).toMillis();
             fields.put("duration_ms", duration);
         }
+
+        if (e != null) {
+            fields.put("exception_thrown", "true");
+            fields.put("exception_message", e.getMessage());
+            fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
+        } else {
+            fields.put("exception_thrown", "false");
+        }
+
         fields.put("finishedAt", now);
         eventService.addFieldsToActiveEvent(fields);
         eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI());
