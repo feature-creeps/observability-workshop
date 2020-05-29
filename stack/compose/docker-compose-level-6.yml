@@ -316,6 +316,10 @@ services:
     ports:
     - 3000:3000
     build: ../infrastructure/grafana
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   # exporters
   node-exporter:
@@ -341,7 +345,7 @@ services:
     - /var/lib/docker/:/var/lib/docker:ro
     ports:
     - 9110:8080
-  
+
   nginx-exporter:
     image: sophos/nginx-vts-exporter:latest
     environment:

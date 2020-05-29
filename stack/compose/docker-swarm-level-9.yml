@@ -454,6 +454,10 @@ services:
       - registry
     ports:
       - 3000:3000
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   # exporters
   node-exporter:
@@ -483,7 +487,7 @@ services:
       - /var/run:/var/run:rw
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
-  
+
   nginx-exporter:
     image: sophos/nginx-vts-exporter:latest
     environment:
@@ -513,7 +517,7 @@ services:
       - 9412:9412
     env_file:
       - .zipkin.env
-  
+
   # Docker registry for the cluster
   registry:
     image: registry:2
@@ -526,7 +530,7 @@ services:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
     volumes:
       - olly-registry:/data
-      
+
 
 volumes:
   olly-elasticsearch:

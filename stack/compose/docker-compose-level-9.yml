@@ -337,6 +337,10 @@ services:
     ports:
     - 3000:3000
     build: ../infrastructure/grafana
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
 
   # exporters
   node-exporter:
