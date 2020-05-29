@@ -74,7 +74,7 @@ output.elasticsearch:
 
 #============================== Dashboards =====================================
 setup.dashboards:
-  enabled: true
+  enabled: false
 
 #============================== Kibana =========================================
 setup.kibana:
