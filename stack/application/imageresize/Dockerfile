@@ -5,7 +5,7 @@ WORKDIR /service
 ARG GRADLE_VERSION=5.1.1
 
 # apm
-ARG ELASTIC_APM_AGEN_VERSION=1.10.0
+ARG ELASTIC_APM_AGEN_VERSION=1.16.0
 RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGEN_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGEN_VERSION}.jar -O /elastic-apm-agent.jar
 
 # gradle wrapper
