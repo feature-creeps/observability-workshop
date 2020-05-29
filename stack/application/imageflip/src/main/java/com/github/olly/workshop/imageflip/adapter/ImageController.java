@@ -38,6 +38,7 @@ public class ImageController {
                                     @RequestParam(value = "vertical") Boolean vertical,
                                     @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
 
+        this.eventService.addFieldToActiveEvent("action", "flip");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.length", file.getBytes().length);
         this.eventService.addFieldToActiveEvent("transformation.flip_vertical", vertical);

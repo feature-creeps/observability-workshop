@@ -37,6 +37,7 @@ public class ImageController {
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "degrees") String degrees) throws IOException {
 
         lcu.mdcPut(file.getContentType(), degrees);
+        this.eventService.addFieldToActiveEvent("action", "rotate");
         this.eventService.addFieldToActiveEvent("transformation.rotate.degrees", degrees);
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);

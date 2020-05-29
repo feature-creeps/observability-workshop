@@ -58,7 +58,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
         } else {
-          fields.put("exception_thrown", "false");
+            fields.put("exception_thrown", "false");
         }
 
         fields.put("finishedAt", now);

@@ -37,6 +37,7 @@ public class ImageController {
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
+        this.eventService.addFieldToActiveEvent("action", "resize");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
         this.eventService.addFieldToActiveEvent("transformation.resize.factor", factor);

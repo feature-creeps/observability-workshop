@@ -35,8 +35,8 @@ public class ImageController {
 
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {
-
         contextUtil.put(transformationRequest);
+        this.eventService.addFieldToActiveEvent("action", "transform");
         LOGGER.info("Received new transformation request {}", transformationRequest);
         this.eventService.addFieldToActiveEvent("transformation.request", transformationRequest);
 

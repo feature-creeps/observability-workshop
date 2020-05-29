@@ -31,6 +31,7 @@ public class ImageGrayscale {
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
 
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
+        this.eventService.addFieldToActiveEvent("action", "grayscale");
         MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
 
