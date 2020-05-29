@@ -291,6 +291,7 @@ services:
       - .metricbeat.env
     # disable strict permission checks
     command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    restart: on-failure
     depends_on:
       - kibana
       - elasticsearch
