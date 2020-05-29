@@ -216,7 +216,7 @@ services:
 
   # search engine, storage
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.0
     container_name: elasticsearch
     env_file:
       - .elasticsearch.env
