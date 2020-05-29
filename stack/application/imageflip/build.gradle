@@ -25,7 +25,7 @@ bootJar {
 }
 
 ext {
-	set('springCloudVersion', 'Greenwich.RELEASE')
+    set('springCloudVersion', 'Greenwich.RELEASE')
 }
 
 group = 'feature-creeps'

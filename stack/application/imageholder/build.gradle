@@ -13,6 +13,10 @@ buildscript {
         classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
     }
 }
+plugins {
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'java'
+}
 
 apply plugin: 'java'
 apply plugin: 'groovy'
