@@ -300,6 +300,8 @@ services:
 
   # monitoring visualizer
   grafana:
+    depends_on:
+      - fluentd
     ports:
     - 3000:3000
     build: ../infrastructure/grafana

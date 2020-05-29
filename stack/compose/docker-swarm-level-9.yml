@@ -452,6 +452,7 @@ services:
     image: localhost:5000/grafana
     depends_on:
       - registry
+      - fluentd
     ports:
       - 3000:3000
     logging:
