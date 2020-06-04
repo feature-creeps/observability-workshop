@@ -1,19 +1,21 @@
 
 # Overview
-The following instructions are far people who have followed the instructions previously on how to setup an AWS instance which has at least 16GB of memory.
-Instructions on how to create an amazon instance of this size can be can be found in https://github.com/charrett/observability-workshop/blob/master/docs/create_vm_in_aws.md
+The following instructions are far people who already have a linux based instance which has at least 16GB of memory running. If you still need to do this you can do so in any way you are comfortable, or follow our [AWS](./create_vm_in_aws.md) or [Azure](./create_vm_in_azure.md) instructions.
 
 # Assumptions:
 1) You have followed the instructions in 'create vm in aws' and have at least 16GB of Memory
 1) You are logged into your AWS instance. (Not your local machine)
 2) You have a honeycomb Key (If you don't please see one of the workshop owners)
-3) Your user id is ubuntu. (If this is not the case where you see ubuntu in the instructions below replace with your user id)
+3) Your user id is ubuntu. (You can check this by using the command `whoami`. If this is not the case where you see ubuntu in the instructions below replace with your user id)
 4) You don't have root access and will be using sudo
 
 ## Startup your AWS instance from your local machine and SSH in:
+Check the name of your running machine:
 ``` bash
+docker-machine ls
 eval $(docker-machine env o11y-workshop)
 ```
+SSH into your running machine:
 ``` bash
 docker-machine ssh o11y-workshop
 ```

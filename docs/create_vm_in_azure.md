@@ -2,7 +2,7 @@
 Some of these instructions were taken from 
 Parveeen Khan's blog post https://www.parveenkhans.com/2020/02/testing-tour-stop-10-pairing-up-on.html
 
-## BackGround 
+## Background 
 The observability workshop stack consists of ~ 8 microservices, each with database. There's also tools such as grafana, kibana, prometheus that assist in providing visibility to logging, tracing and metrics. 
 
 The VM has a minimum requirement of 16GB of Memory 
