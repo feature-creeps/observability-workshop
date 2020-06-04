@@ -27,7 +27,7 @@ sudo -i
 ```
 
 ## Install docker
-<question for abby is this needed isn't docker already installed?>
+Depending on how you built your machine you may already have Docker installed. If you run `docker --version` and get back something like `Docker version 18.06.1-ce, build e68fc7a` you are all set and can continue to the [next section](#increase-max-map-count-for-elastic-search). If you instead get something like `command not found: docker` please contintue with this list of instructions.
 
 1) Get your instance up to date
 ``` bash
@@ -78,8 +78,6 @@ sysctl -w vm.max_map_count=262144
 ## set HONEYCOMB enviornment variable
 ``` bash
 export HONEYCOMB_KEY=<ask workshop owners for this>
-(check the key is set properly)
-echo $HONEYCOMB_KEY
 ```
 ## checkout repo
 ``` bash
@@ -121,7 +119,5 @@ docker-compose --project-directory $HOME/observability-workshop/stack/compose/ -
 ```
 
 ## Removing AWS Instance
-1) If you get stuck, sometimes the easiest thing to do remove what you have and begin from fresh. \
-into your instance type: exit
-2) Once you are on your local machine type: \
-docker-machine rm o11y-workshop
+1) If you get stuck, sometimes the easiest thing to do remove what you have and begin from fresh. Into your instance type: `exit`
+2) Once you are on your local machine type: `docker-machine rm o11y-workshop`
