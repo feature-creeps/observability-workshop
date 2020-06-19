@@ -9,7 +9,7 @@ This doc will walk you through how to create and deploy to a single instance via
 
 Docker swarm is a quorum based system where any number of computers are combined together to provide shared computer and controlled via a number of manager nodes.
 
-At its simplist, we can create a swarm of a single node which is also a manager of itself. That is what we will do here.
+At its simplest, we can create a swarm of a single node which is also a manager of itself. That is what we will do here.
 
 These docs will follow along [this tutorial](https://docs.docker.com/engine/swarm/swarm-tutorial/) so in doubt, check that for more up to date references.
 
@@ -23,7 +23,7 @@ You may need to also provision the server further which you can find [instructio
 
 ### Initiating the swarm
 
-Assuming you have ssh'd to the sever you have decided to create the swarm on, follow [these instructions](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/) to initiate the swarm
+Assuming you have ssh'd to the server you have decided to create the swarm on, follow [these instructions](https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/) to initiate the swarm
 
 
 > Note: It is not required to use the `--advertise-addr` flag if only using a single node swarm
