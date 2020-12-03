@@ -12,6 +12,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imageorchestrator:
     build: ../application/imageorchestrator
@@ -37,6 +38,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imageholder:
     build: ../application/imageholder
@@ -63,6 +65,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imagerotator:
     build: ../application/imagerotator
@@ -88,6 +91,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imagegrayscale:
     build: ../application/imagegrayscale
@@ -113,6 +117,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imageresize:
     build: ../application/imageresize
@@ -138,6 +143,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imageflip:
     build: ../application/imageflip
@@ -163,6 +169,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   imagethumbnail:
     build: ../application/imagethumbnail
@@ -188,6 +195,7 @@ services:
       driver: "fluentd"
       options:
         fluentd-address: localhost:24224
+    restart: on-failure
 
   traffic-gen:
     build: ../infrastructure/traffic-gen
