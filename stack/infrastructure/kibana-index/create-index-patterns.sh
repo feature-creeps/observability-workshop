@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 INDICES=$1
 KIBANA_HOST=kibana
@@ -17,5 +17,6 @@ for INDEX in $INDICES; do
        let EXIT=$EXIT+$?
     fi
 done
+echo ""
 
 exit $EXIT

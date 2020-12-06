@@ -2,6 +2,6 @@ FROM appropriate/curl
 
 COPY create-index-patterns.sh /
 COPY create-index-template.sh /
-ENV INDICES="logs-"
+COPY entrypoint.sh /
 
-ENTRYPOINT sh create-index-template.sh && sh create-index-patterns.sh "$INDICES"
+ENTRYPOINT /entrypoint.sh "$INDICES"

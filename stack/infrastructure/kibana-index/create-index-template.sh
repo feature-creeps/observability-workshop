@@ -1,5 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
+echo "write index template for logs-*"
 curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -H 'Content-Type: application/json' -d'
 {
   "index_patterns": ["logs-*"],
@@ -11,11 +12,13 @@ curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -
       "degrees":    { "type": "long" },
       "factor":    { "type": "long" },
       "horizontal":    { "type": "boolean" },
-      "vertical":    { "type": "boolean" },
+      "vertical":    { "type": "boolean" }
     }
   }
 }
 '
+
+echo "write index template for events-*"
 curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -H 'Content-Type: application/json' -d'
 {
   "index_patterns": ["events-*"],
@@ -44,3 +47,4 @@ curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -
   }
 }
 '
+echo ""
