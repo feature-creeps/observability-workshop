@@ -239,7 +239,8 @@ services:
   # log collector
   fluentd:
     build: ../infrastructure/fluentd
-    command: -qq
+    # -v -vv -q -qq
+    command: -v
     depends_on:
     - elasticsearch
     volumes:
@@ -285,6 +286,8 @@ services:
     depends_on:
     - kibana
     - elasticsearch
+    environment:
+      INDICES: "logs- events-"
     restart: on-failure
 
   # logs visualizer

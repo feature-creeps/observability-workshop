@@ -1,6 +1,6 @@
 #!/bin/bash
 lvl=$1
-cd $HOME/observability-workshop/stack/compose/
+cd ./stack/compose/
 START=`date +%s`
 docker-compose -f docker-compose-level-$lvl.yml --compatibility up -d --build --remove-orphans
 

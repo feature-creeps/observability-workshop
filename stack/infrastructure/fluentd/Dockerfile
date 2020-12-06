@@ -1,10 +1,11 @@
-FROM fluent/fluentd:v1.7.3-debian-1.0
+FROM fluent/fluentd:v1.11-debian-1
 
 USER root
 
 RUN fluent-gem install fluent-plugin-elasticsearch
 RUN fluent-gem install fluent-plugin-prometheus
 RUN fluent-gem install fluent-plugin-grafana-loki
+RUN fluent-gem install fluent-plugin-rewrite-tag-filter
 RUN buildDeps="sudo make gcc g++ libc-dev ruby-dev" \
  && apt-get update \
  && apt-get install -y --no-install-recommends $buildDeps \

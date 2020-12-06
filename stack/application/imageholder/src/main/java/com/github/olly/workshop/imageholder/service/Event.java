@@ -13,8 +13,10 @@ public class Event {
     private static Map<String, Object> spans = baseSpan();
     private static Map<String, String> stringSpans = new HashMap<String, String>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("Event");
+    private static final Logger LOGGER = LoggerFactory.getLogger("event");
     private static final Marker eventMarker = MarkerFactory.getMarker("EVENT");
+
+    private static final String EVENT_BASE_FIELD = "event";
 
     void addField(String key, Object value) {
         spans.put(key, value);
@@ -40,7 +42,7 @@ public class Event {
 
     private Map<String, String> getStringSpans() {
         spans.forEach((key, value) -> stringSpans.put(
-                "span" + "." + key.replaceAll("\\.", "_"),
+                EVENT_BASE_FIELD + "." + key.replaceAll("\\.", "_"),
                 valueToString(value)));
         return stringSpans;
     }
