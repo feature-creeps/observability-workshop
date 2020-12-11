@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 @ControllerAdvice
 public class ExceptionHandlerHttp {
@@ -15,14 +14,14 @@ public class ExceptionHandlerHttp {
   @ResponseStatus(HttpStatus.NOT_FOUND)
   @ResponseBody
   ResponseEntity<Exception> handleNotFoundException(Exception ex) throws Exception {
-    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not found", ex);
+    return new ResponseEntity<>(ex, HttpStatus.NOT_FOUND);
   }
 
   @ExceptionHandler({Throwable.class})
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ResponseBody
   ResponseEntity<Exception> handleThrowable(Exception ex) throws Exception {
-    throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "internal server error", ex);
+    return new ResponseEntity<>(ex, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
 }
