@@ -6,7 +6,9 @@ import io.prometheus.client.Counter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +56,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (e != null) {
+            fields.put("response_status", ((ResponseStatusException) e).getStatus());
             fields.put("exception_thrown", "true");
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
