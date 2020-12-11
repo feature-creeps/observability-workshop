@@ -56,7 +56,6 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         }
 
         if (e != null) {
-            fields.put("response_status", ((ResponseStatusException) e).getStatus());
             fields.put("exception_thrown", "true");
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));

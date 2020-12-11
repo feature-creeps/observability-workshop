@@ -9,6 +9,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +61,7 @@ public class RequestInterceptor implements HandlerInterceptor {
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
         } else {
-            fields.put("exception_thrown", "false");
+                      fields.put("exception_thrown", String.valueOf(eventService.getFieldFromActiveEvent("exception_thrown").equals("true")));
         }
 
         fields.put("finishedAt", now);
