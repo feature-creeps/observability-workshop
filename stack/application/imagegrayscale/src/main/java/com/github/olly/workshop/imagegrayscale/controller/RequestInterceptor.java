@@ -3,18 +3,20 @@ package com.github.olly.workshop.imagegrayscale.controller;
 
 import com.github.olly.workshop.imagegrayscale.service.EventService;
 import com.github.olly.workshop.imagegrayscale.service.MetricsService;
+import net.logstash.logback.encoder.org.apache.commons.lang.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import net.logstash.logback.encoder.org.apache.commons.lang.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
@@ -57,16 +59,16 @@ public class RequestInterceptor implements HandlerInterceptor {
         } else {
             final Object exceptionThrown_o = eventService.getFieldFromActiveEvent("exception_thrown");
             final Boolean exceptionThrown;
-            if(exceptionThrown_o != null) {
-                if(exceptionThrown_o instanceof Boolean) {
+            if (exceptionThrown_o != null) {
+                if (exceptionThrown_o instanceof Boolean) {
                     exceptionThrown = (Boolean) exceptionThrown_o;
-                } else if(exceptionThrown_o instanceof String) {
+                } else if (exceptionThrown_o instanceof String) {
                     exceptionThrown = Boolean.valueOf((String) exceptionThrown_o);
                 } else {
-                  exceptionThrown = false;
+                    exceptionThrown = false;
                 }
             } else {
-              exceptionThrown = false;
+                exceptionThrown = false;
             }
             fields.put("exception_thrown", Boolean.valueOf(exceptionThrown));
         }
@@ -91,14 +93,20 @@ public class RequestInterceptor implements HandlerInterceptor {
 
         fields.put("request.authType", request.getAuthType());
         fields.put("request.contextPath", request.getContextPath());
-        if (request.getCookies() != null) {
+
+        // set cookies
+        String cookieHeader = request.getHeader("cookie");
+        if (!StringUtils.isEmpty(cookieHeader)) {
             fields.put("request.cookies.exist", true);
-            Arrays.asList(request.getCookies()).forEach(cookie -> {
-                    fields.put("request.cookies." + simplify(cookie.getName()), simplify(cookie.getValue()));
-                    if(cookie.getName().equals("user")) {
-                        fields.put("user", cookie.getValue());
-                    }
-                });
+            String[] cookies = cookieHeader.split(";");
+            Arrays.asList(cookies).forEach(cookie -> {
+                String cookieName = cookie.split("=")[0];
+                String cookieValue = cookie.split("=")[1];
+                fields.put("request.cookies." + simplify(cookieName), simplify(cookieValue));
+                if (cookieName.equals("user")) {
+                    fields.put("user", cookieValue);
+                }
+            });
         } else {
             fields.put("request.cookies.exist", false);
         }

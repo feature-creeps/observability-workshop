@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -90,12 +91,18 @@ public class RequestInterceptor implements HandlerInterceptor {
 
         fields.put("request.authType", request.getAuthType());
         fields.put("request.contextPath", request.getContextPath());
-        if (request.getCookies() != null) {
+
+        // set cookies
+        String cookieHeader = request.getHeader("cookie");
+        if (!StringUtils.isEmpty(cookieHeader)) {
             fields.put("request.cookies.exist", true);
-            Arrays.asList(request.getCookies()).forEach(cookie -> {
-                    fields.put("request.cookies." + simplify(cookie.getName()), simplify(cookie.getValue()));
-                    if(cookie.getName().equals("user")) {
-                        fields.put("user", cookie.getValue());
+            String[] cookies = cookieHeader.split(";");
+                Arrays.asList(cookies).forEach(cookie -> {
+                    String cookieName = cookie.split("=")[0];
+                    String cookieValue = cookie.split("=")[1];
+                    fields.put("request.cookies." + simplify(cookieName), simplify(cookieValue));
+                    if(cookieName.equals("user")) {
+                        fields.put("user", cookieValue);
                     }
                 });
         } else {
