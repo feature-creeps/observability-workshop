@@ -23,12 +23,13 @@
           crossorigin="anonymous"></script>
 
   <script>
-    window.onload = function setUserCookie() {
+    function setUserCookie() {
       const cookieKey = "user";
       const path = "/";
+      const random = new Date().getTime() % 160777;
 
       function randomUserName() {
-        return "user_" + new Date().getUTCSeconds();
+        return "user " + random;
       }
 
       function hasValidCookie(userKey) {
@@ -46,7 +47,7 @@
         return;
       }
 
-      var username = window.prompt("Enter your username", randomUserName());
+      var username = window.prompt("Enter your username", randomUserName()) + " " + random;
 
       now = new Date();
       expires = now.setDate(now.getDay() + 1);
@@ -55,6 +56,7 @@
 
       document.cookie = cookie;
     }
+    window.onload = setUserCookie;
   </script>
 
   <title>Photo album</title>
