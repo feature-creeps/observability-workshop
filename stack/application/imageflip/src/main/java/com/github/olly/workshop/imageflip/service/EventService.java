@@ -4,13 +4,16 @@ import io.honeycomb.beeline.tracing.Beeline;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.web.context.WebApplicationContext;
 
 @Service
+@Scope(WebApplicationContext.SCOPE_REQUEST)
 public class EventService {
 
     private static final String EVENT_ID_KEY = "event.id";
