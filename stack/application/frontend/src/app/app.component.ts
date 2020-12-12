@@ -8,7 +8,7 @@ import {Component, OnInit} from '@angular/core';
 export class AppComponent implements OnInit {
   title = 'DIMa: Distributed Image Manipulation';
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     this.setUserCookie()
   }
 
@@ -45,5 +45,8 @@ export class AppComponent implements OnInit {
     var cookie = cookieKey + "=" + username + "; path=" + path + "; expires=" + expires + ";";
 
     document.cookie = cookie;
+  }
+
+  ngOnInit(): void {
   }
 }
