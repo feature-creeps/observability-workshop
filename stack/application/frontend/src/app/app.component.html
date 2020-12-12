@@ -21,44 +21,6 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
           crossorigin="anonymous"></script>
-
-  <script>
-    function setUserCookie() {
-      const cookieKey = "user";
-      const path = "/";
-      const random = new Date().getTime() % 160777;
-
-      function randomUserName() {
-        return "user " + random;
-      }
-
-      function hasValidCookie(userKey) {
-        cookies = document.cookie.split(";")
-        for (var index = 0; index < cookies.length; index++) {
-          var id = cookies[index].split('=')[0];
-          if (id == userKey) {
-            return true;
-          }
-        }
-        return false;
-      }
-
-      if (hasValidCookie(cookieKey)) {
-        return;
-      }
-
-      var username = window.prompt("Enter your username", randomUserName()) + " " + random;
-
-      now = new Date();
-      expires = now.setDate(now.getDay() + 1);
-
-      cookie = cookieKey + "=" + username + "; path=" + path + "; expires=" + expires + ";";
-
-      document.cookie = cookie;
-    }
-    window.onload = setUserCookie;
-  </script>
-
   <title>Photo album</title>
 </head>
 <body class="d-flex flex-column h-100">
