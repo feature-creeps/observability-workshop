@@ -2,23 +2,18 @@ package com.github.olly.workshop.imageholder.adapter;
 
 import com.github.olly.workshop.imageholder.service.EventService;
 import com.github.olly.workshop.imageholder.service.MetricsService;
-import io.prometheus.client.Counter;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.HandlerInterceptor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class RequestInterceptor implements HandlerInterceptor {
@@ -98,7 +93,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         if (request.getCookies() != null) {
             fields.put("request.cookies.exist", true);
             Arrays.asList(request.getCookies()).forEach(cookie ->
-                    fields.put("request.cookies." + cookie.getName(), cookie.getValue()));
+                    fields.put("request.cookies." + simplify(cookie.getName()), simplify(cookie.getValue())));
         } else {
             fields.put("request.cookies.exist", false);
         }
@@ -118,5 +113,9 @@ public class RequestInterceptor implements HandlerInterceptor {
         fields.put("request.servletPath", request.getServletPath());
 
         return fields;
+    }
+
+    String simplify(String in) {
+        return in.replaceAll("\\W", "_");
     }
 }
