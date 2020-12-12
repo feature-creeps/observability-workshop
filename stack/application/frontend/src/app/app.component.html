@@ -35,10 +35,11 @@
         cookies = document.cookie.split(";")
         for (var index = 0; index < cookies.length; index++) {
           var id = cookies[index].split('=')[0];
-          if (id.localeCompare(userKey)) {
+          if (id == userKey) {
             return true;
           }
         }
+        return false;
       }
 
       if (hasValidCookie(cookieKey)) {
@@ -54,8 +55,6 @@
 
       document.cookie = cookie;
     }
-
-
   </script>
 
   <title>Photo album</title>
