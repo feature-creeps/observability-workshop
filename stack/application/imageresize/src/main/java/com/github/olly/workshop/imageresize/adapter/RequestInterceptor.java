@@ -92,8 +92,12 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         fields.put("request.contextPath", request.getContextPath());
         if (request.getCookies() != null) {
             fields.put("request.cookies.exist", true);
-            Arrays.asList(request.getCookies()).forEach(cookie ->
-                    fields.put("request.cookies." + simplify(cookie.getName()), simplify(cookie.getValue())));
+            Arrays.asList(request.getCookies()).forEach(cookie -> {
+                    fields.put("request.cookies." + simplify(cookie.getName()), simplify(cookie.getValue()));
+                    if(cookie.getName().equals("user")) {
+                        fields.put("user", cookie.getValue());
+                    }
+                });
         } else {
             fields.put("request.cookies.exist", false);
         }
