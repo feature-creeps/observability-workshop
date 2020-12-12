@@ -15,7 +15,10 @@ export class AppComponent implements OnInit {
   private setUserCookie() {
     const cookieKey = "user";
     const path = "/";
-    const random = new Date().getTime() - 160777;
+    const now = new Date();
+    var yesterday = new Date()
+    yesterday.setDate(now.getDay() - 1)
+    const random = now.getTime() - yesterday.getTime();
 
     function randomUserName() {
       return "user " + random;
@@ -39,7 +42,6 @@ export class AppComponent implements OnInit {
     var userReturn = window.prompt("Enter your username", randomUserName());
     var username = userReturn != null ? userReturn : "user" + " " + random;
 
-    var now = new Date();
     var expires = now.setDate(now.getDay() + 1);
 
     var cookie = cookieKey + "=" + username + "; path=" + path + "; expires=" + expires + ";";
