@@ -1,16 +1,14 @@
 package com.github.olly.workshop.imagegrayscale.service;
 
 import io.honeycomb.beeline.tracing.Beeline;
+import java.util.Map;
+import java.util.UUID;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import org.springframework.web.context.WebApplicationContext;
 
 @Service
@@ -23,14 +21,13 @@ public class EventService {
     @Value("${events.enabled:true}")
     private Boolean EVENTS_ENABLED;
 
-    private Map<String, Event> events = new HashMap<String, Event>();
+    private Event activeEvent;
     private final String EVENT_ID_KEY = "event.id";
 
-
-        public String newEvent() {
+    public String newEvent() {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
-        events.put(id, new Event());
+        activeEvent = new Event(id);
         return id;
     }
 
@@ -42,7 +39,7 @@ public class EventService {
 
         // add single field info to our event
         String id = getActiveEventId();
-        putSpan(id, key, value);
+        putField(id, key, value);
     }
 
     public void addFieldsToActiveEvent(Map<String, Object> fields) {
@@ -60,7 +57,7 @@ public class EventService {
         getActiveEvent().publish(message);
         // clean up
         MDC.clear();
-        events.remove(getActiveEventId());
+        activeEvent = null;
     }
 
 
@@ -74,11 +71,10 @@ public class EventService {
     }
 
     private Event getActiveEvent() {
-        String id = getActiveEventId();
-        return events.get(id);
+        return activeEvent;
     }
 
-    private void putSpan(String id, String key, Object value) {
-        events.get(id).addField(key, value);
+    private void putField(String id, String key, Object value) {
+        activeEvent.addField(key, value);
     }
 }
