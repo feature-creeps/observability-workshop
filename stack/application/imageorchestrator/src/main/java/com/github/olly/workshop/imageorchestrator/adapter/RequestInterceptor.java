@@ -3,6 +3,7 @@ package com.github.olly.workshop.imageorchestrator.adapter;
 import com.github.olly.workshop.imageorchestrator.service.EventService;
 import com.github.olly.workshop.imageorchestrator.service.MetricsService;
 import io.prometheus.client.Counter;
+import javax.swing.text.StyledEditorKit.BoldAction;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -60,7 +61,20 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
         } else {
-            fields.put("exception_thrown", String.valueOf(eventService.getFieldFromActiveEvent("exception_thrown").equals("true")));
+            final Object exceptionThrown_o = eventService.getFieldFromActiveEvent("exception_thrown");
+            final Boolean exceptionThrown;
+            if(exceptionThrown_o != null) {
+                if(exceptionThrown_o instanceof Boolean) {
+                    exceptionThrown = (Boolean) exceptionThrown_o;
+                } else if(exceptionThrown_o instanceof String) {
+                    exceptionThrown = Boolean.valueOf((String) exceptionThrown_o);
+                } else {
+                  exceptionThrown = false;
+                }
+            } else {
+              exceptionThrown = false;
+            }
+            fields.put("exception_thrown", Boolean.valueOf(exceptionThrown));
         }
 
         fields.put("finishedAt", now);

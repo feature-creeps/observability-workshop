@@ -1,50 +1,56 @@
 package com.github.olly.workshop.imageflip.service;
 
-import org.slf4j.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 public class Event {
 
-    private static Map<String, Object> spans = baseSpan();
-    private static Map<String, String> stringSpans = new HashMap<String, String>();
+    private Map<String, Object> fields = baseSpan();
+    private Map<String, String> stringFields = new HashMap<String, String>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger("event");
-    private static final Marker eventMarker = MarkerFactory.getMarker("EVENT");
+    private final Logger LOGGER = LoggerFactory.getLogger("event");
+    private final Marker eventMarker = MarkerFactory.getMarker("EVENT");
+    private final String EVENT_BASE_FIELD = "event";
 
-    private static final String EVENT_BASE_FIELD = "event";
+    public Event(String id) {
+        addField("id", id);
+    }
 
     void addField(String key, Object value) {
-        spans.put(key, value);
+        fields.put(key, value);
     }
 
     void addFields(Map<String, Object> fields) {
-        spans.putAll(fields);
+        this.fields.putAll(fields);
     }
 
     Object getField(String key) {
-        return spans.get(key);
+        return fields.get(key);
     }
 
     Set<String> getKeys() {
-        return spans.keySet();
+        return fields.keySet();
     }
 
     void publish(String message) {
-        getStringSpans().forEach(MDC::put);
+        getStringFields().forEach(MDC::put);
         LOGGER.info(eventMarker, message);
         MDC.clear();
     }
 
-    private Map<String, String> getStringSpans() {
-        spans.forEach((key, value) -> stringSpans.put(
+    private Map<String, String> getStringFields() {
+        fields.forEach((key, value) -> stringFields.put(
                 EVENT_BASE_FIELD + "." + key.replaceAll("\\.", "_"),
                 valueToString(value)));
-        return stringSpans;
+        return stringFields;
     }
 
     private String valueToString(Object value) {

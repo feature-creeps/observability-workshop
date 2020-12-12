@@ -26,22 +26,23 @@ public class ExceptionHandlerHttp {
   @ExceptionHandler({NotFoundException.class})
   @ResponseBody
   ResponseEntity<Exception> handleNotFoundException(Exception ex) throws Exception {
-    logAndAppendToEvent(ex);
-    return new ResponseEntity<>(((ResponseStatusException) ex).getStatus());
+    ResponseStatusException rex = new ResponseStatusException(HttpStatus.NOT_FOUND, "not found", ex);
+    logAndAppendToEvent(rex);
+    return new ResponseEntity<>(rex.getStatus());
   }
 
   @ExceptionHandler({Throwable.class})
   @ResponseBody
   ResponseEntity<Exception> handleThrowable(Exception ex) throws Exception {
-    ex = new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "unexpected exception thrown", ex);
-    logAndAppendToEvent(ex);
-    return new ResponseEntity<>(((ResponseStatusException) ex).getStatus());
+    ResponseStatusException rex = new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "unexpected exception thrown", ex);
+    logAndAppendToEvent(rex);
+    return new ResponseEntity<>((rex).getStatus());
   }
 
-  private void logAndAppendToEvent(Throwable ex) {
+  private void logAndAppendToEvent(ResponseStatusException ex) {
     LOGGER.error(ex.getLocalizedMessage(), ex);
 
-    eventService.addFieldToActiveEvent("response_status", ((ResponseStatusException) ex).getStatus());
+    eventService.addFieldToActiveEvent("response_status", ex.getStatus());
     eventService.addFieldToActiveEvent("exception_thrown", "true");
     eventService.addFieldToActiveEvent("exception_message", ex.getMessage());
     eventService.addFieldToActiveEvent("exception_stacktrace", ExceptionUtils.getStackTrace(ex));
