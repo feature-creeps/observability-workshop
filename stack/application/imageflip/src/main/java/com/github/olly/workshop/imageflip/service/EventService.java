@@ -5,6 +5,7 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.UUID;
 import org.springframework.web.context.WebApplicationContext;
 
 @Service
-@Scope(WebApplicationContext.SCOPE_REQUEST)
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class EventService {
 
     private static final String EVENT_ID_KEY = "event.id";
