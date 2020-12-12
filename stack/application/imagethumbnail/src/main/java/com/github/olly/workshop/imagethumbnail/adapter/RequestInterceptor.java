@@ -59,7 +59,8 @@ public class RequestInterceptor implements HandlerInterceptor {
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
         } else {
-                      fields.put("exception_thrown", String.valueOf(eventService.getFieldFromActiveEvent("exception_thrown").equals("true")));
+            final String exception_thrown = (String) eventService.getFieldFromActiveEvent("exception_thrown");
+            fields.put("exception_thrown", Boolean.valueOf(exception_thrown));
         }
 
         fields.put("finishedAt", now);
