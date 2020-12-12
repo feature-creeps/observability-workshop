@@ -61,8 +61,20 @@ public class RequestInterceptor implements HandlerInterceptor {
             fields.put("exception_message", e.getMessage());
             fields.put("exception_stacktrace", ExceptionUtils.getStackTrace(e));
         } else {
-            final String exception_thrown = (String) eventService.getFieldFromActiveEvent("exception_thrown");
-            fields.put("exception_thrown", Boolean.valueOf(exception_thrown));
+            final Object exceptionThrown_o = eventService.getFieldFromActiveEvent("exception_thrown");
+            final Boolean exceptionThrown;
+            if(exceptionThrown_o != null) {
+                if(exceptionThrown_o instanceof Boolean) {
+                    exceptionThrown = (Boolean) exceptionThrown_o;
+                } else if(exceptionThrown_o instanceof String) {
+                    exceptionThrown = Boolean.valueOf((String) exceptionThrown_o);
+                } else {
+                  exceptionThrown = false;
+                }
+            } else {
+              exceptionThrown = false;
+            }
+            fields.put("exception_thrown", Boolean.valueOf(exceptionThrown));
         }
 
         fields.put("finishedAt", now);
