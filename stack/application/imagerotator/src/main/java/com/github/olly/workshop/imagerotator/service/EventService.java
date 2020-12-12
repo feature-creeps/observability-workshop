@@ -55,7 +55,7 @@ public class EventService {
         }
         getActiveEvent().publish(message);
         // clean up
-        MDC.remove(EVENT_ID_KEY);
+        MDC.clear();
         events.remove(getActiveEventId());
     }
 
