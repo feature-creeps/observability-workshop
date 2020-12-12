@@ -23,10 +23,8 @@ public class EventService {
     @Value("${events.enabled:true}")
     private Boolean EVENTS_ENABLED;
 
-    private static Map<String, Event> events = new HashMap<String, Event>();
-    private static final String EVENT_ID_KEY = "event.id";
-
-
+    private Map<String, Event> events = new HashMap<String, Event>();
+    private final String EVENT_ID_KEY = "event.id";
     public String newEvent() {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);

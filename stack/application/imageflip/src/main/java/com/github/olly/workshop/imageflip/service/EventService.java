@@ -24,7 +24,7 @@ public class EventService {
     @Value("${events.enabled:true}")
     private Boolean EVENTS_ENABLED;
 
-    public String newEvent() {
+        public String newEvent() {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
         events.put(id, new Event());
