@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,43 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'DIMa: Distributed Image Manipulation';
+
+  ngOnInit(): void {
+    this.setUserCookie()
+  }
+
+  private setUserCookie() {
+    const cookieKey = "user";
+    const path = "/";
+    const random = new Date().getTime() - 160777;
+
+    function randomUserName() {
+      return "user " + random;
+    }
+
+    function hasValidCookie(userKey) {
+      var cookies = document.cookie.split(";")
+      for (var index = 0; index < cookies.length; index++) {
+        var id = cookies[index].split('=')[0];
+        if (id == userKey) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    if (hasValidCookie(cookieKey)) {
+      return;
+    }
+
+    var userReturn = window.prompt("Enter your username", randomUserName());
+    var username = userReturn != null ? userReturn : "user" + " " + random;
+
+    var now = new Date();
+    var expires = now.setDate(now.getDay() + 1);
+
+    var cookie = cookieKey + "=" + username + "; path=" + path + "; expires=" + expires + ";";
+
+    document.cookie = cookie;
+  }
 }

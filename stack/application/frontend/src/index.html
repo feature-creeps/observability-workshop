@@ -7,43 +7,6 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-  <script>
-    function setUserCookie() {
-      const cookieKey = "user";
-      const path = "/";
-      const random = new Date().getTime() % 160777;
-
-      function randomUserName() {
-        return "user " + random;
-      }
-
-      function hasValidCookie(userKey) {
-        cookies = document.cookie.split(";")
-        for (var index = 0; index < cookies.length; index++) {
-          var id = cookies[index].split('=')[0];
-          if (id == userKey) {
-            return true;
-          }
-        }
-        return false;
-      }
-
-      if (hasValidCookie(cookieKey)) {
-        return;
-      }
-
-      var username = window.prompt("Enter your username", randomUserName()) + " " + random;
-
-      now = new Date();
-      expires = now.setDate(now.getDay() + 1);
-
-      cookie = cookieKey + "=" + username + "; path=" + path + "; expires=" + expires + ";";
-
-      document.cookie = cookie;
-    }
-    window.onload = setUserCookie;
-  </script>
 </head>
 <body>
   <app-root></app-root>
