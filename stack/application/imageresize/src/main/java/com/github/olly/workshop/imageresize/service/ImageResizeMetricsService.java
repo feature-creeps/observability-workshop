@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageresize.service;
 
+import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MetricsService {
-
-    @Autowired
-    MeterRegistry registry;
+public class ImageResizeMetricsService extends MetricsService {
 
     @Value("${business.metrics.enabled:true}")
     private Boolean BUSINESS_METRICS_ENABLED;
@@ -25,11 +23,4 @@ public class MetricsService {
         }
     }
 
-    public void httpRequestReceived(String method, String handler, String status, String path) {
-        Metrics.counter("http_requests_total",
-                "method", method,
-                "handler", handler,
-                "status", status,
-                "path", path).increment();
-    }
 }

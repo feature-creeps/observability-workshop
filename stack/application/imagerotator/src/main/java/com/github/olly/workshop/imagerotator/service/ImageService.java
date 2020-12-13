@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imagerotator.service;
 
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.io.InputStream;
 public class ImageService {
 
     @Autowired
-    MetricsService metricsService;
+    ImageRotatorMetricsService imageRotatorMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -34,7 +35,7 @@ public class ImageService {
             this.eventService.addFieldToActiveEvent("transformation.rotate.degrees", String.valueOf(degrees));
             final byte[] imageBytes = bufferedImageToByteArray(rotatedImage, formatName);
 
-            metricsService.imageRotated(file.getContentType(), String.valueOf(degrees));
+            imageRotatorMetricsService.imageRotated(file.getContentType(), String.valueOf(degrees));
 
             return imageBytes;
         } catch (IOException e) {

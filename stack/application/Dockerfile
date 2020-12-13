@@ -2,7 +2,6 @@ FROM openjdk:11-jdk as builder
 
 WORKDIR /build
 
-ARG SERVICE
 ARG GRADLE_VERSION=5.1.1
 
 # apm
@@ -14,22 +13,17 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
     && mkdir gradle \
     && unzip -d gradle gradle-${GRADLE_VERSION}-bin.zip
 
-## gradle cache
-#COPY build.gradle .
-#COPY settings.gradle .
-#RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
-#
-## libs
-#COPY springevents springevents
-#RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle springevents:build
-#
-## service build
-#COPY $SERVICE/src/ $SERVICE/src/
-#RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle $SERVICE:build
+# gradle cache
+COPY build.gradle build.gradle
+COPY settings.gradle settings.gradle
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle resolveDependencies
 
-COPY build.gradle .
-COPY settings.gradle .
+# libs
 COPY springevents springevents
+RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle springevents:build
+
+# service build
+ARG SERVICE
 COPY $SERVICE $SERVICE
 
 RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle $SERVICE:build

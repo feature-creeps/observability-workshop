@@ -7,6 +7,7 @@ import com.github.olly.workshop.imageorchestrator.service.clients.ImageFlipClien
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscaleClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageResizeClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageRotatorClient;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import java.util.stream.IntStream;
 public class TransformationService {
 
     @Autowired
-    private MetricsService metricsService;
+    private ImageOrchestratorMetricsService imageOrchestratorMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -58,19 +59,19 @@ public class TransformationService {
             switch (transformation.getType()) {
                 case grayscale:
                     image = grayscale(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
+                    imageOrchestratorMetricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case rotate:
                     image = rotate(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
+                    imageOrchestratorMetricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case resize:
                     image = resize(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
+                    imageOrchestratorMetricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 case flip:
                     image = flip(image, transformation.getProperties());
-                    metricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
+                    imageOrchestratorMetricsService.transformationPerformed(image.getMimeType(), transformation.getType().name());
                     break;
                 default:
                     this.eventService.addFieldToActiveEvent("transformation.unknown", transformation.getType().name());

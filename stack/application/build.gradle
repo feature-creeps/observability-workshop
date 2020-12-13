@@ -73,7 +73,7 @@ void resolveConfiguration(configuration) {
 }
 
 boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['apiElements', 'implementation',
+    def nonResolveableConfigurations = ['api', 'apiElements', 'implementation',
                                         'runtimeElements', 'runtimeOnly',
                                         'testImplementation', 'testRuntimeOnly',
                                         'generatedImplementation', 'generatedRuntimeOnly']

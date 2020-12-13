@@ -2,9 +2,10 @@ package com.github.olly.workshop.imagethumbnail.adapter;
 
 import com.github.olly.workshop.imagethumbnail.config.LoggingContextUtil;
 import com.github.olly.workshop.imagethumbnail.model.Image;
-import com.github.olly.workshop.imagethumbnail.service.EventService;
 import com.github.olly.workshop.imagethumbnail.service.ImageService;
-import com.github.olly.workshop.imagethumbnail.service.MetricsService;
+import com.github.olly.workshop.imagethumbnail.service.ImageThumbnailMetricsService;
+import com.github.olly.workshop.springevents.adapter.NotFoundException;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class ImageController {
     private ImageService imageService;
 
     @Autowired
-    private MetricsService metricsService;
+    private ImageThumbnailMetricsService imageThumbnailMetricsService;
 
     @Autowired
     private LoggingContextUtil loggingContextUtil;
@@ -48,7 +49,7 @@ public class ImageController {
         loggingContextUtil.mdcPut(image.getContentType());
 
         LOGGER.info("Returning thumbnail from image with id {}", id);
-        metricsService.imageThumbnailed(image.getContentType());
+        imageThumbnailMetricsService.imageThumbnailed(image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.transformed.size", image.getSize());
 

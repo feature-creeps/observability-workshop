@@ -1,8 +1,8 @@
 package com.github.olly.workshop.imageresize.adapter;
 
 import com.github.olly.workshop.imageresize.config.LoggingContextUtil;
-import com.github.olly.workshop.imageresize.service.EventService;
 import com.github.olly.workshop.imageresize.service.ImageService;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

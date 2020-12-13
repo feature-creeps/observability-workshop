@@ -3,6 +3,7 @@ package com.github.olly.workshop.imageorchestrator.service;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.model.TransformationType;
+import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MetricsService {
-
-    @Autowired
-    MeterRegistry registry;
+public class ImageOrchestratorMetricsService extends MetricsService {
 
     @Value("${business.metrics.enabled:true}")
     private Boolean BUSINESS_METRICS_ENABLED;
@@ -41,13 +39,5 @@ public class MetricsService {
                     "rotate", String.valueOf(transformationRequest.getTransformationTypes().contains(TransformationType.rotate)))
                     .increment();
         }
-    }
-
-    public void httpRequestReceived(String method, String handler, String status, String path) {
-        Metrics.counter("http_requests_total",
-                "method", method,
-                "handler", handler,
-                "status", status,
-                "path", path).increment();
     }
 }

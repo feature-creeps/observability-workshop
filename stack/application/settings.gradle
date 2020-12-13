@@ -2,4 +2,10 @@ rootProject.name = 'olly'
 
 
 include 'imageflip'
+include 'imagegrayscale'
+include 'imageholder'
+include 'imageorchestrator'
+include 'imagerotator'
+include 'imageresize'
+include 'imagethumbnail'
 include 'springevents'

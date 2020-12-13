@@ -5,6 +5,7 @@ import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderUploadClient;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class ImageService {
     TransformationService transformationService;
 
     @Autowired
-    private MetricsService metricsService;
+    private ImageOrchestratorMetricsService imageOrchestratorMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -54,7 +55,7 @@ public class ImageService {
         final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
 
         this.eventService.addFieldToActiveEvent("content.transformed.type", transformedImage.getMimeType());
-        metricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
+        imageOrchestratorMetricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
         if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
             this.eventService.addFieldToActiveEvent("content.transformed.persist", true);

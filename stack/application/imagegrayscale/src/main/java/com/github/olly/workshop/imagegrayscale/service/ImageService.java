@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imagegrayscale.service;
 
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.io.InputStream;
 public class ImageService {
 
     @Autowired
-    MetricsService metricsService;
+    ImageGrayscaleMetricsService imageGrayscaleMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -37,7 +38,7 @@ public class ImageService {
 
             this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
             this.eventService.addFieldToActiveEvent("content.transformed.size", imageBytes.length);
-            metricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
+            imageGrayscaleMetricsService.imageToGrayscale(image.getContentType(), imageBytes.length);
 
             return imageBytes;
 

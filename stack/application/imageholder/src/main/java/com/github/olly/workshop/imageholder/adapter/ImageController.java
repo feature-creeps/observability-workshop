@@ -2,10 +2,11 @@ package com.github.olly.workshop.imageholder.adapter;
 
 import com.github.olly.workshop.imageholder.config.LoggingContextUtil;
 import com.github.olly.workshop.imageholder.model.Image;
-import com.github.olly.workshop.imageholder.service.EventService;
+import com.github.olly.workshop.imageholder.service.ImageHolderMetricsService;
 import com.github.olly.workshop.imageholder.service.ImageService;
-import com.github.olly.workshop.imageholder.service.MetricsService;
 import com.github.olly.workshop.imageholder.service.client.ImageThumbnailClient;
+import com.github.olly.workshop.springevents.adapter.NotFoundException;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class ImageController {
     private ImageService imageService;
 
     @Autowired
-    private MetricsService metricsService;
+    private ImageHolderMetricsService imageHolderMetricsService;
 
     @Autowired
     private ImageThumbnailClient imageThumbnailClient;
@@ -81,7 +82,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
 
-        metricsService.imageViewed(image);
+        imageHolderMetricsService.imageViewed(image);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));
@@ -117,7 +118,7 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("content.size", image.getSize());
         LOGGER.info("Returning image with id {}", id);
-        metricsService.imageViewed(image);
+        imageHolderMetricsService.imageViewed(image);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf(image.getContentType()));

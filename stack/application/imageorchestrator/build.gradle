@@ -1,140 +1,25 @@
 buildscript {
-    ext {
-        springBootVersion = '2.1.4.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
     }
 }
 
 plugins {
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'org.springframework.boot' version "2.1.18.RELEASE"
     id 'java'
 }
 
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: "de.db.vz.msintplugin"
+apply plugin: 'de.db.vz.msintplugin'
 
 bootJar {
     baseName = 'imageorchestrator'
 }
 
-ext {
-    set('springCloudVersion', 'Greenwich.RELEASE')
-}
-
-group = 'feature-creeps'
-version = null
-sourceCompatibility = JavaVersion.VERSION_1_8
-
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    implementation project(':springevents')
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
 
     implementation 'io.springfox:springfox-swagger2:2.9.2'
     implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-
-    implementation 'net.logstash.logback:logstash-logback-encoder:5.3'
-    implementation 'ch.qos.logback:logback-classic:1.2.1'
-    implementation 'ch.qos.logback:logback-core:1.2.1'
-
-    implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.5.8'
-
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'org.apache.commons:commons-lang3:3.0'
-
-    implementation 'io.micrometer:micrometer-core'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
-
-    testImplementation 'com.github.fakemongo:fongo:2.0.9'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-
-task resolveDependencies {
-    doLast {
-        project.rootProject.allprojects.each { subProject ->
-            subProject.buildscript.configurations.each { configuration ->
-                resolveConfiguration(configuration)
-            }
-            subProject.configurations.each { configuration ->
-                resolveConfiguration(configuration)
-            }
-        }
-    }
-}
-
-void resolveConfiguration(configuration) {
-    if (isResolveableConfiguration(configuration)) {
-        configuration.resolve()
-    }
-}
-
-boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['apiElements', 'implementation',
-                                        'runtimeElements', 'runtimeOnly',
-                                        'testImplementation', 'testRuntimeOnly',
-                                        'integrationTestImplementation', 'integrationTestRuntimeOnly',
-                                        'generatedImplementation', 'generatedRuntimeOnly']
-
-    if (nonResolveableConfigurations.contains(configuration.getName())) {
-        return false
-    }
-    return true
-}
-
-task buildDocker(dependsOn: build) {
-    String sourceJar = "${project.buildDir}/libs/${jar.archiveName}"
-    String target = "${project.projectDir}/src/main/docker/"
-    String targetJar = "$target/$jar.archiveName"
-    String registry = 'docker.maibornwolff.de'
-    ext.tag = "$registry/${project.group}/${jar.baseName}:${project.version}"
-
-    doLast {
-        exec {
-            commandLine 'cp', sourceJar, target
-        }
-        exec {
-            commandLine 'docker', 'build', '-t', tag, target
-        }
-        exec {
-            commandLine 'rm', '-f', targetJar
-        }
-    }
-}
-
-task pushDocker(dependsOn: buildDocker) {
-    doLast {
-        exec {
-            commandLine 'docker', 'push', buildDocker.tag
-        }
-    }
 }

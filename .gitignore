@@ -2,6 +2,9 @@
 **/*.iml
 **/.idea/
 **/out
+**/*.iws
+**/*.ipr
+
 
 # gradle
 **/.gradle
@@ -9,9 +12,9 @@
 **/bin
 
 # Eclipse
-.classpath
-.project
-.settings
+**/.classpath
+**/.project
+**/.settings
 
 *.jar
 **/.vscode

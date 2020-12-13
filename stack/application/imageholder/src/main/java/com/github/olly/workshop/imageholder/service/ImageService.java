@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class ImageService {
     private ImageRepository imageRepository;
 
     @Autowired
-    private MetricsService metricsService;
+    private ImageHolderMetricsService imageHolderMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -31,7 +32,7 @@ public class ImageService {
         image.setId(RandomStringUtils.randomAlphanumeric(20).toLowerCase());
         this.eventService.addFieldToActiveEvent("content.imageId", image.getId());
         Image save = imageRepository.save(image);
-        metricsService.imageUploaded(image);
+        imageHolderMetricsService.imageUploaded(image);
         return save;
     }
 
@@ -81,7 +82,7 @@ public class ImageService {
         Image image = getImageById(id);
         if (image != null) {
             imageRepository.deleteById(id);
-            metricsService.imageDeleted(image);
+            imageHolderMetricsService.imageDeleted(image);
             LOGGER.info("Successfully deleted image with id {}.", id);
             return true;
         } else {

@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageresize.service;
 
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.io.InputStream;
 public class ImageService {
 
     @Autowired
-    MetricsService metricsService;
+    ImageResizeMetricsService imageResizeMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -33,7 +34,7 @@ public class ImageService {
             this.eventService.addFieldToActiveEvent("transformation.resize.factor", String.valueOf(factor));
             final byte[] imageBytes = bufferedImageToByteArray(resizedImage, formatName);
 
-            metricsService.imageResized(file.getContentType(), String.valueOf(factor));
+            imageResizeMetricsService.imageResized(file.getContentType(), String.valueOf(factor));
 
             return imageBytes;
         } catch (IOException e) {

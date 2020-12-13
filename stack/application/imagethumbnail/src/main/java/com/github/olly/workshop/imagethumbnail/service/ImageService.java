@@ -2,6 +2,7 @@ package com.github.olly.workshop.imagethumbnail.service;
 
 import com.github.olly.workshop.imagethumbnail.model.Image;
 import com.github.olly.workshop.imagethumbnail.service.clients.ImageHolderClient;
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class ImageService {
 
     @Autowired
-    MetricsService metricsService;
+    ImageThumbnailMetricsService imageThumbnailMetricsService;
 
     @Autowired
     ImageHolderClient imageHolderClient;
@@ -78,7 +79,7 @@ public class ImageService {
             final byte[] imageBytes = bufferedImageToByteArray(thumbnail, formatName);
             thumbnail.flush();
 
-            metricsService.imageThumbnailed(image.getContentType());
+            imageThumbnailMetricsService.imageThumbnailed(image.getContentType());
 
             return imageBytes;
         } catch (IOException e) {

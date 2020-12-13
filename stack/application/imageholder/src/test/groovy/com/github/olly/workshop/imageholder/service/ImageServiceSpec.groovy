@@ -1,8 +1,7 @@
 package com.github.olly.workshop.imageholder.service
 
 import com.github.olly.workshop.imageholder.model.Image
-import com.github.olly.workshop.imageholder.service.ImageRepository
-import com.github.olly.workshop.imageholder.service.ImageService
+import com.github.olly.workshop.springevents.service.EventService
 import com.mongodb.MongoClient
 import com.mongodb.ServerAddress
 import de.bwaldvogel.mongo.MongoServer
@@ -17,6 +16,7 @@ import spock.lang.Specification
 /*
     this spec represents a spring boot integration test with spock and an in-memory mongo db
  */
+
 @SpringBootTest
 class ImageServiceSpec extends Specification {
 
@@ -27,7 +27,7 @@ class ImageServiceSpec extends Specification {
     ImageRepository imageRepository
 
     @MockBean
-    MetricsService metricsService
+    ImageHolderMetricsService metricsService
 
     @MockBean
     EventService eventService

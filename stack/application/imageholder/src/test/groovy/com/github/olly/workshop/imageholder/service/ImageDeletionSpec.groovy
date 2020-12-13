@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageholder.service
 
 import com.github.olly.workshop.imageholder.model.Image
+import com.github.olly.workshop.springevents.service.EventService
 import spock.lang.Specification
 
 /*
@@ -12,11 +13,11 @@ class ImageDeletionSpec extends Specification {
     def "cannot save more than 1000 images"() {
         given:
         ImageRepository imageRepository = Mock(ImageRepository)
-        MetricsService metricsService = Mock(MetricsService)
+        ImageHolderMetricsService metricsService = Mock(ImageHolderMetricsService)
         EventService eventService = Mock(EventService)
         ImageService imageService = new ImageService(
                 imageRepository: imageRepository,
-                metricsService: metricsService,
+                imageHolderMetricsService: metricsService,
                 eventService: eventService)
 
 

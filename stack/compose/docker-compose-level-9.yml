@@ -15,11 +15,14 @@ services:
     restart: on-failure
 
   imageorchestrator:
-    build: ../application/imageorchestrator
+    build:
+      context: ../application
+      args:
+        SERVICE: imageorchestrator
     depends_on:
-    - fluentd
+      - fluentd
     ports:
-    - 8080:8080
+      - 8080:8080
     deploy:
       resources:
         limits:
@@ -41,12 +44,15 @@ services:
     restart: on-failure
 
   imageholder:
-    build: ../application/imageholder
+    build:
+      context: ../application
+      args:
+        SERVICE: imageholder
     depends_on:
-    - mongodb
-    - fluentd
+      - mongodb
+      - fluentd
     ports:
-    - 8081:8080
+      - 8081:8080
     deploy:
       resources:
         limits:
@@ -68,7 +74,10 @@ services:
     restart: on-failure
 
   imagerotator:
-    build: ../application/imagerotator
+    build:
+      context: ../application
+      args:
+        SERVICE: imagerotator
     depends_on:
       - fluentd
     ports:
@@ -94,7 +103,10 @@ services:
     restart: on-failure
 
   imagegrayscale:
-    build: ../application/imagegrayscale
+    build:
+      context: ../application
+      args:
+        SERVICE: imagegrayscale
     depends_on:
       - fluentd
     ports:
@@ -120,7 +132,10 @@ services:
     restart: on-failure
 
   imageresize:
-    build: ../application/imageresize
+    build:
+      context: ../application
+      args:
+        SERVICE: imageresize
     depends_on:
       - fluentd
     ports:
@@ -175,7 +190,10 @@ services:
     restart: on-failure
 
   imagethumbnail:
-    build: ../application/imagethumbnail
+    build:
+      context: ../application
+      args:
+        SERVICE: imagethumbnail
     depends_on:
       - fluentd
     ports:
@@ -203,9 +221,9 @@ services:
   traffic-gen:
     build: ../infrastructure/traffic-gen
     depends_on:
-    - fluentd
-    - imageholder
-    - imageorchestrator
+      - fluentd
+      - imageholder
+      - imageorchestrator
     restart: on-failure
     logging:
       driver: "fluentd"
@@ -221,11 +239,11 @@ services:
     # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
     command: "--wiredTigerCacheSizeGB 2"
     depends_on:
-    - fluentd
+      - fluentd
     ports:
-    - '27017'
+      - '27017'
     volumes:
-    - olly-mongodb:/data/db
+      - olly-mongodb:/data/db
     logging:
       driver: "fluentd"
       options:
@@ -234,7 +252,7 @@ services:
   mongodb-exporter:
     image: maibornwolff/mongodb_exporter
     ports:
-    - 9001:9001
+      - 9001:9001
     command: '-mongodb.uri mongodb://mongodb:27017'
 
   ## Logging
@@ -245,13 +263,13 @@ services:
     # -v -vv -q -qq
     command: -v
     depends_on:
-    - elasticsearch
+      - elasticsearch
     volumes:
-    - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
-    - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers/:/mnt/var/log/docker/containers/:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     ports:
-    - "24224:24224"
-    - "24224:24224/udp"
+      - "24224:24224"
+      - "24224:24224/udp"
 
   loki:
     image: grafana/loki:$LOKI_VERSION
@@ -270,25 +288,25 @@ services:
         soft: -1
         hard: -1
     volumes:
-    - olly-elasticsearch:/usr/share/elasticsearch/data
+      - olly-elasticsearch:/usr/share/elasticsearch/data
     ports:
-    - 9200:9200
+      - 9200:9200
 
   elasticsearch-exporter:
     image: justwatch/elasticsearch_exporter:1.0.2
     depends_on:
       - elasticsearch
     command:
-     - '-es.uri=http://elasticsearch:9200'
+      - '-es.uri=http://elasticsearch:9200'
     restart: always
     ports:
-    - 9108:9108
+      - 9108:9108
 
   kibana-index:
     build: ../infrastructure/kibana-index
     depends_on:
-    - kibana
-    - elasticsearch
+      - kibana
+      - elasticsearch
     environment:
       INDICES: "logs- events-"
     restart: on-failure
@@ -297,18 +315,18 @@ services:
   kibana:
     build: ../infrastructure/kibana
     depends_on:
-    - elasticsearch
+      - elasticsearch
     volumes:
-    - olly-prometheus:/prometheus
+      - olly-prometheus:/prometheus
     ports:
-    - 5601:5601
+      - 5601:5601
 
   apm-server:
     build: ../infrastructure/apm-server
     ports:
-    - 8200:8200
+      - 8200:8200
     depends_on:
-    - elasticsearch
+      - elasticsearch
 
   ## Monitoring
 
@@ -345,14 +363,14 @@ services:
   prometheus:
     build: ../infrastructure/prometheus
     ports:
-    - 9090:9090
+      - 9090:9090
 
   # monitoring visualizer
   grafana:
     depends_on:
-    - fluentd
+      - fluentd
     ports:
-    - 3000:3000
+      - 3000:3000
     build: ../infrastructure/grafana
     logging:
       driver: "fluentd"
@@ -363,31 +381,31 @@ services:
   node-exporter:
     image: prom/node-exporter
     volumes:
-    - /proc:/host/proc:ro
-    - /sys:/host/sys:ro
-    - /:/rootfs:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
     command:
-    - '--path.procfs=/host/proc'
-    - '--path.sysfs=/host/sys'
-    - --collector.filesystem.ignored-mount-points
-    - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - --collector.filesystem.ignored-mount-points
+      - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
     ports:
-    - 9100:9100
+      - 9100:9100
 
   cadvisor: # docker daemon metrics exporter
     image: google/cadvisor
     volumes:
-    - /:/rootfs:ro
-    - /var/run:/var/run:rw
-    - /sys:/sys:ro
-    - /var/lib/docker/:/var/lib/docker:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
     ports:
-    - 9110:8080
+      - 9110:8080
 
   nginx-exporter:
     image: sophos/nginx-vts-exporter:latest
     environment:
-    - NGINX_STATUS="http://localhost/status/format/json"
+      - NGINX_STATUS="http://localhost/status/format/json"
 
   ## Tracing
 
@@ -395,11 +413,11 @@ services:
   zipkin:
     image: openzipkin/zipkin:2.17
     ports:
-    - 9411:9411
+      - 9411:9411
     env_file:
       - .zipkin.env
     depends_on:
-    - elasticsearch
+      - elasticsearch
 
   zipkin-dependencies:
     image: openzipkin/zipkin-dependencies

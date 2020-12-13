@@ -8,25 +8,25 @@ services:
     environment:
       JAVA_DEBUG: "true"
     ports:
-    - 8080:8080
-    - 5005:5005
+      - 8080:8080
+      - 5005:5005
 
   imageholder:
     build: ../../../../imageholder
     depends_on:
-    - mongodb
+      - mongodb
     ports:
-    - 8080
+      - 8080
 
   imagerotator:
     build: ../../../../imagerotator
     ports:
-    - 8080
+      - 8080
 
   imagegrayscale:
     build: ../../../../imagegrayscale
     ports:
-    - 8080
+      - 8080
 
   ## Storage
 
@@ -34,4 +34,4 @@ services:
   mongodb:
     image: mongo:3.2.12
     ports:
-    - '27017'
+      - '27017'

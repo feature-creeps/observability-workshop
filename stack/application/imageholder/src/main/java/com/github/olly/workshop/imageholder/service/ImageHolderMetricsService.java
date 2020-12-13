@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
+import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
@@ -9,26 +10,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MetricsService {
-
-    private final MeterRegistry registry;
+public class ImageHolderMetricsService extends MetricsService {
 
     private final ImageRepository imageRepository;
-
-    private static Gauge imagesInDatabase;
 
     private final Boolean BUSINESS_METRICS_ENABLED;
 
     @Autowired
-    public MetricsService(MeterRegistry registry, ImageRepository imageRepository,
-                          @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
-        this.registry = registry;
+    public ImageHolderMetricsService(MeterRegistry registry, ImageRepository imageRepository,
+                                     @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
         this.imageRepository = imageRepository;
         this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
 
         if (BUSINESS_METRICS_ENABLED) {
-            imagesInDatabase = Gauge
-                    .builder("application_images_in_database", this, MetricsService::numberOfImagesInDb)
+            Gauge.builder("application_images_in_database", this, ImageHolderMetricsService::numberOfImagesInDb)
                     .register(registry);
         }
     }
@@ -64,11 +59,4 @@ public class MetricsService {
         }
     }
 
-    public void httpRequestReceived(String method, String handler, String status, String path) {
-        Metrics.counter("http_requests_total",
-                "method", method,
-                "handler", handler,
-                "status", status,
-                "path", path).increment();
-    }
 }
