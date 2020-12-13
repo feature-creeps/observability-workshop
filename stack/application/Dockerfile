@@ -1,12 +1,8 @@
-FROM openjdk:11-jdk as builder
+FROM openjdk:11-jdk AS builder
 
 WORKDIR /build
 
 ARG GRADLE_VERSION=5.1.1
-
-# apm
-ARG ELASTIC_APM_AGEN_VERSION=1.16.0
-RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGEN_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGEN_VERSION}.jar -O /elastic-apm-agent.jar
 
 # gradle
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
@@ -28,18 +24,21 @@ COPY $SERVICE $SERVICE
 
 RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle $SERVICE:build
 
-FROM openjdk:11-jre
+FROM scratch AS elastic-apm
 
+# apm
+ARG ELASTIC_APM_AGENT_VERSION=1.19.0
+RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGENT_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGENT_VERSION}.jar -O /elastic-apm-agent.jar
+
+
+FROM openjdk:11-jre AS final
 ARG SERVICE
 
-COPY --from=builder /elastic-apm-agent.jar /
+COPY --from=elastic-apm /elastic-apm-agent.jar /
 COPY --from=builder /build/$SERVICE/build/libs/$SERVICE.jar /
 COPY entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
-
-ENV SERVICE=$SERVICE
-RUN echo "service: $SERVICE"
 
 EXPOSE 8080 5005
 ENTRYPOINT /entrypoint.sh $SERVICE
