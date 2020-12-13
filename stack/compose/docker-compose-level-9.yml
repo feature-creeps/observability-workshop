@@ -183,10 +183,10 @@ services:
       - level_env_vars/override_9.env
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    #logging:
-    #  driver: "fluentd"
-    #  options:
-    #    fluentd-address: localhost:24224
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
     restart: on-failure
 
   imagethumbnail:
