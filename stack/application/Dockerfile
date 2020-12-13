@@ -1,3 +1,10 @@
+FROM busybox AS elastic-apm
+
+# apm
+ARG ELASTIC_APM_AGENT_VERSION=1.19.0
+RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGENT_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGENT_VERSION}.jar -O /elastic-apm-agent.jar
+
+
 FROM openjdk:11-jdk AS builder
 
 WORKDIR /build
@@ -23,13 +30,6 @@ ARG SERVICE
 COPY $SERVICE $SERVICE
 
 RUN ./gradle/gradle-${GRADLE_VERSION}/bin/gradle $SERVICE:build
-
-FROM scratch AS elastic-apm
-
-# apm
-ARG ELASTIC_APM_AGENT_VERSION=1.19.0
-RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGENT_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGENT_VERSION}.jar -O /elastic-apm-agent.jar
-
 
 FROM openjdk:11-jre AS final
 ARG SERVICE
