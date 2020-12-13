@@ -42,7 +42,10 @@ curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -
       "event.transformation_greyscale":    { "type": "boolean" },
       "event.transformation_image_persist":    { "type": "boolean" },
       "event.transformation_resize":    { "type": "boolean" },
-      "event.transformation_rotate":    { "type": "boolean" }
+      "event.transformation_rotate":    { "type": "boolean" },
+      "event.request_header_x-real-ip":    { "type": "text" },
+      "event.request_header_cookie":    { "type": "text" },
+      "event.user":    { "type": "text" }
     }
   }
 }
