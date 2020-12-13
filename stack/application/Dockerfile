@@ -40,5 +40,7 @@ COPY entrypoint.sh /
 
 RUN chmod +x /entrypoint.sh
 
+ENV SERVICE=$SERVICE
+
 EXPOSE 8080 5005
 ENTRYPOINT /entrypoint.sh $SERVICE
