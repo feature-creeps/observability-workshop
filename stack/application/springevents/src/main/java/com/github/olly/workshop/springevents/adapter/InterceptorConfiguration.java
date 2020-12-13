@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imageflip.adapter;
+package com.github.olly.workshop.springevents.adapter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

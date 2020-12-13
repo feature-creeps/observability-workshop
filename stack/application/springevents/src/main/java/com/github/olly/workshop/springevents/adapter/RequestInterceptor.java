@@ -1,7 +1,7 @@
-package com.github.olly.workshop.imageflip.adapter;
+package com.github.olly.workshop.springevents.adapter;
 
-import com.github.olly.workshop.imageflip.service.EventService;
-import com.github.olly.workshop.imageflip.service.MetricsService;
+import com.github.olly.workshop.springevents.service.EventService;
+import com.github.olly.workshop.springevents.service.MetricsService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

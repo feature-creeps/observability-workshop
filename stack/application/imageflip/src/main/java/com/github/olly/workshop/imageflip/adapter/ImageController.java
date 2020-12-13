@@ -1,7 +1,7 @@
 package com.github.olly.workshop.imageflip.adapter;
 
 import com.github.olly.workshop.imageflip.config.LoggingContextUtil;
-import com.github.olly.workshop.imageflip.service.EventService;
+import com.github.olly.workshop.springevents.service.EventService;
 import com.github.olly.workshop.imageflip.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

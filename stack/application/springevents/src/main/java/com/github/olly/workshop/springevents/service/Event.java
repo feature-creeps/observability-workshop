@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imageflip.service;
+package com.github.olly.workshop.springevents.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

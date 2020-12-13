@@ -1,0 +1,85 @@
+plugins {
+    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+}
+
+subprojects {
+    group = 'feature-creeps'
+    version = null
+
+    apply plugin: 'groovy'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        mavenCentral()
+        maven { url 'https://repo.spring.io/milestone' }
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.18.RELEASE"
+        }
+    }
+
+    dependencies {
+        // spring
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+
+        // commons
+        implementation 'commons-io:commons-io:2.6'
+        implementation 'org.apache.commons:commons-lang3:3.0'
+
+        // logs
+        implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
+        implementation 'ch.qos.logback:logback-classic:1.1.6'
+        implementation 'ch.qos.logback:logback-core:1.1.6'
+        // metrics
+        implementation 'io.micrometer:micrometer-core'
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+        // traces
+        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+
+        // events
+        implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
+
+        // todo: remove this dep
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.0.0'
+
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    }
+
+}
+
+task resolveDependencies {
+    doLast {
+        project.rootProject.allprojects.each { subProject ->
+            subProject.buildscript.configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+            subProject.configurations.each { configuration ->
+                resolveConfiguration(configuration)
+            }
+        }
+    }
+}
+
+void resolveConfiguration(configuration) {
+    if (isResolveableConfiguration(configuration)) {
+        configuration.resolve()
+    }
+}
+
+boolean isResolveableConfiguration(configuration) {
+    def nonResolveableConfigurations = ['apiElements', 'implementation',
+                                        'runtimeElements', 'runtimeOnly',
+                                        'testImplementation', 'testRuntimeOnly',
+                                        'generatedImplementation', 'generatedRuntimeOnly']
+
+    if (nonResolveableConfigurations.contains(configuration.getName())) {
+        return false
+    }
+    return true
+}

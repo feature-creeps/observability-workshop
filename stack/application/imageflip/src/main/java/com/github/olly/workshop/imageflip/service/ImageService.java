@@ -1,5 +1,6 @@
 package com.github.olly.workshop.imageflip.service;
 
+import com.github.olly.workshop.springevents.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.io.InputStream;
 public class ImageService {
 
     @Autowired
-    MetricsService metricsService;
+    ImageFlipMetricsService imageFlipMetricsService;
 
     @Autowired
     private EventService eventService;
@@ -35,7 +36,7 @@ public class ImageService {
             final BufferedImage flippedImage = flip(ImageIO.read(in), vertical, horizontal);
             final byte[] imageBytes = bufferedImageToByteArray(flippedImage, formatName);
 
-            metricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
+            imageFlipMetricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
             this.eventService.addFieldToActiveEvent("content.type", file.getContentType()) ;
 
             return imageBytes;

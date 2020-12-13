@@ -1,4 +1,4 @@
-package com.github.olly.workshop.imageflip.service;
+package com.github.olly.workshop.springevents.service;
 
 import io.honeycomb.beeline.tracing.Beeline;
 import java.util.Map;

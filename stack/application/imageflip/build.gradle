@@ -1,127 +1,12 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.4.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
-    }
-}
-
 plugins {
-    id 'org.springframework.boot' version '2.1.4.RELEASE'
+    id 'org.springframework.boot' version "2.1.18.RELEASE"
     id 'java'
 }
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 bootJar {
     baseName = 'imageflip'
 }
 
-ext {
-    set('springCloudVersion', 'Greenwich.RELEASE')
-}
-
-group = 'feature-creeps'
-version = null
-sourceCompatibility = JavaVersion.VERSION_1_8
-
-repositories {
-    mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-    implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
-
-    implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
-    implementation 'ch.qos.logback:logback-classic:1.1.6'
-    implementation 'ch.qos.logback:logback-core:1.1.6'
-
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'org.apache.commons:commons-lang3:3.0'
-
-    implementation 'io.micrometer:micrometer-core'
-    implementation 'io.micrometer:micrometer-registry-prometheus'
-
-    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.0.0'
-    implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
-
-    testImplementation 'com.github.fakemongo:fongo:2.0.9'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-
-task resolveDependencies {
-    doLast {
-        project.rootProject.allprojects.each { subProject ->
-            subProject.buildscript.configurations.each { configuration ->
-                resolveConfiguration(configuration)
-            }
-            subProject.configurations.each { configuration ->
-                resolveConfiguration(configuration)
-            }
-        }
-    }
-}
-
-void resolveConfiguration(configuration) {
-    if (isResolveableConfiguration(configuration)) {
-        configuration.resolve()
-    }
-}
-
-boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['apiElements', 'implementation',
-                                        'runtimeElements', 'runtimeOnly',
-                                        'testImplementation', 'testRuntimeOnly',
-                                        'generatedImplementation', 'generatedRuntimeOnly']
-
-    if (nonResolveableConfigurations.contains(configuration.getName())) {
-        return false
-    }
-    return true
-}
-
-task buildDocker(dependsOn: build) {
-    String sourceJar = "${project.buildDir}/libs/${jar.archiveName}"
-    String target = "${project.projectDir}/src/main/docker/"
-    String targetJar = "$target/$jar.archiveName"
-    String registry = 'docker.maibornwolff.de'
-    ext.tag = "$registry/${project.group}/${jar.baseName}:${project.version}"
-
-    doLast {
-        exec {
-            commandLine 'cp', sourceJar, target
-        }
-        exec {
-            commandLine 'docker', 'build', '-t', tag, target
-        }
-        exec {
-            commandLine 'rm', '-f', targetJar
-        }
-    }
-}
-
-task pushDocker(dependsOn: buildDocker) {
-    doLast {
-        exec {
-            commandLine 'docker', 'push', buildDocker.tag
-        }
-    }
+    implementation project(':springevents')
 }
