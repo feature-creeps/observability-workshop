@@ -1,8 +1,6 @@
 package com.github.olly.workshop.springevents.service;
 
 import io.honeycomb.beeline.tracing.Beeline;
-import java.util.Map;
-import java.util.UUID;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +8,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.util.Map;
+import java.util.UUID;
 
 @Service
 @Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -24,11 +25,11 @@ public class EventService {
     private Event activeEvent;
     private final String EVENT_ID_KEY = "event.id";
 
-    public String newEvent() {
+    public Event newEvent() {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
         activeEvent = new Event(id);
-        return id;
+        return getActiveEvent();
     }
 
     public void addFieldToActiveEvent(String key, Object value) {
@@ -64,14 +65,14 @@ public class EventService {
     private String getActiveEventId() {
         final String id = MDC.get(EVENT_ID_KEY);
         if (id == null) {
-            return newEvent();
+            return newEvent().getId();
         } else {
             return id;
         }
     }
 
     private Event getActiveEvent() {
-        return activeEvent;
+        return activeEvent != null ? activeEvent : newEvent();
     }
 
     private void putField(String id, String key, Object value) {

@@ -24,6 +24,9 @@ public class Event {
         addField("id", id);
     }
 
+    String getId(){
+        return getField("id").toString();
+    }
     void addField(String key, Object value) {
         fields.put(key, value);
     }
