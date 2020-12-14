@@ -5,28 +5,31 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 
 public class Event {
 
-    private Map<String, Object> fields = baseSpan();
+    private Map<String, Object> fields = baseFields();
     private Map<String, String> stringFields = new HashMap<String, String>();
 
-    private final Logger LOGGER = LoggerFactory.getLogger("event");
-    private final Marker eventMarker = MarkerFactory.getMarker("EVENT");
     private final String EVENT_BASE_FIELD = "event";
 
-    public Event(String id) {
-        addField("id", id);
+    public enum EventTrigger {
+        HTTP,
+        MESSAGE,
+        CRON,
+        FILE,
+        UNKNOWN
     }
 
-    String getId(){
+    public Event(String id, EventTrigger trigger) {
+        addField("id", id);
+        addField("trigger", trigger);
+    }
+
+    String getId() {
         return getField("id").toString();
     }
+
     void addField(String key, Object value) {
         fields.put(key, value);
     }
@@ -43,13 +46,7 @@ public class Event {
         return fields.keySet();
     }
 
-    void publish(String message) {
-        getStringFields().forEach(MDC::put);
-        LOGGER.info(eventMarker, message);
-        MDC.clear();
-    }
-
-    private Map<String, String> getStringFields() {
+    Map<String, String> getStringFields() {
         fields.forEach((key, value) -> stringFields.put(
                 EVENT_BASE_FIELD + "." + key.replaceAll("\\.", "_"),
                 valueToString(value)));
@@ -64,7 +61,7 @@ public class Event {
         }
     }
 
-    private static Map<String, Object> baseSpan() {
+    private static Map<String, Object> baseFields() {
         Map<String, Object> map = new HashMap<>();
         map.put("type", "event");
         return map;

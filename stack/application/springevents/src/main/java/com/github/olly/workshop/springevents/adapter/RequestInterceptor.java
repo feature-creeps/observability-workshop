@@ -1,5 +1,6 @@
 package com.github.olly.workshop.springevents.adapter;
 
+import com.github.olly.workshop.springevents.service.Event;
 import com.github.olly.workshop.springevents.service.EventService;
 import com.github.olly.workshop.springevents.service.MetricsService;
 import org.apache.commons.lang3.StringUtils;
@@ -23,34 +24,35 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Autowired
     MetricsService metricsService;
 
-    private static final String startedAt = "startedAt";
-
     @Autowired
     EventService eventService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        eventService.newEvent();
-        eventService.addFieldToActiveEvent(startedAt, LocalDateTime.now());
+        eventService.newEvent(Event.EventTrigger.HTTP);
         return true;
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
-        // Update counters
-        metricsService.httpRequestReceived(request.getMethod(), request.getContextPath(), Integer.toString(response.getStatus()), request.getServletPath());
+        try {
+            Map<String, Object> fields = new HashMap<String, Object>();
 
+            fields.putAll(extractRequestFields(request));
+            fields.putAll(extractResponseFields(response));
 
-        Map<String, Object> fields = new HashMap<String, Object>();
-        fields.putAll(extractRequestFields(request));
-        fields.putAll(extractResponseFields(response));
+            registerException(e, fields);
 
-        final LocalDateTime now = LocalDateTime.now();
-        if (eventService.getFieldFromActiveEvent(startedAt) != null) {
-            final Long duration = Duration.between((LocalDateTime) eventService.getFieldFromActiveEvent(startedAt), now).toMillis();
-            fields.put("duration_ms", duration);
+            eventService.addFieldsToActiveEvent(fields);
+        } finally {
+            eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI());
+
+            // Update request counter
+            metricsService.httpRequestReceived(request.getMethod(), request.getContextPath(), Integer.toString(response.getStatus()), request.getServletPath());
         }
+    }
 
+    private void registerException(Exception e, Map<String, Object> fields) {
         if (e != null) {
             fields.put("exception_thrown", "true");
             fields.put("exception_message", e.getMessage());
@@ -69,12 +71,8 @@ public class RequestInterceptor implements HandlerInterceptor {
             } else {
                 exceptionThrown = false;
             }
-            fields.put("exception_thrown", Boolean.valueOf(exceptionThrown));
+            fields.put("exception_thrown", exceptionThrown);
         }
-
-        fields.put("finishedAt", now);
-        eventService.addFieldsToActiveEvent(fields);
-        eventService.publishEvent(request.getMethod() + " request to " + request.getRequestURI());
     }
 
     private Map<? extends String, ?> extractResponseFields(HttpServletResponse response) {
@@ -114,6 +112,9 @@ public class RequestInterceptor implements HandlerInterceptor {
         while (headerNames.hasMoreElements()) {
             final String header = headerNames.nextElement();
             fields.put("request.header." + header, request.getHeader(header));
+            if (header.equalsIgnoreCase("X-Real-IP")) {
+                fields.put("remote_address", request.getHeader(header));
+            }
         }
 
         fields.put("request.method", request.getMethod());
@@ -127,7 +128,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         return fields;
     }
 
-    String simplify(String in) {
+    private String simplify(String in) {
         return in.replaceAll("\\W", "_");
     }
 }

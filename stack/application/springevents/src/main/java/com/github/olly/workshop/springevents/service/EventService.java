@@ -1,7 +1,7 @@
 package com.github.olly.workshop.springevents.service;
 
 import io.honeycomb.beeline.tracing.Beeline;
-import org.slf4j.MDC;
+import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -9,6 +9,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -24,12 +26,17 @@ public class EventService {
 
     private Event activeEvent;
     private final String EVENT_ID_KEY = "event.id";
+    private static final String startedAt = "startedAt";
 
-    public Event newEvent() {
+    private final Logger LOGGER = LoggerFactory.getLogger("event");
+    private final Marker eventMarker = MarkerFactory.getMarker("EVENT");
+
+    public Event newEvent(Event.EventTrigger trigger) {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
-        activeEvent = new Event(id);
-        return getActiveEvent();
+        this.activeEvent = new Event(id, trigger);
+        addFieldToActiveEvent(startedAt, LocalDateTime.now());
+        return this.activeEvent;
     }
 
     public void addFieldToActiveEvent(String key, Object value) {
@@ -55,24 +62,43 @@ public class EventService {
         if (!EVENTS_ENABLED) {
             return;
         }
-        getActiveEvent().publish(message);
-        // clean up
+        publish(message);
+        cleanUpEventFromContext();
+    }
+
+    private void publish(String message) {
+        activeEvent.getStringFields().forEach(MDC::put);
+
+        setEventDuration();
+        LOGGER.info(eventMarker, message);
+        MDC.clear();
+    }
+
+    private void setEventDuration() {
+        final LocalDateTime now = LocalDateTime.now();
+        if (getFieldFromActiveEvent(startedAt) != null) {
+            final Long duration = Duration.between((LocalDateTime) getFieldFromActiveEvent(startedAt), now).toMillis();
+            addFieldToActiveEvent("duration_ms", duration);
+        }
+        addFieldToActiveEvent("finishedAt", now);
+    }
+
+    private void cleanUpEventFromContext() {
         MDC.clear();
         activeEvent = null;
     }
 
 
     private String getActiveEventId() {
-        final String id = MDC.get(EVENT_ID_KEY);
-        if (id == null) {
-            return newEvent().getId();
-        } else {
-            return id;
-        }
+        return getActiveEvent().getId();
     }
 
     private Event getActiveEvent() {
-        return activeEvent != null ? activeEvent : newEvent();
+        if (activeEvent == null) {
+            activeEvent = newEvent(Event.EventTrigger.UNKNOWN);
+            MDC.put(EVENT_ID_KEY, activeEvent.getId());
+        }
+        return activeEvent;
     }
 
     private void putField(String id, String key, Object value) {
