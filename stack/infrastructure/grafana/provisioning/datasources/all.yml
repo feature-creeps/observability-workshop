@@ -56,3 +56,14 @@ datasources:
     isDefault: false
     version: 1
     editable: true
+    basicAuth: true
+    basicAuthUser: elastic
+    secureJsonData:
+      basicAuthPassword: changeme
+    database: "[logs-]YYYY.MM.DD"
+    jsonData:
+      interval: Daily
+      timeField: "@timestamp"
+      esVersion: 70
+      logMessageField: message
+      logLevelField: level
