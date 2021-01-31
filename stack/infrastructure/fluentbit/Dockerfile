@@ -10,4 +10,4 @@ COPY ./conf/streams_custom.conf $STREAMS_CONF
 COPY ./conf/docker-to-es.conf /fluent-bit/etc/docker-to-es.conf
 
 # docker does not inherit the CMD from the parent image
-CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/docker-to-es.conf"]
+CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/docker-to-es.conf", "-v"]
