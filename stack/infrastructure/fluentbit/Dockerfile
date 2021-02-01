@@ -1,10 +1,13 @@
-FROM fluent/fluent-bit:0.14.4
+FROM fluent/fluent-bit:1.6
 
 ENV PARSERS_CONF /fluent-bit/etc/parsers_custom.conf
 COPY ./conf/parsers_custom.conf $PARSERS_CONF
 
-ENV FLUENTBIT_CONF /fluent-bit/etc/docker-to-es.conf
-COPY ./conf/docker-to-es.conf $FLUENTBIT_CONF
+ENV STREAMS_CONF /fluent-bit/etc/streams_custom.conf
+COPY ./conf/streams_custom.conf $STREAMS_CONF
+
+#alternative streams config: /fluent-bit/etc/docker-to-es-streams.conf
+COPY ./conf/docker-to-es.conf /fluent-bit/etc/docker-to-es.conf
 
 # docker does not inherit the CMD from the parent image
-CMD exec /fluent-bit/bin/fluent-bit -c $FLUENTBIT_CONF
+CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/docker-to-es.conf", "-vv"]
