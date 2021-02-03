@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 echo "write index template for logs-*"
-curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/log?pretty" -H 'Content-Type: application/json' -d'
 {
   "index_patterns": ["logs-*"],
   "settings": {
@@ -19,7 +19,7 @@ curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -
 '
 
 echo "write index template for events-*"
-curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/logs?pretty" -H 'Content-Type: application/json' -d'
+curl -X PUT "http://elastic:changeme@elasticsearch:9200/_template/event?pretty" -H 'Content-Type: application/json' -d'
 {
   "index_patterns": ["events-*"],
   "settings": {

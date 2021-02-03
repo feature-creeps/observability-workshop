@@ -103,3 +103,9 @@ scrape_configs:
   metrics_path: /metrics
   static_configs:
     - targets: ['loki:3100']
+
+- job_name: fluentbit
+  scrape_interval: 30s
+  metrics_path: /api/v1/metrics/prometheus
+  static_configs:
+    - targets: ['fluentbit:2020']
