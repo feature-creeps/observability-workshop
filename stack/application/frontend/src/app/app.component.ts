@@ -18,16 +18,18 @@ export class AppComponent implements OnInit {
     const now = new Date();
     var yesterday = new Date()
     yesterday.setDate(now.getDay() - 1)
-    const random = now.getTime() - yesterday.getTime();
 
-    function randomUserName() {
+    function generateRandomUsername() {
+      var random = now.getTime() - yesterday.getTime();
       return "user " + random;
     }
+
+    const randomUsername = generateRandomUsername()
 
     function hasValidCookie(userKey) {
       var cookies = document.cookie.split(";")
       for (var index = 0; index < cookies.length; index++) {
-        var id = cookies[index].split('=')[0];
+        var id = cookies[index].split('=')[0].trim();
         if (id == userKey) {
           return true;
         }
@@ -39,8 +41,8 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    var userReturn = window.prompt("Enter your username", randomUserName());
-    var username = userReturn != null ? userReturn : "user" + " " + random;
+    var userReturn = window.prompt("Enter your username", randomUsername);
+    var username = userReturn != null ? userReturn : randomUsername;
 
     var expires = now.setDate(now.getDay() + 1);
 
