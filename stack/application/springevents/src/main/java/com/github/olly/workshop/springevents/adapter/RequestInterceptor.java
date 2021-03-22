@@ -100,7 +100,7 @@ public class RequestInterceptor implements HandlerInterceptor {
                 String cookieName = cookie.split("=")[0];
                 String cookieValue = cookie.split("=")[1];
                 fields.put("request.cookies." + simplify(cookieName), simplify(cookieValue));
-                if (cookieName.equals("user")) {
+                if (cookieName.trim().equals("user")) {
                     fields.put("user", cookieValue);
                 }
             });
