@@ -35,7 +35,7 @@ public class EventService {
         String id = UUID.randomUUID().toString();
         MDC.put(EVENT_ID_KEY, id);
         this.activeEvent = new Event(id, trigger);
-        addFieldToActiveEvent(startedAt, LocalDateTime.now());
+        this.activeEvent.addField(startedAt, LocalDateTime.now());
         return this.activeEvent;
     }
 
@@ -46,8 +46,8 @@ public class EventService {
         }
 
         // add single field info to our event
-        String id = getActiveEventId();
-        putField(id, key, value);
+        Event event = getActiveEvent();
+        event.addField(key, value);
     }
 
     public void addFieldsToActiveEvent(Map<String, Object> fields) {
@@ -88,20 +88,11 @@ public class EventService {
         activeEvent = null;
     }
 
-
-    private String getActiveEventId() {
-        return getActiveEvent().getId();
-    }
-
     private Event getActiveEvent() {
         if (activeEvent == null) {
             activeEvent = newEvent(Event.EventTrigger.UNKNOWN);
             MDC.put(EVENT_ID_KEY, activeEvent.getId());
         }
         return activeEvent;
-    }
-
-    private void putField(String id, String key, Object value) {
-        activeEvent.addField(key, value);
     }
 }

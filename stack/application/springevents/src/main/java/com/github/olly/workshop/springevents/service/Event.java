@@ -21,7 +21,7 @@ public class Event {
         UNKNOWN
     }
 
-    public Event(String id, EventTrigger trigger) {
+    protected Event(String id, EventTrigger trigger) {
         addField("id", id);
         addField("trigger", trigger);
     }
