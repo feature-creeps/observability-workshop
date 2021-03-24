@@ -67,9 +67,12 @@ public class EventService {
     }
 
     private void publish(String message) {
-        activeEvent.getStringFields().forEach(MDC::put);
-
         setEventDuration();
+        writeLog(message);
+    }
+
+    private void writeLog(String message) {
+        getActiveEvent().getStringFields().forEach(MDC::put);
         LOGGER.info(eventMarker, message);
         MDC.clear();
     }
