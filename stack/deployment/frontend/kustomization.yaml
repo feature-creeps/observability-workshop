@@ -1,0 +1,7 @@
+resources:
+  - "./../base"
+  - ingress.yaml
+patchesStrategicMerge:
+  - deployment.yaml
+  - service.yaml
+namePrefix: frontend-

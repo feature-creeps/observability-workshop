@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: gcr.io/olly-2021-k8s-migration/dima-frontend:266531bb7aff6ff91040f6072c953162602b5eaf
+        ports:
+        - containerPort: 80
