@@ -21,3 +21,6 @@
 
 **/.compose-project
 results.bin
+
+**/.env
+**/.secrets

@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+
+  ## Domain
+  frontend:
+    image: gcr.io/${PROJECT_ID}/dima-frontend:${GITHUB_SHA}
+
+  imageorchestrator:
+    image: gcr.io/${PROJECT_ID}/dima-imageorchestrator:${GITHUB_SHA}
+
+  imageholder:
+    image: gcr.io/${PROJECT_ID}/dima-imageholder:${GITHUB_SHA}
+
+  imagerotator:
+    image: gcr.io/${PROJECT_ID}/dima-imagerotator:${GITHUB_SHA}
+
+  imagegrayscale:
+    image: gcr.io/${PROJECT_ID}/dima-imagegrayscale:${GITHUB_SHA}
+
+  imageresize:
+    image: gcr.io/${PROJECT_ID}/dima-imageresize:${GITHUB_SHA}
+
+  imageflip:
+    image: gcr.io/${PROJECT_ID}/dima-imageflip:${GITHUB_SHA}
+
+  imagethumbnail:
+    image: gcr.io/${PROJECT_ID}/dima-imagethumbnail:${GITHUB_SHA}
+
+  traffic-gen:
+    image: gcr.io/${PROJECT_ID}/dima-traffic-gen:${GITHUB_SHA}
+
+  ## Logging
+
+  # log collector
+  fluentd:
+    image: gcr.io/${PROJECT_ID}/fluentd:${GITHUB_SHA}
+
+  kibana-index:
+    image: gcr.io/${PROJECT_ID}/kibana-index:${GITHUB_SHA}
+
+  # logs visualizer
+  kibana:
+    image: gcr.io/${PROJECT_ID}/kibana:${GITHUB_SHA}
+
+  apm-server:
+    image: gcr.io/${PROJECT_ID}/apm-server:${GITHUB_SHA}
+
+  ## Monitoring
+
+  # metricbeat
+  metricbeat:
+    image: gcr.io/${PROJECT_ID}/metricbeat:${GITHUB_SHA}
+
+
+  heartbeat:
+    image: gcr.io/${PROJECT_ID}/heartbeat:${GITHUB_SHA}
+
+  # metrics collector
+  prometheus:
+    image: gcr.io/${PROJECT_ID}/prometheus:${GITHUB_SHA}
+
+  # monitoring visualizer
+  grafana:
+    image: gcr.io/${PROJECT_ID}/grafana:${GITHUB_SHA}
