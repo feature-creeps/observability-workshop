@@ -1,0 +1,9 @@
+resources:
+  - "./frontend/"
+  - "./imageflip/"
+  - "./imagegrayscale/"
+  - "./imageholder/"
+  - "./imageorchestrator/"
+  - "./imageresize/"
+  - "./imagerotator/"
+  - "./imagethumbnail/"
