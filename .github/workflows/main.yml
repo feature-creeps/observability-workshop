@@ -37,12 +37,12 @@ jobs:
         run: pip3 install docker-compose --upgrade
 
       - name: Build all images
-        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml build
         working-directory: ./stack/compose
+        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml build
 
       - name: Push all images
-        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml push
         working-directory: ./stack/compose
+        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml push
 
       - name: Set up Kustomize
         run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
