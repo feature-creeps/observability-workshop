@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: gcr.io/olly-2021-k8s-migration/dima-frontend:266531bb7aff6ff91040f6072c953162602b5eaf
+        image: dima-frontend
         ports:
         - containerPort: 80

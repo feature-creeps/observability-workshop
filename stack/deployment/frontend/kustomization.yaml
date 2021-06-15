@@ -5,3 +5,8 @@ patchesStrategicMerge:
   - deployment.yaml
   - service.yaml
 namePrefix: frontend-
+
+images:
+  - name: dima-frontend
+    newName: gcr.io/olly-2021-k8s-migration/dima-frontend
+    newTag: 266531bb7aff6ff91040f6072c953162602b5eaf

@@ -24,3 +24,5 @@ results.bin
 
 **/.env
 **/.secrets
+
+stack/key.json
