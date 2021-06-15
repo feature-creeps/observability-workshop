@@ -16,7 +16,7 @@ spec:
       - name: imagerotator
         image: dima-imagerotator
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         resources:
           requests:
             memory: "250Mi"
