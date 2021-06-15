@@ -14,7 +14,7 @@ services:
   imageholder:
     build: ../../../../imageholder
     depends_on:
-      - mongodb
+      - mongodb-service
     ports:
       - 8080
 
@@ -31,7 +31,7 @@ services:
   ## Storage
 
   # database
-  mongodb:
+  mongodb-service:
     image: mongo:3.2.12
     ports:
       - '27017'

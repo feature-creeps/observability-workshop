@@ -49,7 +49,7 @@ services:
       args:
         SERVICE: imageholder
     depends_on:
-      - mongodb
+      - mongodb-service
       - fluentd
     ports:
       - 8081:8080

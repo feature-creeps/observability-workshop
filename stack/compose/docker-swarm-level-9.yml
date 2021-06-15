@@ -64,7 +64,7 @@ services:
     image: localhost:5000/dima_imageholder
     depends_on:
       - registry
-      - mongodb
+      - mongodb-service
       - fluentd
     ports:
       - 8081:8080

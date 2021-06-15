@@ -7,12 +7,12 @@ services:
     environment:
       JAVA_DEBUG: "true"
     depends_on:
-    - mongodb
+    - mongodb-service
     ports:
     - 8080
 
   ## Storage
-  mongodb:
+  mongodb-service:
     image: mongo:3.2.12
     ports:
     - '27017'

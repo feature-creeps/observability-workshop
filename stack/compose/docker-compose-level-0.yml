@@ -24,7 +24,7 @@ services:
   imageholder-service:
     build: ../application/imageholder
     depends_on:
-    - mongodb
+    - mongodb-service
     ports:
     - 8081:8080
     deploy:

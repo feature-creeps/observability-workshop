@@ -38,7 +38,7 @@ services:
   imageholder-service:
     build: ../application/imageholder
     depends_on:
-    - mongodb
+    - mongodb-service
     - fluentd
     ports:
     - 8081:8080
