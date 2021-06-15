@@ -54,4 +54,4 @@ jobs:
 
       - name: Deploy on GKE
         working-directory: stack/deployment
-        run: ../../kustomize build . | kubectl apply -f --wait -
+        run: ../../kustomize build . | kubectl apply --wait -f -
