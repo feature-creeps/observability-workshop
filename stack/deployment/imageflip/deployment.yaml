@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: imageflip
+  template:
+    metadata:
+      labels:
+        app: imageflip
+    spec:
+      containers:
+      - name: imageflip
+        image: dima-imageflip
+        ports:
+        - containerPort: 80

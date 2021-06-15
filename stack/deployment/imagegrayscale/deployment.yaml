@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: imagegrayscale
+  template:
+    metadata:
+      labels:
+        app: imagegrayscale
+    spec:
+      containers:
+      - name: imagegrayscale
+        image: dima-imagegrayscale
+        ports:
+        - containerPort: 80

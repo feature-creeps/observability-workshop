@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend:
+  frontend-service:
     build: ../application/frontend
     depends_on:
       - fluentd
@@ -14,7 +14,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imageorchestrator:
+  imageorchestrator-service:
     build:
       context: ../application
       args:
@@ -43,7 +43,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imageholder:
+  imageholder-service:
     build:
       context: ../application
       args:
@@ -73,7 +73,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imagerotator:
+  imagerotator-service:
     build:
       context: ../application
       args:
@@ -102,7 +102,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imagegrayscale:
+  imagegrayscale-service:
     build:
       context: ../application
       args:
@@ -131,7 +131,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imageresize:
+  imageresize-service:
     build:
       context: ../application
       args:
@@ -160,7 +160,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imageflip:
+  imageflip-service:
     build:
       context: ../application
       args:
@@ -189,7 +189,7 @@ services:
         fluentd-address: localhost:24224
     restart: on-failure
 
-  imagethumbnail:
+  imagethumbnail-service:
     build:
       context: ../application
       args:

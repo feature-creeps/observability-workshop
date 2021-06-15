@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend:
+  frontend-service:
     build: ../application/frontend
     depends_on:
       - fluentd
@@ -13,7 +13,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageorchestrator:
+  imageorchestrator-service:
     build: ../application/imageorchestrator
     depends_on:
     - fluentd
@@ -35,7 +35,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageholder:
+  imageholder-service:
     build: ../application/imageholder
     depends_on:
     - mongodb
@@ -58,7 +58,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagerotator:
+  imagerotator-service:
     build: ../application/imagerotator
     depends_on:
       - fluentd
@@ -80,7 +80,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagegrayscale:
+  imagegrayscale-service:
     build: ../application/imagegrayscale
     depends_on:
       - fluentd
@@ -102,7 +102,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageresize:
+  imageresize-service:
     build: ../application/imageresize
     depends_on:
       - fluentd
@@ -124,7 +124,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageflip:
+  imageflip-service:
     build: ../application/imageflip
     depends_on:
       - fluentd
@@ -146,7 +146,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagethumbnail:
+  imagethumbnail-service:
     build: ../application/imagethumbnail
     depends_on:
       - fluentd

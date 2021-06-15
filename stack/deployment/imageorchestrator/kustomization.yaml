@@ -1,0 +1,11 @@
+resources:
+  - "./../base"
+patchesStrategicMerge:
+  - deployment.yaml
+  - service.yaml
+namePrefix: imageorchestrator-
+
+images:
+  - name: dima-imageorchestrator
+    newName: gcr.io/olly-2021-k8s-migration/dima-imageorchestrator
+    newTag: 266531bb7aff6ff91040f6072c953162602b5eaf

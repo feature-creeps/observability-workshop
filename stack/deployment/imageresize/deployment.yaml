@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: imageresize
+  template:
+    metadata:
+      labels:
+        app: imageresize
+    spec:
+      containers:
+      - name: imageresize
+        image: dima-imageresize
+        ports:
+        - containerPort: 80

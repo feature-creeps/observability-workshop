@@ -2,12 +2,12 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend:
+  frontend-service:
     build: ../application/frontend
     ports:
       - 80:80
 
-  imageorchestrator:
+  imageorchestrator-service:
     build: ../application/imageorchestrator
     ports:
     - 8080:8080
@@ -21,7 +21,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imageholder:
+  imageholder-service:
     build: ../application/imageholder
     depends_on:
     - mongodb
@@ -37,7 +37,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imagerotator:
+  imagerotator-service:
     build: ../application/imagerotator
     ports:
       - 8082:8080
@@ -51,7 +51,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imagegrayscale:
+  imagegrayscale-service:
     build: ../application/imagegrayscale
     ports:
       - 8083:8080
@@ -65,7 +65,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imageresize:
+  imageresize-service:
     build: ../application/imageresize
     ports:
       - 8084:8080
@@ -79,7 +79,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imageflip:
+  imageflip-service:
     build: ../application/imageflip
     ports:
       - 8085:8080
@@ -93,7 +93,7 @@ services:
     environment:
       - HONEYCOMB_KEY=${HONEYCOMB_KEY}
 
-  imagethumbnail:
+  imagethumbnail-service:
     build: ../application/imagethumbnail
     ports:
       - 8080

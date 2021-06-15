@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: imagerotator
+  template:
+    metadata:
+      labels:
+        app: imagerotator
+    spec:
+      containers:
+      - name: imagerotator
+        image: dima-imagerotator
+        ports:
+        - containerPort: 80

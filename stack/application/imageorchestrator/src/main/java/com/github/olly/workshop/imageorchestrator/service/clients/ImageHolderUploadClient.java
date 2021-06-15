@@ -44,7 +44,7 @@ public class ImageHolderUploadClient {
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiPartRequest, theMultipartHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange("http://imageholder:8080/api/images", HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange("http://imageholder-service:8080/api/images", HttpMethod.POST, requestEntity, String.class);
 
         image.setId(extractImageId(response));
 

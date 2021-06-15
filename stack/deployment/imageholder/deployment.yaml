@@ -1,0 +1,19 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+spec:
+  selector:
+    matchLabels:
+      app: imageholder
+  template:
+    metadata:
+      labels:
+        app: imageholder
+    spec:
+      containers:
+      - name: imageholder
+        image: dima-imageholder
+        ports:
+        - containerPort: 80

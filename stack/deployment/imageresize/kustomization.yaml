@@ -1,0 +1,11 @@
+resources:
+  - "./../base"
+patchesStrategicMerge:
+  - deployment.yaml
+  - service.yaml
+namePrefix: imageresize-
+
+images:
+  - name: dima-imageresize
+    newName: gcr.io/olly-2021-k8s-migration/dima-imageresize
+    newTag: 266531bb7aff6ff91040f6072c953162602b5eaf

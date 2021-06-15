@@ -2,7 +2,7 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend:
+  frontend-service:
     build: ../application/frontend
     image: localhost:5000/dima_frontend
     depends_on:
@@ -24,7 +24,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageorchestrator:
+  imageorchestrator-service:
     build: ../application/imageorchestrator
     image: localhost:5000/dima_imageorchestrator
     depends_on:
@@ -59,7 +59,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageholder:
+  imageholder-service:
     build: ../application/imageholder
     image: localhost:5000/dima_imageholder
     depends_on:
@@ -95,7 +95,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagerotator:
+  imagerotator-service:
     build: ../application/imagerotator
     image: localhost:5000/dima_imagerotator
     depends_on:
@@ -130,7 +130,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagegrayscale:
+  imagegrayscale-service:
     build: ../application/imagegrayscale
     image: localhost:5000/dima_imagegrayscale
     depends_on:
@@ -165,7 +165,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageresize:
+  imageresize-service:
     build: ../application/imageresize
     image: localhost:5000/dima_imageresize
     depends_on:
@@ -200,7 +200,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imageflip:
+  imageflip-service:
     build: ../application/imageflip
     image: localhost:5000/dima_imageflip
     depends_on:
@@ -235,7 +235,7 @@ services:
       options:
         fluentd-address: localhost:24224
 
-  imagethumbnail:
+  imagethumbnail-service:
     build: ../application/imagethumbnail
     image: localhost:5000/dima_imagethumbnail
     depends_on:
