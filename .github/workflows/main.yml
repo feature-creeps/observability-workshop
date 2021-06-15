@@ -36,6 +36,10 @@ jobs:
       - name: Install docker-compose for python3
         run: pip3 install docker-compose --upgrade
 
+      - name: Pull external dependencies before enabling caching
+        working-directory: ./stack/compose
+        run: docker-compose -f docker-compose-level-9.yml pull || true
+
       - name: Enable Docker Layer Caching
         uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
