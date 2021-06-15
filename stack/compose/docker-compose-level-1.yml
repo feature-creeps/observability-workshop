@@ -169,7 +169,7 @@ services:
   ## Storage
 
   # database
-  mongodb:
+  mongodb-service:
     image: mongo:3.2.12
 
     # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits

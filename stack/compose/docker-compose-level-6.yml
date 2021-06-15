@@ -190,7 +190,7 @@ services:
   ## Storage
 
   # database
-  mongodb:
+  mongodb-service:
     image: mongo:3.2.12
 
     # See https://github.com/docker-library/docs/tree/master/mongo#setting-wiredtiger-cache-size-limits
@@ -210,7 +210,7 @@ services:
     image: maibornwolff/mongodb_exporter
     ports:
     - 9001:9001
-    command: '-mongodb.uri mongodb://mongodb:27017'
+    command: '-mongodb.uri mongodb://mongodb-service:27017'
 
   ## Logging
 
