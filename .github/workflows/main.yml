@@ -45,12 +45,16 @@ jobs:
         working-directory: ./stack/compose
 
       - name: Set up Kustomize
-        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-      #- name: Deploy
-      #  run: |-
-      #    ./kustomize edit set image \
-      #      dima-frontend=${GKE_REGISTRY}/dima-frontend:${GITHUB_SHA}
-      #      dima-frontend=${GKE_REGISTRY}/dima-frontend:${GITHUB_SHA}
-      #    ./kustomize build . | kubectl apply -f -
-      #    kubectl rollout status deployment/$DEPLOYMENT_NAME
-      #    kubectl get services -o wide
+        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+
+      - name: Deploy on GKE
+        working-directory: stack/deployment
+        run: |-
+          function get_services() {
+            find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "$1" \;
+          }
+          IMAGES=$(get_services "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} ")
+          DEPLOYMENTS=$(get_services "deployment/{}-deployment ")
+          ../../kustomize edit set image ${IMAGES}
+          ../../kustomize build . | kubectl apply -f -
+          kubectl rollout status ${DEPLOYMENTS}
