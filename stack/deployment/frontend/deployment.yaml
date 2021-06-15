@@ -17,3 +17,10 @@ spec:
         image: dima-frontend
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "10Mi"
+            cpu: "100m"
+          limits:
+            memory: "50Mi"
+            cpu: "500m"

@@ -7,3 +7,4 @@ resources:
   - "./imageresize/"
   - "./imagerotator/"
   - "./imagethumbnail/"
+  - "./mongodb/"

@@ -17,3 +17,10 @@ spec:
         image: dima-imagerotator
         ports:
         - containerPort: 80
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "100m"
+          limits:
+            memory: "800Mi"
+            cpu: "1000m"
