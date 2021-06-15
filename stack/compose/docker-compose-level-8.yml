@@ -186,8 +186,8 @@ services:
     build: ../infrastructure/traffic-gen
     depends_on:
       - fluentd
-      - imageholder
-      - imageorchestrator
+      - imageholder-service
+      - imageorchestrator-service
     restart: on-failure
     logging:
       driver: "fluentd"

@@ -276,8 +276,8 @@ services:
     depends_on:
       - registry
       - fluentd
-      - imageholder
-      - imageorchestrator
+      - imageholder-service
+      - imageorchestrator-service
     deploy:
       restart_policy:
         condition: on-failure
