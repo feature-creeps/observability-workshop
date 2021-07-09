@@ -43,7 +43,7 @@ public class ImageFlipClient {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiPartRequest, theMultipartHeaders);
 
 
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imageflip-service:8080/api/image/flip", HttpMethod.POST, requestEntity, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imageflip:8080/api/image/flip", HttpMethod.POST, requestEntity, byte[].class);
 
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");

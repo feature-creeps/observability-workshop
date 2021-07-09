@@ -47,7 +47,7 @@ public class ImageRotatorClient {
         org.springframework.http.HttpEntity<MultiValueMap<String, Object>> requestEntity = new org.springframework.http.HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
 
 
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagerotator-service:8080/api/image/rotate", HttpMethod.POST, requestEntity, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagerotator:8080/api/image/rotate", HttpMethod.POST, requestEntity, byte[].class);
 
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");

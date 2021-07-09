@@ -47,7 +47,7 @@ public class ImageResizeClient {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
 
 
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imageresize-service:8080/api/image/resize", HttpMethod.POST, requestEntity, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imageresize:8080/api/image/resize", HttpMethod.POST, requestEntity, byte[].class);
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");
         String contentType = "image/png";

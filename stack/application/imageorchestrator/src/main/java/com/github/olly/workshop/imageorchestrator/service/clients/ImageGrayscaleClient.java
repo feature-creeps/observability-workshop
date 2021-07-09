@@ -41,7 +41,7 @@ public class ImageGrayscaleClient {
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
 
 
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale-service:8080/api/image/grayscale", HttpMethod.POST, requestEntity, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale:8080/api/image/grayscale", HttpMethod.POST, requestEntity, byte[].class);
 
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");
