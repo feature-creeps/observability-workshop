@@ -167,7 +167,7 @@ services:
     - fluentd
     - imageholder
     - imageorchestrator
-    restart: on-failure
+    restart: always
     logging:
       driver: "fluentd"
       options:
@@ -227,7 +227,7 @@ services:
     depends_on:
     - kibana
     - elasticsearch
-    restart: on-failure
+    restart: always
 
   # logs visualizer
   kibana:

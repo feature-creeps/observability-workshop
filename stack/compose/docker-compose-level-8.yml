@@ -188,7 +188,7 @@ services:
       - fluentd
       - imageholder
       - imageorchestrator
-    restart: on-failure
+    restart: always
     logging:
       driver: "fluentd"
       options:
@@ -272,7 +272,7 @@ services:
     depends_on:
       - kibana
       - elasticsearch
-    restart: on-failure
+    restart: always
 
   # logs visualizer
   kibana:
@@ -300,7 +300,7 @@ services:
       - .metricbeat.env
     # disable strict permission checks
     command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
-    restart: on-failure
+    restart: always
     depends_on:
       - kibana
       - elasticsearch
@@ -381,7 +381,7 @@ services:
       - 9412:9412
     env_file:
       - .zipkin.env
-    restart: on-failure
+    restart: always
     depends_on:
       - elasticsearch
 
