@@ -1,22 +1,26 @@
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   # change me to my service name
-#   name: ingress
-#   annotations:
-#     kubernetes.io/ingress.class: nginx
-#     nginx.ingress.kubernetes.io/ssl-redirect: "false"
-#     nginx.ingress.kubernetes.io/rewrite-target: /$2
-# spec:
-#   rules:
-#     - http:
-#         paths:
-#           # change me to my service path
-#           - path: "/frontend($|/)(.*)"
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: frontend-service
-#                 port: 
-#                   number: 80
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: olly-ingress
+  namespace: default
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 80
+            path: /(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imageholder-service
+                port:
+                  number: 8080
+            path: /proxy/imageholder-service/(.*)
+            pathType: Prefix
