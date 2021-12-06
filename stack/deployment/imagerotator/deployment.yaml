@@ -15,6 +15,9 @@ spec:
       containers:
       - name: imagerotator
         image: dima-imagerotator
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: json-log
         ports:
         - containerPort: 8080
         resources:

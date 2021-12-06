@@ -15,6 +15,9 @@ spec:
       containers:
       - name: imagegrayscale
         image: dima-imagegrayscale
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: json-log
         ports:
         - containerPort: 8080
         resources:

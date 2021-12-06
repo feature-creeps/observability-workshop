@@ -15,6 +15,9 @@ spec:
       containers:
       - name: imageholder
         image: dima-imageholder
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: json-log
         ports:
         - containerPort: 8080
         resources:
