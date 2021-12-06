@@ -1,13 +1,13 @@
 export const environment = {
   production: true,
   backend: {
-    imageorchestrator: '/proxy/imageorchestrator-service',
-    imageholder: '/proxy/imageholder-service',
-    imagerotator: '/proxy/imagerotator-service',
-    imagegrayscale: '/proxy/imagegrayscale-service',
-    imageresize: '/proxy/imageresize-service',
-    imageflip: '/proxy/imageflip-service',
-    imagethumbnail: '/proxy/imagethumbnail-service'
+    imageorchestrator: '/proxy/imageorchestrator',
+    imageholder: '/proxy/imageholder',
+    imagerotator: '/proxy/imagerotator',
+    imagegrayscale: '/proxy/imagegrayscale',
+    imageresize: '/proxy/imageresize',
+    imageflip: '/proxy/imageflip',
+    imagethumbnail: '/proxy/imagethumbnail'
   },
   tools: {
     kibana: ':5601',
