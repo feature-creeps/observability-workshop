@@ -4,7 +4,7 @@ set -eu -o pipefail
 
 # Prereq: login to gcloud cli with `gcloud init`
 
-REGION="europe-west3"
+REGION="europe-west1"
 CLUSTER_NAME="k8s-olly"
 
 # Setup gke

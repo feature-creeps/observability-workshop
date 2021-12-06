@@ -46,7 +46,7 @@ jobs:
 
       - name: Build all images
         working-directory: ./stack/compose
-        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml build
+        run: docker-compose -f docker-compose-level-9.yml -f docker-compose-registry-tags.yml build --parallel
 
       - name: Push all images
         working-directory: ./stack/compose
