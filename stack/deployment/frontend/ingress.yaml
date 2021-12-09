@@ -22,47 +22,47 @@ spec:
                 name: imageholder-service
                 port:
                   number: 8080
-            path: /proxy/imageholder-service/(.*)
+            path: /proxy/imageholder/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imageflip-service
                 port:
                   number: 8080
-            path: /proxy/imageflip-service/(.*)
+            path: /proxy/imageflip/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imagerotator-service
                 port:
                   number: 8080
-            path: /proxy/imagerotator-service/(.*)
+            path: /proxy/imagerotator/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imageresize-service
                 port:
                   number: 8080
-            path: /proxy/imageresize-service/(.*)
+            path: /proxy/imageresize/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imagegrayscale-service
                 port:
                   number: 8080
-            path: /proxy/imagegrayscale-service/(.*)
+            path: /proxy/imagegrayscale/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imagethumbnail-service
                 port:
                   number: 8080
-            path: /proxy/imagethumbnail-service/(.*)
+            path: /proxy/imagethumbnail/(.*)
             pathType: Prefix
           - backend:
               service:
                 name: imageorchestrator-service
                 port:
                   number: 8080
-            path: /proxy/imageorchestrator-service/(.*)
+            path: /proxy/imageorchestrator/(.*)
             pathType: Prefix

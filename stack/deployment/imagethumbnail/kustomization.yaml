@@ -8,4 +8,4 @@ namePrefix: imagethumbnail-
 images:
   - name: dima-imagethumbnail
     newName: gcr.io/olly-2021-k8s-migration/dima-imagethumbnail
-    newTag: 266531bb7aff6ff91040f6072c953162602b5eaf
+    newTag: f1e0da2acf8a2da68ee4fc9dbcc9adf1e49273d9
