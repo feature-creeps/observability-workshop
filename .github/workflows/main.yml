@@ -26,6 +26,11 @@ jobs:
         run: |-
           gcloud --quiet auth configure-docker
 
+      - name: Check output
+        run: |-
+          echo "hallo" > /dev/stderr
+          echo "hallo" > /dev/tty
+
       - name: Fetch GKE credentials
         uses: google-github-actions/get-gke-credentials@v0.2.1
         with:
@@ -62,4 +67,4 @@ jobs:
 
       - name: Deploy on GKE
         working-directory: stack/deployment
-        run: ../../kustomize build . | kubectl apply --wait -f -
+        run: ../../kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
