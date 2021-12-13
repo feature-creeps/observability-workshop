@@ -26,11 +26,6 @@ jobs:
         run: |-
           gcloud --quiet auth configure-docker
 
-      - name: Check output
-        run: |-
-          echo "hallo" > /dev/stderr
-          echo "hallo" > /dev/tty
-
       - name: Fetch GKE credentials
         uses: google-github-actions/get-gke-credentials@v0.2.1
         with:
@@ -54,8 +49,9 @@ jobs:
 
       - name: Adjust image tags
         working-directory: stack/deployment
-        run: ../../kustomize edit set image \
-          $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
+        run: |-
+          ../../kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
+          cat kustomization.yaml 
 
       - name: Deploy on GKE
         working-directory: stack/deployment
