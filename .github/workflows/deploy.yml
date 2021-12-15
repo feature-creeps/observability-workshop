@@ -1,0 +1,52 @@
+name: Deploy to GKE
+
+on:   
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag to deploy'
+        required: true
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
+
+jobs:
+  setup-build-publish-deploy:
+    name: Deploy existing images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+
+      - name: Configure Docker
+        run: |-
+          gcloud --quiet auth configure-docker
+
+      - name: Fetch GKE credentials
+        uses: google-github-actions/get-gke-credentials@v0.2.1
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+          credentials: ${{ secrets.GKE_SA_KEY }}
+
+      - name: Set up Kustomize
+        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+
+      - name: Adjust image tags
+        working-directory: stack/deployment
+        run: |-
+          ../../kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:$${{ github.event.inputs.tag }} " \;)
+          cat kustomization.yaml 
+
+      - name: Deploy on GKE
+        working-directory: stack/deployment
+        run: ../../kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
