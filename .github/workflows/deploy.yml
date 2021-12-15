@@ -1,6 +1,6 @@
 name: Deploy to GKE
 
-on:   
+on:
   workflow_dispatch:
     inputs:
       tag:
