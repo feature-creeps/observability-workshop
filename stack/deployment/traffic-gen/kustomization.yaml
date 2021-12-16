@@ -1,0 +1,10 @@
+resources:
+  - "./../base"
+patchesStrategicMerge:
+  - deployment.yaml
+namePrefix: traffic-gen-
+
+images:
+  - name: traffic-gen
+    newName: gcr.io/olly-2021-k8s-migration/traffic-gen
+    newTag: f1e0da2acf8a2da68ee4fc9dbcc9adf1e49273d9

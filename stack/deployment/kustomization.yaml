@@ -8,3 +8,4 @@ resources:
   - "./imagerotator/"
   - "./imagethumbnail/"
   - "./mongodb/"
+  - "./traffic-gen/"
