@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: traffic-gen
-        image: traffic-gen
+        image: dima-traffic-gen
         env:
         - name: IMAGEHOLDER_BASEURL
           value: http://imageholder-service:8080
