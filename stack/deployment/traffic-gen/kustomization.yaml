@@ -1,5 +1,3 @@
-resources:
-  - "./../base"
 patchesStrategicMerge:
   - deployment.yaml
 namePrefix: traffic-gen-

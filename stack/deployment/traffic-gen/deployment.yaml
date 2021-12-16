@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: deployment
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: traffic-gen
