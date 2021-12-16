@@ -1,4 +1,4 @@
-patchesStrategicMerge:
+resources:
   - deployment.yaml
 namePrefix: traffic-gen-
 
