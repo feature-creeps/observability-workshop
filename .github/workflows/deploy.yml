@@ -13,6 +13,8 @@ on:
         required: true
       GKE_ZONE:
         required: true
+      GKE_SA_KEY:
+        required: true
   workflow_dispatch:
     inputs:
       tag:

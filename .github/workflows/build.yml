@@ -1,15 +1,11 @@
-name: Manually triggered workflow
+name: Build and call deploy subsequently
 on:
   workflow_dispatch:
-    inputs:
-      name:
-        description: 'Person to greet'
-        required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
+  inputs:
+      service:
+        description: 'Image tag'
         required: false
-        default: 'The Octoverse'
+        default: 'latest'
       tag:
         description: 'Image tag'
         required: false
@@ -20,9 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
-          echo "Hello ${{ github.event.inputs.name }}!"
-          echo "- in ${{ github.event.inputs.home }}!"
-          echo "deploying ${{ github.event.inputs.tag }}!"
+          echo "Building service ${{ github.event.inputs.service }}:${{ github.event.inputs.tag }}!"
 
   call_deployment:
     uses: feature-creeps/observability-workshop/.github/workflows/deploy.yml@k8s
@@ -32,3 +26,4 @@ jobs:
       GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
       GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
       GKE_ZONE: ${{ secrets.GKE_ZONE }}
+      GKE_SA_KEY: ${{ secrets.GKE_SA_KEY }}
