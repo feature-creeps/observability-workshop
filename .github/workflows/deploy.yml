@@ -4,9 +4,15 @@ on:
   workflow_call:
     inputs:
       tag:
-        description: 'Image tag to deploy'
         required: true
         type: string
+    secrets:
+      GKE_PROJECT:
+        required: true
+      GKE_CLUSTER:
+        required: true
+      GKE_ZONE:
+        required: true
   workflow_dispatch:
     inputs:
       tag:

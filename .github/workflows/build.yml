@@ -28,3 +28,7 @@ jobs:
     uses: feature-creeps/observability-workshop/.github/workflows/deploy.yml@k8s
     with:
       tag: ${{ github.event.inputs.tag }}
+    secrets:
+      GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+      GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+      GKE_ZONE: ${{ secrets.GKE_ZONE }}
