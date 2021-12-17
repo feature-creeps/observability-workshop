@@ -6,6 +6,7 @@ on:
       tag:
         description: 'Image tag to deploy'
         required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag:
