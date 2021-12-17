@@ -10,6 +10,10 @@ on:
         description: 'location'
         required: false
         default: 'The Octoverse'
+      tag:
+        description: 'Image tag'
+        required: false
+        default: 'latest'
 
 jobs:
   say_hello:
@@ -18,3 +22,9 @@ jobs:
       - run: |
           echo "Hello ${{ github.event.inputs.name }}!"
           echo "- in ${{ github.event.inputs.home }}!"
+          echo "deploying ${{ github.event.inputs.tag }}!"
+
+  call_deployment:
+    uses: feature-creeps/observability-workshop/.github/workflows/deploy.yml@k8s
+    with:
+      tag: ${{ github.event.inputs.tag }}

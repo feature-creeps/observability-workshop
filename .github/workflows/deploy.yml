@@ -1,6 +1,11 @@
 name: Deploy to GKE
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Image tag to deploy'
+        required: true
   workflow_dispatch:
     inputs:
       tag:
