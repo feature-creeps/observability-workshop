@@ -1,7 +1,7 @@
 name: Build and call deploy subsequently
 on:
   workflow_dispatch:
-  inputs:
+    inputs:
       service:
         description: 'Image tag'
         required: false
