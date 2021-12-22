@@ -8,4 +8,4 @@ namePrefix: imageresize-
 images:
   - name: dima-imageresize
     newName: gcr.io/olly-2021-k8s-migration/dima-imageresize
-    newTag: f1e0da2acf8a2da68ee4fc9dbcc9adf1e49273d9
+    newTag: 514270cdf3bd16579d6c2dc3fd6551df683ef0b0

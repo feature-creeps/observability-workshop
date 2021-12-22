@@ -1,0 +1,14 @@
+
+kibanaConfig:
+  kibana.yml: |
+    elasticsearch.username: elastic
+    elasticsearch.password: changeme
+
+ingress:
+  enabled: true
+  className: "nginx"
+  pathtype: ImplementationSpecific
+  hosts:
+    - host: kibana.o11y.tk
+      paths:
+        - path: /
