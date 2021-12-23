@@ -6,7 +6,7 @@ set -eu -o pipefail
 ZONE="europe-west1-c"
 NUM_NODES=3
 CLUSTER_NAME="olly-stack"
-MACHINE_TYPE="e2-standard-4"
+MACHINE_TYPE="e2-standard-2"
 
 # Setup gke
 gcloud container clusters create "$CLUSTER_NAME" --zone "$ZONE" --num-nodes=$NUM_NODES --machine-type="$MACHINE_TYPE"
