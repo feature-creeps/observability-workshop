@@ -2,14 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: olly-ingress
   namespace: dima
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: o11y.fans
+      http:
         paths:
           - backend:
               service:
@@ -67,3 +68,7 @@ spec:
                   number: 8080
             path: /proxy/imageorchestrator/(.*)
             pathType: Prefix
+  tls:
+    - hosts:
+        - o11y.fans
+      secretName: dima-tls-cert

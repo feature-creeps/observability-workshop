@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   name: kiali-ingress
   namespace: istio-system
 spec:
@@ -18,3 +19,7 @@ spec:
                   number: 20001
             path: /(.*)
             pathType: Prefix
+  tls:
+    - hosts:
+        - "kiali.o11y.fans"
+      secretName: kiali-tls-cert
