@@ -17,7 +17,8 @@ export const environment = {
     kibana: 'http://kibana.localhost',
     grafana: 'http://grafana.localhost',
     prometheus: 'http://prometheus.localhost',
-    zipkin: 'http://zipkin.localhost',
+    jaeger: 'http://jaeger.localhost',
+    kiali: 'http://kiali.localhost',
   }
 };
 

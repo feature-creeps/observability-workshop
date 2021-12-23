@@ -17,6 +17,7 @@ export const environment = {
     kibana: ':5601',
     grafana: ':3000',
     prometheus: ':9090',
-    zipkin: ':9411',
+    jaeger: ':9411',
+    kiali: ':20001',
   }
 };

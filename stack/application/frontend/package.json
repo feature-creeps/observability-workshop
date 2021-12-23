@@ -57,5 +57,9 @@
     "tslint": "^6.0.0",
     "typescript": "~3.6.4",
     "webpack": "^4.41.6"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC"
 }
