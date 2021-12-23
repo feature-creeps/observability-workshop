@@ -6,14 +6,14 @@ metadata:
   name: jaeger-ingress
   namespace: istio-system
 spec:
-  kubernetes.io/ingress.class: nginx
+  ingressClassName: nginx
   rules:
     - host: "jaeger.o11y.fans"
       http:
         paths:
           - backend:
               service:
-                name: jaeger
+                name: tracing
                 port:
                   number: 80
             path: /(.*)

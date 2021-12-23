@@ -2,5 +2,5 @@ resources:
   - grafana-ingress.yaml
   - kiali-ingress.yaml
   - prometheus-ingress.yaml
-  - tracing-ingress.yaml
+  - jaeger-ingress.yaml
   - zipkin-ingress.yaml
