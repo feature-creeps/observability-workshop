@@ -6,7 +6,7 @@ metadata:
     group: olly-dima
   name: service
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: http
     port: 80
