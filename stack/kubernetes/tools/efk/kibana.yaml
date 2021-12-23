@@ -7,8 +7,15 @@ kibanaConfig:
 ingress:
   enabled: true
   className: "nginx"
-  pathtype: ImplementationSpecific
+  pathtype: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
   hosts:
-    - host: kibana.o11y.tk
+    - host: kibana.o11y.fans
       paths:
-        - path: /
+        - path: /(.*)
+  tls:
+    - secretName: kibana-tls-cert
+      hosts:
+        - kibana.o11y.fans
