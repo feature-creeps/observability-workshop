@@ -18,9 +18,9 @@ spec:
         image: dima-traffic-gen
         env:
         - name: IMAGEHOLDER_BASEURL
-          value: http://imageholder-service:8080
+          value: "http://imageholder-service:8080"
         - name: IMAGEORCHESTRATOR_BASEURL
-          value: http://imageorchestrator-service:8080
+          value: "http://imageorchestrator-service:8080"
         resources:
           requests:
             memory: "50Mi"
