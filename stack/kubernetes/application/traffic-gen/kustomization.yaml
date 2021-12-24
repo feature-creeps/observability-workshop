@@ -5,4 +5,4 @@ namePrefix: traffic-gen-
 images:
   - name: dima-traffic-gen
     newName: gcr.io/olly-2021-k8s-migration/dima-traffic-gen
-    newTag: 514270cdf3bd16579d6c2dc3fd6551df683ef0b0
+    newTag: c3796b9885c6899cadecbe42c78a43a20a90285d
