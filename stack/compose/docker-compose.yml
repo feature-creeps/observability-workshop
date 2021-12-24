@@ -2,123 +2,53 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend-service:
+  frontend:
     build: ../application/frontend
-    ports:
-      - 80:80
-    restart: on-failure
 
-  imageorchestrator-service:
+  imageorchestrator:
     build:
       context: ../application
       args:
         SERVICE: imageorchestrator
-    ports:
-      - 8080:8080
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imageholder-service:
+  imageholder:
     build:
       context: ../application
       args:
         SERVICE: imageholder
-    depends_on:
-      - mongodb-service
-      - fluentd
-    ports:
-      - 8081:8080
-    deploy:
-      resources:
-        limits:
-          memory: 1g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imagerotator-service:
+  imagerotator:
     build:
       context: ../application
       args:
         SERVICE: imagerotator
-    ports:
-      - 8082:8080
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imagegrayscale-service:
+  imagegrayscale:
     build:
       context: ../application
       args:
         SERVICE: imagegrayscale
-    ports:
-      - 8083:8080
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imageresize-service:
+  imageresize:
     build:
       context: ../application
       args:
         SERVICE: imageresize
-    ports:
-      - 8084:8080
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imageflip-service:
+  imageflip:
     build:
       context: ../application
       args:
         SERVICE: imageflip
-    ports:
-      - 8085:8080
-    deploy:
-      resources:
-        limits:
-          memory: 2g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
-  imagethumbnail-service:
+  imagethumbnail:
     build:
       context: ../application
       args:
         SERVICE: imagethumbnail
-    ports:
-      - 8080
-    deploy:
-      resources:
-        limits:
-          memory: 4g
-    environment:
-      - HONEYCOMB_KEY=${HONEYCOMB_KEY}
-    restart: on-failure
 
   traffic-gen:
-    build: ../infrastructure/traffic-gen
-    restart: on-failure
+    build: ../application/traffic-gen
 
 volumes:
   olly-mongodb:
