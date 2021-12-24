@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dir="$(dirname "$0")"
+
+TAG="gcr.io/olly-2021-k8s-migration/kibana-index:latest"
+
+docker build "$dir" -t "$TAG"
+docker push "$TAG"
+
+kubectl apply -f "$dir/job.yaml"

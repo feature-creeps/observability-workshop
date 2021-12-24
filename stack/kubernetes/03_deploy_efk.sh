@@ -14,3 +14,5 @@ helm upgrade --install -n "$NAMESPACE" -f tools/efk/kibana.yaml kibana elastic/k
 helm upgrade --install -n "$NAMESPACE" metricbeat elastic/metricbeat
 helm upgrade --install -n "$NAMESPACE" apm-server elastic/apm-server
 
+# apply kibana index mappings and patterns
+./tools/efk/kibana-index/build_deploy.sh

@@ -2,4 +2,4 @@
 
 ./create-index-template.sh
 
-./create-index-patterns.sh "$1"
+./create-index-patterns.sh
