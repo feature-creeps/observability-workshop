@@ -2,28 +2,28 @@ version: '3.7'
 services:
 
   ## Domain
-  frontend-service:
+  frontend:
     image: ${GKE_REGISTRY}/dima-frontend:${GITHUB_SHA}
 
-  imageorchestrator-service:
+  imageorchestrator:
     image: ${GKE_REGISTRY}/dima-imageorchestrator:${GITHUB_SHA}
 
-  imageholder-service:
+  imageholder:
     image: ${GKE_REGISTRY}/dima-imageholder:${GITHUB_SHA}
 
-  imagerotator-service:
+  imagerotator:
     image: ${GKE_REGISTRY}/dima-imagerotator:${GITHUB_SHA}
 
-  imagegrayscale-service:
+  imagegrayscale:
     image: ${GKE_REGISTRY}/dima-imagegrayscale:${GITHUB_SHA}
 
-  imageresize-service:
+  imageresize:
     image: ${GKE_REGISTRY}/dima-imageresize:${GITHUB_SHA}
 
-  imageflip-service:
+  imageflip:
     image: ${GKE_REGISTRY}/dima-imageflip:${GITHUB_SHA}
 
-  imagethumbnail-service:
+  imagethumbnail:
     image: ${GKE_REGISTRY}/dima-imagethumbnail:${GITHUB_SHA}
 
   traffic-gen:

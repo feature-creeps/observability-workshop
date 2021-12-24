@@ -54,6 +54,6 @@ jobs:
           kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
           cat kustomization.yaml 
 
-      - name: Deploy on GKE
+      - name: Deploy dima services on GKE
         working-directory: stack/kubernetes/application
         run: kustomize build . | tee /dev/stderr | kubectl apply --wait -f -

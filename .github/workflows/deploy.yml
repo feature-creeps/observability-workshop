@@ -53,14 +53,15 @@ jobs:
           credentials: ${{ secrets.GKE_SA_KEY }}
 
       - name: Set up Kustomize
+        working-directory: stack/kubernetes/application
         run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
       - name: Adjust image tags
         working-directory: stack/kubernetes/application
         run: |-
-          ../../kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${{ github.event.inputs.tag }} " \;)
+          kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
           cat kustomization.yaml 
 
       - name: Deploy dima services on GKE
         working-directory: stack/kubernetes/application
-        run: ../../kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
+        run: kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
