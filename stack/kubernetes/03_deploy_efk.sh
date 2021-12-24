@@ -12,4 +12,5 @@ helm upgrade --install -n "$NAMESPACE" --create-namespace -f tools/efk/elasticse
 helm upgrade --install -n "$NAMESPACE" -f tools/efk/fluentd.yaml fluentd fluent/fluentd
 helm upgrade --install -n "$NAMESPACE" -f tools/efk/kibana.yaml kibana elastic/kibana
 helm upgrade --install -n "$NAMESPACE" metricbeat elastic/metricbeat
+helm upgrade --install -n "$NAMESPACE" apm-server elastic/apm-server
 
