@@ -45,14 +45,15 @@ jobs:
         run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml push
 
       - name: Set up Kustomize
+        working-directory: stack/kubernetes/application
         run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
 
       - name: Adjust image tags
         working-directory: stack/kubernetes/application
         run: |-
-          ../../kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
+          kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
           cat kustomization.yaml 
 
       - name: Deploy on GKE
         working-directory: stack/kubernetes/application
-        run: ../../kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
+        run: kustomize build . | tee /dev/stderr | kubectl apply --wait -f -
