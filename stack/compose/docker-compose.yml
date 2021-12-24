@@ -118,8 +118,6 @@ services:
 
   traffic-gen:
     build: ../infrastructure/traffic-gen
-      - imageholder-service
-      - imageorchestrator-service
     restart: on-failure
 
 volumes:

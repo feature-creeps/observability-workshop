@@ -28,37 +28,3 @@ services:
 
   traffic-gen:
     image: ${GKE_REGISTRY}/dima-traffic-gen:${GITHUB_SHA}
-
-  ## Logging
-
-  # log collector
-  fluentd:
-    image: ${GKE_REGISTRY}/fluentd:${GITHUB_SHA}
-
-  kibana-index:
-    image: ${GKE_REGISTRY}/kibana-index:${GITHUB_SHA}
-
-  # logs visualizer
-  kibana:
-    image: ${GKE_REGISTRY}/kibana:${GITHUB_SHA}
-
-  apm-server:
-    image: ${GKE_REGISTRY}/apm-server:${GITHUB_SHA}
-
-  ## Monitoring
-
-  # metricbeat
-  metricbeat:
-    image: ${GKE_REGISTRY}/metricbeat:${GITHUB_SHA}
-
-
-  heartbeat:
-    image: ${GKE_REGISTRY}/heartbeat:${GITHUB_SHA}
-
-  # metrics collector
-  prometheus:
-    image: ${GKE_REGISTRY}/prometheus:${GITHUB_SHA}
-
-  # monitoring visualizer
-  grafana:
-    image: ${GKE_REGISTRY}/grafana:${GITHUB_SHA}
