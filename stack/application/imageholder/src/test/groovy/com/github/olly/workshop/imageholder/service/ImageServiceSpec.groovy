@@ -101,6 +101,26 @@ class ImageServiceSpec extends Specification {
         imageRepository.count() == 1000
     }
 
+    def "find images by name containing"() {
+        given: 'we have a test image'
+        Image image = new Image(data: 'test'.bytes, name: "abc123")
+
+        when: 'we save it'
+        imageService.save(image)
+
+        then: 'search for it and find one result'
+        imageService.findWithNamesContaining("123").size() == 1
+
+        when: 'we save another one'
+        imageService.save(new Image(data: 'test'.bytes, name: "foo123bar"))
+
+        then: 'search for them and find two results'
+        imageService.findWithNamesContaining("123").size() == 2
+
+        and: 'we search for another string and find no results'
+        imageService.findWithNamesContaining("1234").isEmpty()
+    }
+
     @TestConfiguration
     static class Config extends AbstractMongoConfiguration {
         @Override
