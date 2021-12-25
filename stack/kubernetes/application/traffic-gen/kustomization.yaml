@@ -1,8 +1,8 @@
 resources:
-  - deployment.yaml
+  - job.yaml
 namePrefix: traffic-gen-
 
 images:
   - name: dima-traffic-gen
     newName: gcr.io/olly-2021-k8s-migration/dima-traffic-gen
-    newTag: c3796b9885c6899cadecbe42c78a43a20a90285d
+    newTag: 32ef28fee149f1e8e130d9c655b3892078302dae

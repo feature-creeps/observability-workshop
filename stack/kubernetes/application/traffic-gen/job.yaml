@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: traffic-gen
+spec:
+  template:
+    spec:
+      containers:
+      - name: traffic-gen
+        image: gcr.io/olly-2021-k8s-migration/dima-traffic-gen:32ef28fee149f1e8e130d9c655b3892078302dae
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: IMAGEHOLDER_BASEURL
+          value: "http://imageholder-service:8080"
+        - name: IMAGEORCHESTRATOR_BASEURL
+          value: "http://imageorchestrator-service:8080"
+      restartPolicy: OnFailure
+  backoffLimit: 4

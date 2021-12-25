@@ -8,4 +8,4 @@ namePrefix: imagerotator-
 images:
   - name: dima-imagerotator
     newName: gcr.io/olly-2021-k8s-migration/dima-imagerotator
-    newTag: c3796b9885c6899cadecbe42c78a43a20a90285d
+    newTag: 32ef28fee149f1e8e130d9c655b3892078302dae
