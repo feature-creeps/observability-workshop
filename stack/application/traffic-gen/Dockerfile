@@ -26,7 +26,9 @@ RUN apk add wget tar  \
     && mv transform-traffic-gen /usr/local/bin
 
 
-FROM golang:1.12-stretch
+FROM alpine:latest
+
+RUN apk add --no-cache curl
 
 COPY --from=vegeta /usr/local/bin/vegeta /usr/local/bin/vegeta
 COPY --from=upload_gen /usr/local/bin/upload-traffic-gen /usr/local/bin/upload-traffic-gen
@@ -35,5 +37,4 @@ COPY --from=transform_gen /usr/local/bin/transform-traffic-gen /usr/local/bin/tr
 COPY images /images
 
 COPY docker-entrypoint.sh /usr/local/bin/
-RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]

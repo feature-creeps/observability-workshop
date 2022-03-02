@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 set -e
 
 cd /tmp
 
-echo "Waiting for imgeholder service to come up"
+echo "Waiting for imageholder service to come up"
 
-until $(curl --output /dev/null --silent --head --fail $IMAGEHOLDER_BASEURL/actuator/health); do
+until curl --output /dev/null --silent --head --fail "$IMAGEHOLDER_BASEURL/actuator/health"; do
       printf '.'
       sleep 5
 done
@@ -21,12 +21,12 @@ echo "Uploaded images"
 
 echo "Waiting for imageorchestrator service to come up"
 
-until $(curl --output /dev/null --silent --head --fail $IMAGEORCHESTRATOR_BASEURL/actuator/health); do
+until curl --output /dev/null --silent --head --fail "$IMAGEORCHESTRATOR_BASEURL/actuator/health"; do
       printf '.'
       sleep 5
 done
 
 echo "imageorchestrator running - sending random transformation requests"
 
-/usr/local/bin/transform-traffic-gen  -n 30000 -f  "http://o11y.fans/proxy/imageholder/api/images/nameContaining/uploaded" -t  "http://o11y.fans/proxy/imageorchestrator/api/images/transform" | \
+/usr/local/bin/transform-traffic-gen -n 30000 -f "$IMAGEHOLDER_BASEURL/api/images/nameContaining/uploaded" -t "$IMAGEORCHESTRATOR_BASEURL/api/images/transform" | \
   /usr/local/bin/vegeta attack -rate=12/m -lazy -format=json > /dev/null
