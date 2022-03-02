@@ -7,12 +7,12 @@ spec:
     spec:
       containers:
       - name: traffic-gen
-        image: gcr.io/olly-2021-k8s-migration/dima-traffic-gen:32ef28fee149f1e8e130d9c655b3892078302dae
+        image: gcr.io/olly-2021-k8s-migration/dima-traffic-gen:e7586ae5183498169f8147892653162935f9e379
         imagePullPolicy: IfNotPresent
         env:
         - name: IMAGEHOLDER_BASEURL
-          value: "http://imageholder-service:8080"
+          value: "https://o11y.fans/proxy/imageholder"
         - name: IMAGEORCHESTRATOR_BASEURL
-          value: "http://imageorchestrator-service:8080"
+          value: "https://o11y.fans/proxy/imageorchestrator"
       restartPolicy: OnFailure
   backoffLimit: 4
