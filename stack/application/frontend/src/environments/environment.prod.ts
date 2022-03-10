@@ -10,10 +10,10 @@ export const environment = {
     imagethumbnail: '/proxy/imagethumbnail'
   },
   tools: {
-    kibana: 'kibana.o11y.fans',
-    grafana: 'kibana.o11y.fans',
-    prometheus: 'prometheus.o11y.fans',
-    jaeger: 'jaeger.o11y.fans',
-    kiali: 'kiali.o11y.fans',
+    kibana: 'https://kibana.o11y.fans',
+    grafana: 'https://grafana.o11y.fans',
+    prometheus: 'https://prometheus.o11y.fans',
+    jaeger: 'https://jaeger.o11y.fans',
+    kiali: 'https://kiali.o11y.fans',
   }
 };

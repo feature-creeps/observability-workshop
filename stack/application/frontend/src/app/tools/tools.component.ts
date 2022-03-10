@@ -11,9 +11,13 @@ export class ToolsComponent {
   constructor() {
   }
 
-  getToolURL(port: string) {
-    return "http://" + window.location.hostname + port
+  getToolURL(configValue: string) {
+    if (configValue.startsWith(":")) {
+      return window.location.protocol + "//" + window.location.hostname + configValue;
+    } else {
+      return configValue;
+    }
   }
-
+  
   environment = environment;
 }
