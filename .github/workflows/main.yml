@@ -23,8 +23,8 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: ${{ WIP }}
-          service_account: ${{ SA }}
+          workload_identity_provider: ${{ env.WIP }}
+          service_account: ${{ env.SA }}
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
