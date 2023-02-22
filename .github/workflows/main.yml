@@ -13,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: 'read'
       id-token: 'write'
 
     steps:
@@ -28,8 +27,6 @@ jobs:
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GKE_PROJECT }}
 
       - name: Configure Docker
         run: |-

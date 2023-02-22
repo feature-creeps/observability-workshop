@@ -26,6 +26,8 @@ env:
   GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
   GKE_ZONE: ${{ secrets.GKE_ZONE }}
   GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
+  WIP: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/attribute.repository/feature-creeps/observability-workshop'
+  SA: 'github-actions@${{ secrets.GKE_PROJECT }}.iam.gserviceaccount.com'
 
 jobs:
   deploy:
@@ -33,7 +35,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: 'read'
       id-token: 'write'
 
     steps:
@@ -43,15 +44,14 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
-          workload_identity_provider: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/attribute.repository/feature-creeps/observability-workshop'
-          service_account: ${{ secrets.GKE_SA_KEY }}
+          workload_identity_provider: ${{ env.WIP }}
+          service_account: ${{ env.SA }}
 
       - name: Fetch GKE credentials
         uses: google-github-actions/get-gke-credentials@v1
         with:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
-          credentials: ${{ secrets.GKE_SA_KEY }}
 
       - name: Set up Kustomize
         working-directory: stack/kubernetes/application
