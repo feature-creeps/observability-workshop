@@ -4,7 +4,7 @@ on: push
 
 env:
   GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
-  WIP: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/attribute.repository/feature-creeps/observability-workshop'
+  WIP: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool'
   SA: 'github-actions@${{ secrets.GKE_PROJECT }}.iam.gserviceaccount.com'
 
 jobs:
