@@ -7,12 +7,13 @@ env:
 
 jobs:
   setup-build-publish:
+    name: Setup, Build, Publish
+    runs-on: ubuntu-latest
+
     permissions:
       contents: 'read'
       id-token: 'write'
 
-    name: Setup, Build, Publish
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,6 +21,7 @@ jobs:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
+          workload_identity_provider: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/attribute.repository/feature-creeps/observability-workshop'
           service_account: ${{ secrets.GKE_SA_KEY }}
 
       - name: Setup gcloud CLI
