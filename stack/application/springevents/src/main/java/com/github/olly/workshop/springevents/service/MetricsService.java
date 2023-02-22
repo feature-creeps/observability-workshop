@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 public class MetricsService {
 
     public void httpRequestReceived(String method, String handler, String status, String path) {
-        Metrics.counter("http_requests_total",
+        Metrics.counter("http_request_total",
                 "method", method,
                 "handler", handler,
                 "status", status,
