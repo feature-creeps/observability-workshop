@@ -1,12 +1,6 @@
-name: Build and Deploy to GKE
+name: Build
 
 on: push
-
-env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
-  GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
 
 jobs:
   setup-build-publish-deploy:
@@ -26,13 +20,6 @@ jobs:
         run: |-
           gcloud --quiet auth configure-docker
 
-      - name: Fetch GKE credentials
-        uses: google-github-actions/get-gke-credentials@v0.2.1
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
-          credentials: ${{ secrets.GKE_SA_KEY }}
-
       - name: Install docker-compose for python3
         run: pip3 install docker-compose --upgrade
 
@@ -40,20 +27,3 @@ jobs:
         working-directory: ./stack/compose
         run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml build --parallel
 
-      - name: Push all images
-        working-directory: ./stack/compose
-        run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml push
-
-      - name: Set up Kustomize
-        working-directory: stack/kubernetes/application
-        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-
-      - name: Adjust image tags
-        working-directory: stack/kubernetes/application
-        run: |-
-          kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
-          cat kustomization.yaml 
-
-      - name: Deploy dima services on GKE
-        working-directory: stack/kubernetes/application
-        run: kustomize build . | tee /dev/stderr | kubectl apply -n dima --wait -f -
