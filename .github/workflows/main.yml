@@ -2,6 +2,9 @@ name: Build
 
 on: push
 
+env:
+  GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
+
 jobs:
   setup-build-publish-deploy:
     name: Setup, Build, Publish
