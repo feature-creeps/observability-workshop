@@ -1,4 +1,4 @@
-FROM node:10.15.3 AS builder
+FROM node:10.24.1-buster AS builder
 
 # install chrome for protractor tests
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
