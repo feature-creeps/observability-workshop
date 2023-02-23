@@ -19,7 +19,6 @@ on:
     inputs:
       tag:
         description: 'Image tag to deploy'
-        default: ${{ GITHUB_SHA }}
         required: true
 
 env:
