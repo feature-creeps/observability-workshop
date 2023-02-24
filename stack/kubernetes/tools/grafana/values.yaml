@@ -1,0 +1,140 @@
+---
+adminUser: grafana
+adminPassword: changeme
+persistence.enabled: "true"
+plugins:
+  - "raintank-worldping-app"
+  - "jdbranham-diagram-panel"
+grafana.ini:
+  analytics: 
+    check_for_updates: true
+  grafana_net:
+    url: https://grafana.net
+  log:
+    mode: console
+    console:
+      format: json
+  paths:
+    data: /var/lib/grafana/
+    logs: /var/log/grafana
+    plugins: /var/lib/grafana/plugins
+    provisioning: /etc/grafana/provisioning
+datasources:
+ datasources.yaml: 
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      editable: true
+      isDefault: true
+      jsonData:
+        timeInterval: 5s
+      name: Prometheus
+      orgId: 1
+      type: prometheus
+      url: http://prometheus-server:80
+    - name: 'Prometheus Loki'
+      type: 'prometheus'
+      access: 'proxy'
+      org_id: 1
+      url: 'http://loki:3100/loki'
+      isDefault: false
+      version: 1
+      editable: true
+    - name: 'Loki'
+      type: 'loki'
+      access: 'proxy'
+      org_id: 1
+      url: 'http://loki:3100'
+      isDefault: false
+      version: 1
+      editable: true
+    - name: 'Elasticsearch'
+      type: 'elasticsearch'
+      access: 'proxy'
+      org_id: 1
+      url: 'http://elasticsearch:9200'
+      isDefault: false
+      version: 1
+      editable: true
+      basicAuth: true
+      basicAuthUser: elastic
+      secureJsonData:
+        basicAuthPassword: changeme
+      database: "[logs-]YYYY.MM.DD"
+      jsonData:
+        interval: Daily
+        timeField: "@timestamp"
+        esVersion: 70
+        logMessageField: message
+        logLevelField: level
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - disableDeletion: false
+      folder: application
+      name: application
+      options:
+        path: /var/lib/grafana/dashboards/application
+      orgId: 1
+      type: file
+    - disableDeletion: false
+      folder: infra
+      name: infra
+      options:
+        path: /var/lib/grafana/dashboards/infra
+      orgId: 1
+      type: file
+    - disableDeletion: false
+      folder: istio
+      name: istio
+      options:
+        path: /var/lib/grafana/dashboards/istio
+      orgId: 1
+      type: file
+    - disableDeletion: false
+      folder: istio
+      name: istio-services
+      options:
+        path: /var/lib/grafana/dashboards/istio-services
+      orgId: 1
+      type: file
+dashboards:
+  infra:
+    prometheus-stats:
+      gnetId: 2
+      revision: 2
+      datasource: Prometheus
+    kubernetes:
+      gnetId: 13332
+      revision: 12
+      datasource: Prometheus
+  istio:
+    istio-performance-dashboard:
+      gnetId: 11829
+      revision: 158
+      datasource: Prometheus     
+    istio-pilot-dashboard:
+      gnetId: 12154
+      revision: 158
+      datasource: Prometheus     
+  istio-services:
+    istio-workload-dashboard:
+      gnetId: 7630
+      revision: 158
+      datasource: Prometheus
+    istio-service-dashboard:
+      gnetId: 7636
+      revision: 158
+      datasource: Prometheus      
+    istio-mesh-dashboard:
+      gnetId: 7639
+      revision: 158
+      datasource: Prometheus     
+    istio-controlplane-dashboard:
+      gnetId: 7645
+      revision: 158
+      datasource: Prometheus   
+service:
+  labels:
+    sidecar.istio.io/inject: "false"

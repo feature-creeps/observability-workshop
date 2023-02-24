@@ -7,4 +7,4 @@ NAMESPACE=ingress-nginx
 helm upgrade --install --repo https://kubernetes.github.io/ingress-nginx --namespace "$NAMESPACE" --create-namespace --set controller.service.loadBalancerIP=34.140.57.146 ingress-nginx ingress-nginx
 
 # create ingress rules for olly tools
-kustomize build tools/istio | kubectl -n istio-system apply -f -
+kustomize build tools/istio | kubectl apply -f -
