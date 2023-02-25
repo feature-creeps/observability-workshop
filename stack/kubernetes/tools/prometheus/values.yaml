@@ -5,8 +5,14 @@ server:
 alertmanager:
   enabled: false
 kube-state-metrics:
-  enabled: false
+  enabled: true
+  selfMonitor:
+    enabled: true
+    telemetryPort: 8081
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8081"
 prometheus-node-exporter:
-  enabled: false
+  enabled: true
 prometheus-pushgateway:
   enabled: false

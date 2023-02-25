@@ -5,3 +5,6 @@ set -eu -o pipefail
 istioctl install --set profile=minimal -y
 
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user "$(gcloud config get-value account)" || true
+
+# kiali
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/kiali.yaml
