@@ -1,7 +1,13 @@
 ---
 adminUser: grafana
 adminPassword: changeme
-persistence.enabled: "true"
+persistence:
+  enabled: "true"
+  size: 5Gi
+sidecar:
+  dashboards:
+    enabled: "true"
+    searchNamespace: "monitoring"
 plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
@@ -72,13 +78,6 @@ dashboardProviders:
     apiVersion: 1
     providers:
     - disableDeletion: false
-      folder: application
-      name: application
-      options:
-        path: /var/lib/grafana/dashboards/application
-      orgId: 1
-      type: file
-    - disableDeletion: false
       folder: infra
       name: infra
       options:
@@ -108,6 +107,10 @@ dashboards:
     kubernetes:
       gnetId: 13332
       revision: 12
+      datasource: Prometheus
+    ingress-nginx:
+      gnetId: 9614
+      revision: 1
       datasource: Prometheus
   istio:
     istio-performance-dashboard:
