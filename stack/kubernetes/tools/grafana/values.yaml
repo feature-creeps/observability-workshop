@@ -84,20 +84,20 @@ dashboardProviders:
         path: /var/lib/grafana/dashboards/infra
       orgId: 1
       type: file
-    - disableDeletion: false
-      folder: istio
-      name: istio
-      options:
-        path: /var/lib/grafana/dashboards/istio
-      orgId: 1
-      type: file
-    - disableDeletion: false
-      folder: istio
-      name: istio-services
-      options:
-        path: /var/lib/grafana/dashboards/istio-services
-      orgId: 1
-      type: file
+    # - disableDeletion: false
+    #   folder: istio
+    #   name: istio
+    #   options:
+    #     path: /var/lib/grafana/dashboards/istio
+    #   orgId: 1
+    #   type: file
+    # - disableDeletion: false
+    #   folder: istio
+    #   name: istio-services
+    #   options:
+    #     path: /var/lib/grafana/dashboards/istio-services
+    #   orgId: 1
+    #   type: file
 dashboards:
   infra:
     prometheus-stats:
@@ -112,32 +112,32 @@ dashboards:
       gnetId: 9614
       revision: 1
       datasource: Prometheus
-  istio:
-    istio-performance-dashboard:
-      gnetId: 11829
-      revision: 158
-      datasource: Prometheus     
-    istio-pilot-dashboard:
-      gnetId: 12154
-      revision: 158
-      datasource: Prometheus     
-  istio-services:
-    istio-workload-dashboard:
-      gnetId: 7630
-      revision: 158
-      datasource: Prometheus
-    istio-service-dashboard:
-      gnetId: 7636
-      revision: 158
-      datasource: Prometheus      
-    istio-mesh-dashboard:
-      gnetId: 7639
-      revision: 158
-      datasource: Prometheus     
-    istio-controlplane-dashboard:
-      gnetId: 7645
-      revision: 158
-      datasource: Prometheus   
+  # istio:
+  #   istio-performance-dashboard:
+  #     gnetId: 11829
+  #     revision: 158
+  #     datasource: Prometheus     
+  #   istio-pilot-dashboard:
+  #     gnetId: 12154
+  #     revision: 158
+  #     datasource: Prometheus     
+  # istio-services:
+  #   istio-workload-dashboard:
+  #     gnetId: 7630
+  #     revision: 158
+  #     datasource: Prometheus
+  #   istio-service-dashboard:
+  #     gnetId: 7636
+  #     revision: 158
+  #     datasource: Prometheus      
+  #   istio-mesh-dashboard:
+  #     gnetId: 7639
+  #     revision: 158
+  #     datasource: Prometheus     
+  #   istio-controlplane-dashboard:
+  #     gnetId: 7645
+  #     revision: 158
+  #     datasource: Prometheus   
 service:
   labels:
     sidecar.istio.io/inject: "false"

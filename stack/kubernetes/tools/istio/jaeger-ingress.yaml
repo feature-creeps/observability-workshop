@@ -5,7 +5,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     cert-manager.io/cluster-issuer: letsencrypt-prod
   name: jaeger-ingress
-  namespace: monitoring
+  namespace: istio-system
 spec:
   ingressClassName: nginx
   rules:

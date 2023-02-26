@@ -4,7 +4,6 @@ set -eu -o pipefail
 NAMESPACE=monitoring
 
 echo "--- install and update helm repos"
-
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
@@ -17,9 +16,6 @@ helm upgrade --install -f "tools/grafana/values.yaml" -n "$NAMESPACE" --create-n
 
 echo "--- create grafana dashboards through configmaps"
 kustomize build tools/grafana/dashboards | kubectl apply -f -
-
-echo "--- install jaeger"
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.12/samples/addons/jaeger.yaml
 
 kubectl label namespace "$NAMESPACE" istio-injection=enabled --overwrite
 
