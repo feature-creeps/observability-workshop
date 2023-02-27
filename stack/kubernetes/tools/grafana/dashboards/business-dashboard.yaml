@@ -228,7 +228,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(application_transformations_total[30s]))by(type)",
+              "expr": "sum(rate(application_transformations_total[5m]))by(type)",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{type}}",
@@ -312,7 +312,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(application_images_uploaded_total[30s]))by(type)",
+              "expr": "sum(rate(application_images_uploaded_total[5m]))by(type)",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{type}}",
@@ -396,7 +396,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(application_images_deleted_total[30s]))by(type)",
+              "expr": "sum(rate(application_images_deleted_total[5m]))by(type)",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{type}}",
@@ -480,7 +480,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(application_images_viewed_total[30s]))by(type)",
+              "expr": "sum(rate(application_images_viewed_total[5m]))by(type)",
               "format": "time_series",
               "intervalFactor": 1,
               "legendFormat": "{{type}}",

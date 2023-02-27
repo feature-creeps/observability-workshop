@@ -3,7 +3,7 @@ kibanaConfig:
   kibana.yml: |
     elasticsearch.username: elastic
     elasticsearch.password: changeme
-    server.publicBaseUrl: kibana.o11y.fans
+    server.publicBaseUrl: https://kibana.o11y.fans
 
 ingress:
   enabled: true

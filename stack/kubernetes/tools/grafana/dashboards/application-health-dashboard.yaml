@@ -91,7 +91,7 @@ data:
                 "tableColumn": "",
                 "targets": [
                     {
-                        "expr": "up{instance=\"imagegrayscale:8080\",job=\"imagegrayscale\"}",
+                        "expr": "min(sum by(app) (up{namespace=\"dima\"}))",
                         "format": "time_series",
                         "instant": false,
                         "intervalFactor": 1,
