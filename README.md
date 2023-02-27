@@ -27,11 +27,11 @@ it.
 ### Preparing infrastructure
 
 This stack takes a fair bit of RAM to run successfully, therefore we suggest running on a cloud managed kubernetes
-cluster. For GKE a setup incl. scripts can be found [here](stack/kubernetes).
+cluster. For GKE a setup incl. scripts can be found in [stack/kubernetes](stack/kubernetes).
 
 ### Selecting the application to run
 
-The application images are built via the docker-compose file found under `stack/compose`.
+The application images are built via the docker-compose file found under [stack/compose](stack/compose).
 
 ### What you are building
 
@@ -49,20 +49,26 @@ Kibana credentials: elastic/changeme
 
 #### Application services
 
-| dir                | desc                                           |
-| ---                | ---                                            |
-| frontend/          | app for displaying and interacting             |
-| imageorchestrator/ | completes all requested manipulations          |
-| imageholder/       | image upload and viewing                       |
-| imagerotator/      | image rotation                                 |
-| imagegrayscale/    | changes image to grayscale                     |
-| imageresize/       | resizes up or down by multiples                |
-| imageflip/         | horizontal and vertical flip options           |
-| imagethumbnail/    | minimises images for quick display / preview   |
+The following application services can be found under [stack/application](stack/application).
+
+
+| service                                                  | desc                                           |
+| ---                                                      | ---                                            |
+| [frontend](stack/application/frontend)                   | app for displaying and interacting             |
+| [imageorchestrator](stack/application/imageorchestrator) | completes all requested manipulations          |
+| [imageholder](stack/application/imageholder)             | image upload and viewing                       |
+| [imagerotator](stack/application/imagerotator)           | image rotation                                 |
+| [imagegrayscale](stack/application/imagegrayscale)       | changes image to grayscale                     |
+| [imageresize](stack/application/imageresize)             | resizes up or down by multiples                |
+| [imageflip](stack/application/imageflip)                 | horizontal and vertical flip options           |
+| [imagethumbnail](stack/application/imagethumbnail)       | minimises images for quick display / preview   |
+| [traffic-gen](stack/application/traffic-gen)             | configurable image uploader / manipulator      |
 
 #### Observability tools
 
-| dir                        | desc                                      |
+The following observability tools are used in this project.
+
+| tool                       | desc                                      |
 | ---                        | ---                                       |
 | apm-server                 | apm / tracing for EFK                     |
 | curator                    | elasticsearch cluster management          |
@@ -70,14 +76,13 @@ Kibana credentials: elastic/changeme
 | grafana                    | time series visualizer                    |
 | heartbeat                  | uptime monitoring                         |
 | index-lifecycle-managament | log index lifecycle management            |
+| jaeger                     | tracing (in the docker-compose files)     |
 | kiali                      | service mesh UI                           |
 | kibana                     | time series visualizer                    |
 | kibana-index               | logs visualizer                           |
 | loadbalancer               | nginx loadbalancer                        |
 | logstash                   | alternative log collector                 |
 | prometheus                 | time series data base                     |
-| traffic-gen                | configurable image uploader / manipulator |
-| zipkin                     | tracing (in the docker-compose files)     |
 
 ### Technical decisions
 
