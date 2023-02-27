@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
      grafana_dashboard: ""
+     grafana_folder: "global"
 data:
   services-up-dashboard.json: |-
     {
@@ -106,7 +107,7 @@ data:
           "tableColumn": "",
           "targets": [
             {
-              "expr": "up{job=\"elasticsearch\"}",
+              "expr": "elasticsearch_clusterinfo_up",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
@@ -284,7 +285,7 @@ data:
           "tableColumn": "",
           "targets": [
             {
-              "expr": "up{job=\"grafana\"}",
+              "expr": "up{service=\"grafana\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"

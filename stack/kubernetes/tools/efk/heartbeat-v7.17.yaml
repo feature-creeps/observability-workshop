@@ -9,29 +9,42 @@ data:
   heartbeat.yml: |-
     heartbeat.monitors:
     - type: icmp
-      schedule: '@every 5s'
+      schedule: '@every 10s'
       hosts: [
-        "frontend",
-        "imageorchestrator",
-        "imageholder",
-        "imagerotator",
-        "imagegrayscale",
-        "imageresize",
-        "imageflip",
-        "imagethumbnail",
-        "mongodb",
-        "fluentd",
-        "elasticsearch",
-        "kibana",
-        "metricbeat",
-        "heartbeat",
-        "prometheus",
-        "grafana",
-        "jaeger"
+        "cert-manager.cert-manager",
+        "cert-manager-webhook.cert-manager",
+        "frontend.dima",
+        "imageorchestrator.dima",
+        "imageholder.dima",
+        "imagerotator.dima",
+        "imagegrayscale.dima",
+        "imageresize.dima",
+        "imageflip.dima",
+        "imagethumbnail.dima",
+        "mongodb.dima",
+        "ingress-nginx-controller.ingress-nginx",
+        "ingress-nginx-controller-admission.ingress-nginx",
+        "ingress-nginx-controller-metrics.ingress-nginx",
+        "istiod.istio-system",
+        "jaeger-collector.istio-system",
+        "kiali.istio-system",
+        "tracing.istio-system",
+        "zipkin.istio-system",
+        "metrics-server.kube-system",
+        "apm-server-apm-server.logging",
+        "elasticsearch-master.logging",
+        "elasticsearch-master-headless.logging",
+        "fluentd.logging",
+        "kibana-kibana.logging",
+        "metricbeat-kube-state-metrics.logging",
+        "grafana.monitoring",
+        "prometheus-kube-state-metrics.monitoring",
+        "prometheus-prometheus-node-exporter.monitoring",
+        "prometheus-server.monitoring"
       ]
     
     setup.kibana:
-      host: "kibana"
+      host: "kibana-kibana.logging"
 
     processors:
       - add_cloud_metadata:
@@ -73,7 +86,7 @@ spec:
         ]
         env:
         - name: ELASTICSEARCH_HOST
-          value: elasticsearch
+          value: elasticsearch-master.logging
         - name: ELASTICSEARCH_PORT
           value: "9200"
         - name: ELASTICSEARCH_USERNAME
@@ -96,10 +109,10 @@ spec:
           requests:
             # for synthetics, 2 full cores is a good starting point for relatively consistent perform of a single concurrent check
             # For lightweight checks as low as 100m is fine
-            cpu: 2000m 
+            cpu: 100m 
             # A high value like this is encouraged for browser based monitors. 
             # Lightweight checks use substantially less, even 128Mi is fine for those.
-            memory: 1536Mi 
+            memory: 128Mi 
         volumeMounts:
         - name: config
           mountPath: /etc/heartbeat.yml

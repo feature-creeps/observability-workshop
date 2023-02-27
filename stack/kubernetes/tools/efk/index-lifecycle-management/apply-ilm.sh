@@ -1,7 +1,7 @@
 #!/bin/bash
 
 RETENTION_IN_DAYS=$1
-ELASTIC_HOST=elasticsearch
+ELASTIC_HOST=elasticsearch-master
 
 EXIT=0
 

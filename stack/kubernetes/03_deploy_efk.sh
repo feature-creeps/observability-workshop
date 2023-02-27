@@ -7,10 +7,20 @@ ELASTIC_VERSION="7.17.3"
 echo "--- install and update helm repos"
 helm repo add elastic https://helm.elastic.co
 helm repo add fluent https://fluent.github.io/helm-charts
+helm repo add lebenitza https://lebenitza.github.io/charts
 helm repo update
 
 echo "--- install elasticsearch"
 helm upgrade --install -n "$NAMESPACE" --create-namespace -f tools/efk/elasticsearch.yaml --version ${ELASTIC_VERSION} elasticsearch elastic/elasticsearch
+
+echo "--- apply prometheus-elasticsearch-exporter"
+helm upgrade --install -n "$NAMESPACE" -f tools/efk/prometheus-elasticsearch-exporter.yaml prometheus-elasticsearch-exporter prometheus-community/prometheus-elasticsearch-exporter
+
+echo "--- apply index-lifecycle-management"
+./tools/efk/index-lifecycle-management/build_deploy.sh "$NAMESPACE"
+
+echo "--- install curator"
+helm upgrade --install -n "$NAMESPACE" -f tools/efk/curator.yaml elasticsearch-curator lebenitza/elasticsearch-curator
 
 echo "--- install fluentd"
 helm upgrade --install -n "$NAMESPACE" -f tools/efk/fluentd.yaml fluentd fluent/fluentd

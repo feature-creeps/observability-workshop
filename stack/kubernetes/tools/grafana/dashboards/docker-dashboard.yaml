@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
      grafana_dashboard: ""
+     grafana_folder: "infra"
 data:
   docker-dashboard.json: |-
     {

@@ -7,7 +7,12 @@ persistence:
 sidecar:
   dashboards:
     enabled: "true"
+    folder: /var/lib/grafana/dashboards
+    folderAnnotation: "grafana_folder"
     searchNamespace: "monitoring"
+    provider:
+      disableDelete: true
+      foldersFromFilesStructure: true
 plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
@@ -38,27 +43,11 @@ datasources:
       orgId: 1
       type: prometheus
       url: http://prometheus-server:80
-    - name: 'Prometheus Loki'
-      type: 'prometheus'
-      access: 'proxy'
-      org_id: 1
-      url: 'http://loki:3100/loki'
-      isDefault: false
-      version: 1
-      editable: true
-    - name: 'Loki'
-      type: 'loki'
-      access: 'proxy'
-      org_id: 1
-      url: 'http://loki:3100'
-      isDefault: false
-      version: 1
-      editable: true
     - name: 'Elasticsearch'
       type: 'elasticsearch'
       access: 'proxy'
       org_id: 1
-      url: 'http://elasticsearch:9200'
+      url: 'http://elasticsearch-master.logging:9200'
       isDefault: false
       version: 1
       editable: true
@@ -70,34 +59,28 @@ datasources:
       jsonData:
         interval: Daily
         timeField: "@timestamp"
-        esVersion: 70
+        esVersion: "7.10+"
         logMessageField: message
         logLevelField: level
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
     providers:
-    - disableDeletion: false
+    - disableDeletion: true
       folder: infra
       name: infra
+      editable: false
       options:
         path: /var/lib/grafana/dashboards/infra
       orgId: 1
       type: file
-    # - disableDeletion: false
-    #   folder: istio
-    #   name: istio
-    #   options:
-    #     path: /var/lib/grafana/dashboards/istio
-    #   orgId: 1
-    #   type: file
-    # - disableDeletion: false
-    #   folder: istio
-    #   name: istio-services
-    #   options:
-    #     path: /var/lib/grafana/dashboards/istio-services
-    #   orgId: 1
-    #   type: file
+    - disableDeletion: false
+      folder: istio
+      name: istio
+      options:
+        path: /var/lib/grafana/dashboards/istio
+      orgId: 1
+      type: file
 dashboards:
   infra:
     prometheus-stats:
@@ -112,32 +95,35 @@ dashboards:
       gnetId: 9614
       revision: 1
       datasource: Prometheus
-  # istio:
-  #   istio-performance-dashboard:
-  #     gnetId: 11829
-  #     revision: 158
-  #     datasource: Prometheus     
-  #   istio-pilot-dashboard:
-  #     gnetId: 12154
-  #     revision: 158
-  #     datasource: Prometheus     
-  # istio-services:
-  #   istio-workload-dashboard:
-  #     gnetId: 7630
-  #     revision: 158
-  #     datasource: Prometheus
-  #   istio-service-dashboard:
-  #     gnetId: 7636
-  #     revision: 158
-  #     datasource: Prometheus      
-  #   istio-mesh-dashboard:
-  #     gnetId: 7639
-  #     revision: 158
-  #     datasource: Prometheus     
-  #   istio-controlplane-dashboard:
-  #     gnetId: 7645
-  #     revision: 158
-  #     datasource: Prometheus   
+  istio:
+    istio-performance-dashboard:
+      gnetId: 11829
+      revision: 158
+      datasource: Prometheus     
+    istio-pilot-dashboard:
+      gnetId: 12154
+      revision: 158
+      datasource: Prometheus     
+    istio-workload-dashboard:
+      gnetId: 7630
+      revision: 158
+      datasource: Prometheus
+    istio-service-dashboard:
+      gnetId: 7636
+      revision: 158
+      datasource: Prometheus      
+    istio-mesh-dashboard:
+      gnetId: 7639
+      revision: 158
+      datasource: Prometheus     
+    istio-controlplane-dashboard:
+      gnetId: 7645
+      revision: 158
+      datasource: Prometheus   
 service:
   labels:
     sidecar.istio.io/inject: "false"
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+

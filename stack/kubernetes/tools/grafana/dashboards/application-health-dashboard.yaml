@@ -5,6 +5,7 @@ metadata:
   namespace: monitoring
   labels:
      grafana_dashboard: ""
+     grafana_folder: "application"
 data:
   application-health-dashboard.json: |-
     {
