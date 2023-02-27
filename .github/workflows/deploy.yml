@@ -68,4 +68,4 @@ jobs:
 
       - name: Deploy dima services on GKE
         working-directory: stack/kubernetes/application
-        run: kustomize build . | tee /dev/stderr | kubectl apply -n dima --wait -f -
+        run: kubernetes/04_deploy_dima.sh
