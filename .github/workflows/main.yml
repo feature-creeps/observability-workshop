@@ -1,37 +1,36 @@
-name: Build and Deploy to GKE
+name: Build
 
 on: push
 
 env:
-  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
-  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
-  GKE_ZONE: ${{ secrets.GKE_ZONE }}
   GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
+  WIP: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+  SA: 'github-actions@${{ secrets.GKE_PROJECT }}.iam.gserviceaccount.com'
 
 jobs:
-  setup-build-publish-deploy:
+  setup-build-publish:
     name: Setup, Build, Publish
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: 'write'
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ env.WIP }}
+          service_account: ${{ env.SA }}
 
       - name: Setup gcloud CLI
-        uses: google-github-actions/setup-gcloud@v0.2.0
-        with:
-          service_account_key: ${{ secrets.GKE_SA_KEY }}
-          project_id: ${{ secrets.GKE_PROJECT }}
+        uses: google-github-actions/setup-gcloud@v1
 
       - name: Configure Docker
         run: |-
-          gcloud --quiet auth configure-docker
-
-      - name: Fetch GKE credentials
-        uses: google-github-actions/get-gke-credentials@v0.2.1
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
-          credentials: ${{ secrets.GKE_SA_KEY }}
+          gcloud --quiet auth configure-docker gcr.io
 
       - name: Install docker-compose for python3
         run: pip3 install docker-compose --upgrade
@@ -43,17 +42,3 @@ jobs:
       - name: Push all images
         working-directory: ./stack/compose
         run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml push
-
-      - name: Set up Kustomize
-        working-directory: stack/kubernetes/application
-        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-
-      - name: Adjust image tags
-        working-directory: stack/kubernetes/application
-        run: |-
-          kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${GITHUB_SHA} " \;)
-          cat kustomization.yaml 
-
-      - name: Deploy dima services on GKE
-        working-directory: stack/kubernetes/application
-        run: kustomize build . | tee /dev/stderr | kubectl apply -n dima --wait -f -

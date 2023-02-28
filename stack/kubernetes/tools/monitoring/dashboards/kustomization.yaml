@@ -1,0 +1,6 @@
+resources:
+  - application-health-dashboard.yaml
+  - business-dashboard.yaml
+  - docker-dashboard.yaml
+  - services-up-dashboard.yaml
+  

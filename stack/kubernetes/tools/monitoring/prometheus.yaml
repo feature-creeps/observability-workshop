@@ -1,0 +1,18 @@
+---
+server:
+  ingress:
+    enabled: false
+alertmanager:
+  enabled: false
+kube-state-metrics:
+  enabled: true
+  selfMonitor:
+    enabled: true
+    telemetryPort: 8081
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8081"
+prometheus-node-exporter:
+  enabled: true
+prometheus-pushgateway:
+  enabled: false

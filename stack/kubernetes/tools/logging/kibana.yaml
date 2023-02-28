@@ -1,0 +1,22 @@
+
+kibanaConfig:
+  kibana.yml: |
+    elasticsearch.username: elastic
+    elasticsearch.password: changeme
+    server.publicBaseUrl: https://kibana.o11y.fans
+
+ingress:
+  enabled: true
+  className: "nginx"
+  pathtype: Prefix
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  hosts:
+    - host: kibana.o11y.fans
+      paths:
+        - path: /(.*)
+  tls:
+    - secretName: kibana-tls-cert
+      hosts:
+        - kibana.o11y.fans

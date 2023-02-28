@@ -1,0 +1,5 @@
+resources:
+  - grafana-ingress.yaml
+  - kiali-ingress.yaml
+  - prometheus-ingress.yaml
+  - jaeger-ingress.yaml
