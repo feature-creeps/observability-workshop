@@ -75,9 +75,12 @@ void resolveConfiguration(configuration) {
 }
 
 boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['api', 'apiElements', 'implementation',
+    def nonResolveableConfigurations = ['api', 'apiElements', 'compileOnly', 'compileOnlyApi', 
+                                        'implementation', 'integrationTestCompileOnly', 'integrationTestImplementation',
+                                        'integrationTestRuntimeOnly', 'mainSourceElements',
                                         'runtimeElements', 'runtimeOnly',
-                                        'testImplementation', 'testRuntimeOnly',
+                                        'testCompileOnly', 'testImplementation', 'testResultsElementsForTest',
+                                        'testRuntimeOnly',
                                         'generatedImplementation', 'generatedRuntimeOnly']
 
     if (nonResolveableConfigurations.contains(configuration.getName())) {
