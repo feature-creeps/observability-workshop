@@ -1,4 +1,12 @@
 ---
+replicas: 1
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1500Mi"
+  limits:
+    cpu: "500m"
+    memory: "1500Mi"
 secret:
   enabled: true
   password: "changeme"

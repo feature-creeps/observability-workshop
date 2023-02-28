@@ -1,9 +1,17 @@
-
+---
 kibanaConfig:
   kibana.yml: |
     elasticsearch.username: elastic
     elasticsearch.password: changeme
     server.publicBaseUrl: https://kibana.o11y.fans
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "500m"
+    memory: "1Gi"
 
 ingress:
   enabled: true
