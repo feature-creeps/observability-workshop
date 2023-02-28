@@ -1,5 +1,5 @@
 plugins {
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "io.spring.dependency-management" version "1.1.0"
 }
 
 subprojects {
@@ -17,7 +17,7 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR6"
             mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.18.RELEASE"
         }
     }
@@ -28,14 +28,14 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 
         // commons
-        implementation 'commons-io:commons-io:2.6'
-        implementation 'org.apache.commons:commons-lang3:3.0'
+        implementation 'commons-io:commons-io:2.11.0'
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
 
         // logs
-        implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
-        implementation 'ch.qos.logback:logback-classic:1.1.6'
-        implementation 'ch.qos.logback:logback-core:1.1.6'
-        implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
+        implementation 'net.logstash.logback:logstash-logback-encoder:4.11'
+        implementation 'ch.qos.logback:logback-classic:1.2.11'
+        implementation 'ch.qos.logback:logback-core:1.2.11'
+        implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 
         // metrics
         implementation 'io.micrometer:micrometer-core'
@@ -45,10 +45,10 @@ subprojects {
         implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
 
         // events
-        implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
+        implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
 
         // todo: remove this dep
-        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.0.0'
+        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
