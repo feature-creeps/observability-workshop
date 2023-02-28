@@ -1,6 +1,0 @@
----
-secret:
-  enabled: true
-  password: "changeme"
-replicas: 2
-minimumMasterNodes: 1

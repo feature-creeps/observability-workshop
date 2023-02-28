@@ -52,7 +52,7 @@ Kibana credentials: elastic/changeme
 The following application services can be found under [stack/application](stack/application).
 
 
-| service                                                  | desc                                           |
+| Service                                                  | Description                                    |
 | ---                                                      | ---                                            |
 | [frontend](stack/application/frontend)                   | app for displaying and interacting             |
 | [imageorchestrator](stack/application/imageorchestrator) | completes all requested manipulations          |
@@ -68,37 +68,35 @@ The following application services can be found under [stack/application](stack/
 
 The following observability tools are used in this project.
 
-| tool                       | desc                                      |
-| ---                        | ---                                       |
-| apm-server                 | apm / tracing for EFK                     |
-| curator                    | elasticsearch cluster management          |
-| fluentd                    | log collector/aggregator                  |
-| grafana                    | time series visualizer                    |
-| heartbeat                  | uptime monitoring                         |
-| index-lifecycle-managament | log index lifecycle management            |
-| jaeger                     | tracing (in the docker-compose files)     |
-| kiali                      | service mesh UI                           |
-| kibana                     | time series visualizer                    |
-| kibana-index               | logs visualizer                           |
-| loadbalancer               | nginx loadbalancer                        |
-| logstash                   | alternative log collector                 |
-| prometheus                 | time series data base                     |
+| Tool                                                                                      | Description                               |
+| ---                                                                                       | ---                                       |
+| [Elastic APM](https://www.elastic.co/de/observability/application-performance-monitoring) | apm / tracing for EFK                     |
+| [Elastic Curator](https://github.com/elastic/curator)                                     | elasticsearch cluster management          |
+| [Elastic Heartbeat](https://www.elastic.co/de/beats/heartbeat)                            | uptime monitoring                         |
+| [Elastic Kibana](https://www.elastic.co/de/kibana/)                                       | time series/logs visualizer               |
+| [fluentd](https://www.fluentd.org/)                                                       | log collector/aggregator                  |
+| [Grafana](https://grafana.com/)                                                           | time series visualizer                    |
+| [Google Cloud Logging](https://cloud.google.com/logging?hl=de)                            | Preview: Alternative zu EFK               |
+| index-lifecycle-managament                                                                | log index lifecycle management            |
+| [Jaeger](https://www.jaegertracing.io/)                                                   | tracing (in the docker-compose files)     |
+| [Kiali](https://kiali.io/)                                                                | service mesh UI                           |
+| [Prometheus](https://prometheus.io/)                                                      | time series data base                     |
 
 ### Technical decisions
 
 #### Log integration
 
-We use fluentd as the log collector, elastic search as the search engine and kibana as the visualizer UI.
+We use fluentd as the log collector, Elasticsearch as the search engine and Kibana as the visualizer UI.
 
 All containers write their logs to stdout, ideally formatted as json. The fluentd service is running as a daemonset and
-collecting, parsing and sending logs from all nodes to elasticsearch.
+collecting, parsing and sending logs from all nodes to Elasticsearch.
 
 Kibana displays logs from elasticsearch. We create index patterns "logs-*" and "events-*".
 
 #### Monitoring integration
 
-We use prometheus as the metrics collector and grafana for visualization.
+We use Prometheus as the metrics collector and Grafana for visualization.
 
 #### Tracing integration
 
-We use jaeger and elastic apm for tracing.
+We use Jaeger and Elastic APM for tracing.

@@ -7,7 +7,6 @@ persistence:
 sidecar:
   dashboards:
     enabled: "true"
-    folder: /var/lib/grafana/dashboards
     folderAnnotation: "grafana_folder"
     searchNamespace: "monitoring"
     provider:

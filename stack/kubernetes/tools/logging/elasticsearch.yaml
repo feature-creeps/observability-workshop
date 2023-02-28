@@ -1,0 +1,9 @@
+---
+secret:
+  enabled: true
+  password: "changeme"
+replicas: 1
+volumeClaimTemplate:
+  resources:
+    requests:
+      storage: 10Gi

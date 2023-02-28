@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# iam for github actions, see https://github.com/google-github-actions/auth
+echo "=== creating iam for github actions (only needed to run once for project)"
+# see https://github.com/google-github-actions/auth
 
 GKE_PROJECT="olly-2021-k8s-migration"
 WIP="github-pool"
