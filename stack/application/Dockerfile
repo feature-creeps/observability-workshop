@@ -9,7 +9,7 @@ FROM openjdk:11-jdk AS builder
 
 WORKDIR /build
 
-ARG GRADLE_VERSION=5.1.1
+ARG GRADLE_VERSION=7.6.1
 
 # gradle
 RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \

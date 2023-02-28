@@ -4,7 +4,7 @@ plugins {
 }
 
 bootJar {
-    baseName = 'imageresize'
+    archiveBaseName = 'imageresize'
 }
 
 dependencies {

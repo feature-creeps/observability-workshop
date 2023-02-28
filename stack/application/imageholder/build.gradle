@@ -12,7 +12,7 @@ plugins {
 apply plugin: 'de.db.vz.msintplugin'
 
 bootJar {
-    baseName = 'imageholder'
+    archiveBaseName = 'imageholder'
 }
 
 dependencies {
