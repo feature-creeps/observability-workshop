@@ -67,5 +67,5 @@ jobs:
           cat kustomization.yaml 
 
       - name: Deploy dima services on GKE
-        working-directory: stack/kubernetes/application
-        run: kubernetes/16_deploy_dima.sh
+        working-directory: stack/kubernetes
+        run: ./16_deploy_dima.sh
