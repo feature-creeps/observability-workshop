@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
-        image: {{ .Values.imagename }}:{{ .Values.imagelabel }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: IfNotPresent
         env:
         - name: IMAGEHOLDER_BASEURL

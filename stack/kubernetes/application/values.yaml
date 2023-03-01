@@ -1,26 +1,35 @@
 dima-frontend:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imageflip:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imagegrayscale:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imageholder:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imageorchestrator:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imageresize:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imagerotator:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-imagethumbnail:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
 
 dima-traffic-gen:
-  imagelabel: 9762646c83543be559ec11d2ef81d2442ddf837d
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
