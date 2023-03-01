@@ -16,8 +16,8 @@ spec:
               service:
                 name: {{ .Release.Name }}-{{ .Chart.Name }}-service
                 port:
-                  number: 80
-            path: /(.*)
+                  number: 8080
+            path: /proxy/imagerotator/(.*)
             pathType: Prefix
   tls:
     - hosts:
