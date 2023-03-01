@@ -23,8 +23,8 @@ spec:
         env:
         - name: MONGODB_HOST
           value: {{ .Values.mongodb.host }}
-        - name: MONGODB_HOST
-          value: {{ .Values.mongodb.port }}  
+        - name: MONGODB_PORT
+          value: {{ .Values.mongodb.port | quote }}  
         - name: SPRING_PROFILES_ACTIVE
           value: "json-log"
         - name: EVENTS_ENABLED
