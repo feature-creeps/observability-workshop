@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-job
+  namespace: {{ .Release.Namespace }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-{{ .Chart.Name }}
+        image: {{ .Values.imagename }}:{{ .Values.imagelabel }}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: IMAGEHOLDER_BASEURL
+          value: {{ .Values.imageholderUrl }}
+        - name: IMAGEORCHESTRATOR_BASEURL
+          value: {{ .Values.imageorchestratorUrl }}
+      restartPolicy: OnFailure
+  backoffLimit: 4

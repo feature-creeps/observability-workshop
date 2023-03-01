@@ -1,0 +1,9 @@
+apiVersion: v2
+name: dima
+version: 1.0.0
+type: application
+keywords:
+  - dima
+home: https://github.com/feature-creeps/observability-workshop
+sources:
+  - https://github.com/feature-creeps/observability-workshop

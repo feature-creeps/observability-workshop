@@ -1,0 +1,74 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-ingress
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.host }}
+      http:
+        paths:
+          - backend:
+              service:
+                name: {{ .Release.Name }}-{{ .Chart.Name }}-service
+                port:
+                  number: 80
+            path: /(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imageholder-service
+                port:
+                  number: 8080
+            path: /proxy/imageholder/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imageflip-service
+                port:
+                  number: 8080
+            path: /proxy/imageflip/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imagerotator-service
+                port:
+                  number: 8080
+            path: /proxy/imagerotator/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imageresize-service
+                port:
+                  number: 8080
+            path: /proxy/imageresize/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imagegrayscale-service
+                port:
+                  number: 8080
+            path: /proxy/imagegrayscale/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imagethumbnail-service
+                port:
+                  number: 8080
+            path: /proxy/imagethumbnail/(.*)
+            pathType: Prefix
+          - backend:
+              service:
+                name: imageorchestrator-service
+                port:
+                  number: 8080
+            path: /proxy/imageorchestrator/(.*)
+            pathType: Prefix
+  tls:
+    - hosts:
+        - {{ .Values.host }}
+      secretName: dima-tls-cert
