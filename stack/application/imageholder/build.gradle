@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version "2.2.13.RELEASE"
+    id 'org.springframework.boot' version "2.3.12.RELEASE"
     id 'java'
 }
 

@@ -2,15 +2,15 @@ package com.github.olly.workshop.imageholder.service
 
 import com.github.olly.workshop.imageholder.model.Image
 import com.github.olly.workshop.springevents.service.EventService
-import com.mongodb.MongoClient
-import com.mongodb.ServerAddress
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
 import de.bwaldvogel.mongo.MongoServer
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.mock.mockito.MockBean
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration
+import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration
 import spock.lang.Specification
 
 /*
@@ -122,7 +122,7 @@ class ImageServiceSpec extends Specification {
     }
 
     @TestConfiguration
-    static class Config extends AbstractMongoConfiguration {
+    static class Config extends AbstractMongoClientConfiguration {
         @Override
         protected String getDatabaseName() {
             return "test"
@@ -130,9 +130,9 @@ class ImageServiceSpec extends Specification {
 
         @Override
         MongoClient mongoClient() {
-            MongoServer mongoServer = new MongoServer(new MemoryBackend())
-            mongoServer.bind()
-            return new MongoClient(new ServerAddress(mongoServer.getLocalAddress()))
+            MongoServer server = new MongoServer(new MemoryBackend())
+            String connectionString = server.bindAndGetConnectionString()
+            return MongoClients.create(connectionString)
         }
     }
 }
