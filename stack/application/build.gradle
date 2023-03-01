@@ -17,8 +17,8 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR12"
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.3.12.RELEASE"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.6"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.4.13"
         }
     }
     task allDeps(type: DependencyReportTask) {}
@@ -42,7 +42,7 @@ subprojects {
         implementation 'io.micrometer:micrometer-registry-prometheus'
         // traces
         implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+        implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
@@ -51,6 +51,11 @@ subprojects {
         implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2'
 
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        // tests still using junit4
+        testImplementation("org.junit.vintage:junit-vintage-engine") {
+            exclude group: "org.hamcrest", module: "hamcrest-core"
+        }
     }
 
 }

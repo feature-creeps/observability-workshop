@@ -6,7 +6,6 @@ import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderUploadClient;
 import com.github.olly.workshop.springevents.service.EventService;
-import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +51,13 @@ public class ImageService {
         contextUtil.put(originalImage);
         this.eventService.addFieldToActiveEvent("content.size", originalImage.getSize());
 
-        final Image transformedImage = transformationService.transform(originalImage, transformationRequest.getTransformations());
+        final Image transformedImage = transformationService.transform(originalImage,
+                transformationRequest.getTransformations());
 
         this.eventService.addFieldToActiveEvent("content.transformed.type", transformedImage.getMimeType());
         imageOrchestratorMetricsService.imageTransformed(originalImage, transformedImage, transformationRequest);
 
-        if (BooleanUtils.isTrue(transformationRequest.getPersist())) {
+        if (transformationRequest.getPersist()) {
             this.eventService.addFieldToActiveEvent("content.transformed.persist", true);
             imageHolderUploadClient.upload(transformedImage, transformationRequest.getName());
         }
