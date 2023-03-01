@@ -21,6 +21,10 @@ spec:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
         env:
+        - name: MONGODB_HOST
+          value: {{ .Value.mongodb.host }}
+        - name: MONGODB_HOST
+          value: {{ .Value.mongodb.port }}  
         - name: SPRING_PROFILES_ACTIVE
           value: "json-log"
         - name: EVENTS_ENABLED
