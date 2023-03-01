@@ -53,19 +53,9 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_ZONE }}
 
-      - name: Set up Kustomize
-        working-directory: stack/kubernetes/application
-        run: curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-
-      - name: Adjust image tags
+      - name: Deploy dima services on GKE
         env:
           GKE_REGISTRY: ${{ env.GKE_REGISTRY }}
           IMAGE_TAG: ${{ inputs.tag }}
-        working-directory: stack/kubernetes/application
-        run: |-
-          kustomize edit set image $(find * -maxdepth 1 -type d -and -not -name 'base' -exec printf "${GKE_REGISTRY}/dima-{}:${IMAGE_TAG} " \;)
-          cat kustomization.yaml 
-
-      - name: Deploy dima services on GKE
         working-directory: stack/kubernetes
-        run: ./16_deploy_dima.sh
+        run: ./16_deploy_dima.sh ${IMAGE_TAG}

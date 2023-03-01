@@ -4,11 +4,12 @@ metadata:
   name: {{ .Release.Name }}-{{ .Chart.Name }}-job
   namespace: {{ .Release.Namespace }}
 spec:
+  ttlSecondsAfterFinished: 60
   template:
     spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
         imagePullPolicy: IfNotPresent
         env:
         - name: IMAGEHOLDER_BASEURL

@@ -7,3 +7,14 @@ keywords:
 home: https://github.com/feature-creeps/observability-workshop
 sources:
   - https://github.com/feature-creeps/observability-workshop
+dependencies:  
+  - name: "dima-frontend"
+  - name: "dima-imageflip"
+  - name: "dima-imagegrayscale"
+  - name: "dima-imageholder"
+  - name: "dima-imageorchestrator"
+  - name: "dima-imageresize"
+  - name: "dima-imagerotator"
+  - name: "dima-imagethumbnail"
+  - name: "dima-mongodb"
+  - name: "dima-traffic-gen"

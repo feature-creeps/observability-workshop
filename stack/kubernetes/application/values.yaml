@@ -1,35 +1,3 @@
-dima-frontend:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imageflip:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imagegrayscale:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imageholder:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imageorchestrator:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imageresize:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imagerotator:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-imagethumbnail:
-  image:
-    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
-
-dima-traffic-gen:
+global:
   image:
     tag: 9762646c83543be559ec11d2ef81d2442ddf837d

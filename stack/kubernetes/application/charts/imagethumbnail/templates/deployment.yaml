@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "json-log"
