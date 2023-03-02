@@ -14,10 +14,10 @@ spec:
         paths:
           - backend:
               service:
-                name: {{ template "dima-imageresize.service.name" . }}
+                name: {{ .Release.Name }}-{{ .Chart.Name }}-service
                 port:
                   number: 8080
-            path: /proxy/imageresize/(.*)
+            path: /proxy/imagethumbnail/(.*)
             pathType: Prefix
   tls:
     - hosts:

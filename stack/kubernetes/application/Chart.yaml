@@ -18,3 +18,4 @@ dependencies:
   - name: "dima-imagethumbnail"
   - name: "dima-mongodb"
   - name: "dima-traffic-gen"
+    condition: dima-traffic-gen.enabled

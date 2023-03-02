@@ -32,6 +32,8 @@ spec:
           value: "true"
         - name: APM_ENABLED
           value: "true"
+        - name: IMAGEHOLDER_BASEURL
+          value: {{ template "imageholder.baseUrl" . }}
         ports:
         - containerPort: 8080
         resources:

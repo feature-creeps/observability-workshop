@@ -4,7 +4,7 @@ kind: Service
 metadata:
   labels:
     group: olly-infrastructure
-  name: {{ .Release.Name }}-{{ .Chart.Name }}-service
+  name: {{ template "dima-mongodb.service.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   ports:

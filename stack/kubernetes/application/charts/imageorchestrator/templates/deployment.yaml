@@ -31,6 +31,16 @@ spec:
           value: "true"
         - name: APM_ENABLED
           value: "true"
+        - name: IMAGEROTATOR_BASEURL
+          value: {{ template "imagerotator.baseUrl" . }} 
+        - name: IMAGEFLIP_BASEURL
+          value: {{ template "imageflip.baseUrl" . }} 
+        - name: IMAGEGRAYSCALE_BASEURL
+          value: {{ template "imagegrayscale.baseUrl" . }} 
+        - name: IMAGEHOLDER_BASEURL
+          value: {{ template "imageholder.baseUrl" . }}
+        - name: IMAGERESIZE_BASEURL
+          value: {{ template "imageresize.baseUrl" . }}
         ports:
         - containerPort: 8080
         resources:

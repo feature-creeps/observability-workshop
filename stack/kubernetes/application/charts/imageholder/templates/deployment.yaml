@@ -22,7 +22,7 @@ spec:
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
         env:
         - name: MONGODB_HOST
-          value: {{ .Values.mongodb.host }}
+          value: {{ template "dima-mongodb.service.name" . }}
         - name: MONGODB_PORT
           value: {{ .Values.mongodb.port | quote }}  
         - name: SPRING_PROFILES_ACTIVE
@@ -35,6 +35,8 @@ spec:
           value: "true"
         - name: APM_ENABLED
           value: "true"
+        - name: IMAGETHUMBNAIL_BASEURL
+          value: {{ template "dima-imagethumbnail.baseUrl" . }}  
         ports:
         - containerPort: 8080
         resources:

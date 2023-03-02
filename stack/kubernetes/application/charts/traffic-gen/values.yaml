@@ -3,5 +3,5 @@ image:
 #  tag: 32ef28fee149f1e8e130d9c655b3892078302dae
 # imageholderUrl: https://o11y.fans/proxy/imageholder
 # imageorchestratorUrl: https://o11y.fans/proxy/imageorchestrator
-imageholderUrl: http://imageholder
-imageorchestratorUrl: http://imageorchestrator
+imageholderUrl: http://dima-imageholder-service
+imageorchestratorUrl: http://dima-imageorchestrator-service
