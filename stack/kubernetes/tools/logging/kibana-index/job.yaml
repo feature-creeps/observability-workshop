@@ -3,6 +3,8 @@ kind: Job
 metadata:
   name: kibana-index
 spec:
+  ttlSecondsAfterFinished: 60
+  activeDeadlineSeconds: 120
   template:
     spec:
       containers:
