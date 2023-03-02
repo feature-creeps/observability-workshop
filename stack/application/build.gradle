@@ -17,8 +17,8 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.6"
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.5.14"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.6"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.9"
         }
     }
     task allDeps(type: DependencyReportTask) {}
