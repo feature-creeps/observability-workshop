@@ -77,17 +77,17 @@ fileConfigs:
         @type rewrite_tag_filter
         <rule>
           key service
-          pattern ^(image.+)$
+          pattern ^(.+dima-image.+)$
           tag domain.$1
         </rule>
         <rule>
           key service
-          pattern ^(mongodb)$
+          pattern ^(.+dima-mongodb)$
           tag $1
         </rule>
         <rule>
           key service
-          pattern ^(frontend)$
+          pattern ^(.+dima-frontend)$
           tag $1
         </rule>
       </match>
