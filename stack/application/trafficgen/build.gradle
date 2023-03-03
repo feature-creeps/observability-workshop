@@ -1,0 +1,17 @@
+plugins {
+    id 'org.springframework.boot' version "2.7.9"
+    id 'java'
+}
+
+bootJar {
+    archiveBaseName = 'trafficgen'
+}
+
+dependencies {
+    implementation project(':springevents')
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    implementation 'io.github.openfeign:feign-okhttp'
+
+    implementation 'com.google.guava:guava:31.1-jre'
+}

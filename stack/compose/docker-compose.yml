@@ -47,6 +47,12 @@ services:
       args:
         SERVICE: imagethumbnail
 
+  trafficgen:
+    build:
+      context: ../application
+      args:
+        SERVICE: trafficgen
+
   traffic-gen:
     build: ../application/traffic-gen
 
