@@ -2,7 +2,7 @@ FROM gradle:7.6-jdk17-alpine AS builder
 
 WORKDIR /build
 
-ARG ELASTIC_APM_AGENT_VERSION=1.19.0
+ARG ELASTIC_APM_AGENT_VERSION=1.36.0
 
 # apm
 RUN wget https://search.maven.org/remotecontent?filepath=co/elastic/apm/elastic-apm-agent/${ELASTIC_APM_AGENT_VERSION}/elastic-apm-agent-${ELASTIC_APM_AGENT_VERSION}.jar -O /elastic-apm-agent.jar
