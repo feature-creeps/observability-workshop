@@ -87,10 +87,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "elasticsearch"
+                      "text": "prometheus"
                     },
                     "1": {
-                      "text": "elasticsearch"
+                      "text": "prometheus"
                     }
                   },
                   "type": "value"
@@ -100,7 +100,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -117,92 +118,9 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 6,
+            "h": 3,
+            "w": 4,
             "x": 0,
-            "y": 3
-          },
-          "id": 18,
-          "links": [],
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.3.6",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "elasticsearch_clusterinfo_up",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "title": "elasticsearch",
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "0": {
-                      "text": "prometheus"
-                    },
-                    "1": {
-                      "text": "prometheus"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#d44a3a"
-                  },
-                  {
-                    "color": "rgba(237, 129, 40, 0.89)",
-                    "value": 1
-                  },
-                  {
-                    "color": "#299c46",
-                    "value": 1
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 5,
-            "w": 6,
-            "x": 6,
             "y": 3
           },
           "id": 21,
@@ -266,7 +184,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -283,9 +202,9 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 6,
-            "x": 12,
+            "h": 3,
+            "w": 4,
+            "x": 4,
             "y": 3
           },
           "id": 20,
@@ -338,10 +257,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "jaeger"
+                      "text": "elasticsearch"
                     },
                     "1": {
-                      "text": "jaeger"
+                      "text": "elasticsearch"
                     }
                   },
                   "type": "value"
@@ -351,7 +270,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -368,9 +288,93 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 6,
-            "x": 18,
+            "h": 3,
+            "w": 4,
+            "x": 8,
+            "y": 3
+          },
+          "id": 18,
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.6",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "expr": "elasticsearch_clusterinfo_up",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "title": "elasticsearch",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "text": "grafana"
+                    },
+                    "1": {
+                      "text": "grafana"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#d44a3a",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "#299c46",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 12,
             "y": 3
           },
           "id": 29,
@@ -424,10 +428,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "kiali"
+                      "text": "grafana"
                     },
                     "1": {
-                      "text": "kiali"
+                      "text": "grafana"
                     }
                   },
                   "type": "value"
@@ -454,10 +458,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 6,
-            "x": 0,
-            "y": 8
+            "h": 3,
+            "w": 4,
+            "x": 16,
+            "y": 3
           },
           "id": 30,
           "links": [],
@@ -504,7 +508,7 @@ data:
             "h": 3,
             "w": 24,
             "x": 0,
-            "y": 13
+            "y": 6
           },
           "id": 28,
           "links": [],
@@ -544,256 +548,6 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "imageorchestrator"
-                    },
-                    "1": {
-                      "text": "imageorchestrator"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#d44a3a"
-                  },
-                  {
-                    "color": "rgba(237, 129, 40, 0.89)",
-                    "value": 1
-                  },
-                  {
-                    "color": "#299c46",
-                    "value": 1
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 4,
-            "w": 7,
-            "x": 0,
-            "y": 16
-          },
-          "id": 3,
-          "links": [],
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.3.6",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "up{app=\"dima-dima-imageorchestrator\"}",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "title": "imageorchestrator",
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "0": {
-                      "text": "imageholder"
-                    },
-                    "1": {
-                      "text": "imageholder"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#d44a3a"
-                  },
-                  {
-                    "color": "rgba(237, 129, 40, 0.89)",
-                    "value": 1
-                  },
-                  {
-                    "color": "#299c46",
-                    "value": 1
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 4,
-            "w": 7,
-            "x": 7,
-            "y": 16
-          },
-          "id": 2,
-          "links": [],
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.3.6",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "up{app=\"dima-dima-imageholder\"}",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "title": "imageholder",
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "0": {
-                      "text": "imagethumbnail"
-                    },
-                    "1": {
-                      "text": "imagethumbnail"
-                    }
-                  },
-                  "type": "value"
-                }
-              ],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "#d44a3a"
-                  },
-                  {
-                    "color": "rgba(237, 129, 40, 0.89)",
-                    "value": 1
-                  },
-                  {
-                    "color": "#299c46",
-                    "value": 1
-                  }
-                ]
-              },
-              "unit": "none"
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 4,
-            "w": 7,
-            "x": 14,
-            "y": 16
-          },
-          "id": 15,
-          "interval": "",
-          "links": [],
-          "maxDataPoints": 100,
-          "options": {
-            "colorMode": "value",
-            "graphMode": "area",
-            "justifyMode": "auto",
-            "orientation": "horizontal",
-            "reduceOptions": {
-              "calcs": [
-                "lastNotNull"
-              ],
-              "fields": "",
-              "values": false
-            },
-            "textMode": "auto"
-          },
-          "pluginVersion": "9.3.6",
-          "targets": [
-            {
-              "datasource": {
-                "type": "prometheus",
-                "uid": "PBFA97CFB590B2093"
-              },
-              "expr": "up{app=\"dima-dima-imagethumbnail\"}",
-              "format": "time_series",
-              "intervalFactor": 1,
-              "refId": "A"
-            }
-          ],
-          "title": "imagethumbnail",
-          "transparent": true,
-          "type": "stat"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "fieldConfig": {
-            "defaults": {
-              "color": {
-                "mode": "thresholds"
-              },
-              "mappings": [
-                {
-                  "options": {
-                    "0": {
                       "text": "imageflip"
                     },
                     "1": {
@@ -807,7 +561,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -824,10 +579,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
+            "h": 3,
+            "w": 4,
             "x": 0,
-            "y": 20
+            "y": 9
           },
           "id": 4,
           "links": [],
@@ -890,7 +645,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -907,10 +663,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 5,
-            "y": 20
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 9
           },
           "id": 19,
           "links": [],
@@ -960,10 +716,94 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "imagerotator"
+                      "text": "imageholder"
                     },
                     "1": {
-                      "text": "imagerotator"
+                      "text": "imageholder"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#d44a3a",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "#299c46",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 8,
+            "y": 9
+          },
+          "id": 2,
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.6",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "expr": "up{app=\"dima-dima-imageholder\"}",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "title": "imageholder",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "text": "imageorchestrator"
+                    },
+                    "1": {
+                      "text": "imageorchestrator"
                     }
                   },
                   "type": "value"
@@ -990,12 +830,12 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 10,
-            "y": 20
+            "h": 3,
+            "w": 4,
+            "x": 12,
+            "y": 9
           },
-          "id": 16,
+          "id": 3,
           "links": [],
           "maxDataPoints": 100,
           "options": {
@@ -1019,13 +859,13 @@ data:
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imagerotator\"}",
+              "expr": "up{app=\"dima-dima-imageorchestrator\"}",
               "format": "time_series",
               "intervalFactor": 1,
               "refId": "A"
             }
           ],
-          "title": "imagerotator",
+          "title": "imageorchestrator",
           "transparent": true,
           "type": "stat"
         },
@@ -1056,7 +896,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -1073,10 +914,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 15,
-            "y": 20
+            "h": 3,
+            "w": 4,
+            "x": 16,
+            "y": 9
           },
           "id": 17,
           "links": [],
@@ -1126,10 +967,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "mongodb"
+                      "text": "imagerotator"
                     },
                     "1": {
-                      "text": "mongodb"
+                      "text": "imagerotator"
                     }
                   },
                   "type": "value"
@@ -1139,7 +980,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -1156,10 +998,179 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
+            "h": 3,
+            "w": 4,
             "x": 0,
-            "y": 25
+            "y": 12
+          },
+          "id": 16,
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.6",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "expr": "up{app=\"dima-dima-imagerotator\"}",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "title": "imagerotator",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "text": "imagethumbnail"
+                    },
+                    "1": {
+                      "text": "imagethumbnail"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#d44a3a",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "#299c46",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 4,
+            "y": 12
+          },
+          "id": 15,
+          "interval": "",
+          "links": [],
+          "maxDataPoints": 100,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "9.3.6",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "PBFA97CFB590B2093"
+              },
+              "expr": "up{app=\"dima-dima-imagethumbnail\"}",
+              "format": "time_series",
+              "intervalFactor": 1,
+              "refId": "A"
+            }
+          ],
+          "title": "imagethumbnail",
+          "transparent": true,
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "PBFA97CFB590B2093"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "text": "imageresize"
+                    },
+                    "1": {
+                      "text": "imageresize"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#d44a3a",
+                    "value": null
+                  },
+                  {
+                    "color": "rgba(237, 129, 40, 0.89)",
+                    "value": 1
+                  },
+                  {
+                    "color": "#299c46",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 3,
+            "w": 4,
+            "x": 8,
+            "y": 12
           },
           "id": 31,
           "links": [],
@@ -1211,10 +1222,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "traffic-gen"
+                      "text": "imageresize"
                     },
                     "1": {
-                      "text": "traffic-gen"
+                      "text": "imageresize"
                     }
                   },
                   "type": "value"
@@ -1224,7 +1235,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -1241,10 +1253,10 @@ data:
             "overrides": []
           },
           "gridPos": {
-            "h": 5,
-            "w": 5,
-            "x": 5,
-            "y": 25
+            "h": 3,
+            "w": 4,
+            "x": 12,
+            "y": 12
           },
           "id": 32,
           "links": [],
@@ -1312,6 +1324,6 @@ data:
       "timezone": "",
       "title": "Services",
       "uid": "Tj4wl6oZl",
-      "version": 2,
+      "version": 5,
       "weekStart": ""
     }
