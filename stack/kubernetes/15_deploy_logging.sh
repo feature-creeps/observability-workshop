@@ -32,7 +32,7 @@ echo "--- install kibana"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/kibana.yaml --version ${ELASTIC_VERSION} kibana elastic/kibana
 
 echo "--- install metricbeat"
-helm upgrade --install -n "$NAMESPACE" --version ${ELASTIC_VERSION} metricbeat elastic/metricbeat
+helm upgrade --install -n "$NAMESPACE" -f tools/logging/metricbeat.yaml --version ${ELASTIC_VERSION} metricbeat elastic/metricbeat
 
 echo "--- install apm-server"
 helm upgrade --install -n "$NAMESPACE" --version ${ELASTIC_VERSION} apm-server elastic/apm-server

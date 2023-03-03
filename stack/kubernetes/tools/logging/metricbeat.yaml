@@ -1,0 +1,4 @@
+---
+kube_state_metrics:
+  enabled: false
+  host: prometheus-kube-state-metrics.monitoring:8080
