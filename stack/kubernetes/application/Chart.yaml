@@ -17,5 +17,5 @@ dependencies:
   - name: "dima-imagerotator"
   - name: "dima-imagethumbnail"
   - name: "dima-mongodb"
-  - name: "dima-traffic-gen"
+  - name: "dima-trafficgen"
     condition: dima-traffic-gen.enabled

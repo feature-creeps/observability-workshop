@@ -1,7 +1,7 @@
 apiVersion: v2
-name: dima-traffic-gen
+name: dima-trafficgen
 version: 1.0.0
-description: Traffic generator for dima
+description: Microservice trafficgen for dima
 type: application
 keywords:
   - dima
