@@ -43,7 +43,7 @@ public class TransformationRequest {
         return name;
     }
 
-    public List getTransformationTypes() {
+    public List<TransformationType> getTransformationTypes() {
         if (transformations != null) {
             return transformations.stream().map(Transformation::getType).collect(Collectors.toList());
         }

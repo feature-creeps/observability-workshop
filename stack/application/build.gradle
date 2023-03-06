@@ -31,12 +31,6 @@ subprojects {
         implementation 'commons-io:commons-io:2.11.0'
         implementation 'org.apache.commons:commons-lang3:3.12.0'
 
-        // logs
-        implementation 'net.logstash.logback:logstash-logback-encoder:4.11'
-        implementation 'ch.qos.logback:logback-classic:1.2.11'
-        implementation 'ch.qos.logback:logback-core:1.2.11'
-        implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-
         // metrics
         implementation 'io.micrometer:micrometer-core'
         implementation 'io.micrometer:micrometer-registry-prometheus'

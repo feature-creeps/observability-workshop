@@ -39,7 +39,7 @@ public class Transformation {
             case grayscale:
                 return Map.of();
             case resize:
-                return Map.<String, String>of("factor", String.valueOf(random.doubles()));
+                return Map.<String, String>of("factor", String.valueOf(random.nextDouble()));
             default:
                 return Map.of();
         }
