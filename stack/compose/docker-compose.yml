@@ -53,9 +53,6 @@ services:
       args:
         SERVICE: trafficgen
 
-  traffic-gen:
-    build: ../application/traffic-gen
-
 volumes:
   olly-mongodb:
     driver: local

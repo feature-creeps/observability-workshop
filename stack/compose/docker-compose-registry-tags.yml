@@ -27,4 +27,4 @@ services:
     image: ${GKE_REGISTRY}/dima-imagethumbnail:${GITHUB_SHA}
 
   traffic-gen:
-    image: ${GKE_REGISTRY}/dima-traffic-gen:${GITHUB_SHA}
+    image: ${GKE_REGISTRY}/dima-trafficgen:${GITHUB_SHA}
