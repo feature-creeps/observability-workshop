@@ -11,7 +11,8 @@ export const environment = {
     imagegrayscale: 'http://localhost:8083',
     imageresize: 'http://localhost:8084',
     imageflip: 'http://localhost:8085',
-    imagethumbnail: 'http://localhost:8086'
+    imagethumbnail: 'http://localhost:8086',
+    trafficgen: '/proxy/localhost:8087'
   },
   tools: {
     kibana: 'http://kibana.localhost',

@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {environment} from "../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-orchestrate',
@@ -37,7 +37,7 @@ export class OrchestrateComponent implements OnInit {
   }
 
   async showPreview(id: string) {
-    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, { responseType: 'blob' }).toPromise();
     if (data != null) {
       this.displayId = id;
       let reader = new FileReader();
@@ -85,7 +85,7 @@ export class OrchestrateComponent implements OnInit {
     let res;
     try {
       res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', transformationRequestString,
-        {observe: "response", headers: headers, responseType: 'blob'}).toPromise();
+        { observe: "response", headers: headers, responseType: 'blob' }).toPromise();
     } catch (e) {
       console.log(e)
       this.hideTransformed()

@@ -11,7 +11,8 @@ export const environment = {
     imagegrayscale: '/proxy/imagegrayscale',
     imageresize: '/proxy/imageresize',
     imageflip: '/proxy/imageflip',
-    imagethumbnail: '/proxy/imagethumbnail'
+    imagethumbnail: '/proxy/imagethumbnail',
+    trafficgen: '/proxy/trafficgen'
   },
   tools: {
     kibana: ':5601',

@@ -18,5 +18,9 @@
   "/imagegrayscale/*": {
     "target": "http://imagegrayscale:8080/",
     "secure": false
+  },
+  "/trafficgen/*": {
+    "target": "http://trafficgen:8080/",
+    "secure": false
   }
 }
