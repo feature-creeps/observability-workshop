@@ -31,12 +31,16 @@ subprojects {
         implementation 'commons-io:commons-io:2.11.0'
         implementation 'org.apache.commons:commons-lang3:3.12.0'
 
+        // logs
+        runtimeOnly 'net.logstash.logback:logstash-logback-encoder:7.3'
+        
         // metrics
-        implementation 'io.micrometer:micrometer-core'
-        implementation 'io.micrometer:micrometer-registry-prometheus'
+        runtimeOnly 'io.micrometer:micrometer-core'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+        
         // traces
-        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-        implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+        runtimeOnly 'org.springframework.cloud:spring-cloud-starter-sleuth'
+        runtimeOnly 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
