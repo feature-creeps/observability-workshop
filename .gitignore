@@ -21,3 +21,8 @@
 
 **/.compose-project
 results.bin
+
+**/.env
+**/.secrets
+
+stack/key.json

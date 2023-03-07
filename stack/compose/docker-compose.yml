@@ -1,0 +1,58 @@
+version: '3.7'
+services:
+
+  ## Domain
+  frontend:
+    build: ../application/frontend
+
+  imageorchestrator:
+    build:
+      context: ../application
+      args:
+        SERVICE: imageorchestrator
+
+  imageholder:
+    build:
+      context: ../application
+      args:
+        SERVICE: imageholder
+
+  imagerotator:
+    build:
+      context: ../application
+      args:
+        SERVICE: imagerotator
+
+  imagegrayscale:
+    build:
+      context: ../application
+      args:
+        SERVICE: imagegrayscale
+
+  imageresize:
+    build:
+      context: ../application
+      args:
+        SERVICE: imageresize
+
+  imageflip:
+    build:
+      context: ../application
+      args:
+        SERVICE: imageflip
+
+  imagethumbnail:
+    build:
+      context: ../application
+      args:
+        SERVICE: imagethumbnail
+
+  trafficgen:
+    build:
+      context: ../application
+      args:
+        SERVICE: trafficgen
+
+volumes:
+  olly-mongodb:
+    driver: local

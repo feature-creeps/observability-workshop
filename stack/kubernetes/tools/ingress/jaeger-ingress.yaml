@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  name: jaeger-ingress
+  namespace: istio-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: "jaeger.o11y.fans"
+      http:
+        paths:
+          - backend:
+              service:
+                name: tracing
+                port:
+                  number: 80
+            path: /(.*)
+            pathType: Prefix
+  tls:
+    - hosts:
+        - "jaeger.o11y.fans"
+      secretName: jaeger-tls-cert

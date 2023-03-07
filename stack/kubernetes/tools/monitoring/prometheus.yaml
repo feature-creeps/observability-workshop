@@ -1,0 +1,21 @@
+---
+server:
+  ingress:
+    enabled: false
+alertmanager:
+  enabled: false
+kube-state-metrics:
+  enabled: true
+  image:
+    # use compatible version, see https://github.com/kubernetes/kube-state-metrics#compatibility-matrix
+    tag: v2.6.0
+  selfMonitor:
+    enabled: true
+    telemetryPort: 8081
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8081"
+prometheus-node-exporter:
+  enabled: true
+prometheus-pushgateway:
+  enabled: false

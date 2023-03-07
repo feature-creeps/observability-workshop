@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dima-imageorchestrator
+version: 1.0.0
+description: Microservice imageorchestrator for dima
+type: application
+keywords:
+  - dima
+home: https://github.com/feature-creeps/observability-workshop
+sources:
+  - https://github.com/feature-creeps/observability-workshop

@@ -11,12 +11,14 @@ export const environment = {
     imagegrayscale: '/proxy/imagegrayscale',
     imageresize: '/proxy/imageresize',
     imageflip: '/proxy/imageflip',
-    imagethumbnail: '/proxy/imagethumbnail'
+    imagethumbnail: '/proxy/imagethumbnail',
+    trafficgen: '/proxy/trafficgen'
   },
   tools: {
     kibana: ':5601',
     grafana: ':3000',
     prometheus: ':9090',
-    zipkin: ':9411',
+    jaeger: ':9411',
+    kiali: ':20001',
   }
 };

@@ -1,0 +1,232 @@
+plugins:
+  - fluent-plugin-elasticsearch
+  - fluent-plugin-prometheus
+  - fluent-plugin-grafana-loki
+  - fluent-plugin-rewrite-tag-filter
+fileConfigs:
+  01_sources.conf: |-
+    ## logs from podman
+    <source>
+      @type tail
+      @id in_tail_container_logs
+      @label @KUBERNETES
+      path /var/log/containers/*.log
+      pos_file /var/log/fluentd-containers.log.pos
+      tag kubernetes.*
+      read_from_head true
+      skip_refresh_on_startup true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+          time_key time
+          time_type string
+          time_format "%Y-%m-%dT%H:%M:%S.%NZ"
+          keep_time_key false
+        </pattern>
+        <pattern>
+          format regexp
+          expression /^(?<time>.+) (?<stream>stdout|stderr)( (.))? (?<log>.*)$/
+          time_format '%Y-%m-%dT%H:%M:%S.%NZ'
+          keep_time_key false
+        </pattern>
+      </parse>
+      emit_unmatched_lines true
+    </source>
+  02_filters.conf: |-
+    <label @KUBERNETES>
+      <match kubernetes.var.log.containers.fluentd**>
+        @type relabel
+        @label @FLUENT_LOG
+      </match>
+      # <match kubernetes.var.log.containers.**_kube-system_**>
+      #   @type null
+      #   @id ignore_kube_system_logs
+      # </match>
+      <filter kubernetes.**>
+        @type kubernetes_metadata
+        @id filter_kube_metadata
+        skip_labels false
+        skip_container_metadata false
+        skip_namespace_metadata true
+        skip_master_url true
+      </filter>
+
+      # copy log field to message field
+      <filter kubernetes.**>
+        @type record_transformer
+        <record>
+          message ${record["log"]}
+        </record>
+      </filter>
+
+      # write part of container name to service field
+      <filter kubernetes.**>
+        @type parser
+        format /(?<service>[^_]+)/
+        key_name $.kubernetes.container_name
+        reserve_data true
+      </filter>
+
+      # ------------------------- split container logs ------------------------- #
+
+      # rewrite tags based on service name
+      # needs to happen within one match block as non matching results will be discarded
+      # resulting in tags: domain.<service>, mongodb, frontend
+      <match kubernetes.**>
+        @type rewrite_tag_filter
+        <rule>
+          key service
+          pattern ^(.*dima-image.+)$
+          tag domain.$1
+        </rule>
+        <rule>
+          key service
+          pattern ^(.*dima-mongodb)$
+          tag $1
+        </rule>
+        <rule>
+          key service
+          pattern ^(.*dima-frontend)$
+          tag $1
+        </rule>
+      </match>
+
+      # ------------------------- handle domain service logs ------------------------- #
+
+      # parse log field as json
+      <filter domain.*>
+        @type parser
+        format json
+        key_name log
+        reserve_data true
+      </filter>
+
+      # remove tag field & log field (it is either in message now or parsed)
+      <filter domain.*>
+        @type record_transformer
+        remove_keys log,tag
+      </filter>
+
+      # ------------------------- split domain services' events ------------------------- #
+
+      # reroute image* services' events to domain.<service>.event
+      # field logger_name is set to event in case of event, others are set to the class
+      <match domain.*>
+        @type rewrite_tag_filter
+        <rule>
+          key logger_name
+          pattern ^(.+)$
+          tag ${tag}.$1
+        </rule>
+      </match>
+
+      <match **>
+        @type relabel
+        @label @DISPATCH
+      </match>
+    </label>
+  03_dispatch.conf: |-
+    <label @DISPATCH>
+      <filter **>
+        @type prometheus
+        <metric>
+          name fluentd_input_status_num_records_total
+          type counter
+          desc The total number of incoming records
+          <labels>
+            tag ${tag}
+            hostname ${hostname}
+          </labels>
+        </metric>
+      </filter>
+      <match **>
+        @type relabel
+        @label @OUTPUT
+      </match>
+    </label>
+  04_outputs.conf: |-
+    <label @OUTPUT>
+      # ------------------------- outputs ------------------------- #
+
+      # send all logs from fluentd itself to their own index "fluent"
+      <match fluent.**>
+        @type                 elasticsearch
+        host                  elasticsearch-master
+        port                  9200
+        user                  elastic
+        password              changeme
+        logstash_format       true
+        logstash_prefix       fluent
+        logstash_dateformat   %Y.%m.%d
+        include_tag_key       true
+        type_name             log
+        tag_key               @tag
+        <buffer>
+          flush_interval      1s
+          flush_thread_count  2
+        </buffer>
+      </match>
+
+      # send all domain events to their own index "events"
+      <match domain.*.event>
+        @type                 elasticsearch
+        host                  elasticsearch-master
+        port                  9200
+        user                  elastic
+        password              changeme
+        logstash_format       true
+        logstash_prefix       events
+        logstash_dateformat   %Y.%m.%d
+        include_tag_key       true
+        type_name             event
+        tag_key               @tag
+        <buffer>
+          flush_interval      1s
+          flush_thread_count  2
+        </buffer>
+      </match>
+
+      <match domain.*.** mongodb frontend>
+        @type copy
+        # send all remaining logs from the domain services, mongodb and frontend to "logs"
+        <store>
+          @type                 elasticsearch
+          host                  elasticsearch-master
+          port                  9200
+          user                  elastic
+          password              changeme
+          logstash_format       true
+          logstash_prefix       logs
+          logstash_dateformat   %Y.%m.%d
+          include_tag_key       true
+          type_name             log
+          tag_key               @tag
+          <buffer>
+            flush_interval      1s
+            flush_thread_count  2
+          </buffer>
+        </store>
+      </match>
+
+      # catch all for any potential unmatched logs
+      <match **.**>
+        @type                 elasticsearch
+        host                  elasticsearch-master
+        port                  9200
+        user                  elastic
+        password              changeme
+        logstash_format       true
+        logstash_prefix       unmatched
+        logstash_dateformat   %Y.%m.%d
+        include_tag_key       true
+        type_name             log
+        tag_key               @tag
+        <buffer>
+          flush_interval      1s
+          flush_thread_count  2
+        </buffer>
+      </match>
+
+    </label>
+

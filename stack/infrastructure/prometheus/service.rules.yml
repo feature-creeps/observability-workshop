@@ -1,6 +1,0 @@
-groups:
-  - name: status
-    rules:
-    - alert: job:down
-      expr: up < 1
-      for: 60s # default 0s

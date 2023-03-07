@@ -1,10 +1,10 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
-
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -19,13 +19,14 @@ public class ImageResizeClient {
     @Autowired
     RestTemplate restTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageResizeClient.class);
+    @Value("${imageresize.baseUrl}")
+    private String imageresizeBaseUrl;
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageResizeClient.class);
 
     public Image transform(Image image, String factor) {
 
-        LOGGER.info("Resizing image by factor {} ",factor);
-
+        LOGGER.info("Resizing image by factor {} ", factor);
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -44,10 +45,11 @@ public class ImageResizeClient {
 
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest,
+                theMultipartHeaders);
 
-
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imageresize:8080/api/image/resize", HttpMethod.POST, requestEntity, byte[].class);
+        ResponseEntity<byte[]> response = restTemplate.exchange(imageresizeBaseUrl + "/api/image/resize",
+                HttpMethod.POST, requestEntity, byte[].class);
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");
         String contentType = "image/png";

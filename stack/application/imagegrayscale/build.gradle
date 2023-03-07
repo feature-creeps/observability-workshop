@@ -1,10 +1,10 @@
 plugins {
-	id 'org.springframework.boot' version "2.1.18.RELEASE"
+	id 'org.springframework.boot' version "2.7.9"
 	id 'java'
 }
 
 bootJar {
-	baseName = 'imagegrayscale'
+	archiveBaseName = 'imagegrayscale'
 }
 
 dependencies {

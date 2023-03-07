@@ -1,0 +1,5 @@
+global:
+  image:
+    tag: 9762646c83543be559ec11d2ef81d2442ddf837d
+dima-traffic-gen:
+  enabled: true

@@ -1,30 +1,61 @@
-# This is a basic workflow that is manually triggered
+name: Deploy to GKE
 
-name: Manual workflow
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
-  workflow_dispatch:
-    # Inputs the workflow accepts.
+  workflow_call:
     inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
+      tag:
+        required: true
+        type: string
+    secrets:
+      GKE_PROJECT:
+        required: true
+      GKE_CLUSTER:
+        required: true
+      GKE_ZONE:
+        required: true
+      GKE_SA_KEY:
+        required: true
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag to deploy'
         required: true
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  GKE_REGISTRY: gcr.io/${{ secrets.GKE_PROJECT }}
+  WIP: 'projects/399309401465/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+  SA: 'github-actions@${{ secrets.GKE_PROJECT }}.iam.gserviceaccount.com'
+
 jobs:
-  # This workflow contains a single job called "greet"
-  greet:
-    # The type of runner that the job will run on
+  deploy:
+    name: Deploy existing images
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    permissions:
+      id-token: 'write'
+
     steps:
-    # Runs a single command using the runners shell
-    - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          workload_identity_provider: ${{ env.WIP }}
+          service_account: ${{ env.SA }}
+
+      - name: Fetch GKE credentials
+        uses: google-github-actions/get-gke-credentials@v1
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_ZONE }}
+
+      - name: Deploy dima services on GKE
+        env:
+          GKE_REGISTRY: ${{ env.GKE_REGISTRY }}
+          IMAGE_TAG: ${{ inputs.tag }}
+        working-directory: stack/kubernetes
+        run: ./16_deploy_dima.sh ${IMAGE_TAG}

@@ -1,8 +1,8 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
-
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -17,9 +17,10 @@ public class ImageGrayscaleClient {
     @Autowired
     RestTemplate restTemplate;
 
+    @Value("${imagegrayscale.baseUrl}")
+    private String imagegrayscaleBaseUrl;
 
     public Image transform(Image image) {
-
 
         MultiValueMap<String, String> fileMap = new LinkedMultiValueMap<>();
         ContentDisposition contentDisposition = ContentDisposition
@@ -35,14 +36,13 @@ public class ImageGrayscaleClient {
 
         theMulitpartRequest.add("image", fileEntity);
 
-
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest, theMultipartHeaders);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(theMulitpartRequest,
+                theMultipartHeaders);
 
-
-        ResponseEntity<byte[]> response = restTemplate.exchange("http://imagegrayscale:8080/api/image/grayscale", HttpMethod.POST, requestEntity, byte[].class);
-
+        ResponseEntity<byte[]> response = restTemplate.exchange(imagegrayscaleBaseUrl + "/api/image/grayscale",
+                HttpMethod.POST, requestEntity, byte[].class);
 
         Collection<String> contentTypes = response.getHeaders().get("content-type");
         String contentType = "image/png";

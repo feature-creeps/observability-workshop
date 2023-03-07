@@ -20,6 +20,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.btn-inline {
+  display: inline-block;
+  margin: 2.5%;
+  width: 45%;
+}
+
 .dima-btn {
   font-size: 16px;
   -webkit-user-select: text;

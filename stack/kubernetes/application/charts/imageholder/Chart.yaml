@@ -1,0 +1,10 @@
+apiVersion: v2
+name: dima-imageholder
+version: 1.0.0
+description: Microservice imageholder for dima
+type: application
+keywords:
+  - dima
+home: https://github.com/feature-creeps/observability-workshop
+sources:
+  - https://github.com/feature-creeps/observability-workshop

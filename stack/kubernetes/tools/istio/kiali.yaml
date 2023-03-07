@@ -1,0 +1,14 @@
+---
+auth:
+  strategy: anonymous
+deployment:
+  pod_annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+external_services:
+    prometheus:
+      url: "http://prometheus-server.monitoring/"
+    grafana:
+      enabled: true
+      in_cluster_url: "http://grafana.monitoring/"
+      url: "https://grafana.o11y.fans/"

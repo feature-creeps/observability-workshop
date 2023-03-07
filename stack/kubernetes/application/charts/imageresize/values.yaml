@@ -1,0 +1,4 @@
+image:
+  repository: gcr.io/olly-2021-k8s-migration/dima-imageresize
+#  tag: 32ef28fee149f1e8e130d9c655b3892078302dae
+host: o11y.fans

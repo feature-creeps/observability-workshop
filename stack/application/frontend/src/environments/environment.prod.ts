@@ -7,12 +7,14 @@ export const environment = {
     imagegrayscale: '/proxy/imagegrayscale',
     imageresize: '/proxy/imageresize',
     imageflip: '/proxy/imageflip',
-    imagethumbnail: '/proxy/imagethumbnail'
+    imagethumbnail: '/proxy/imagethumbnail',
+    trafficgen: '/proxy/trafficgen'
   },
   tools: {
-    kibana: ':5601',
-    grafana: ':3000',
-    prometheus: ':9090',
-    zipkin: ':9411',
+    kibana: 'https://kibana.o11y.fans',
+    grafana: 'https://grafana.o11y.fans',
+    prometheus: 'https://prometheus.o11y.fans',
+    jaeger: 'https://jaeger.o11y.fans',
+    kiali: 'https://kiali.o11y.fans',
   }
 };

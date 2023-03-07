@@ -1,0 +1,52 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-{{ .Chart.Name }}-deployment
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-{{ .Chart.Name }}
+        image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "json-log"
+        - name: EVENTS_ENABLED
+          value: "true"
+        - name: BUSINESS_METRICS_ENABLED
+          value: "true"
+        - name: TRACING_TAGS_ENABLED
+          value: "true"
+        - name: APM_ENABLED
+          value: "true"
+        - name: IMAGEROTATOR_BASEURL
+          value: {{ template "imagerotator.baseUrl" . }} 
+        - name: IMAGEFLIP_BASEURL
+          value: {{ template "imageflip.baseUrl" . }} 
+        - name: IMAGEGRAYSCALE_BASEURL
+          value: {{ template "imagegrayscale.baseUrl" . }} 
+        - name: IMAGEHOLDER_BASEURL
+          value: {{ template "imageholder.baseUrl" . }}
+        - name: IMAGERESIZE_BASEURL
+          value: {{ template "imageresize.baseUrl" . }}
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "200Mi"
+            cpu: "50m"
+          limits:
+            memory: "500Mi"
+            cpu: "200m"

@@ -1,0 +1,1 @@
+The docker-compose.yml is only for build purposes of the dima services and traffic gen.

@@ -1,0 +1,11 @@
+---
+controller:
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "10254"
+    prometheus.io/path: /metrics
+  metrics:
+    enabled: true
+  enableLatencyMetrics: true
+  service:
+    loadBalancerIP: 34.140.57.146

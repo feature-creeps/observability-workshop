@@ -1,11 +1,11 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
-
 import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -20,6 +20,9 @@ public class ImageHolderUploadClient {
 
     @Autowired
     LogTraceContextUtil contextUtil;
+
+    @Value("${imageholder.baseUrl}")
+    private String imageholderBaseUrl;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageHolderUploadClient.class);
 
@@ -42,9 +45,11 @@ public class ImageHolderUploadClient {
 
         HttpHeaders theMultipartHeaders = new HttpHeaders();
         theMultipartHeaders.setContentType(MediaType.MULTIPART_FORM_DATA);
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiPartRequest, theMultipartHeaders);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(multiPartRequest,
+                theMultipartHeaders);
 
-        ResponseEntity<String> response = restTemplate.exchange("http://imageholder:8080/api/images", HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(imageholderBaseUrl + "/api/images",
+                HttpMethod.POST, requestEntity, String.class);
 
         image.setId(extractImageId(response));
 

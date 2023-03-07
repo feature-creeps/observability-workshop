@@ -1,0 +1,802 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: application-health-dashboard
+  namespace: monitoring
+  labels:
+     grafana_dashboard: ""
+     grafana_folder: "application"
+data:
+  application-health-dashboard.json: |-
+    {
+        "annotations": {
+            "list": [
+                {
+                    "builtIn": 1,
+                    "datasource": "-- Grafana --",
+                    "enable": true,
+                    "hide": true,
+                    "iconColor": "rgba(0, 211, 255, 1)",
+                    "name": "Annotations & Alerts",
+                    "type": "dashboard"
+                }
+            ]
+        },
+        "editable": true,
+        "gnetId": null,
+        "graphTooltip": 0,
+        "id": 3,
+        "iteration": 1572363892000,
+        "links": [],
+        "panels": [
+            {
+                "cacheTimeout": null,
+                "colorBackground": true,
+                "colorValue": false,
+                "colors": [
+                    "#d44a3a",
+                    "rgba(237, 129, 40, 0.89)",
+                    "#299c46"
+                ],
+                "decimals": null,
+                "description": "This panel indicates if the Docker container is considered running",
+                "format": "none",
+                "gauge": {
+                    "maxValue": 100,
+                    "minValue": 0,
+                    "show": false,
+                    "thresholdLabels": false,
+                    "thresholdMarkers": true
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 0,
+                    "y": 0
+                },
+                "id": 2,
+                "interval": null,
+                "links": [],
+                "mappingType": 1,
+                "mappingTypes": [
+                    {
+                        "name": "value to text",
+                        "value": 1
+                    },
+                    {
+                        "name": "range to text",
+                        "value": 2
+                    }
+                ],
+                "maxDataPoints": 100,
+                "nullPointMode": "connected",
+                "nullText": null,
+                "postfix": "",
+                "postfixFontSize": "50%",
+                "prefix": "",
+                "prefixFontSize": "50%",
+                "rangeMaps": [
+                    {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                    }
+                ],
+                "sparkline": {
+                    "fillColor": "#1F60C4",
+                    "full": true,
+                    "lineColor": "#5794F2",
+                    "show": true
+                },
+                "tableColumn": "",
+                "targets": [
+                    {
+                        "expr": "min(sum by(app) (up{namespace=\"dima\"}))",
+                        "format": "time_series",
+                        "instant": false,
+                        "intervalFactor": 1,
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": "1,1",
+                "timeFrom": null,
+                "timeShift": null,
+                "title": "Application Running",
+                "type": "singlestat",
+                "valueFontSize": "200%",
+                "valueMaps": [
+                    {
+                        "op": "=",
+                        "text": "up",
+                        "value": "1"
+                    },
+                    {
+                        "op": "=",
+                        "text": "down",
+                        "value": "0"
+                    }
+                ],
+                "valueName": "current"
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "description": "A count of all transformation on different image types",
+                "fill": 1,
+                "gridPos": {
+                    "h": 8,
+                    "w": 10,
+                    "x": 4,
+                    "y": 0
+                },
+                "id": 6,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "percentage": false,
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": true,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "expr": "sum(application_transformations_total) by (type)",
+                        "format": "time_series",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{type}}",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeFrom": null,
+                "timeRegions": [],
+                "timeShift": null,
+                "title": "Requests per image type",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "buckets": null,
+                    "mode": "time",
+                    "name": null,
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false,
+                    "alignLevel": null
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "description": "This shows a stacked graph of requests per transformation type.",
+                "fill": 1,
+                "gridPos": {
+                    "h": 8,
+                    "w": 10,
+                    "x": 14,
+                    "y": 0
+                },
+                "id": 4,
+                "legend": {
+                    "alignAsTable": false,
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "rightSide": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "percentage": false,
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [
+                    {
+                        "alias": ".*200",
+                        "color": "#37872D"
+                    },
+                    {
+                        "alias": ".*500",
+                        "color": "#C4162A"
+                    }
+                ],
+                "spaceLength": 10,
+                "stack": true,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "expr": "sum(http_server_requests_seconds_count{uri=~\"/api/.*[^spans]\"}) by (app)",
+                        "format": "time_series",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{app}}",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeFrom": null,
+                "timeRegions": [],
+                "timeShift": null,
+                "title": "Requests by transformation type",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "buckets": null,
+                    "mode": "time",
+                    "name": null,
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false,
+                    "alignLevel": null
+                }
+            },
+            {
+                "description": "We have an SLO of \"one 9\" (90%) sucecss rate for customer requests. ",
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 0,
+                    "y": 5
+                },
+                "id": 11,
+                "links": [],
+                "options": {
+                    "maxValue": "1",
+                    "minValue": 0,
+                    "orientation": "auto",
+                    "showThresholdLabels": false,
+                    "showThresholdMarkers": true,
+                    "thresholds": [
+                        {
+                            "color": "red",
+                            "index": 0,
+                            "value": null
+                        },
+                        {
+                            "color": "dark-green",
+                            "index": 1,
+                            "value": 0.9
+                        }
+                    ],
+                    "valueMappings": [],
+                    "valueOptions": {
+                        "decimals": null,
+                        "prefix": "",
+                        "stat": "last",
+                        "suffix": "",
+                        "unit": "percentunit"
+                    }
+                },
+                "pluginVersion": "6.1.6",
+                "targets": [
+                    {
+                        "expr": "sum(http_client_requests_seconds_sum{status=~\"2.*\"}) / sum(http_client_requests_seconds_sum{})",
+                        "format": "time_series",
+                        "instant": true,
+                        "intervalFactor": 1,
+                        "refId": "A"
+                    }
+                ],
+                "timeFrom": null,
+                "timeShift": null,
+                "title": "Successful customer requests",
+                "type": "gauge"
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "description": "A graph of all warning logs per transformation type",
+                "fill": 1,
+                "gridPos": {
+                    "h": 8,
+                    "w": 10,
+                    "x": 4,
+                    "y": 8
+                },
+                "id": 8,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "percentage": false,
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "expr": "sum(logback_events_total{level=~\"warn\"}) by (app)",
+                        "format": "time_series",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{app}}",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeFrom": null,
+                "timeRegions": [],
+                "timeShift": null,
+                "title": "Transformation warnings logs",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "buckets": null,
+                    "mode": "time",
+                    "name": null,
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false,
+                    "alignLevel": null
+                }
+            },
+            {
+                "aliasColors": {},
+                "bars": false,
+                "dashLength": 10,
+                "dashes": false,
+                "description": "A graph of all error logs per transformation type",
+                "fill": 1,
+                "gridPos": {
+                    "h": 8,
+                    "w": 10,
+                    "x": 14,
+                    "y": 8
+                },
+                "id": 9,
+                "legend": {
+                    "avg": false,
+                    "current": false,
+                    "max": false,
+                    "min": false,
+                    "show": true,
+                    "total": false,
+                    "values": false
+                },
+                "lines": true,
+                "linewidth": 1,
+                "links": [],
+                "nullPointMode": "null",
+                "percentage": false,
+                "pointradius": 2,
+                "points": false,
+                "renderer": "flot",
+                "seriesOverrides": [],
+                "spaceLength": 10,
+                "stack": false,
+                "steppedLine": false,
+                "targets": [
+                    {
+                        "expr": "sum(logback_events_total{level=~\"error\"}) by (app)",
+                        "format": "time_series",
+                        "intervalFactor": 1,
+                        "legendFormat": "{{app}}",
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": [],
+                "timeFrom": null,
+                "timeRegions": [],
+                "timeShift": null,
+                "title": "Transformation error logs",
+                "tooltip": {
+                    "shared": true,
+                    "sort": 0,
+                    "value_type": "individual"
+                },
+                "type": "graph",
+                "xaxis": {
+                    "buckets": null,
+                    "mode": "time",
+                    "name": null,
+                    "show": true,
+                    "values": []
+                },
+                "yaxes": [
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    },
+                    {
+                        "format": "short",
+                        "label": null,
+                        "logBase": 1,
+                        "max": null,
+                        "min": null,
+                        "show": true
+                    }
+                ],
+                "yaxis": {
+                    "align": false,
+                    "alignLevel": null
+                }
+            },
+            {
+                "cacheTimeout": null,
+                "colorBackground": false,
+                "colorValue": false,
+                "colors": [
+                    "#299c46",
+                    "rgba(237, 129, 40, 0.89)",
+                    "#d44a3a"
+                ],
+                "format": "none",
+                "gauge": {
+                    "maxValue": 100,
+                    "minValue": 0,
+                    "show": false,
+                    "thresholdLabels": false,
+                    "thresholdMarkers": true
+                },
+                "gridPos": {
+                    "h": 5,
+                    "w": 4,
+                    "x": 0,
+                    "y": 10
+                },
+                "id": 17,
+                "interval": null,
+                "links": [],
+                "mappingType": 1,
+                "mappingTypes": [
+                    {
+                        "name": "value to text",
+                        "value": 1
+                    },
+                    {
+                        "name": "range to text",
+                        "value": 2
+                    }
+                ],
+                "maxDataPoints": 100,
+                "nullPointMode": "connected",
+                "nullText": null,
+                "postfix": "",
+                "postfixFontSize": "50%",
+                "prefix": "",
+                "prefixFontSize": "50%",
+                "rangeMaps": [
+                    {
+                        "from": "null",
+                        "text": "N/A",
+                        "to": "null"
+                    }
+                ],
+                "sparkline": {
+                    "fillColor": "rgba(31, 118, 189, 0.18)",
+                    "full": false,
+                    "lineColor": "rgb(31, 120, 193)",
+                    "show": false
+                },
+                "tableColumn": "",
+                "targets": [
+                    {
+                        "expr": "application_images_in_database",
+                        "format": "time_series",
+                        "intervalFactor": 1,
+                        "refId": "A"
+                    }
+                ],
+                "thresholds": "",
+                "timeFrom": null,
+                "timeShift": null,
+                "title": "Images in the database",
+                "type": "singlestat",
+                "valueFontSize": "80%",
+                "valueMaps": [
+                    {
+                        "op": "=",
+                        "text": "N/A",
+                        "value": "null"
+                    }
+                ],
+                "valueName": "avg"
+            },
+            {
+                "columns": [],
+                "fontSize": "100%",
+                "gridPos": {
+                    "h": 6,
+                    "w": 10,
+                    "x": 4,
+                    "y": 16
+                },
+                "id": 13,
+                "links": [],
+                "pageSize": null,
+                "scroll": true,
+                "showHeader": true,
+                "sort": {
+                    "col": 2,
+                    "desc": true
+                },
+                "styles": [
+                    {
+                        "alias": "source image id",
+                        "colorMode": null,
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)",
+                            "rgba(237, 129, 40, 0.89)",
+                            "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "decimals": 2,
+                        "link": true,
+                        "linkTargetBlank": true,
+                        "linkTooltip": "",
+                        "linkUrl": "http://46.101.170.74/proxy/imageholder/api/images/${__cell}",
+                        "mappingType": 1,
+                        "pattern": "sourceId",
+                        "preserveFormat": false,
+                        "sanitize": false,
+                        "thresholds": [],
+                        "type": "string",
+                        "unit": "short",
+                        "valueMaps": []
+                    },
+                    {
+                        "alias": "number of transformations",
+                        "colorMode": null,
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)",
+                            "rgba(237, 129, 40, 0.89)",
+                            "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 0,
+                        "link": false,
+                        "mappingType": 1,
+                        "pattern": "Value",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                    },
+                    {
+                        "alias": "",
+                        "colorMode": null,
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)",
+                            "rgba(237, 129, 40, 0.89)",
+                            "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "decimals": 2,
+                        "link": false,
+                        "mappingType": 1,
+                        "pattern": "Time",
+                        "thresholds": [],
+                        "type": "hidden",
+                        "unit": "short"
+                    }
+                ],
+                "targets": [
+                    {
+                        "expr": "topk(5,sum(application_images_transformed_total)by(sourceId))",
+                        "format": "table",
+                        "instant": true,
+                        "intervalFactor": 1,
+                        "refId": "A"
+                    }
+                ],
+                "timeFrom": null,
+                "timeShift": null,
+                "title": "Top images transformed",
+                "transform": "table",
+                "type": "table"
+            },
+            {
+                "columns": [],
+                "fontSize": "100%",
+                "gridPos": {
+                    "h": 6,
+                    "w": 10,
+                    "x": 14,
+                    "y": 16
+                },
+                "id": 15,
+                "links": [],
+                "pageSize": null,
+                "scroll": true,
+                "showHeader": true,
+                "sort": {
+                    "col": 2,
+                    "desc": true
+                },
+                "styles": [
+                    {
+                        "alias": "Time",
+                        "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                        "pattern": "Time",
+                        "type": "hidden"
+                    },
+                    {
+                        "alias": "",
+                        "colorMode": null,
+                        "colors": [
+                            "rgba(245, 54, 54, 0.9)",
+                            "rgba(237, 129, 40, 0.89)",
+                            "rgba(50, 172, 45, 0.97)"
+                        ],
+                        "decimals": 2,
+                        "pattern": "/.*/",
+                        "thresholds": [],
+                        "type": "number",
+                        "unit": "short"
+                    }
+                ],
+                "targets": [
+                    {
+                        "expr": "topk(5, sum(application_images_viewed_total)by(name))",
+                        "format": "table",
+                        "instant": true,
+                        "intervalFactor": 1,
+                        "legendFormat": "",
+                        "refId": "A"
+                    }
+                ],
+                "timeFrom": null,
+                "timeShift": null,
+                "title": "Most viewed images",
+                "transform": "table",
+                "type": "table"
+            }
+        ],
+        "schemaVersion": 18,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": [
+                {
+                    "datasource": null,
+                    "filters": [],
+                    "hide": 0,
+                    "label": "",
+                    "name": "Filters",
+                    "skipUrlSync": false,
+                    "type": "adhoc"
+                }
+            ]
+        },
+        "time": {
+            "from": "now-5m",
+            "to": "now"
+        },
+        "timepicker": {
+            "refresh_intervals": [
+                "5s",
+                "10s",
+                "30s",
+                "1m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "1d"
+            ],
+            "time_options": [
+                "5m",
+                "15m",
+                "1h",
+                "6h",
+                "12h",
+                "24h",
+                "2d",
+                "7d",
+                "30d"
+            ]
+        },
+        "timezone": "",
+        "title": "Application health",
+        "uid": "u53ohFWZk",
+        "version": 1
+    }

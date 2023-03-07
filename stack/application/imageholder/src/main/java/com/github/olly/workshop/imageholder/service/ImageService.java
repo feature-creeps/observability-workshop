@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
@@ -66,7 +67,8 @@ public class ImageService {
 
     public Collection<Image> findWithNamesContaining(String fragment) {
         this.eventService.addFieldToActiveEvent("search.fragment", fragment);
-        return imageRepository.findByNameContaining(fragment);
+        Collection<Image> allImages = imageRepository.findAllIds();
+        return allImages.stream().filter(i -> i.getName().contains(fragment)).collect(Collectors.toList());
     }
 
 

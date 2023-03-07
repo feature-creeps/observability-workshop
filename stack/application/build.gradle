@@ -1,5 +1,5 @@
 plugins {
-    id "io.spring.dependency-management" version "1.0.8.RELEASE"
+    id "io.spring.dependency-management" version "1.1.0"
 }
 
 subprojects {
@@ -17,8 +17,8 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.RELEASE"
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.1.18.RELEASE"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.6"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.9"
         }
     }
     task allDeps(type: DependencyReportTask) {}
@@ -28,29 +28,30 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 
         // commons
-        implementation 'commons-io:commons-io:2.6'
-        implementation 'org.apache.commons:commons-lang3:3.0'
+        implementation 'commons-io:commons-io:2.11.0'
+        implementation 'org.apache.commons:commons-lang3:3.12.0'
 
         // logs
-        implementation 'net.logstash.logback:logstash-logback-encoder:4.5.1'
-        implementation 'ch.qos.logback:logback-classic:1.1.6'
-        implementation 'ch.qos.logback:logback-core:1.1.6'
-        implementation 'org.apache.logging.log4j:log4j-core:2.15.0'
-
+        runtimeOnly 'net.logstash.logback:logstash-logback-encoder:7.3'
+        
         // metrics
-        implementation 'io.micrometer:micrometer-core'
-        implementation 'io.micrometer:micrometer-registry-prometheus'
+        runtimeOnly 'io.micrometer:micrometer-core'
+        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+        
         // traces
         implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-        implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+        runtimeOnly 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
 
         // events
-        implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.0.7'
+        implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
 
-        // todo: remove this dep
-        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.0.0'
-
+        // tests
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+        // tests still using junit4
+        testImplementation("org.junit.vintage:junit-vintage-engine") {
+            exclude group: "org.hamcrest", module: "hamcrest-core"
+        }
     }
 
 }
@@ -75,9 +76,12 @@ void resolveConfiguration(configuration) {
 }
 
 boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['api', 'apiElements', 'implementation',
+    def nonResolveableConfigurations = ['api', 'apiElements', 'compileOnly', 'compileOnlyApi', 
+                                        'implementation', 'integrationTestCompileOnly', 'integrationTestImplementation',
+                                        'integrationTestRuntimeOnly', 'mainSourceElements',
                                         'runtimeElements', 'runtimeOnly',
-                                        'testImplementation', 'testRuntimeOnly',
+                                        'testCompileOnly', 'testImplementation', 'testResultsElementsForTest',
+                                        'testRuntimeOnly',
                                         'generatedImplementation', 'generatedRuntimeOnly']
 
     if (nonResolveableConfigurations.contains(configuration.getName())) {

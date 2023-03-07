@@ -5,21 +5,19 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version "2.1.18.RELEASE"
+    id 'org.springframework.boot' version "2.7.9"
     id 'java'
 }
 
 apply plugin: 'de.db.vz.msintplugin'
 
 bootJar {
-    baseName = 'imageorchestrator'
+    archiveBaseName = 'imageorchestrator'
 }
 
 dependencies {
     implementation project(':springevents')
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-ribbon'
 
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
+    implementation 'com.google.guava:guava:31.1-jre'
 }

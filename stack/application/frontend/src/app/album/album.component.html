@@ -8,15 +8,15 @@
 
   <div class="container">
     <form (ngSubmit)="previousPage()">
-      <button class="btn btn-primary btn-block dima-btn"
+      <button class="btn btn-primary btn-inline dima-btn"
+              style="float: left"
               type="submit"
               disabled="disabled"
               id="prevButton">Previous page..
       </button>
     </form>
-    <br/>
     <form (ngSubmit)="nextPage()">
-      <button class="btn btn-primary btn-block dima-btn"
+      <button class="btn btn-primary btn-inline dima-btn"
               type="submit"
               id="nextButton">Next page..
       </button>
