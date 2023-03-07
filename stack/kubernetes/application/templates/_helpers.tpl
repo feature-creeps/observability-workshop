@@ -16,6 +16,9 @@
 {{- define "dima-imagethumbnail.service.name" -}}
     {{ .Release.Name }}-imagethumbnail-service
 {{- end -}}
+{{- define "dima-trafficgen.service.name" -}}
+    {{ .Release.Name }}-trafficgen-service
+{{- end -}}
 {{- define "dima-mongodb.service.name" -}}
     {{ .Release.Name }}-mongodb-service
 {{- end -}}
