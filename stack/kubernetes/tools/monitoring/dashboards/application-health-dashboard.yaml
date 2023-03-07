@@ -251,10 +251,10 @@ data:
                 "steppedLine": false,
                 "targets": [
                     {
-                        "expr": "sum(http_server_requests_seconds_count{uri=~\"/api/.*[^spans]\"}) by (job)",
+                        "expr": "sum(http_server_requests_seconds_count{uri=~\"/api/.*[^spans]\"}) by (app)",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{job}}",
+                        "legendFormat": "{{app}}",
                         "refId": "A"
                     }
                 ],
@@ -388,10 +388,10 @@ data:
                 "steppedLine": false,
                 "targets": [
                     {
-                        "expr": "logback_events_total{level=~\"warn\"}",
+                        "expr": "sum(logback_events_total{level=~\"warn\"}) by (app)",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{job}}",
+                        "legendFormat": "{{app}}",
                         "refId": "A"
                     }
                 ],
@@ -473,10 +473,10 @@ data:
                 "steppedLine": false,
                 "targets": [
                     {
-                        "expr": "logback_events_total{level=~\"error\"}",
+                        "expr": "sum(logback_events_total{level=~\"error\"}) by (app)",
                         "format": "time_series",
                         "intervalFactor": 1,
-                        "legendFormat": "{{job}}",
+                        "legendFormat": "{{app}}",
                         "refId": "A"
                     }
                 ],

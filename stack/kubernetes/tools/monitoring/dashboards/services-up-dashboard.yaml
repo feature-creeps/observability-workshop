@@ -341,10 +341,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "grafana"
+                      "text": "jaeger"
                     },
                     "1": {
-                      "text": "grafana"
+                      "text": "jaeger"
                     }
                   },
                   "type": "value"
@@ -428,10 +428,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "grafana"
+                      "text": "kiali"
                     },
                     "1": {
-                      "text": "grafana"
+                      "text": "kiali"
                     }
                   },
                   "type": "value"
@@ -1283,14 +1283,14 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "sum(up{job_name=\"dima-dima-traffic-gen-job\"})",
+              "expr": "sum(up{app=\"dima-dima-trafficgen\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "traffic-gen",
+          "title": "trafficgen",
           "transparent": true,
           "type": "stat"
         }
