@@ -82,13 +82,14 @@ dashboardProviders:
       type: file
 dashboards:
   infra:
-    prometheus-stats:
-      gnetId: 3662
-      revision: 2
-      datasource: Prometheus
     kubernetes:
       gnetId: 13332
       revision: 12
+      datasource: Prometheus
+  tools:      
+    prometheus-stats:
+      gnetId: 3662
+      revision: 2
       datasource: Prometheus
     ingress-nginx:
       gnetId: 9614
@@ -96,6 +97,10 @@ dashboards:
       datasource: Prometheus
     elasticsearch:
       gnetId: 13071
+      revision: 1
+      datasource: Prometheus
+    jaeger:
+      gnetId: 12535
       revision: 1
       datasource: Prometheus
   istio:
