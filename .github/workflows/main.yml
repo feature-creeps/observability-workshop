@@ -8,8 +8,8 @@ env:
   SA: 'github-actions@${{ secrets.GKE_PROJECT }}.iam.gserviceaccount.com'
 
 jobs:
-  setup-build-publish:
-    name: Setup, Build, Publish
+  build-publish:
+    name: Build, Publish
     runs-on: ubuntu-latest
 
     permissions:
@@ -28,21 +28,24 @@ jobs:
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v1
 
-      # - name: Configure Docker
-      #   run: |-
-      #     gcloud --quiet auth configure-docker gcr.io
+      - name: Configure Docker
+        run: |-
+          gcloud --quiet auth configure-docker gcr.io
 
-      # - name: Install docker-compose for python3
-      #   run: pip3 install docker-compose --upgrade
+      - name: Install docker-compose for python3
+        run: pip3 install docker-compose --upgrade
 
-      # - name: Build all images
-      #   working-directory: ./stack/compose
-      #   run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml build --parallel
+      - name: Build all images
+        working-directory: ./stack/compose
+        run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml build --parallel
 
-      # - name: Push all images
-      #   working-directory: ./stack/compose
-      #   run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml push
+      - name: Push all images
+        working-directory: ./stack/compose
+        run: docker-compose -f docker-compose.yml -f docker-compose-registry-tags.yml push
+
   deploy:
+    name: Deploy in GKE
+    if: ${{ github.ref == 'refs/heads/main' }}
     uses: ./.github/workflows/deploy.yml
     with:
       tag: ${{ github.sha	}}
