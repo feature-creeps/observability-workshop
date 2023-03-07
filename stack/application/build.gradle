@@ -45,9 +45,7 @@ subprojects {
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
 
-        // todo: remove this dep
-        implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:2.1.2'
-
+        // tests
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
         // tests still using junit4
