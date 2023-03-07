@@ -45,4 +45,4 @@ jobs:
   deploy:
     uses: ./.github/workflows/deploy.yml
     with:
-      tag: ${{ GITHUB_SHA }}
+      tag: ${{ github.sha	}}
