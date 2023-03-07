@@ -1,6 +1,13 @@
 ---
 adminUser: grafana
 adminPassword: changeme
+resources: {}
+ limits:
+   cpu: 80m
+   memory: 128Mi
+ requests:
+   cpu: 100m
+   memory: 128Mi
 persistence:
   enabled: "true"
   size: 5Gi

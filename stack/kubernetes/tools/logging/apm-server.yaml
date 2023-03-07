@@ -1,8 +1,8 @@
 ---
 resources:
   requests:
-    cpu: "50m"
+    cpu: "25m"
     memory: "100Mi"
   limits:
-    cpu: "200m"
+    cpu: "100m"
     memory: "200Mi"
