@@ -10,8 +10,8 @@
       <div class="col-md-6">
         <h2>Upload images</h2>
         <p>Upload default images</p>
-        <form (ngSubmit)="uploadAll()" #deleteAllForm="ngForm" id="uploadAllImagesForm">
-          <button class="col-md-6 btn btn-block dima-btn" type="submit" id="uploadAllButton">
+        <form (ngSubmit)="uploadAll()" #uploadAllImagesForm="ngForm" id="uploadAllImagesForm">
+          <button class="btn btn-primary btn-block dima-btn" type="submit" id="uploadAllButton">
             Upload all images
           </button>
         </form>
@@ -28,8 +28,14 @@
           <input type="submit" class="btn btn-primary btn-block dima-btn"
             (click)="sendTransformationRequest(formInput)" />
         </form>
+        <form (ngSubmit)="stopTransformationTraffic()" #stopTransformationTrafficForm="ngForm"
+          id="stopTransformationTrafficForm">
+          <button class="btn btn-danger btn-block dima-btn" type="submit" id="stopTransformationTrafficButton">
+            Stop Transformation Traffic
+          </button>
+        </form>
       </div>
     </div>
-    <hr>
+    <div><input hidden="true" style="margin-top:10px;" id="info" readonly /></div>
   </div>
 </main>
