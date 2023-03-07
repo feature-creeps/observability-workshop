@@ -25,7 +25,12 @@ export class TrafficGeneratorComponent {
 
   async sendTransformationRequest(formInput: any) {
     try {
-      await this.http.post(environment.backend.trafficgen + '/api/traffic/image/transform/start?transformationsPerSecond=' + formInput.transformationsPerSecond, null, { responseType: 'text' }).toPromise();
+      let transformationsPerSecond = formInput.querySelectorAll("#transformationsPerSecond")[0].value;
+      if (!transformationsPerSecond) {
+        transformationsPerSecond = 1
+        console.log("Defaulting to 1 transformation request per second.")
+      }
+      await this.http.post(environment.backend.trafficgen + '/api/traffic/image/transform/start?transformationsPerSecond=' + transformationsPerSecond, null, { responseType: 'text' }).toPromise();
       TrafficGeneratorComponent.info("Transformation traffic request sent successfully.", InfoType.success);
     } catch (e) {
       console.log(e)
