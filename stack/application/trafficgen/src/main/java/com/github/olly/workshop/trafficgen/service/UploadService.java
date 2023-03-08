@@ -1,7 +1,5 @@
 package com.github.olly.workshop.trafficgen.service;
 
-import com.github.olly.workshop.trafficgen.service.clients.*;
-
 import feign.FeignException;
 
 import org.slf4j.Logger;
@@ -15,6 +13,9 @@ import java.io.IOException;
 import org.springframework.mock.web.MockMultipartFile;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.github.olly.workshop.trafficgen.clients.*;
+
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;

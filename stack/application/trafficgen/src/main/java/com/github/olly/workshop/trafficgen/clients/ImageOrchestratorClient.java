@@ -1,4 +1,4 @@
-package com.github.olly.workshop.trafficgen.service.clients;
+package com.github.olly.workshop.trafficgen.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
