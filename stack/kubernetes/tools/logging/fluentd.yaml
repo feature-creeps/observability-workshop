@@ -100,7 +100,7 @@ fileConfigs:
       # ------------------------- handle domain service logs ------------------------- #
 
       # parse log field as json
-      <filter domain.*>
+      <filter domain.* trafficgen>
         @type parser
         format json
         key_name log
@@ -108,7 +108,7 @@ fileConfigs:
       </filter>
 
       # remove tag field & log field (it is either in message now or parsed)
-      <filter domain.*>
+      <filter domain.* trafficgen>
         @type record_transformer
         remove_keys log,tag
       </filter>
@@ -192,9 +192,9 @@ fileConfigs:
         </buffer>
       </match>
 
-      <match domain.*.** mongodb frontend>
+      <match domain.*.** mongodb frontend trafficgen>
         @type copy
-        # send all remaining logs from the domain services, mongodb and frontend to "logs"
+        # send all remaining logs from the domain services, mongodb, trafficgen and frontend to "logs"
         <store>
           @type                 elasticsearch
           host                  elasticsearch-master
@@ -214,29 +214,7 @@ fileConfigs:
         </store>
       </match>
 
-      <match trafficgen>
-        @type copy
-        # send all logs from the trafficgen service to "trafficgen-logs"
-        <store>
-          @type                 elasticsearch
-          host                  elasticsearch-master
-          port                  9200
-          user                  elastic
-          password              changeme
-          logstash_format       true
-          logstash_prefix       trafficgen-logs
-          logstash_dateformat   %Y.%m.%d
-          include_tag_key       true
-          type_name             log
-          tag_key               @tag
-          <buffer>
-            flush_interval      1s
-            flush_thread_count  2
-          </buffer>
-        </store>
-      </match>
-
-      # catch all for any potential unmatched logs
+            # catch all for any potential unmatched logs
       <match **.**>
         @type                 elasticsearch
         host                  elasticsearch-master
