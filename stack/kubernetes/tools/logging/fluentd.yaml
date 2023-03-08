@@ -72,7 +72,7 @@ fileConfigs:
 
       # rewrite tags based on service name
       # needs to happen within one match block as non matching results will be discarded
-      # resulting in tags: domain.<service>, mongodb, frontend
+      # resulting in tags: domain.<service>, mongodb, frontend, trafficgen
       <match kubernetes.**>
         @type rewrite_tag_filter
         <rule>
@@ -82,13 +82,18 @@ fileConfigs:
         </rule>
         <rule>
           key service
-          pattern ^(.*dima-mongodb)$
-          tag $1
+          pattern ^(.*dima-mongodb.*)$
+          tag mongodb
         </rule>
         <rule>
           key service
-          pattern ^(.*dima-frontend)$
-          tag $1
+          pattern ^(.*dima-frontend.*)$
+          tag frontend
+        </rule>
+        <rule>
+          key service
+          pattern ^(.*dima-trafficgen.*)$
+          tag trafficgen
         </rule>
       </match>
 
@@ -198,6 +203,28 @@ fileConfigs:
           password              changeme
           logstash_format       true
           logstash_prefix       logs
+          logstash_dateformat   %Y.%m.%d
+          include_tag_key       true
+          type_name             log
+          tag_key               @tag
+          <buffer>
+            flush_interval      1s
+            flush_thread_count  2
+          </buffer>
+        </store>
+      </match>
+
+      <match trafficgen>
+        @type copy
+        # send all logs from the trafficgen service to "trafficgen-logs"
+        <store>
+          @type                 elasticsearch
+          host                  elasticsearch-master
+          port                  9200
+          user                  elastic
+          password              changeme
+          logstash_format       true
+          logstash_prefix       trafficgen-logs
           logstash_dateformat   %Y.%m.%d
           include_tag_key       true
           type_name             log

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-INDICES="logs-* events-*"
+INDICES="logs-* events-* trafficgen-*"
 KIBANA_HOST=kibana-kibana
 
 EXIT=0
