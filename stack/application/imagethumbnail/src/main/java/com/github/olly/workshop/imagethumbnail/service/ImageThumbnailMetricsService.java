@@ -3,7 +3,6 @@ package com.github.olly.workshop.imagethumbnail.service;
 import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.Metrics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,6 @@ public class ImageThumbnailMetricsService extends MetricsService {
         }
     }
 
-    @Autowired
     private ImageThumbnailMetricsService(@Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
         this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
 
