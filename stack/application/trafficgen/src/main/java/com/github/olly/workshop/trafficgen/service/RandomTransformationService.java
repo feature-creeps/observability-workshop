@@ -1,13 +1,14 @@
 package com.github.olly.workshop.trafficgen.service;
 
+import com.github.olly.workshop.trafficgen.clients.*;
 import com.github.olly.workshop.trafficgen.model.Transformation;
-import com.github.olly.workshop.trafficgen.service.clients.*;
 import com.github.olly.workshop.trafficgen.model.TransformationRequest;
 import com.github.olly.workshop.trafficgen.model.TransformationType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -37,6 +38,7 @@ public class RandomTransformationService {
 
     private Random random = new Random();
 
+    @Async
     public void sendRandomRequest() {
         String randomImageId = "";
         try {
