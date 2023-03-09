@@ -4,8 +4,9 @@ metadata:
   name: business-dashboard
   namespace: monitoring
   labels:
-     grafana_dashboard: ""
-     grafana_folder: "application"
+    grafana_dashboard: ""
+  annotations:
+    grafana_folder: "application"
 data:
   business-dashboard.json: |-
     {

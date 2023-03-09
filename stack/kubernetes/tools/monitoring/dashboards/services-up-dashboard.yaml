@@ -4,8 +4,9 @@ metadata:
   name: services-up-dashboard
   namespace: monitoring
   labels:
-     grafana_dashboard: ""
-     grafana_folder: "global"
+    grafana_dashboard: ""
+  annotations:
+    grafana_folder: "global"
 data:
   services-up-dashboard.json: |-
     {

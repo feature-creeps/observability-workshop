@@ -4,8 +4,9 @@ metadata:
   name: trafficgen-dashboard
   namespace: monitoring
   labels:
-     grafana_dashboard: ""
-     grafana_folder: "application"
+    grafana_dashboard: ""
+  annotations:
+    grafana_folder: "application"
 data:
   trafficgen-dashboard.json: |-
     {
