@@ -4,8 +4,9 @@ metadata:
   name: docker-dashboard
   namespace: monitoring
   labels:
-     grafana_dashboard: ""
-     grafana_folder: "infra"
+    grafana_dashboard: ""
+  annotations:
+    grafana_folder: "infra"
 data:
   docker-dashboard.json: |-
     {
