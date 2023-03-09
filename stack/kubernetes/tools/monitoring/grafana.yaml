@@ -17,7 +17,6 @@ sidecar:
     folderAnnotation: "grafana_folder"
     searchNamespace: "monitoring"
     provider:
-      disableDelete: true
       foldersFromFilesStructure: true
 plugins:
   - "raintank-worldping-app"

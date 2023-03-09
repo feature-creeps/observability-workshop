@@ -34,7 +34,7 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 15,
+      "id": 23,
       "links": [],
       "liveNow": false,
       "panels": [
@@ -60,7 +60,7 @@ data:
             "content": "<br/>\n<br/>\n<h1> Technical Services </h1>\n\n\n\n",
             "mode": "html"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -140,16 +140,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{job=\"prometheus\"}",
+              "editorMode": "code",
+              "expr": "sum(up{job=\"prometheus\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -224,7 +226,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -310,7 +312,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -394,7 +396,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -402,7 +404,7 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "up{app=\"jaeger\"}",
+              "expr": "sum(up{app=\"jaeger\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -441,7 +443,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -480,7 +483,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -488,7 +491,7 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "up{app=\"kiali\"}",
+              "expr": "sum(up{app=\"kiali\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -521,7 +524,7 @@ data:
             "content": "<br/>\n<br/>\n<h1> Business Services </h1>\n\n\n\n",
             "mode": "html"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -601,16 +604,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imageflip\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imageflip\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -685,16 +690,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imagegrayscale\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imagegrayscale\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -769,16 +776,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imageholder\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imageholder\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -813,7 +822,8 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "#d44a3a"
+                    "color": "#d44a3a",
+                    "value": null
                   },
                   {
                     "color": "rgba(237, 129, 40, 0.89)",
@@ -852,16 +862,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imageorchestrator\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imageorchestrator\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -936,16 +948,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imageresize\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imageresize\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -1020,16 +1034,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imagerotator\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imagerotator\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -1105,16 +1121,18 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
                 "type": "prometheus",
                 "uid": "PBFA97CFB590B2093"
               },
-              "expr": "up{app=\"dima-dima-imagethumbnail\"}",
+              "editorMode": "code",
+              "expr": "sum(up{app=\"dima-dima-imagethumbnail\"})",
               "format": "time_series",
               "intervalFactor": 1,
+              "range": true,
               "refId": "A"
             }
           ],
@@ -1136,10 +1154,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "imageresize"
+                      "text": "mongodb"
                     },
                     "1": {
-                      "text": "imageresize"
+                      "text": "mongodb"
                     }
                   },
                   "type": "value"
@@ -1189,7 +1207,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -1197,7 +1215,7 @@ data:
                 "uid": "PBFA97CFB590B2093"
               },
               "editorMode": "code",
-              "expr": "up{app=\"dima-dima-mongodb\"}",
+              "expr": "sum(up{app=\"dima-dima-mongodb\"})",
               "format": "time_series",
               "intervalFactor": 1,
               "range": true,
@@ -1222,10 +1240,10 @@ data:
                 {
                   "options": {
                     "0": {
-                      "text": "imageresize"
+                      "text": "trafficgen"
                     },
                     "1": {
-                      "text": "imageresize"
+                      "text": "trafficgen"
                     }
                   },
                   "type": "value"
@@ -1275,7 +1293,7 @@ data:
             },
             "textMode": "auto"
           },
-          "pluginVersion": "9.3.6",
+          "pluginVersion": "9.4.3",
           "targets": [
             {
               "datasource": {
@@ -1295,7 +1313,9 @@ data:
           "type": "stat"
         }
       ],
-      "schemaVersion": 37,
+      "refresh": "",
+      "revision": 1,
+      "schemaVersion": 38,
       "style": "dark",
       "tags": [],
       "templating": {
@@ -1323,7 +1343,7 @@ data:
       },
       "timezone": "",
       "title": "Services",
-      "uid": "Tj4wl6oZl",
-      "version": 5,
+      "uid": "Tj4wl6oZm",
+      "version": 1,
       "weekStart": ""
     }

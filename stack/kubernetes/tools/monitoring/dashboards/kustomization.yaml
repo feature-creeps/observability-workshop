@@ -3,4 +3,5 @@ resources:
   - business-dashboard.yaml
   - docker-dashboard.yaml
   - services-up-dashboard.yaml
+  - trafficgen-dashboard.yaml
   
