@@ -18,9 +18,6 @@ helm upgrade --install -n "$NAMESPACE" --create-namespace -f tools/logging/elast
 echo "--- apply prometheus-elasticsearch-exporter"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/prometheus-elasticsearch-exporter.yaml prometheus-elasticsearch-exporter prometheus-community/prometheus-elasticsearch-exporter
 
-echo "--- apply index-lifecycle-management"
-./tools/logging/index-lifecycle-management/build_deploy.sh "$NAMESPACE"
-
 echo "--- install curator"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/curator.yaml elasticsearch-curator lebenitza/elasticsearch-curator
 
