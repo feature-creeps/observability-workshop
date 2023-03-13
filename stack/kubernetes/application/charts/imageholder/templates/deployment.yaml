@@ -34,8 +34,10 @@ spec:
           value: "true"
         - name: TRACING_TAGS_ENABLED
           value: "true"
+        - name: TRACING_ENABLED
+          value: {{ .Values.tracing.enabled | quote }}
         - name: APM_ENABLED
-          value: "true"
+          value: {{ .Values.apm.enabled | quote }}
         - name: IMAGETHUMBNAIL_BASEURL
           value: {{ template "dima-imagethumbnail.baseUrl" . }}  
         ports:

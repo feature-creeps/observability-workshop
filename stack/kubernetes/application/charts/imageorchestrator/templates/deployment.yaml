@@ -30,8 +30,10 @@ spec:
           value: "true"
         - name: TRACING_TAGS_ENABLED
           value: "true"
+        - name: TRACING_ENABLED
+          value: {{ .Values.tracing.enabled | quote }}
         - name: APM_ENABLED
-          value: "true"
+          value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEROTATOR_BASEURL
           value: {{ template "imagerotator.baseUrl" . }} 
         - name: IMAGEFLIP_BASEURL
