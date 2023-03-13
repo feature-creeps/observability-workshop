@@ -109,9 +109,11 @@ dashboards:
     springboot:
       gnetId: 17175
       revision: 1
-      datasource: 
-        prometheus: Prometheus
-        loki: Loki
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
+      - name: DS_LOKI
+        value: loki
   tools:      
     prometheus-stats:
       gnetId: 3662
