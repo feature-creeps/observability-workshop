@@ -1,0 +1,46 @@
+dima-frontend:
+  image:
+    repository: local/dima-frontend
+  ingress:
+    enabled: false
+dima-imageflip:
+  image:
+    repository: local/dima-imageflip
+  ingress:
+    enabled: false
+dima-imagegrayscale:
+  image:
+    repository: local/dima-imagegrayscale
+  ingress:
+    enabled: false
+dima-imageholder:
+  image:
+    repository: local/dima-imageholder
+  ingress:
+    enabled: false
+dima-imageorchestrator:
+  image:
+    repository: local/dima-imageorchestrator
+  ingress:
+    enabled: false
+dima-imageresize:
+  image:
+    repository: local/dima-imageresize
+  ingress:
+    enabled: false
+dima-imagerotator:
+  image:
+    repository: local/dima-imagerotator
+  ingress:
+    enabled: false
+dima-imagethumbnail:
+  image:
+    repository: local/dima-imagethumbnail
+  ingress:
+    enabled: false
+dima-trafficgen:
+  enabled: true
+  image:
+    repository: local/dima-trafficgen
+  ingress:
+    enabled: false
