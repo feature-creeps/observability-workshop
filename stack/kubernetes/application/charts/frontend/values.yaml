@@ -5,3 +5,6 @@ image:
 ingress:
   enabled: true
   host: o11y.fans
+
+tracing:
+  enabled: true
