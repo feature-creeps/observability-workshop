@@ -11,6 +11,7 @@ SECRET=loki-secrets
 BUCKET_NAME="loki_bucket_o11y_fans"
 
 echo "=== Setup GCS as cloud storage and deploy loki stack in namespace ${NAMESPACE}"
+echo "!!! this should not be run for the local deployment as it will mess with the remote logging !!!"
 
 echo "--- setup GCS as cloud storage for Loki"
 gsutil ls "gs://$BUCKET_NAME/" || gsutil mb -b on -l "$ZONE" -p "$PROJECT" "gs://$BUCKET_NAME/"
@@ -31,7 +32,11 @@ rm $KEY_FILE
 
 echo "--- install and update helm repos"
 helm repo update
+helm repo add fluent https://fluent.github.io/helm-charts
 helm repo add loki-helm https://grafana.github.io/helm-charts/
+
+echo "--- install fluentd (this may already have been done in 24_deploy_logging.sh)"
+helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd fluent/fluentd
 
 echo "--- install loki"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/loki.yaml --create-namespace loki grafana/loki
