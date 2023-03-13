@@ -2,9 +2,37 @@
 auth:
   strategy: anonymous
 deployment:
+  ingress:
+    additional_labels: {}
+    class_name: "nginx"
+    enabled: true
+    override_yaml:
+      metadata: 
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      spec:
+        ingressClassName: nginx
+        rules:
+          - host: kiali.o11y.fans
+            http:
+              paths:
+                - backend:
+                    service:
+                      name: kiali
+                      port:
+                        number: 20001
+                  path: /(.*)
+                  pathType: Prefix        
+        tls:
+          - hosts:
+              - kiali.o11y.fans
+            secretName: kiali-tls-cert                 
   pod_annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9090"
+server:
+  web_fqdn: kiali.o11y.fans
 external_services:
     prometheus:
       url: "http://prometheus-server.monitoring/"

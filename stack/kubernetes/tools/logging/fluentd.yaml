@@ -211,10 +211,21 @@ fileConfigs:
             flush_interval      1s
             flush_thread_count  2
           </buffer>
+
+        </store>
+        <store>
+          @type               loki
+          url                 "http://loki-write:3100"
+          flush_interval      1s
+          flush_at_shutdown   true
+          buffer_chunk_limit  1m
+          extract_kubernetes_labels true
+          remove_keys kubernetes
+          extra_labels {"app":"dima"}
         </store>
       </match>
 
-            # catch all for any potential unmatched logs
+      # catch all for any potential unmatched logs
       <match **.**>
         @type                 elasticsearch
         host                  elasticsearch-master
