@@ -1,3 +1,5 @@
+{{- if .Values.ingress.enabled }}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -9,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.host }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - backend:
@@ -21,5 +23,6 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - {{ .Values.host }}
+        - {{ .Values.ingress.host }}
       secretName: dima-tls-cert
+{{- end }}
