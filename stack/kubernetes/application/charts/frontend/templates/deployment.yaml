@@ -16,6 +16,7 @@ spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         resources:
