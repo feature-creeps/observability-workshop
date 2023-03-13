@@ -3,6 +3,8 @@ dima-frontend:
     repository: local/dima-frontend
   ingress:
     enabled: false
+  tracing:
+    enabled: false    
 dima-imageflip:
   image:
     repository: local/dima-imageflip
