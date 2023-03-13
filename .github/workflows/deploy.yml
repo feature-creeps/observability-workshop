@@ -58,4 +58,4 @@ jobs:
           GKE_REGISTRY: ${{ env.GKE_REGISTRY }}
           IMAGE_TAG: ${{ inputs.tag }}
         working-directory: stack/kubernetes
-        run: ./16_deploy_dima.sh ${IMAGE_TAG}
+        run: ./30_deploy_dima.sh ${IMAGE_TAG}
