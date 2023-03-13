@@ -80,6 +80,7 @@ The following observability tools are used in this project.
 | index-lifecycle-managament                                                                | log index lifecycle management            |
 | [Jaeger](https://www.jaegertracing.io/)                                                   | tracing (in the docker-compose files)     |
 | [Kiali](https://kiali.io/)                                                                | service mesh UI                           |
+| [Loki](https://grafana.com/oss/loki/)                                                     | log aggregation                           |
 | [Prometheus](https://prometheus.io/)                                                      | time series data base                     |
 
 ### Technical decisions
