@@ -1,5 +1,5 @@
 apm:
-  enabled: true
+  enabled: false
 
 image:
   repository: gcr.io/olly-2021-k8s-migration/dima-trafficgen
@@ -8,6 +8,3 @@ image:
 ingress:
   enabled: true
   host: o11y.fans
-
-tracing:
-  enabled: true

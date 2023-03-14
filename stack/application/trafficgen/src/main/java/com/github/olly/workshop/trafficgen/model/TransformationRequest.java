@@ -2,7 +2,6 @@ package com.github.olly.workshop.trafficgen.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,13 +47,5 @@ public class TransformationRequest {
             return transformations.stream().map(Transformation::getType).collect(Collectors.toList());
         }
         return Collections.EMPTY_LIST;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("imageId", imageId)
-                .add("transformations", transformations)
-                .toString();
     }
 }
