@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.github.olly.workshop.trafficgen.service.ConfigurationService;
-import com.github.olly.workshop.trafficgen.service.TransformationTrafficService;
-import com.github.olly.workshop.trafficgen.service.UploadService;
+import com.github.olly.workshop.trafficgen.service.tranformation.TransformationTrafficService;
+import com.github.olly.workshop.trafficgen.service.upload.UploadService;
 
 @RestController
 @RequestMapping(value = "/api/traffic/image")

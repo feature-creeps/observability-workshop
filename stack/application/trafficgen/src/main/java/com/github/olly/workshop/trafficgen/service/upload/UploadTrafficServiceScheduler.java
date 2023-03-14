@@ -1,4 +1,4 @@
-package com.github.olly.workshop.trafficgen.service;
+package com.github.olly.workshop.trafficgen.service.upload;
 
 import java.util.Set;
 
@@ -8,18 +8,20 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import org.springframework.stereotype.Service;
 
+import com.github.olly.workshop.trafficgen.service.SpringEventTriggeredServiceSchedulerBase;
+
 @Service
-public class TransformationTrafficServiceScheduler
-        extends SpringEventTriggeredServiceSchedulerBase<TransformationTrafficService> {
+public class UploadTrafficServiceScheduler
+        extends SpringEventTriggeredServiceSchedulerBase<UploadTrafficService> {
 
     @Autowired
     private ThreadPoolTaskScheduler scheduler;
 
     @Autowired
-    private TransformationTrafficService services;
+    private UploadTrafficService services;
 
     @Override
-    protected Set<TransformationTrafficService> getServices() {
+    protected Set<UploadTrafficService> getServices() {
         return Set.of(services);
     }
 

@@ -1,9 +1,10 @@
-package com.github.olly.workshop.trafficgen.service;
+package com.github.olly.workshop.trafficgen.service.tranformation;
 
 import com.github.olly.workshop.trafficgen.clients.*;
 import com.github.olly.workshop.trafficgen.model.Transformation;
 import com.github.olly.workshop.trafficgen.model.TransformationRequest;
 import com.github.olly.workshop.trafficgen.model.TransformationType;
+import com.github.olly.workshop.trafficgen.service.TrafficGenMetricsService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +19,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
-public class RandomTransformationService {
+public class TransformationService {
 
     @Autowired
     private TrafficGenMetricsService trafficGenMetricsService;
@@ -28,7 +29,7 @@ public class RandomTransformationService {
     @Autowired
     private ImageOrchestratorClient imageOrchestratorClient;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandomTransformationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
 
     private static final int MAX_NUMBER_OF_TRANSFORMATION_PER_IMAGE = 5;
     private static final int RANDOM_NAME_SUFFIX_LENGTH = 10;
