@@ -1,105 +1,6 @@
 ---
 adminUser: grafana
 adminPassword: changeme
-resources:
- limits:
-   cpu: 100m
-   memory: 128Mi
- requests:
-   cpu: 80m
-   memory: 128Mi
-persistence:
-  enabled: "true"
-  size: 5Gi
-sidecar:
-  dashboards:
-    enabled: "true"
-    folderAnnotation: "grafana_folder"
-    searchNamespace: "monitoring"
-    provider:
-      foldersFromFilesStructure: true
-plugins:
-  - "raintank-worldping-app"
-  - "jdbranham-diagram-panel"
-grafana.ini:
-  analytics: 
-    check_for_updates: true
-  grafana_net:
-    url: https://grafana.net
-  log:
-    mode: console
-    console:
-      format: json
-  paths:
-    data: /var/lib/grafana/
-    logs: /var/log/grafana
-    plugins: /var/lib/grafana/plugins
-    provisioning: /etc/grafana/provisioning
-datasources:
- datasources.yaml: 
-    apiVersion: 1
-    datasources:
-    - access: proxy
-      editable: true
-      isDefault: true
-      jsonData:
-        timeInterval: 5s
-      name: Prometheus
-      orgId: 1
-      type: prometheus
-      url: http://prometheus-server:80
-    - access: 'proxy'
-      editable: true
-      isDefault: false
-      name: 'Loki'
-      orgId: 1
-      type: 'loki'
-      url: 'http://loki-read.logging:3100'
-    - name: 'Elasticsearch'
-      type: 'elasticsearch'
-      access: 'proxy'
-      orgId: 1
-      url: 'http://elasticsearch-master.logging:9200'
-      isDefault: false
-      editable: true
-      basicAuth: true
-      basicAuthUser: elastic
-      secureJsonData:
-        basicAuthPassword: changeme
-      database: "[logs-]YYYY.MM.DD"
-      jsonData:
-        interval: Daily
-        timeField: "@timestamp"
-        esVersion: "7.10+"
-        logMessageField: message
-        logLevelField: level
-dashboardProviders:
-  dashboardproviders.yaml:
-    apiVersion: 1
-    providers:
-    - disableDeletion: true
-      folder: infra
-      name: infra
-      editable: false
-      options:
-        path: /var/lib/grafana/dashboards/infra
-      orgId: 1
-      type: file
-    - disableDeletion: true
-      folder: tools
-      name: tools
-      editable: false
-      options:
-        path: /var/lib/grafana/dashboards/tools
-      orgId: 1
-      type: file
-    - disableDeletion: false
-      folder: istio
-      name: istio
-      options:
-        path: /var/lib/grafana/dashboards/istio
-      orgId: 1
-      type: file
 dashboards:
   infra:
     kubernetes:
@@ -156,12 +57,87 @@ dashboards:
       gnetId: 7645
       revision: 158
       datasource: Prometheus   
-service:
-  labels:
-    sidecar.istio.io/inject: "false"
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: /metrics
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - disableDeletion: true
+      folder: infra
+      name: infra
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards/infra
+      orgId: 1
+      type: file
+    - disableDeletion: true
+      folder: tools
+      name: tools
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards/tools
+      orgId: 1
+      type: file
+    - disableDeletion: false
+      folder: istio
+      name: istio
+      options:
+        path: /var/lib/grafana/dashboards/istio
+      orgId: 1
+      type: file
+datasources:
+ datasources.yaml: 
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      editable: true
+      isDefault: true
+      jsonData:
+        timeInterval: 5s
+      name: Prometheus
+      orgId: 1
+      type: prometheus
+      url: http://prometheus-server:80
+    - access: 'proxy'
+      editable: true
+      isDefault: false
+      name: 'Loki'
+      orgId: 1
+      type: 'loki'
+      url: 'http://loki-gateway.logging.svc.cluster.local'
+    - name: 'Elasticsearch'
+      type: 'elasticsearch'
+      access: 'proxy'
+      orgId: 1
+      url: 'http://elasticsearch-master.logging:9200'
+      isDefault: false
+      editable: true
+      basicAuth: true
+      basicAuthUser: elastic
+      secureJsonData:
+        basicAuthPassword: changeme
+      database: "[logs-]YYYY.MM.DD"
+      jsonData:
+        interval: Daily
+        timeField: "@timestamp"
+        esVersion: "7.10+"
+        logMessageField: message
+        logLevelField: level
+deploymentStrategy:
+  type: Recreate
+grafana.ini:
+  analytics: 
+    check_for_updates: true
+  grafana_net:
+    url: https://grafana.net
+  log:
+    mode: console
+    console:
+      format: json
+  paths:
+    data: /var/lib/grafana/
+    logs: /var/log/grafana
+    plugins: /var/lib/grafana/plugins
+    provisioning: /etc/grafana/provisioning
 ingress:
   enabled: true
   ingressClassName: nginx
@@ -173,3 +149,29 @@ ingress:
     - hosts:
         - "grafana.o11y.fans"
       secretName: grafana-tls-cert  
+plugins:
+  - "raintank-worldping-app"
+  - "jdbranham-diagram-panel"
+resources:
+ limits:
+   cpu: 100m
+   memory: 128Mi
+ requests:
+   cpu: 80m
+   memory: 128Mi
+persistence:
+  enabled: "true"
+  size: 5Gi
+sidecar:
+  dashboards:
+    enabled: "true"
+    folderAnnotation: "grafana_folder"
+    searchNamespace: "monitoring"
+    provider:
+      foldersFromFilesStructure: true
+service:
+  labels:
+    sidecar.istio.io/inject: "false"
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
