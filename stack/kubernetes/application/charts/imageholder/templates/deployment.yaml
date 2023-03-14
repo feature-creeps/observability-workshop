@@ -21,12 +21,18 @@ spec:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
         imagePullPolicy: IfNotPresent
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 40
+          periodSeconds: 10
         livenessProbe:
           httpGet:
-            path: /actuator/health
+            path: /actuator/health/liveness
             port: 8080
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          failureThreshold: 3
+          periodSeconds: 5
         env:
         - name: MONGODB_HOST
           value: {{ template "dima-mongodb.service.name" . }}
