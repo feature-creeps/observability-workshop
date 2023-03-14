@@ -45,3 +45,6 @@ gateway:
 
 querier:
   <<: *gcpSecretMount
+
+ingester:
+  <<: *gcpSecretMount
