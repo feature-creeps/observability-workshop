@@ -18,6 +18,3 @@ helm upgrade --install -f "tools/monitoring/grafana.yaml" -n "$NAMESPACE" --crea
 
 echo "--- create grafana dashboards through configmaps"
 kustomize build tools/monitoring/dashboards | kubectl apply -f -
-
-kubectl label namespace "$NAMESPACE" istio-injection=enabled --overwrite
-
