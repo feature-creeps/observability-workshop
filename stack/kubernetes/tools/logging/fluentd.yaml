@@ -215,7 +215,7 @@ fileConfigs:
         </store>
         <store>
           @type               loki
-          url                 "http://loki-write:3100"
+          url                 "http://loki-gateway.logging.svc.cluster.local"
           flush_interval      1s
           flush_at_shutdown   true
           buffer_chunk_limit  1m
