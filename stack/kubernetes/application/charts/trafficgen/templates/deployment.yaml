@@ -8,6 +8,8 @@ spec:
   selector:
     matchLabels:
       app: {{ .Release.Name }}-{{ .Chart.Name }}
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -42,8 +44,6 @@ spec:
           value: "true"
         - name: TRACING_TAGS_ENABLED
           value: "true"
-        - name: TRACING_ENABLED
-          value: {{ .Values.tracing.enabled | quote }}
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEHOLDER_BASEURL
@@ -55,7 +55,7 @@ spec:
         resources:
           requests:
             memory: "200Mi"
-            cpu: "50m"
+            cpu: "100m"
           limits:
             memory: "300Mi"
-            cpu: "100m"
+            cpu: "200m"

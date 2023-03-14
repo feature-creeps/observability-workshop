@@ -2,7 +2,6 @@ package com.github.olly.workshop.trafficgen.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.MoreObjects;
 
 import java.util.Map;
 
@@ -24,13 +23,5 @@ public class Transformation {
 
     public Map<String, String> getProperties() {
         return properties;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("type", type)
-                .add("properties", properties)
-                .toString();
     }
 }
