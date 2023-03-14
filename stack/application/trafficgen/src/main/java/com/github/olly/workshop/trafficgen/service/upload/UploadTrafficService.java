@@ -1,6 +1,9 @@
-package com.github.olly.workshop.trafficgen.service;
+package com.github.olly.workshop.trafficgen.service.upload;
 
 import org.springframework.stereotype.Service;
+
+import com.github.olly.workshop.trafficgen.service.TriggeredService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
@@ -12,15 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class TransformationTrafficService implements TriggeredService {
+public class UploadTrafficService implements TriggeredService {
     private static final long S_IN_MS = 1000L;
 
-    public static String SERVICE_KEY = "tranformation-traffic-service";
+    public static String SERVICE_KEY = "upload-traffic-service";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TransformationTrafficService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadTrafficService.class);
 
     @Autowired
-    private RandomTransformationService randomTransformationService;
+    private UploadService uploadService;
 
     @Override
     public Optional<String> getKey() {
@@ -29,17 +32,16 @@ public class TransformationTrafficService implements TriggeredService {
 
     @Override
     public Trigger constructTrigger(long transformationsPerSecond) {
-        LOGGER.info("Constructing trigger with transformationsPerSecond " + transformationsPerSecond);
+        LOGGER.info("Constructing trigger with uploadsPerSecond " + transformationsPerSecond);
         if (transformationsPerSecond > 0) {
             return new PeriodicTrigger(S_IN_MS / transformationsPerSecond);
         }
-        PeriodicTrigger never = new PeriodicTrigger(Long.MAX_VALUE, TimeUnit.HOURS);
-        never.setInitialDelay(Long.MAX_VALUE);
-        return never;
+        PeriodicTrigger onceNow = new PeriodicTrigger(Long.MAX_VALUE, TimeUnit.HOURS);
+        return onceNow;
     }
 
     @Override
     public void run() {
-        randomTransformationService.sendRandomRequest();
+        uploadService.uploadAllImages();
     }
 }

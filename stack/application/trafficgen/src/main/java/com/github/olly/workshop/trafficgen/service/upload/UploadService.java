@@ -1,11 +1,10 @@
-package com.github.olly.workshop.trafficgen.service;
+package com.github.olly.workshop.trafficgen.service.upload;
 
 import feign.FeignException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -15,6 +14,8 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.olly.workshop.trafficgen.clients.*;
+import com.github.olly.workshop.trafficgen.service.TrafficGenMetricsService;
+import com.github.olly.workshop.trafficgen.service.tranformation.TransformationService;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -30,10 +31,9 @@ public class UploadService {
     @Autowired
     private TrafficGenMetricsService trafficGenMetricsService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RandomTransformationService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
 
     @Async
-    @PostConstruct
     public void uploadAllImages() {
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(getClass().getClassLoader());
         try {
