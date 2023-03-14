@@ -8,11 +8,8 @@ storage:
       bucket_name: tempo_bucket_o11y_fans
 
 traces:
-  otlp:
-    http:
-      enabled: true
-    grpc:
-      enabled: true
+  zipkin:
+    enabled: true
 
 gcpSecret: &gcpSecretMount
   extraEnv:

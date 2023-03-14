@@ -128,7 +128,7 @@ datasources:
       isDefault: false
       orgId: 1
       type: 'tempo'
-      url: 'http://tempo-query-frontend.monitoring.svc.cluster.local:3100'
+      url: 'http://tempo-gateway.monitoring.svc.cluster.local'
 deploymentStrategy:
   type: Recreate
 grafana.ini:
