@@ -15,7 +15,7 @@ dashboards:
         value: Prometheus
       - name: DS_LOKI
         value: loki
-  tools:      
+  tools:
     prometheus-stats:
       gnetId: 3662
       revision: 2
@@ -36,11 +36,11 @@ dashboards:
     istio-performance-dashboard:
       gnetId: 11829
       revision: 158
-      datasource: Prometheus     
+      datasource: Prometheus
     istio-pilot-dashboard:
       gnetId: 12154
       revision: 158
-      datasource: Prometheus     
+      datasource: Prometheus
     istio-workload-dashboard:
       gnetId: 7630
       revision: 158
@@ -48,15 +48,15 @@ dashboards:
     istio-service-dashboard:
       gnetId: 7636
       revision: 158
-      datasource: Prometheus      
+      datasource: Prometheus
     istio-mesh-dashboard:
       gnetId: 7639
       revision: 158
-      datasource: Prometheus     
+      datasource: Prometheus
     istio-controlplane-dashboard:
       gnetId: 7645
       revision: 158
-      datasource: Prometheus   
+      datasource: Prometheus
 dashboardProviders:
   dashboardproviders.yaml:
     apiVersion: 1
@@ -85,7 +85,7 @@ dashboardProviders:
       orgId: 1
       type: file
 datasources:
- datasources.yaml: 
+ datasources.yaml:
     apiVersion: 1
     datasources:
     - access: proxy
@@ -122,10 +122,17 @@ datasources:
         esVersion: "7.10+"
         logMessageField: message
         logLevelField: level
+    - name: 'Tempo'
+      access: 'proxy'
+      editable: true
+      isDefault: false
+      orgId: 1
+      type: 'tempo'
+      url: 'http://tempo-query-frontend.monitoring.svc.cluster.local:3100'
 deploymentStrategy:
   type: Recreate
 grafana.ini:
-  analytics: 
+  analytics:
     check_for_updates: true
   grafana_net:
     url: https://grafana.net
@@ -148,7 +155,7 @@ ingress:
   tls:
     - hosts:
         - "grafana.o11y.fans"
-      secretName: grafana-tls-cert  
+      secretName: grafana-tls-cert
 plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
