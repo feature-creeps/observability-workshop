@@ -44,6 +44,8 @@ spec:
           value: "true"
         - name: TRACING_ENABLED
           value: {{ .Values.tracing.enabled | quote }}
+        - name: ZIPKIN_BASEURL
+          value: {{ .Values.global.tracing.url }}
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEROTATOR_BASEURL
