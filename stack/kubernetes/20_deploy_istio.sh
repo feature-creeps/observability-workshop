@@ -12,7 +12,7 @@ helm repo update
 
 echo "--- install istio"
 helm upgrade --install -n "$NAMESPACE" --create-namespace istio-base istio/base -n istio-system
-helm upgrade --install -n "$NAMESPACE" --create-namespace istiod istio/istiod -n istio-system --wait
+helm upgrade --install -f "tools/istio/istiod.yaml" -n "$NAMESPACE" istiod istio/istiod -n istio-system --wait
 
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user "$(gcloud config get-value account)" || true
 
