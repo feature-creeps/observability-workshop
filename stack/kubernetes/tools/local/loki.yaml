@@ -1,0 +1,34 @@
+---
+enterprise:
+  enabled: false
+
+minio:
+  enabled: false
+
+loki:
+  auth_enabled: false
+  commonConfig:
+    path_prefix: /var/loki
+    replication_factor: 1
+  podAnnotations:
+    prometheus.io/scrape: "true"
+
+read:
+  replicas: 1
+
+write:
+  replicas: 1
+
+gateway:
+  replicas: 1
+
+test:
+  enabled: false
+
+monitoring:
+  dashboards:
+    namespace: monitoring
+    labels:
+      grafana_dashboard: ""
+    annotations:
+      grafana_folder: "loki"
