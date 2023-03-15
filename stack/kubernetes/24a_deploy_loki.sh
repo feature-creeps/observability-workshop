@@ -40,3 +40,5 @@ helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd flu
 
 echo "--- install loki"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/loki.yaml --create-namespace loki grafana/loki
+echo "--- install promtail"
+helm upgrade --install -n "$NAMESPACE" -f tools/logging/promtail.yaml --create-namespace promtail grafana/promtail

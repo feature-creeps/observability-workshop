@@ -1,0 +1,13 @@
+---
+minio:
+  enabled: false
+storage:
+  trace:
+    backend: local
+
+traces:
+  zipkin:
+    enabled: true
+
+gateway:
+  enabled: true

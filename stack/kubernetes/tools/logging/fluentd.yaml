@@ -210,7 +210,6 @@ fileConfigs:
             flush_interval      1s
             flush_thread_count  2
           </buffer>
-
         </store>
       </match>
 
