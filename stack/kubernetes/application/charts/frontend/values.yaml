@@ -8,3 +8,4 @@ ingress:
 
 tracing:
   enabled: true
+  config: tempo-config.json

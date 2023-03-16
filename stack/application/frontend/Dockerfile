@@ -37,5 +37,6 @@ COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/dima.conf.template /etc/nginx/templates/dima.conf.template
 COPY nginx/zipkin-config.json /etc/
+COPY nginx/tempo-config.json /etc/
 
 CMD ["nginx", "-g", "daemon off;"]

@@ -10,7 +10,6 @@ bootJar {
 sourceCompatibility = 17
 
 dependencies {
-    implementation project(':springevents')
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.boot:spring-boot-starter-test'
 }

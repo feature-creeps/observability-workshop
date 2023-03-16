@@ -1,21 +1,17 @@
 package com.github.olly.workshop.trafficgen;
 
-import com.github.olly.workshop.springevents.SpringBootEventsConfiguration;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableFeignClients(basePackages = { "com.github" })
-@Import(SpringBootEventsConfiguration.class)
 @EnableAsync
 @EnableScheduling
 public class TrafficGenApplication {

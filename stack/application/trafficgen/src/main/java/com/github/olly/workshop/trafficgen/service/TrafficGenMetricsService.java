@@ -1,12 +1,11 @@
 package com.github.olly.workshop.trafficgen.service;
 
-import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TrafficGenMetricsService extends MetricsService {
+public class TrafficGenMetricsService {
 
     @Value("${business.metrics.enabled:true}")
     private Boolean BUSINESS_METRICS_ENABLED;
