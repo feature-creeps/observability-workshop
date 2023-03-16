@@ -2,6 +2,6 @@
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "imageholder.baseUrl" -}}
+{{- define "dima-imagethumbnail.imageholder.baseUrl" -}}
 http://{{ template "dima-imageholder.service.name" . }}:8080
 {{- end -}}

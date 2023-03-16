@@ -18,6 +18,7 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/path: /actuator/prometheus
         prometheus.io/port: "8080"
+        sidecar.istio.io/inject: "false"
     spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
@@ -47,9 +48,9 @@ spec:
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEHOLDER_BASEURL
-          value: {{ template "imageholder.baseUrl" . }}
+          value: {{ template "dima-trafficgen.imageholder.baseUrl" . }}
         - name: IMAGEORCHESTRATOR_BASEURL
-          value: {{ template "imageorchestrator.baseUrl" . }}
+          value: {{ template "dima-trafficgen.imageorchestrator.baseUrl" . }}
         ports:
         - containerPort: 8080
         resources:

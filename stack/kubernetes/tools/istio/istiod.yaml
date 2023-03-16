@@ -6,7 +6,6 @@ meshConfig:
   defaultProviders:
     tracing:
     - tempo
-    - zipkin
   enableTracing: true
   extensionProviders:
     - name: "tempo"

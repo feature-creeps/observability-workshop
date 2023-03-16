@@ -2,10 +2,18 @@
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "imageholder.baseUrl" -}}
+{{- define "dima-trafficgen.imageholder.baseUrl" -}}
+{{- if .Values.imageholder.baseUrl -}}
+{{- .Values.imageholder.baseUrl -}}
+{{- else -}}
 http://{{ template "dima-imageholder.service.name" . }}:8080
 {{- end -}}
+{{- end -}}
 
-{{- define "imageorchestrator.baseUrl" -}}
+{{- define "dima-trafficgen.imageorchestrator.baseUrl" -}}
+{{- if .Values.imageorchestrator.baseUrl -}}
+{{- .Values.imageorchestrator.baseUrl -}}
+{{- else -}}
 http://{{ template "dima-imageorchestrator.service.name" . }}:8080
+{{- end -}}
 {{- end -}}
