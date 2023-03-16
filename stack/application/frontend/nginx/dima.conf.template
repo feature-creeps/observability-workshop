@@ -4,7 +4,7 @@ http {
     server_name  localhost;
 
     opentracing ${OPENTRACING};
-    opentracing_load_tracer /usr/local/lib/libzipkin_opentracing_plugin.so /etc/zipkin-config.json;
+    opentracing_load_tracer /usr/local/lib/libzipkin_opentracing_plugin.so /etc/${OPENTRACING_CONFIG};
 
     sendfile on;
 

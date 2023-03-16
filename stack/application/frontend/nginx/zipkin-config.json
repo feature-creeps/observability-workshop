@@ -1,6 +1,5 @@
 {
   "service_name": "frontend",
-//  "collector_host": "zipkin.istio-system",
-  "collector_host": "tempo-distributor.monitoring.svc.cluster.local",
+  "collector_host": "zipkin.istio-system",
   "collector_port": 9411
 }

@@ -20,6 +20,8 @@ spec:
         env:
         - name: OPENTRACING
           value: {{ .Values.tracing.enabled | ternary "on" "off" | quote }}
+        - name: OPENTRACING_CONFIG
+          value: {{ .Values.tracing.config | quote }}
         - name: SVC_NAMESPACE
           value: {{ .Release.Namespace }}
         ports:
