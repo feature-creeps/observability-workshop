@@ -19,12 +19,4 @@ public class ImageGrayscaleMetricsService extends MetricsService {
                     .increment();
         }
     }
-
-    public void httpRequestReceived(String method, String handler, String status, String path) {
-        Metrics.counter("http_requests_total",
-                "method", method,
-                "handler", handler,
-                "status", status,
-                "path", path).increment();
-    }
 }
