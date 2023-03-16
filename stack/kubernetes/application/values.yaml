@@ -2,7 +2,34 @@ global:
   image:
     tag: 9762646c83543be559ec11d2ef81d2442ddf837d
   tracing:
-    url: 'http://zipkin.istio-system:9411'
-    # url: 'http://tempo-distributor.monitoring.svc.cluster.local:9411'
+    # url: http://zipkin.istio-system:9411
+    url: http://tempo-distributor.monitoring.svc.cluster.local:9411
+dima-imageflip:
+  apm:
+    enabled: false
+dima-imagegrayscale:
+  apm:
+    enabled: false
+dima-imageholder:
+  apm:
+    enabled: false
+dima-imageorchestrator:
+  apm:
+    enabled: false
+dima-imageresize:
+  apm:
+    enabled: false
+dima-imagerotator:
+  apm:
+    enabled: false
+dima-imagethumbnail:
+  apm:
+    enabled: false
 dima-trafficgen:
+  apm:
+    enabled: false
   enabled: true
+  imageholder:
+    baseUrl: https://o11y.fans/proxy/imageholder
+  imageorchestrator:
+    baseUrl: https://o11y.fans/proxy/imageorchestrator

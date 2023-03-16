@@ -50,7 +50,7 @@ spec:
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEHOLDER_BASEURL
-          value: {{ template "imageholder.baseUrl" . }}
+          value: {{ template "dima-imagethumbnail.imageholder.baseUrl" . }}
         ports:
         - containerPort: 8080
         resources:

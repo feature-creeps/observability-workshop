@@ -8,3 +8,7 @@ image:
 ingress:
   enabled: true
   host: o11y.fans
+
+imageholder: {}
+
+imageorchestrator: {}
