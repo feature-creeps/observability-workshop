@@ -160,12 +160,9 @@ plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
 resources:
- limits:
-   cpu: 100m
-   memory: 128Mi
  requests:
-   cpu: 80m
-   memory: 128Mi
+   cpu: 150m
+   memory: 256Mi
 persistence:
   enabled: "true"
   size: 5Gi
