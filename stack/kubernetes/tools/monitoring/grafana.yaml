@@ -88,20 +88,28 @@ datasources:
  datasources.yaml:
     apiVersion: 1
     datasources:
-    - access: proxy
+    - name: Prometheus
+      uid: prometheus
+      access: proxy
       editable: true
       isDefault: true
       jsonData:
         timeInterval: 5s
-      name: Prometheus
-      uid: prometheus
       orgId: 1
       type: prometheus
       url: http://prometheus-server:80
+    - name: 'Loki'
+      uid: loki
+      access: 'proxy'
+      editable: true
+      isDefault: false
+      orgId: 1
+      type: 'loki'
+      url: 'http://loki-gateway.logging.svc.cluster.local'
     - name: 'Elasticsearch'
+      uid: elasticsearch
       type: 'elasticsearch'
       access: 'proxy'
-      uid: elasticsearch
       orgId: 1
       url: 'http://elasticsearch-master.logging:9200'
       isDefault: false
@@ -117,6 +125,15 @@ datasources:
         esVersion: "7.10+"
         logMessageField: message
         logLevelField: level
+    - name: 'Tempo'
+      uid: tempo
+      access: 'proxy'
+      editable: true
+      isDefault: false
+      orgId: 1
+      type: 'tempo'
+      url: 'http://tempo-query-frontend.monitoring.svc.cluster.local:3100'
+
 deploymentStrategy:
   type: Recreate
 grafana.ini:
