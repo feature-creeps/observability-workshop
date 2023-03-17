@@ -28,14 +28,14 @@ helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd flu
 echo "--- install kibana"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/kibana.yaml --version ${ELASTIC_VERSION} kibana elastic/kibana
 
-echo "--- install metricbeat"
-helm upgrade --install -n "$NAMESPACE" -f tools/logging/metricbeat.yaml --version ${ELASTIC_VERSION} metricbeat elastic/metricbeat
+# echo "--- install metricbeat"
+# helm upgrade --install -n "$NAMESPACE" -f tools/logging/metricbeat.yaml --version ${ELASTIC_VERSION} metricbeat elastic/metricbeat
 
 echo "--- install apm-server"
 helm upgrade --install -n "$NAMESPACE" --version ${ELASTIC_VERSION} apm-server elastic/apm-server
 
-echo "--- install heartbeat"
-kubectl apply -f tools/logging/heartbeat-v7.17.yaml
+# echo "--- install heartbeat"
+# kubectl apply -f tools/logging/heartbeat-v7.17.yaml
 
 echo "--- apply kibana index mappings and patterns"
 ./tools/logging/kibana-index/build_deploy.sh "$NAMESPACE"
