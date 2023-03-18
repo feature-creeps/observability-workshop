@@ -133,6 +133,19 @@ datasources:
       orgId: 1
       type: 'tempo'
       url: 'http://tempo-query-frontend.monitoring.svc.cluster.local:3100'
+      jsonData:
+        lokiSearch:
+          datasourceUid: loki
+        tracesToLogsV2:
+          datasourceUid: loki
+          filterBySpanID: false
+          filterByTraceID: false
+          spanEndTimeShift: "5m"
+          spanStartTimeShift: "1h"
+          tags:
+            - key: traceId
+              value: trace_id
+
 
 deploymentStrategy:
   type: Recreate
