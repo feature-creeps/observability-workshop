@@ -1,4 +1,4 @@
-FROM node:10.24.1-buster AS builder
+FROM --platform=linux/amd64 node:18 AS builder
 
 # install chrome for protractor tests
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
@@ -15,14 +15,14 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 # install and cache app dependencies
 COPY package.json /usr/src/app/package.json
 RUN npm install
-RUN npm install -g @angular/cli@9.0.3
+RUN npm install -g @angular/cli@15
 
 # add app
 COPY src /usr/src/app/src
 COPY angular.json /usr/src/app/
 COPY tsconfig.json /usr/src/app/
 
-RUN ng build --prod
+RUN ng build --configuration production
 
 
 FROM opentracing/nginx-opentracing
