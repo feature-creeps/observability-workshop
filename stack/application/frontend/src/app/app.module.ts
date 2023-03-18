@@ -18,28 +18,27 @@ import { ToolsComponent } from "./tools/tools.component";
 import { TrafficGeneratorComponent } from "./trafficgen/trafficgen.component";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UploadComponent,
-    DisplayComponent,
-    RandomComponent,
-    DeleteComponent,
-    OrchestrateComponent,
-    DashboardComponent,
-    AlbumComponent,
-    PreviewComponent,
-    ToolsComponent,
-    TrafficGeneratorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
-  providers: [PreviewService],
-  bootstrap: [AppComponent],
-  entryComponents: [PreviewComponent]
+    declarations: [
+        AppComponent,
+        UploadComponent,
+        DisplayComponent,
+        RandomComponent,
+        DeleteComponent,
+        OrchestrateComponent,
+        DashboardComponent,
+        AlbumComponent,
+        PreviewComponent,
+        ToolsComponent,
+        TrafficGeneratorComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule
+    ],
+    providers: [PreviewService],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
