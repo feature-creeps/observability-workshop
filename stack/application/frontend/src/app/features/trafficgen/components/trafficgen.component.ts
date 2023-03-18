@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment";
+import { Component } from '@angular/core';
+import { TrafficgenService } from '../services/trafficgen.service';
+import { InfoType } from '../../../shared/enums';
 
 @Component({
   selector: 'app-trafficgen',
@@ -10,16 +10,16 @@ import { environment } from "../../../../environments/environment";
 
 export class TrafficGeneratorComponent {
 
-  constructor(private http: HttpClient) {
+  public constructor(private readonly trafficgenService: TrafficgenService) {
   }
 
   async uploadAll() {
     try {
-      await this.http.post(environment.backend.trafficgen + '/api/traffic/image/upload', null, { responseType: 'text' }).toPromise();
-      TrafficGeneratorComponent.info("Upload of all images triggered successfully.", InfoType.success);
+      await this.trafficgenService.uploadAll();
+      this.info("Upload of all images triggered successfully.", InfoType.success);
     } catch (e) {
       console.log(e)
-      TrafficGeneratorComponent.info("Failed to trigger upload of all images", InfoType.danger);
+      this.info("Failed to trigger upload of all images", InfoType.danger);
     }
   }
 
@@ -30,34 +30,28 @@ export class TrafficGeneratorComponent {
         transformationsPerSecond = 1
         console.log("Defaulting to 1 transformation request per second.")
       }
-      await this.http.post(environment.backend.trafficgen + '/api/traffic/image/transform/start?transformationsPerSecond=' + transformationsPerSecond, null, { responseType: 'text' }).toPromise();
-      TrafficGeneratorComponent.info("Transformation traffic request sent successfully.", InfoType.success);
+      await this.trafficgenService.sendTransformationRequest(transformationsPerSecond);
+      this.info("Transformation traffic request sent successfully.", InfoType.success);
     } catch (e) {
       console.log(e)
-      TrafficGeneratorComponent.info("Failed to send transformation traffic request", InfoType.danger);
+      this.info("Failed to send transformation traffic request", InfoType.danger);
     }
   }
 
   async stopTransformationTraffic() {
     try {
-      await this.http.post(environment.backend.trafficgen + '/api/traffic/image/transform/stop', null, { responseType: 'text' }).toPromise();
-      TrafficGeneratorComponent.info("Stop transformation request sent successfully.", InfoType.success);
+      await this.trafficgenService.stopTransformationTraffic();
+      this.info("Stop transformation request sent successfully.", InfoType.success);
     } catch (e) {
       console.log(e)
-      TrafficGeneratorComponent.info("Failed to send stop transformation traffic request", InfoType.danger);
+      this.info("Failed to send stop transformation traffic request", InfoType.danger);
     }
   }
 
-  private static info(text: string, type: InfoType) {
+  private info(text: string, type: InfoType) {
     let info = <HTMLInputElement>document.getElementById("info");
     info.hidden = false
     info.value = text
     info.className = "fade-in btn-block btn-" + InfoType[type] + " dima-btn"
   }
-}
-
-enum InfoType {
-  warning,
-  danger,
-  success
 }

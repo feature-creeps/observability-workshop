@@ -4,16 +4,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UploadComponent } from './features/upload';
-import { DisplayComponent } from './features/display';
-import { RandomComponent } from './features/random';
-import { DeleteComponent } from './features/delete';
-import { OrchestrateComponent } from './features/orchestrate';
+import { UploadComponent, UploadService } from './features/upload';
+import { DisplayComponent, DisplayService } from './features/display';
+import { RandomComponent, RandomService } from './features/random';
+import { DeleteComponent, DeleteService } from './features/delete';
+import { OrchestrateComponent, OrchestrateService } from './features/orchestrate';
 import { AppRoutingModule } from './app-routing.module';
 import { DashboardComponent } from './features/dashboard';
-import { AlbumComponent, PreviewComponent, PreviewService } from './features/album';
+import { AlbumComponent, AlbumService, PreviewComponent, PreviewService } from './features/album';
 import { ToolsComponent } from './features/tools';
-import { TrafficGeneratorComponent } from "./features/trafficgen";
+import { TrafficGeneratorComponent, TrafficgenService } from "./features/trafficgen";
 
 @NgModule({
     declarations: [
@@ -35,7 +35,16 @@ import { TrafficGeneratorComponent } from "./features/trafficgen";
         HttpClientModule,
         FormsModule
     ],
-    providers: [PreviewService],
+    providers: [
+        AlbumService,
+        DeleteService,
+        DisplayService,
+        OrchestrateService,
+        RandomService,
+        TrafficgenService,
+        UploadService,
+        PreviewService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../../environments/environment";
+import { DeleteService } from '../../services/delete.service';
 
 @Component({
   selector: 'app-delete',
@@ -10,8 +11,7 @@ import {environment} from "../../../../../environments/environment";
 
 export class DeleteComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
-  }
+  public constructor(private readonly deleteService: DeleteService) {}
 
   ngOnInit(): void {
     this.retrieveImages();
@@ -32,7 +32,7 @@ export class DeleteComponent implements OnInit {
       return
     }
     try {
-      res = await this.http.delete(environment.backend.imageholder + '/api/images/' + this.deleteId, {responseType: 'text'}).toPromise();
+      res = await this.deleteService.deleteImageById(this.deleteId);
     } catch (e) {
       let info = document.getElementById("info");
       info.innerText = "Failed to delete " + this.deleteId;
@@ -54,7 +54,7 @@ export class DeleteComponent implements OnInit {
   async deleteAll() {
     let res;
     try {
-      res = await this.http.post(environment.backend.imageholder + '/api/images/delete/all', null, {responseType: 'text'}).toPromise();
+      res = await this.deleteService.deleteAllImages();
     } catch (e) {
       let info = document.getElementById("info");
       info.innerText = "Failed to delete all images";
@@ -78,7 +78,7 @@ export class DeleteComponent implements OnInit {
   }
 
   async retrieveImages() {
-    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
+    let data = await this.deleteService.getImages();
     if (data.length > 0) {
       document.getElementById("preview").hidden = false;
       this.images = data;
@@ -104,7 +104,7 @@ export class DeleteComponent implements OnInit {
   }
 
   async showImage(id: string) {
-    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.deleteService.getImageById(id);
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
     }

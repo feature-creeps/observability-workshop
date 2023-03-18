@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from "../../../../../environments/environment";
+import { OrchestrateService } from '../../services/orchestrate.service';
+import { InfoType } from '../../../../shared/enums'
 
 @Component({
   selector: 'app-orchestrate',
@@ -8,7 +10,7 @@ import { environment } from "../../../../../environments/environment";
   styleUrls: ['./orchestrate.component.css']
 })
 export class OrchestrateComponent implements OnInit {
-  constructor(private http: HttpClient) {
+  public constructor(private readonly orchestrateService: OrchestrateService) {
   }
 
   ngOnInit(): void {
@@ -22,7 +24,7 @@ export class OrchestrateComponent implements OnInit {
   selectedLink: string;
 
   async retrieveImages(id: string) {
-    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
+    let data = await this.orchestrateService.getImages();
     if (data.length > 0) {
       document.getElementById("preview").hidden = false;
       this.images = data;
@@ -37,7 +39,7 @@ export class OrchestrateComponent implements OnInit {
   }
 
   async showPreview(id: string) {
-    let data = await this.http.get(environment.backend.imagethumbnail + '/api/images/' + id, { responseType: 'blob' }).toPromise();
+    let data = await this.orchestrateService.getImageById(id);
     if (data != null) {
       this.displayId = id;
       let reader = new FileReader();
@@ -78,14 +80,12 @@ export class OrchestrateComponent implements OnInit {
       return
     }
 
-    let transformationRequest = this.buildJson(formInput);
-    let transformationRequestString = JSON.stringify(transformationRequest)
-    let headers = new HttpHeaders();
-    headers = headers.set('Content-Type', 'application/json; charset=utf-8');
-    let res;
+    const transformationRequest = this.buildJson(formInput);
+    const transformationRequestString = JSON.stringify(transformationRequest)
+
+    let res: any;
     try {
-      res = await this.http.post(environment.backend.imageorchestrator + '/api/images/transform', transformationRequestString,
-        { observe: "response", headers: headers, responseType: 'blob' }).toPromise();
+      res = await this.orchestrateService.sendTransformationRequest(transformationRequestString)
     } catch (e) {
       console.log(e)
       this.hideTransformed()
@@ -162,12 +162,6 @@ export class OrchestrateComponent implements OnInit {
   }
 }
 
-interface Image {
-  id: String;
-  contentType: String;
-  name: String;
-}
-
 enum TransformationType {
   rotate = "rotate",
   grayscale = "grayscale",
@@ -192,11 +186,4 @@ class TransformationRequest {
     this.persist = true;
   }
 }
-
-enum InfoType {
-  warning,
-  danger,
-  success
-}
-
 

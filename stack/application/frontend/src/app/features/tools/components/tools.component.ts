@@ -8,10 +8,7 @@ import {environment} from "../../../../environments/environment";
 })
 export class ToolsComponent {
 
-  constructor() {
-  }
-
-  getToolURL(configValue: string) {
+  public getToolURL(configValue: string): string {
     if (configValue.startsWith(":")) {
       return window.location.protocol + "//" + window.location.hostname + configValue;
     } else {

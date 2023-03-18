@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {environment} from "../../../../../environments/environment";
+import { DisplayService } from '../../services/display.service';
+import { Image } from '../../../../shared/models';
 
 @Component({
   selector: 'app-display',
@@ -9,8 +10,7 @@ import {environment} from "../../../../../environments/environment";
 })
 export class DisplayComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
-  }
+  public constructor(private readonly displayService: DisplayService) {}
 
   ngOnInit(): void {
     this.retrieveImages();
@@ -22,7 +22,7 @@ export class DisplayComponent implements OnInit {
   selectedLink: string;
 
   async retrieveImages() {
-    let data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
+    let data = await this.displayService.getImages();
     if (data.length > 0) {
       document.getElementById("preview").hidden = false;
       this.images = data;
@@ -55,7 +55,7 @@ export class DisplayComponent implements OnInit {
   }
 
   async showImage(id: string, hideId: boolean) {
-    let data = await this.http.get(environment.backend.imageholder + '/api/images/' + id, {responseType: 'blob'}).toPromise();
+    let data = await this.displayService.getImageById(id);
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
       this.selectedLink = environment.backend.imageholder + '/api/images/' + id;
@@ -75,10 +75,4 @@ export class DisplayComponent implements OnInit {
     }
   }
 
-}
-
-interface Image {
-  id: String;
-  contentType: String;
-  name: String;
 }

@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from "../../../../../environments/environment";
-import {PreviewComponent} from "../preview/preview.component";
-import {PreviewService} from "../../services/preview.service";
+import { Component, OnInit } from '@angular/core';
+import { PreviewComponent } from "../preview/preview.component";
+import { PreviewService } from "../../services/preview.service";
+import { AlbumService } from '../../services/album.service';
 
 @Component({
   selector: 'app-album',
@@ -11,9 +10,10 @@ import {PreviewService} from "../../services/preview.service";
 })
 export class AlbumComponent implements OnInit {
 
-  constructor(private http: HttpClient,
-              private previewService: PreviewService) {
-  }
+  public constructor(
+    private readonly albumService: AlbumService,
+    private readonly previewService: PreviewService
+  ) {}
 
   ngOnInit(): void {
     this.retrieveImages()
@@ -91,7 +91,7 @@ export class AlbumComponent implements OnInit {
   }
 
   async retrieveImages() {
-    this.data = await this.http.get<Array<Image>>(environment.backend.imageholder + '/api/images').toPromise();
+    this.data = await this.albumService.getImages();
     if (this.data.length > 0) {
       this.images = this.data;
       this.showPreviews(this.data, this.firstImageDisplayed)

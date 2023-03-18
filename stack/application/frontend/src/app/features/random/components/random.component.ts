@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import { RandomService } from '../services/random.service';
 
 @Component({
   selector: 'app-random',
@@ -9,7 +9,7 @@ import {HttpClient} from "@angular/common/http";
 })
 export class RandomComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
+  public constructor(private readonly randomService: RandomService) {
   }
 
   ngOnInit() {
@@ -17,19 +17,18 @@ export class RandomComponent implements OnInit {
   }
 
   public displayImage;
-  private randomImageUrl: string = environment.backend.imageholder + '/api/images/random';
 
-  async changeImage() {
-    let data;
+  public async changeImage() {
+    let data: Blob;
     try {
-      data = await this.http.get(this.randomImageUrl, {responseType: 'blob'}).toPromise();
+      data = await this.randomService.getRandomImage();
     } catch (e) {
-      RandomComponent.info("Failed retrieving random image")
+      this.info("Failed retrieving random image")
     }
     if (data != undefined) {
-      RandomComponent.info("")
+      this.info("")
     } else {
-      RandomComponent.info("No images found")
+      this.info("No images found")
     }
     this.displayImage = this.createImageFromBlob(data);
   }
@@ -44,7 +43,7 @@ export class RandomComponent implements OnInit {
     }
   }
 
-  private static info(text: string) {
+  private info(text: string): void {
     document.getElementById("image").hidden = text.length > 0;
     document.getElementById("info").innerText = text;
   }
