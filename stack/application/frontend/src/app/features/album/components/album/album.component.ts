@@ -11,6 +11,17 @@ import { Image } from '../../../../shared/models';
 })
 export class AlbumComponent implements OnInit {
 
+  public ids: Array<string> = [];
+  public images: Array<Image> = [];
+  public displayImage;
+  public currentPage: number = 1;
+  private data;
+  private MAX_IMAGES_DISPLAYED: number = 15;
+  private firstImageDisplayed: number = 0;
+
+  public nextButtonEnabled: boolean = true;
+  public prevButtonEnabled: boolean = false;
+
   public constructor(
     private readonly albumService: AlbumService,
     private readonly previewService: PreviewService
@@ -19,14 +30,6 @@ export class AlbumComponent implements OnInit {
   ngOnInit(): void {
     this.retrieveImages()
   }
-
-  public ids;
-  public images;
-  public displayImage;
-  public currentPage = 1
-  private data
-  private MAX_IMAGES_DISPLAYED = 15
-  private firstImageDisplayed = 0
 
   private clearImages() {
     var e = document.querySelectorAll("#album")[0];
@@ -37,50 +40,26 @@ export class AlbumComponent implements OnInit {
     }
   }
 
-  nextPage() {
+  public nextPage() {
     this.clearImages()
     this.firstImageDisplayed = this.firstImageDisplayed + this.MAX_IMAGES_DISPLAYED
     this.showPreviews(this.data, this.firstImageDisplayed)
-    this.enablePrevButton();
+    this.prevButtonEnabled = true;
     this.currentPage++
     if (this.atEnd()) {
-      this.disableNextButton();
+      this.nextButtonEnabled = false;
     }
   }
 
-  previousPage() {
+  public previousPage() {
     this.clearImages()
     this.firstImageDisplayed = this.firstImageDisplayed - this.MAX_IMAGES_DISPLAYED
     this.showPreviews(this.data, this.firstImageDisplayed)
-    this.enableNextButton();
+    this.nextButtonEnabled = true;
     this.currentPage--
     if (this.atStart()) {
-      this.disablePrevButton();
+      this.prevButtonEnabled = false;
     }
-  }
-
-  private disableNextButton() {
-    this.nextButton().setAttribute("disabled", "disabled")
-  }
-
-  private enablePrevButton() {
-    this.prevButton().removeAttribute("disabled")
-  }
-
-  private disablePrevButton() {
-    this.prevButton().setAttribute("disabled", "disabled")
-  }
-
-  private enableNextButton() {
-    this.nextButton().removeAttribute("disabled")
-  }
-
-  private prevButton() {
-    return document.querySelectorAll("#prevButton")[0]
-  }
-
-  private nextButton() {
-    return document.querySelectorAll("#nextButton")[0]
   }
 
   private atEnd() {

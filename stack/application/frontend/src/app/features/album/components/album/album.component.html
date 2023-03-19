@@ -11,14 +11,16 @@
       <button class="btn btn-primary btn-inline dima-btn"
               style="float: left"
               type="submit"
-              disabled="disabled"
+              [disabled]="!prevButtonEnabled"
               id="prevButton">Previous page..
       </button>
     </form>
     <form (ngSubmit)="nextPage()">
       <button class="btn btn-primary btn-inline dima-btn"
               type="submit"
-              id="nextButton">Next page..
+              [disabled]="!nextButtonEnabled"
+              id="nextButton">
+        Next page..
       </button>
     </form>
     <div class="btn btn-block dima-btn">
