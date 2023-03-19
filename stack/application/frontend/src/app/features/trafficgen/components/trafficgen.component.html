@@ -19,14 +19,14 @@
       <div class="col-md-6">
         <h2>Transformation Traffic</h2>
         <p>Generate random transformation requests</p>
-        <form #formInput id="imageTransform" action="#" method="post" class="form-group">
+        <form #formInput id="imageTransform" action="#" method="post" class="form-group" [formGroup]="trafficgenForm">
           <div class="form-group form-check">
             <label class="form-check-label">Transformations per second</label>
-            <input class="form-control" id="transformationsPerSecond" name="transformationsPerSecond"
+            <input class="form-control" id="transformationsPerSecond" formControlName="transformationsPerSecond"
               placeholder="Transformations per second: [0..n]">
           </div>
           <input type="submit" class="btn btn-primary btn-block dima-btn"
-            (click)="sendTransformationRequest(formInput)" />
+            (click)="sendTransformationRequest()" />
         </form>
         <form (ngSubmit)="stopTransformationTraffic()" #stopTransformationTrafficForm="ngForm"
           id="stopTransformationTrafficForm">

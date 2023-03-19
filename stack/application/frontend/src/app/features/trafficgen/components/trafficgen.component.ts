@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { TrafficgenService } from '../services/trafficgen.service';
 import { InfoType } from '../../../shared/enums';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-trafficgen',
@@ -10,8 +11,11 @@ import { InfoType } from '../../../shared/enums';
 
 export class TrafficGeneratorComponent {
 
-  public constructor(private readonly trafficgenService: TrafficgenService) {
-  }
+  public trafficgenForm = new FormGroup({
+    transformationsPerSecond: new FormControl<number | null>(null),
+  });
+
+  public constructor(private readonly trafficgenService: TrafficgenService) {}
 
   async uploadAll() {
     try {
@@ -23,9 +27,9 @@ export class TrafficGeneratorComponent {
     }
   }
 
-  async sendTransformationRequest(formInput: any) {
+  async sendTransformationRequest() {
     try {
-      let transformationsPerSecond = formInput.querySelectorAll("#transformationsPerSecond")[0].value;
+      let transformationsPerSecond = this.trafficgenForm.value.transformationsPerSecond;
       if (!transformationsPerSecond) {
         transformationsPerSecond = 1
         console.log("Defaulting to 1 transformation request per second.")
