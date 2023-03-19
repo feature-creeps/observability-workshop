@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PreviewComponent } from "../preview/preview.component";
 import { PreviewService } from "../../services/preview.service";
 import { AlbumService } from '../../services/album.service';
+import { Image } from '../../../../shared/models';
 
 @Component({
   selector: 'app-album',
@@ -108,8 +109,3 @@ export class AlbumComponent implements OnInit {
   }
 }
 
-interface Image {
-  id: string;
-  contentType: string;
-  name: string;
-}

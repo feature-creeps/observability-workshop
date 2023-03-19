@@ -1,5 +1,5 @@
 export interface Image {
-    id: String;
-    contentType: String;
-    name: String;
+    id: string;
+    contentType: string;
+    name: string;
 }

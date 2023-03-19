@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { environment } from "../../../../../environments/environment";
 import { OrchestrateService } from '../../services/orchestrate.service';
 import { InfoType } from '../../../../shared/enums'
+import { Image } from '../../../../shared/models'
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-orchestrate',
@@ -10,31 +12,48 @@ import { InfoType } from '../../../../shared/enums'
   styleUrls: ['./orchestrate.component.css']
 })
 export class OrchestrateComponent implements OnInit {
-  public constructor(private readonly orchestrateService: OrchestrateService) {
-  }
+  public manipulateForm = new FormGroup({
+    rotation: new FormControl<number | null>(null),
+    resize: new FormControl<number | null>(null),
+    persist: new FormGroup({
+      enable: new FormControl<boolean>(false),
+      imageName: new FormControl<string | null>(null),
+    }),
+    enableGrayscale: new FormControl<boolean>(false),
+    flipImage: new FormGroup({
+      horizontal: new FormControl<boolean>(false),
+      vertical: new FormControl<boolean>(false),
+    }),
+    selectedImageId: new FormControl<string | null>(null)
+  });
+
+  public transformedImageVisible: boolean = false;
+  public previewVisible: boolean = true;
+  public previewInfoVisible: boolean = true;
+
+  public constructor(private readonly orchestrateService: OrchestrateService) {}
 
   ngOnInit(): void {
     this.retrieveImages(null);
   }
 
-  public images;
+  public images: Array<Image> = [];
   public displayImage;
   public transformedImage;
   private displayId: string;
-  selectedLink: string;
+  public selectedLink: string;
 
   async retrieveImages(id: string) {
     let data = await this.orchestrateService.getImages();
     if (data.length > 0) {
-      document.getElementById("preview").hidden = false;
+      this.previewVisible = true;
       this.images = data;
 
-      let showId = id != null ? id : this.images[0].id;
+      const showId = id != null ? id : this.images[0].id;
       this.showPreview(showId);
     } else {
-      document.getElementById("previewInfo").hidden = false;
-      document.getElementById("previewInfoText").innerText = "No images found. Upload some ";
-      document.getElementById("preview").hidden = true;
+      this.previewInfoVisible = true;
+      this.previewVisible = false;
     }
   }
 
@@ -42,7 +61,7 @@ export class OrchestrateComponent implements OnInit {
     let data = await this.orchestrateService.getImageById(id);
     if (data != null) {
       this.displayId = id;
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.addEventListener("load", () => {
         this.displayImage = reader.result;
       }, false);
@@ -55,8 +74,8 @@ export class OrchestrateComponent implements OnInit {
   }
 
   showTransformed(data: HttpResponse<any>) {
-    document.getElementById("transformedImage").hidden = false;
-    let reader = new FileReader();
+    this.transformedImageVisible = true;
+    const reader = new FileReader();
     reader.addEventListener("load", () => {
       this.transformedImage = reader.result;
     }, false);
@@ -67,20 +86,19 @@ export class OrchestrateComponent implements OnInit {
 
   private hideTransformed() {
     this.transformedImage = "";
-    document.getElementById("transformedImage").hidden = true;
+    this.transformedImageVisible = false;
   }
 
   //=======
-  async sendRequest(formInput: any) {
+  async sendRequest() {
     this.hideTransformed()
     this.hideInfo()
 
     if (this.displayId == undefined) {
-      OrchestrateComponent.info("No image selected", InfoType.warning);
+      this.info("No image selected", InfoType.warning);
       return
     }
-
-    const transformationRequest = this.buildJson(formInput);
+    const transformationRequest = this.buildJson(this.manipulateForm.value as ManipulateFormData);
     const transformationRequestString = JSON.stringify(transformationRequest)
 
     let res: any;
@@ -89,69 +107,79 @@ export class OrchestrateComponent implements OnInit {
     } catch (e) {
       console.log(e)
       this.hideTransformed()
-      OrchestrateComponent.info("Transformation failed", InfoType.danger);
+      this.info("Transformation failed", InfoType.danger);
       return;
     }
     this.showTransformed(<HttpResponse<any>>res)
     this.retrieveImages(this.displayId)
     if (transformationRequest.persist) {
-      OrchestrateComponent.info("Transformation successful. Persisted with ID: " + res.headers.get("Image-ID"), InfoType.success)
+      this.info("Transformation successful. Persisted with ID: " + res.headers.get("Image-ID"), InfoType.success)
     } else {
-      OrchestrateComponent.info("Transformation successful", InfoType.success)
+      this.info("Transformation successful", InfoType.success)
     }
   }
 
-  private static info(text: string, type: InfoType) {
-    let info = <HTMLInputElement>document.getElementById("info");
+  private info(text: string, type: InfoType) {
+    const info = <HTMLInputElement>document.getElementById("info");
     info.hidden = false
     info.value = text
     info.className = "fade-in btn-block btn-" + InfoType[type] + " dima-btn"
   }
 
-  buildJson(formInput: any) {
-    let tfr: TransformationRequest = new TransformationRequest(this.displayId)
+  private buildJson(formInput: ManipulateFormData): TransformationRequest {
+    const tfr: TransformationRequest = {
+      imageId: this.displayId,
+      transformations: [],
+      name: "",
+      persist: false
+    };
 
     // rotate
-    let degrees = formInput.querySelectorAll("#degrees")[0].value;
-    if (degrees) {
-      let tr: Transformation = new Transformation();
-      tr.type = TransformationType.rotate;
-      tr.properties.degrees = degrees
+    if (formInput.rotation) {
+      const tr: Transformation = {
+        type: TransformationType.rotate,
+        properties: {
+          degrees: formInput.rotation
+        }
+      };
       tfr.transformations.push(tr);
     }
 
     // resize
-    let factor = formInput.querySelectorAll("#factor")[0].value
-    if (factor) {
-      let tr: Transformation = new Transformation();
-      tr.type = TransformationType.resize;
-      tr.properties.factor = factor
+    if (formInput.resize) {
+      const tr: Transformation = {
+        type: TransformationType.resize,
+        properties: {
+          factor: formInput.resize
+        }
+      };
       tfr.transformations.push(tr);
     }
 
     // grayscale
-    let grayscale = formInput.querySelectorAll("#grayscale")[0].checked;
-    if (grayscale == true) {
-      let tr: Transformation = new Transformation();
-      tr.type = TransformationType.grayscale;
+    if (formInput.enableGrayscale) {
+      const tr: Transformation = {
+        type: TransformationType.grayscale,
+        properties: {}
+      };
       tfr.transformations.push(tr);
     }
 
     // flip
-    let vertical = formInput.querySelectorAll("#vertical")[0].checked;
-    let horizontal = formInput.querySelectorAll("#horizontal")[0].checked;
-    if (vertical || horizontal) {
-      let tr: Transformation = new Transformation();
-      tr.type = TransformationType.flip;
-      tr.properties.vertical = vertical;
-      tr.properties.horizontal = horizontal;
+    if (formInput.flipImage.vertical || formInput.flipImage.horizontal) {
+      const tr: Transformation = {
+        type: TransformationType.flip,
+        properties: {
+          vertical: formInput.flipImage.vertical,
+          horizontal: formInput.flipImage.horizontal,
+        }
+      }
       tfr.transformations.push(tr);
     }
 
     // persist
-    tfr.persist = formInput.querySelectorAll("#persist")[0].checked;
-    if (tfr.persist) {
-      tfr.name = formInput.querySelectorAll("#name")[0].value
+    if (formInput.persist.enabled) {
+      tfr.name = formInput.persist.imageName
     }
 
     return tfr;
@@ -169,21 +197,29 @@ enum TransformationType {
   flip = "flip"
 }
 
-class Transformation {
+interface Transformation {
   type: TransformationType;
-  properties: any = {};
+  properties: {};
 }
 
-class TransformationRequest {
+interface TransformationRequest {
   imageId: string;
-  transformations: Transformation[];
+  transformations: Array<Transformation>;
   persist: boolean;
   name: string;
-
-  constructor(imageId: string) {
-    this.imageId = imageId;
-    this.transformations = [];
-    this.persist = true;
-  }
 }
 
+interface ManipulateFormData {
+  rotation: number | null;
+  resize: number | null;
+  persist: {
+    enabled: boolean;
+    imageName: string | null;
+  }
+  enableGrayscale: boolean,
+  flipImage: {
+    horizontal: boolean,
+    vertical: boolean,
+  };
+  selectedImageId: string | null
+}

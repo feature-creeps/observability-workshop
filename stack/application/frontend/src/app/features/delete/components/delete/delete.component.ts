@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {environment} from "../../../../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { environment } from "../../../../../environments/environment";
 import { DeleteService } from '../../services/delete.service';
+import { Image } from '../../../../shared/models';
 
 @Component({
   selector: 'app-delete',
@@ -94,8 +94,8 @@ export class DeleteComponent implements OnInit {
     document.getElementById("preview").hidden = true;
   }
 
-  setIds(data: Array<Image>): String[] {
-    let list: String[] = [];
+  setIds(data: Array<Image>): Array<string> {
+    const list: string[] = [];
     for (var i = 0; i < data.length; i++) {
       list.push(data[i].id)
     }
@@ -123,10 +123,4 @@ export class DeleteComponent implements OnInit {
     }
   }
 
-}
-
-interface Image {
-  id: String;
-  contentType: String;
-  name: String;
 }
