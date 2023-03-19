@@ -18,7 +18,7 @@
         </select>
         <div style="padding: 20px;height:100px">
           <a>
-            <img id="preview" height="100px" [src]="displayImage" alt="No image found">
+            <img id="preview" [hidden]="!previewVisible" height="100px" [src]="displayImage" alt="No image found">
           </a>
         </div>
         <br/>

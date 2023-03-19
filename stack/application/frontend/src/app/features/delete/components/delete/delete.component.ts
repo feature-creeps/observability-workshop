@@ -11,22 +11,25 @@ import { Image } from '../../../../shared/models';
 
 export class DeleteComponent implements OnInit {
 
+
+  public ids;
+  public images: Array<Image>;
+  public displayImage;
+  public deleteId: string;
+  public selectedLink: string;
+
+  public previewVisible: boolean = true;
+
   public constructor(private readonly deleteService: DeleteService) {}
 
   ngOnInit(): void {
     this.retrieveImages();
   }
 
-  public ids;
-  public images;
-  public displayImage;
-  public deleteId: string;
-  selectedLink: string;
-
   async deleteOne() {
     let res;
     if (this.deleteId == undefined) {
-      let info = document.getElementById("info");
+      const info = document.getElementById("info");
       info.innerText = "No image selected";
       info.className = "btn btn-block btn-warning dima-btn"
       return
@@ -34,7 +37,7 @@ export class DeleteComponent implements OnInit {
     try {
       res = await this.deleteService.deleteImageById(this.deleteId);
     } catch (e) {
-      let info = document.getElementById("info");
+      const info = document.getElementById("info");
       info.innerText = "Failed to delete " + this.deleteId;
       info.className = "btn btn-block btn-danger dima-btn"
     }
@@ -46,7 +49,7 @@ export class DeleteComponent implements OnInit {
   }
 
   private deletedOne() {
-    let info = document.getElementById("info");
+    const info = document.getElementById("info");
     info.innerText = "Successfully deleted " + this.deleteId;
     info.className = "btn btn-block btn-success dima-btn"
   }
@@ -56,19 +59,19 @@ export class DeleteComponent implements OnInit {
     try {
       res = await this.deleteService.deleteAllImages();
     } catch (e) {
-      let info = document.getElementById("info");
+      const info = document.getElementById("info");
       info.innerText = "Failed to delete all images";
       info.className = "btn btn-block btn-danger dima-btn"
     }
     if (res != null) {
-      DeleteComponent.deletedAllImages();
+      this.onDeleteAllImages();
       this.clearSelection()
     }
   }
 
-  private static deletedAllImages() {
-    document.getElementById("preview").hidden = true;
-    let info = document.getElementById("info");
+  private onDeleteAllImages() {
+    this.previewVisible = false;
+    const info = document.getElementById("info");
     info.innerText = "Successfully deleted all images";
     info.className = "btn btn-block btn-success dima-btn"
   }
@@ -78,23 +81,23 @@ export class DeleteComponent implements OnInit {
   }
 
   async retrieveImages() {
-    let data = await this.deleteService.getImages();
+    const data = await this.deleteService.getImages();
     if (data.length > 0) {
-      document.getElementById("preview").hidden = false;
+      this.previewVisible = true;
       this.images = data;
       this.setIds(data);
       this.showImage(this.images[0].id);
     } else {
-      DeleteComponent.noImages();
+      this.noImages();
     }
   }
 
-  private static noImages() {
+  private noImages() {
     document.getElementById("info").innerText = "No images found";
-    document.getElementById("preview").hidden = true;
+    this.previewVisible = false;
   }
 
-  setIds(data: Array<Image>): Array<string> {
+  public setIds(data: Array<Image>): Array<string> {
     const list: string[] = [];
     for (var i = 0; i < data.length; i++) {
       list.push(data[i].id)
@@ -103,8 +106,8 @@ export class DeleteComponent implements OnInit {
     return list;
   }
 
-  async showImage(id: string) {
-    let data = await this.deleteService.getImageById(id);
+  public async showImage(id: string) {
+    const data = await this.deleteService.getImageById(id);
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
     }
@@ -112,8 +115,8 @@ export class DeleteComponent implements OnInit {
     this.deleteId = id;
   }
 
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
+  private createImageFromBlob(image: Blob) {
+    const reader = new FileReader();
     reader.addEventListener("load", () => {
       this.displayImage = reader.result;
     }, false);
