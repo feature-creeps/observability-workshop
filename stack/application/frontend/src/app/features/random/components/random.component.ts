@@ -9,10 +9,11 @@ import { RandomService } from '../services/random.service';
 })
 export class RandomComponent implements OnInit {
 
-  public constructor(private readonly randomService: RandomService) {
-  }
+  public imageVisible: boolean = true;
 
-  ngOnInit() {
+  public constructor(private readonly randomService: RandomService) {}
+
+  public ngOnInit() {
     this.changeImage()
   }
 
@@ -44,7 +45,7 @@ export class RandomComponent implements OnInit {
   }
 
   private info(text: string): void {
-    document.getElementById("image").hidden = text.length > 0;
+    this.imageVisible = text.length === 0;
     document.getElementById("info").innerText = text;
   }
 }
