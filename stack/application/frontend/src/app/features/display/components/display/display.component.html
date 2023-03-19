@@ -8,25 +8,27 @@
 
   <div class="container">
     <h5>Either provide an image id directly..</h5>
-    <form #formInput id="manualImageIdEntry" action="#" method="post" class="form-group">
+    <form #formInput id="manualImageIdEntry" action="#" method="post" class="form-group" [formGroup]="displayForm">
 
       <div class="form-group form-check">
-        <input class="form-control" id="imageIdIn" name="imageIdIn" placeholder="Enter image id..">
+        <input class="form-control" id="imageIdIn" name="imageIdIn" formControlName="imageId" placeholder="Enter image id..">
       </div>
-      <input type="submit" class="btn btn-primary btn-block dima-btn" (click)="showImageById(formInput)"/>
+      <input type="submit" [disabled]="!sendButtonEnabled" class="btn btn-primary btn-block dima-btn" (click)="showImageById()"/>
     </form>
     <br/>
     <h5>..or select one from the list..</h5>
     <select class="form-control btn-primary"
             id="imageSelect"
-            (input)="showImageWithId($event.target.value)">
+            formControlName="selectedImageId"
+            (input)="showImageWithId($event.target.value)"
+    >
       <option *ngFor="let image of images"
               [value]="image.id">
         {{image.name}} [{{image.id}}]
       </option>
     </select>
     <a target="_blank" [href]="selectedLink">
-      <img id="preview" class="show-image" [src]="displayImage" alt="No images found">
+      <img id="preview" class="show-image" [src]="displayImage" [hidden]="!previewVisible" alt="No images found">
     </a>
     <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
   </div>

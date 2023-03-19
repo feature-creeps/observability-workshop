@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {environment} from "../../../../../environments/environment";
 import { DisplayService } from '../../services/display.service';
 import { Image } from '../../../../shared/models';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-display',
@@ -10,43 +11,47 @@ import { Image } from '../../../../shared/models';
 })
 export class DisplayComponent implements OnInit {
 
+  public displayForm = new FormGroup({
+    imageId: new FormControl<string | null>(null),
+    selectedImageId: new FormControl<string | null>(null),
+  });
+
+  public data;
+  public images: Array<Image> = [];
+  public displayImage;
+  public selectedLink: string;
+
+  public previewVisible: boolean = true;
+
   public constructor(private readonly displayService: DisplayService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.retrieveImages();
   }
 
-  data;
-  images;
-  displayImage;
-  selectedLink: string;
-
   async retrieveImages() {
-    let data = await this.displayService.getImages();
+    const data = await this.displayService.getImages();
     if (data.length > 0) {
-      document.getElementById("preview").hidden = false;
+      this.previewVisible = true;
       this.images = data;
       this.setIds(data);
       this.showImage(this.images[0].id, true);
     } else {
       document.getElementById("info").innerText = "No images found";
-      document.getElementById("preview").hidden = true;
+      this.previewVisible = false;
     }
   }
 
-  setIds(data: Array<Image>): String[] {
-    let list: String[] = [];
-
-    for (var i = 0; i < data.length; i++) {
-      list.push(data[i].id)
-    }
-
-    this.data = list;
-    return list;
+  setIds(data: Array<Image>): void {
+    this.data = data.map((d) => d.id);
   }
 
-  async showImageById(formInput: any) {
-    let id = formInput.querySelectorAll("#imageIdIn")[0].value
+  async showImageById() {
+    const id: string | null = this.displayForm.value.imageId
+    if(!id) {
+      return
+    };
+
     this.showImageWithId(id)
   }
 
@@ -55,17 +60,17 @@ export class DisplayComponent implements OnInit {
   }
 
   async showImage(id: string, hideId: boolean) {
-    let data = await this.displayService.getImageById(id);
+    const data = await this.displayService.getImageById(id);
     if (data != null) {
       this.displayImage = this.createImageFromBlob(data);
       this.selectedLink = environment.backend.imageholder + '/api/images/' + id;
-      (<HTMLSelectElement>document.querySelectorAll("#imageSelect")[0]).value = id;
-      (<HTMLSelectElement>document.querySelectorAll("#imageIdIn")[0]).value = hideId ? "" : id;
+      this.displayForm.controls.selectedImageId.setValue(null);
+      this.displayForm.controls.imageId.setValue(hideId ? "" : id);
     }
   }
 
   createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.addEventListener("load", () => {
       this.displayImage = reader.result;
     }, false);
@@ -75,4 +80,8 @@ export class DisplayComponent implements OnInit {
     }
   }
 
+  public get sendButtonEnabled(): boolean {
+    const imageId: string | null = this.displayForm.value.imageId;
+    return !!imageId && imageId.length > 0;
+  }
 }
