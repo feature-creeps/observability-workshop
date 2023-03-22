@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imagegrayscale.controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -30,18 +31,30 @@ public class ImageGrayscaleTest {
         Resource image = resourceLoader.getResource("classpath:" + filename);
         try {
             return new MockMultipartFile("file",
-                    filename, "image/jpg", IOUtils.toByteArray(image.getInputStream()));
+                    filename, "image/" + filename.split("\\.")[1], IOUtils.toByteArray(image.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    public void properImageShouldReturnValidResponse() {
+    public void jpgImageShouldReturnValidResponse() {
         ResponseEntity response = imageGrayscale.toGrayscale(getMultipartImage("test.jpg"));
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertTrue(response.hasBody());
         assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/jpg".equals(item)));
+        byte[] data = (byte[]) response.getBody();
+        assertNotEquals(data.length, 0);
+    }
+
+    @Test
+    public void pngImageShouldReturnValidResponse() {
+        ResponseEntity response = imageGrayscale.toGrayscale(getMultipartImage("test.png"));
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertTrue(response.hasBody());
+        assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/png".equals(item)));
+        byte[] data = (byte[]) response.getBody();
+        assertNotEquals(data.length, 0);
     }
 
     @Test

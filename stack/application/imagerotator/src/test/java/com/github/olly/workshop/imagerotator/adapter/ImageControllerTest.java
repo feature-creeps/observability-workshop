@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imagerotator.adapter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -30,18 +31,31 @@ public class ImageControllerTest {
         Resource image = resourceLoader.getResource("classpath:" + filename);
         try {
             return new MockMultipartFile("file",
-                    filename, "image/jpg", IOUtils.toByteArray(image.getInputStream()));
+                    filename, "image/" + filename.split("\\.")[1], IOUtils.toByteArray(image.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    public void properImageShouldReturnValidResponse() throws IOException {
+    public void jpgImageShouldReturnInvalidResponse() throws IOException {
         ResponseEntity response = imageController.rotateImage(getMultipartImage("test.jpg"), "0");
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertTrue(response.hasBody());
         assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/jpg".equals(item)));
+        // ISSUE: rotating jpeg images don't work. This is intentional.
+        byte[] data = (byte[]) response.getBody();
+        assertEquals(data.length, 0);
+    }
+
+    @Test
+    public void pngImageShouldReturnValidResponse() throws IOException {
+        ResponseEntity response = imageController.rotateImage(getMultipartImage("test.png"), "0");
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertTrue(response.hasBody());
+        assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/png".equals(item)));
+        byte[] data = (byte[]) response.getBody();
+        assertNotEquals(data.length, 0);
     }
 
     @Test
