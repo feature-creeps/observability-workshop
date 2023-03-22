@@ -29,18 +29,25 @@ public class ImageGrayscale {
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {
-
         this.eventService.addFieldToActiveEvent("content.type", image.getContentType());
         this.eventService.addFieldToActiveEvent("action", "grayscale");
         MDC.put("mimeType", image.getContentType());
         LOGGER.info("Receiving {} image to convert to grayscale", image.getContentType());
 
-        if (image.getContentType() != null &&
+        if (image.getContentType() == null ||
                 !image.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", image.getContentType());
             this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
-            return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Wrong content type uploaded: " + image.getContentType(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        if (image.isEmpty()) {
+            LOGGER.warn("Empty image uploaded");
+            this.eventService.addFieldToActiveEvent("app.error", 1);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "empty_content");
+            return new ResponseEntity<>("Empty image uploaded",
+                    HttpStatus.BAD_REQUEST);
         }
         try {
             this.eventService.addFieldToActiveEvent("content.size", image.getBytes().length);
@@ -59,10 +66,8 @@ public class ImageGrayscale {
             return new ResponseEntity<>("Failed to apply grayscale", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
 
         LOGGER.info("Successfully converted image to grayscale");
         this.eventService.addFieldToActiveEvent("app.error", 0);
