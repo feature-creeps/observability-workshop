@@ -1,7 +1,6 @@
 plugins:
   - fluent-plugin-elasticsearch
   - fluent-plugin-prometheus
-  - fluent-plugin-grafana-loki
   - fluent-plugin-rewrite-tag-filter
 fileConfigs:
   01_sources.conf: |-
