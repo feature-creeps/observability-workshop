@@ -97,13 +97,6 @@ datasources:
       orgId: 1
       type: prometheus
       url: http://prometheus-server:80
-    - access: 'proxy'
-      editable: true
-      isDefault: false
-      name: 'Loki'
-      orgId: 1
-      type: 'loki'
-      url: 'http://loki-gateway.logging.svc.cluster.local'
     - name: 'Elasticsearch'
       type: 'elasticsearch'
       access: 'proxy'
@@ -122,13 +115,6 @@ datasources:
         esVersion: "7.10+"
         logMessageField: message
         logLevelField: level
-    - name: 'Tempo'
-      access: 'proxy'
-      editable: true
-      isDefault: false
-      orgId: 1
-      type: 'tempo'
-      url: 'http://tempo-gateway.monitoring.svc.cluster.local'
 deploymentStrategy:
   type: Recreate
 grafana.ini:
