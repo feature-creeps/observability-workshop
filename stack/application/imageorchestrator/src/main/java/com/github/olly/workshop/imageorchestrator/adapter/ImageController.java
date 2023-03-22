@@ -51,7 +51,7 @@ public class ImageController {
         Image transformedImage = imageService.transform(transformationRequest);
         contextUtil.put(transformedImage);
         // return final image
-        if (transformedImage != null) {
+        if (transformedImage != null && transformedImage.hasData()) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
             headers.set("Image-ID", transformedImage.getId());
