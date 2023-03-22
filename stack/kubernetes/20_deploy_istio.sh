@@ -20,5 +20,5 @@ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-ad
 echo "--- install kiali"
 helm upgrade --install -f "tools/istio/kiali.yaml" --namespace "$NAMESPACE" kiali-server kiali/kiali-server
 
-# echo "--- install jaeger"
-# kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml
+echo "--- install jaeger"
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/jaeger.yaml

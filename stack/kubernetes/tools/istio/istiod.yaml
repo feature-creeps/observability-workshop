@@ -5,7 +5,7 @@ meshConfig:
       sampling: 100.0
   defaultProviders:
     tracing:
-    - tempo
+    - zipkin
   enableTracing: true
   extensionProviders:
     - name: "tempo"
