@@ -1,6 +1,7 @@
 package com.github.olly.workshop.imageresize.adapter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -30,18 +31,30 @@ public class ImageControllerTest {
         Resource image = resourceLoader.getResource("classpath:" + filename);
         try {
             return new MockMultipartFile("file",
-                    filename, "image/jpg", IOUtils.toByteArray(image.getInputStream()));
+                    filename, "image/" + filename.split("\\.")[1], IOUtils.toByteArray(image.getInputStream()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test
-    public void properImageShouldReturnValidResponse() throws IOException {
-        ResponseEntity response = imageController.resizeImage(getMultipartImage("test.jpg"), "1.0");
+    public void jpgImageShouldReturnValidResponse() throws IOException {
+        ResponseEntity response = imageController.resizeImage(getMultipartImage("test.jpg"), "0.5");
         assertEquals(response.getStatusCode(), HttpStatus.OK);
         assertTrue(response.hasBody());
         assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/jpg".equals(item)));
+        byte[] data = (byte[]) response.getBody();
+        assertNotEquals(data.length, 0);
+    }
+
+    @Test
+    public void pngImageShouldReturnValidResponse() throws IOException {
+        ResponseEntity response = imageController.resizeImage(getMultipartImage("test.png"), "0.5");
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertTrue(response.hasBody());
+        assertTrue(response.getHeaders().get("content-type").stream().anyMatch(item -> "image/png".equals(item)));
+        byte[] data = (byte[]) response.getBody();
+        assertNotEquals(data.length, 0);
     }
 
     @Test
