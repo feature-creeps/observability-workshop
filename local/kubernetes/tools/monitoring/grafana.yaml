@@ -145,17 +145,9 @@ grafana.ini:
     logs: /var/log/grafana
     plugins: /var/lib/grafana/plugins
     provisioning: /etc/grafana/provisioning
-ingress:
-  enabled: true
-  ingressClassName: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  hosts:
-    - "grafana.o11y.fans"
-  tls:
-    - hosts:
-        - "grafana.o11y.fans"
-      secretName: grafana-tls-cert
+  server:
+    serve_from_sub_path: true
+    root_url: http://localhost:8080/grafana/
 plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
