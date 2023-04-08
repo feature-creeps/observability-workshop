@@ -40,3 +40,23 @@ spec:
             name: grafana
             port:
               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: jaeger-ingress
+  namespace: istio-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/jaeger/?(.*)"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tracing
+                port:
+                  number: 80

@@ -1,0 +1,20 @@
+---
+meshConfig:
+  defaultConfig:
+    tracing:
+      sampling: 100.0
+  defaultProviders:
+    tracing:
+    - zipkin
+  enableTracing: true
+  extensionProviders:
+    - name: "tempo"
+      zipkin:
+        service: "tempo-distributor.monitoring.svc.cluster.local"
+        port: 9411
+        maxTagLength: 56
+    - name: "zipkin"
+      zipkin:
+        service: "zipkin.istio-system.svc.cluster.local"
+        port: 9411
+        maxTagLength: 56
