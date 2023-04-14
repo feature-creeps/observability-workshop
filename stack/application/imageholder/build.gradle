@@ -5,7 +5,7 @@ buildscript {
 }
 
 plugins {
-    id 'org.springframework.boot' version "2.7.9"
+    id 'org.springframework.boot' version "3.0.5"
     id 'java'
 }
 
@@ -19,7 +19,7 @@ dependencies {
     implementation project(':springevents')
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation "org.codehaus.groovy:groovy-all:3.0.15"
+    implementation 'org.codehaus.groovy:groovy-all:3.0.16'
 
     testImplementation 'de.bwaldvogel:mongo-java-server:1.43.0'
     testImplementation "org.spockframework:spock-core:2.3-groovy-3.0"

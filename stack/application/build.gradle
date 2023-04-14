@@ -18,7 +18,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.6"
-            mavenBom "org.springframework.boot:spring-boot-dependencies:2.7.9"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:3.0.5"
         }
     }
     task allDeps(type: DependencyReportTask) {}
@@ -39,8 +39,8 @@ subprojects {
         runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
         
         // traces
-        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-        runtimeOnly 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
+        implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+        implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
 
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
