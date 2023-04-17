@@ -10,4 +10,7 @@ echo "--- create dima namespace"
 kubectl get namespace "$NAMESPACE" || kubectl create namespace "$NAMESPACE"
 
 echo "--- deploy dima"
-helm upgrade --install -f application/values.yaml -n "$NAMESPACE" --set global.image.tag=$IMAGE_TAG dima ../stack/kubernetes/application
+helm upgrade --install -f ../application/values.yaml -n "$NAMESPACE" \
+    --set global.image.tag="$IMAGE_TAG" \
+    --set global.tls.enabled=false \
+    dima ../../stack/kubernetes/application
