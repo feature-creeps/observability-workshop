@@ -1,77 +1,55 @@
+local: &localConfig
+  apm:
+    enabled: false
+  ingress:
+    host: localhost
+    enabled: true
+  tracing:
+    enabled: true
+
 global:
   tracing:
     url: http://zipkin.istio-system:9411
+
 dima-frontend:
   image:
     repository: local/dima-frontend
   ingress:
-    enabled: false
+    host: localhost
+    enabled: true
   tracing:
-    enabled: true   
-    config: zipkin-config.json 
+    enabled: true
+    config: zipkin-config.json
+
 dima-imageflip:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imageflip
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imagegrayscale:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imagegrayscale
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imageholder:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imageholder
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imageorchestrator:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imageorchestrator
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imageresize:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imageresize
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imagerotator:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imagerotator
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
 dima-imagethumbnail:
-  apm:
-    enabled: false
+  <<: *localConfig
   image:
     repository: local/dima-imagethumbnail
-  ingress:
-    enabled: false
-  tracing:
-    enabled: true    
+
 dima-trafficgen:
   apm:
     enabled: false
@@ -79,8 +57,9 @@ dima-trafficgen:
   image:
     repository: local/dima-trafficgen
   ingress:
+    host: localhost
     enabled: false
-  imageholder: 
+  imageholder:
     baseUrl: http://dima-imageholder-service:8080
-  imageorchestrator: 
+  imageorchestrator:
     baseUrl: http://dima-imageorchestrator-service:8080

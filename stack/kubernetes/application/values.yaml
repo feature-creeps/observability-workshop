@@ -4,6 +4,8 @@ global:
   tracing:
     url: http://zipkin.istio-system:9411
     # url: http://tempo-distributor.monitoring.svc.cluster.local:9411
+  tls:
+    enabled: true
 dima-trafficgen:
   apm:
     enabled: false

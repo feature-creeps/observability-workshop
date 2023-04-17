@@ -5,7 +5,9 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    {{- if .Values.global.tls.enabled }}
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    {{- end }}
   name: {{ .Release.Name }}-{{ .Chart.Name }}-ingress
   namespace: {{ .Release.Namespace }}
 spec:
@@ -21,8 +23,10 @@ spec:
                   number: 8080
             path: /proxy/imagerotator/(.*)
             pathType: Prefix
+  {{- if .Values.global.tls.enabled }}
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
       secretName: dima-tls-cert
+  {{- end }}
 {{- end }}
