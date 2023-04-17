@@ -1,3 +1,6 @@
+podSecurityPolicy:
+  enabled: false
+
 plugins:
   - fluent-plugin-elasticsearch
   - fluent-plugin-prometheus

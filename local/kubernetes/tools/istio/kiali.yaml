@@ -1,0 +1,36 @@
+---
+auth:
+  strategy: anonymous
+deployment:
+  ingress:
+    additional_labels: {}
+    class_name: "nginx"
+    enabled: true
+    override_yaml:
+      metadata:
+        annotations:
+          nginx.ingress.kubernetes.io/rewrite-target: /$1
+      spec:
+        ingressClassName: nginx
+        rules:
+          - http:
+              paths:
+                - backend:
+                    service:
+                      name: kiali
+                      port:
+                        number: 20001
+                  path: /(.*)
+                  pathType: Prefix
+  pod_annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9090"
+server:
+  web_fqdn: localhost
+external_services:
+    prometheus:
+      url: "http://prometheus-server.monitoring/"
+    grafana:
+      enabled: true
+      in_cluster_url: "http://grafana.monitoring/"
+      url: "http://localhost:8080/grafana"

@@ -88,26 +88,23 @@ datasources:
  datasources.yaml:
     apiVersion: 1
     datasources:
-    - name: Prometheus
-      uid: prometheus
-      access: proxy
+    - access: proxy
       editable: true
       isDefault: true
       jsonData:
         timeInterval: 5s
+      name: Prometheus
       orgId: 1
       type: prometheus
       url: http://prometheus-server:80
-    - name: 'Loki'
-      uid: loki
-      access: 'proxy'
+    - access: 'proxy'
       editable: true
       isDefault: false
+      name: 'Loki'
       orgId: 1
       type: 'loki'
       url: 'http://loki-gateway.logging.svc.cluster.local'
     - name: 'Elasticsearch'
-      uid: elasticsearch
       type: 'elasticsearch'
       access: 'proxy'
       orgId: 1
@@ -126,27 +123,12 @@ datasources:
         logMessageField: message
         logLevelField: level
     - name: 'Tempo'
-      uid: tempo
       access: 'proxy'
       editable: true
       isDefault: false
       orgId: 1
       type: 'tempo'
-      url: 'http://tempo-query-frontend.monitoring.svc.cluster.local:3100'
-      jsonData:
-        lokiSearch:
-          datasourceUid: loki
-        tracesToLogsV2:
-          datasourceUid: loki
-          filterBySpanID: false
-          filterByTraceID: false
-          spanEndTimeShift: "5m"
-          spanStartTimeShift: "1h"
-          tags:
-            - key: traceId
-              value: trace_id
-
-
+      url: 'http://tempo-gateway.monitoring.svc.cluster.local'
 deploymentStrategy:
   type: Recreate
 grafana.ini:
@@ -163,24 +145,19 @@ grafana.ini:
     logs: /var/log/grafana
     plugins: /var/lib/grafana/plugins
     provisioning: /etc/grafana/provisioning
-ingress:
-  enabled: true
-  ingressClassName: nginx
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-  hosts:
-    - "grafana.o11y.fans"
-  tls:
-    - hosts:
-        - "grafana.o11y.fans"
-      secretName: grafana-tls-cert
+  server:
+    serve_from_sub_path: true
+    root_url: http://localhost:8080/grafana/
 plugins:
   - "raintank-worldping-app"
   - "jdbranham-diagram-panel"
 resources:
+ limits:
+   cpu: 100m
+   memory: 128Mi
  requests:
-   cpu: 150m
-   memory: 256Mi
+   cpu: 80m
+   memory: 128Mi
 persistence:
   enabled: "true"
   size: 5Gi
