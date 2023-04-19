@@ -1,7 +1,7 @@
 plugins:
-  - fluent-plugin-elasticsearch
-  - fluent-plugin-prometheus
-  - fluent-plugin-rewrite-tag-filter
+  - "fluent-plugin-elasticsearch -v 5.2.5"
+  - "fluent-plugin-prometheus"
+  - "fluent-plugin-rewrite-tag-filter"
 fileConfigs:
   01_sources.conf: |-
     ## logs from podman
