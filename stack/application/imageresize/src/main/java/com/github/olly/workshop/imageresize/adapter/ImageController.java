@@ -34,7 +34,8 @@ public class ImageController {
     private EventService eventService;
 
     @PostMapping("resize")
-    public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file, @RequestParam(value = "factor") String factor) throws IOException {
+    public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file,
+            @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
         this.eventService.addFieldToActiveEvent("action", "resize");
@@ -42,24 +43,34 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("content.size", file.getBytes().length);
         this.eventService.addFieldToActiveEvent("transformation.resize.factor", factor);
 
-        if (file.getContentType() != null &&
+        if (file.getContentType() == null ||
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
-            return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (file.isEmpty()) {
+            LOGGER.warn("Empty image uploaded");
+            this.eventService.addFieldToActiveEvent("app.error", 1);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "empty_content");
+            return new ResponseEntity<>("Empty image uploaded",
+                    HttpStatus.BAD_REQUEST);
         }
 
         Double intFactor = Double.valueOf(factor);
         LOGGER.info("Receiving {} image to resize by {} factor", file.getContentType(), intFactor);
 
         byte[] resizedImage = imageService.resize(file, intFactor);
-        this.eventService.addFieldToActiveEvent("content.transformed.size", resizedImage.length);
 
         if (resizedImage == null) {
             this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "internal_server_error");
             return new ResponseEntity<>("Failed to resize image", HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            this.eventService.addFieldToActiveEvent("content.transformed.size", resizedImage.length);
         }
 
         HttpHeaders headers = new HttpHeaders();

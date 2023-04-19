@@ -45,8 +45,9 @@ jobs:
 
   deploy:
     name: Deploy in GKE
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
     uses: ./.github/workflows/deploy.yml
     with:
       tag: ${{ github.sha	}}
     secrets: inherit
+    needs: build-publish

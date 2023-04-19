@@ -1,5 +1,5 @@
 {
   "service_name": "frontend",
-  "collector_host": "zipkin",
+  "collector_host": "zipkin.istio-system",
   "collector_port": 9411
 }

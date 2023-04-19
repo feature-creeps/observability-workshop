@@ -5,7 +5,6 @@ import com.github.olly.workshop.springevents.service.MetricsService;
 import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Metrics;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +15,8 @@ public class ImageHolderMetricsService extends MetricsService {
 
     private final Boolean BUSINESS_METRICS_ENABLED;
 
-    @Autowired
     public ImageHolderMetricsService(MeterRegistry registry, ImageRepository imageRepository,
-                                     @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
+            @Value("${business.metrics.enabled:true}") Boolean businessMetricsEnabled) {
         this.imageRepository = imageRepository;
         this.BUSINESS_METRICS_ENABLED = businessMetricsEnabled;
 

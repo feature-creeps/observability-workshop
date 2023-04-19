@@ -1,15 +1,19 @@
+{{- if .Values.ingress.enabled }}
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    {{- if .Values.global.tls.enabled }}
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    {{- end }}
   name: {{ .Release.Name }}-{{ .Chart.Name }}-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ .Values.host }}
+    - host: {{ .Values.ingress.host }}
       http:
         paths:
           - backend:
@@ -19,7 +23,10 @@ spec:
                   number: 8080
             path: /proxy/imagethumbnail/(.*)
             pathType: Prefix
+  {{- if .Values.global.tls.enabled }}
   tls:
     - hosts:
-        - {{ .Values.host }}
+        - {{ .Values.ingress.host }}
       secretName: dima-tls-cert
+  {{- end }}
+{{- end }}

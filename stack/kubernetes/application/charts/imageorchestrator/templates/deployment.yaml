@@ -20,6 +20,19 @@ spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
+        imagePullPolicy: IfNotPresent
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 40
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 3
+          periodSeconds: 5
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "json-log"
@@ -29,18 +42,22 @@ spec:
           value: "true"
         - name: TRACING_TAGS_ENABLED
           value: "true"
+        - name: TRACING_ENABLED
+          value: {{ .Values.tracing.enabled | quote }}
+        - name: SPRING_ZIPKIN_BASEURL
+          value: {{ .Values.global.tracing.url }}
         - name: APM_ENABLED
-          value: "true"
+          value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEROTATOR_BASEURL
-          value: {{ template "imagerotator.baseUrl" . }} 
+          value: {{ template "dima-imageorchestrator.imagerotator.baseUrl" . }} 
         - name: IMAGEFLIP_BASEURL
-          value: {{ template "imageflip.baseUrl" . }} 
+          value: {{ template "dima-imageorchestrator.imageflip.baseUrl" . }} 
         - name: IMAGEGRAYSCALE_BASEURL
-          value: {{ template "imagegrayscale.baseUrl" . }} 
+          value: {{ template "dima-imageorchestrator.imagegrayscale.baseUrl" . }} 
         - name: IMAGEHOLDER_BASEURL
-          value: {{ template "imageholder.baseUrl" . }}
+          value: {{ template "dima-imageorchestrator.imageholder.baseUrl" . }}
         - name: IMAGERESIZE_BASEURL
-          value: {{ template "imageresize.baseUrl" . }}
+          value: {{ template "dima-imageorchestrator.imageresize.baseUrl" . }}
         ports:
         - containerPort: 8080
         resources:

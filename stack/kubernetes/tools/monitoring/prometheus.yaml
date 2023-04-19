@@ -1,7 +1,16 @@
 ---
 server:
   ingress:
-    enabled: false
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    enabled: true
+    hosts:
+      - "prometheus.o11y.fans"
+    ingressClassName: nginx
+    tls:
+      - secretName: prometheus-tls-cert
+        hosts:
+          - "prometheus.o11y.fans"
 alertmanager:
   enabled: false
 kube-state-metrics:

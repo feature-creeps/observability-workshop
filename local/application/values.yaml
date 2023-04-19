@@ -1,0 +1,65 @@
+local: &localConfig
+  apm:
+    enabled: false
+  ingress:
+    host: localhost
+    enabled: true
+  tracing:
+    enabled: true
+
+global:
+  tracing:
+    url: http://zipkin.istio-system:9411
+
+dima-frontend:
+  image:
+    repository: local/dima-frontend
+  ingress:
+    host: localhost
+    enabled: true
+  tracing:
+    enabled: true
+    config: zipkin-config.json
+
+dima-imageflip:
+  <<: *localConfig
+  image:
+    repository: local/dima-imageflip
+dima-imagegrayscale:
+  <<: *localConfig
+  image:
+    repository: local/dima-imagegrayscale
+dima-imageholder:
+  <<: *localConfig
+  image:
+    repository: local/dima-imageholder
+dima-imageorchestrator:
+  <<: *localConfig
+  image:
+    repository: local/dima-imageorchestrator
+dima-imageresize:
+  <<: *localConfig
+  image:
+    repository: local/dima-imageresize
+dima-imagerotator:
+  <<: *localConfig
+  image:
+    repository: local/dima-imagerotator
+dima-imagethumbnail:
+  <<: *localConfig
+  image:
+    repository: local/dima-imagethumbnail
+
+dima-trafficgen:
+  apm:
+    enabled: false
+  enabled: true
+  image:
+    repository: local/dima-trafficgen
+  ingress:
+    host: localhost
+    enabled: false
+  imageholder:
+    baseUrl: http://dima-imageholder-service:8080
+  imageorchestrator:
+    baseUrl: http://dima-imageorchestrator-service:8080

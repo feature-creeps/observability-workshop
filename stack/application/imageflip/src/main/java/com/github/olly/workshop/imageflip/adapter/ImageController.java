@@ -35,8 +35,8 @@ public class ImageController {
 
     @PostMapping("flip")
     public ResponseEntity flipImage(@RequestParam("image") MultipartFile file,
-                                    @RequestParam(value = "vertical") Boolean vertical,
-                                    @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
+            @RequestParam(value = "vertical") Boolean vertical,
+            @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
 
         this.eventService.addFieldToActiveEvent("action", "flip");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
@@ -45,13 +45,22 @@ public class ImageController {
         this.eventService.addFieldToActiveEvent("transformation.flip_horizontal", horizontal);
         lcu.mdcPut(file.getContentType(), vertical, horizontal);
 
-        if (file.getContentType() != null &&
+        if (file.getContentType() == null ||
                 !file.getContentType().startsWith("image/")) {
             LOGGER.warn("Wrong content type uploaded: {}", file.getContentType());
             this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "wrong_content_type");
 
-            return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Wrong content type uploaded: " + file.getContentType(),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        if (file.isEmpty()) {
+            LOGGER.warn("Empty image uploaded");
+            this.eventService.addFieldToActiveEvent("app.error", 1);
+            this.eventService.addFieldToActiveEvent("action.failure_reason", "empty_content");
+            return new ResponseEntity<>("Empty image uploaded",
+                    HttpStatus.BAD_REQUEST);
         }
 
         LOGGER.info("Receiving {} image to flip.", file.getContentType());

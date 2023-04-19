@@ -2,5 +2,6 @@ resources:
   - application-health-dashboard.yaml
   - business-dashboard.yaml
   - docker-dashboard.yaml
+  - live-of-a-counter-dashboard.yaml
   - services-up-dashboard.yaml
-  
+  - trafficgen-dashboard.yaml
