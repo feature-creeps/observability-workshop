@@ -16,6 +16,14 @@ spec:
       containers:
       - name: {{ .Release.Name }}-{{ .Chart.Name }}
         image: {{ .Values.image.repository }}:{{  coalesce .Values.image.tag | default .Values.global.image.tag }}
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: OPENTRACING
+          value: {{ .Values.tracing.enabled | ternary "on" "off" | quote }}
+        - name: OPENTRACING_CONFIG
+          value: {{ .Values.tracing.config | quote }}
+        - name: SVC_NAMESPACE
+          value: {{ .Release.Namespace }}
         ports:
         - containerPort: 80
         resources:

@@ -62,7 +62,7 @@ The following application services can be found under [stack/application](stack/
 | [imageresize](stack/application/imageresize)             | resizes up or down by multiples                |
 | [imageflip](stack/application/imageflip)                 | horizontal and vertical flip options           |
 | [imagethumbnail](stack/application/imagethumbnail)       | minimises images for quick display / preview   |
-| [traffic-gen](stack/application/traffic-gen)             | configurable image uploader / manipulator      |
+| [trafficgen](stack/application/trafficgen)               | configurable image uploader / manipulator      |
 
 #### Observability tools
 
@@ -80,6 +80,7 @@ The following observability tools are used in this project.
 | index-lifecycle-managament                                                                | log index lifecycle management            |
 | [Jaeger](https://www.jaegertracing.io/)                                                   | tracing (in the docker-compose files)     |
 | [Kiali](https://kiali.io/)                                                                | service mesh UI                           |
+| [Loki](https://grafana.com/oss/loki/)                                                     | log aggregation                           |
 | [Prometheus](https://prometheus.io/)                                                      | time series data base                     |
 
 ### Technical decisions

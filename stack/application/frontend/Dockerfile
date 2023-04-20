@@ -29,11 +29,14 @@ FROM opentracing/nginx-opentracing
 
 ## Remove default nginx website
 RUN rm -rf /usr/share/nginx/html/*
+RUN rm /etc/nginx/conf.d/default.conf
 
 ## From ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
 COPY --from=builder /usr/src/app/dist/frontend /usr/share/nginx/html
 
-COPY nginx/nginx.conf /etc/nginx/
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
+COPY nginx/dima.conf.template /etc/nginx/templates/dima.conf.template
 COPY nginx/zipkin-config.json /etc/
+COPY nginx/tempo-config.json /etc/
 
 CMD ["nginx", "-g", "daemon off;"]

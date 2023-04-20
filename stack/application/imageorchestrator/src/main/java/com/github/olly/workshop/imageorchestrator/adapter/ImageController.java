@@ -40,7 +40,7 @@ public class ImageController {
         LOGGER.info("Received new transformation request {}", transformationRequest);
         this.eventService.addFieldToActiveEvent("transformation.request", transformationRequest);
 
-        if (StringUtils.isEmpty(transformationRequest.getImageId())) {
+        if (!StringUtils.hasLength(transformationRequest.getImageId())) {
             LOGGER.error("Field imageId has to be set");
             this.eventService.addFieldToActiveEvent("app.error", 1);
             this.eventService.addFieldToActiveEvent("action.failure_reason", "no_id");
@@ -51,12 +51,13 @@ public class ImageController {
         Image transformedImage = imageService.transform(transformationRequest);
         contextUtil.put(transformedImage);
         // return final image
-        if (transformedImage != null) {
+        if (transformedImage != null && transformedImage.hasData()) {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.valueOf(transformedImage.getMimeType()));
             headers.set("Image-ID", transformedImage.getId());
             headers.set("access-control-expose-headers", "Image-ID");
-            this.eventService.addFieldToActiveEvent("content.transformed.type", MediaType.valueOf(transformedImage.getMimeType()));
+            this.eventService.addFieldToActiveEvent("content.transformed.type",
+                    MediaType.valueOf(transformedImage.getMimeType()));
             this.eventService.addFieldToActiveEvent("content.transformed.size", transformedImage.getSize());
             this.eventService.addFieldToActiveEvent("content.transformed.id", transformedImage.getId());
             LOGGER.info("Returning transformed image");

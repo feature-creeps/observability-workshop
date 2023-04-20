@@ -1,0 +1,47 @@
+---
+minio:
+  enabled: false
+storage:
+  trace:
+    backend: gcs
+    gcs:
+      bucket_name: tempo_bucket_o11y_fans
+
+traces:
+  zipkin:
+    enabled: true
+
+gcpSecret: &gcpSecretMount
+  extraEnv:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: "/etc/tempo_secrets/gcp_service_account.json"
+  extraVolumeMounts:
+    - name: tempo-secrets
+      mountPath: "/etc/tempo_secrets"
+  extraVolumes:
+    - name: tempo-secrets
+      secret:
+        secretName: tempo-secrets
+        items:
+        - key: gcp_service_account.json
+          path: gcp_service_account.json
+
+distributor:
+  <<: *gcpSecretMount
+  config:
+    log_received_spans:
+      enabled: true
+
+
+compactor:
+  <<: *gcpSecretMount
+
+gateway:
+  <<: *gcpSecretMount
+  enabled: true
+
+querier:
+  <<: *gcpSecretMount
+
+ingester:
+  <<: *gcpSecretMount

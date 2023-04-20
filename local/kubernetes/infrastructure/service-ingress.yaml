@@ -1,0 +1,81 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: "/prometheus/?(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: prometheus-server
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana
+  namespace: monitoring
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: "/grafana/?(.*)"
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  name: jaeger-ingress
+  namespace: istio-system
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/jaeger/?(.*)"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: tracing
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  name: kibana
+  namespace: logging
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: "/kibana/?(.*)"
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: kibana-kibana
+                port:
+                  number: 5601

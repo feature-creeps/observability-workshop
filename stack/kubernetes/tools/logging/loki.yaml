@@ -1,0 +1,79 @@
+---
+enterprise:
+  enabled: false
+
+loki:
+  auth_enabled: false
+  commonConfig:
+    path_prefix: /var/loki
+    replication_factor: 1
+  podAnnotations: 
+    prometheus.io/scrape: "true"
+  storage:
+    type: gcs
+    bucketNames:
+      chunks: loki_bucket_o11y_fans
+      ruler: loki_bucket_o11y_fans
+      admin: loki_bucket_o11y_fans
+
+minio:
+  enabled: false
+
+read:
+  replicas: 1
+  extraEnv:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: "/etc/loki_secrets/gcp_service_account.json"
+  extraVolumeMounts:
+    - name: loki-secrets
+      mountPath: "/etc/loki_secrets"
+  extraVolumes:
+    - name: loki-secrets
+      secret:
+        secretName: loki-secrets
+        items:
+        - key: gcp_service_account.json
+          path: gcp_service_account.json  
+
+write:
+  replicas: 1
+  extraEnv:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: "/etc/loki_secrets/gcp_service_account.json"
+  extraVolumeMounts:
+    - name: loki-secrets
+      mountPath: "/etc/loki_secrets"
+  extraVolumes:
+    - name: loki-secrets
+      secret:
+        secretName: loki-secrets
+        items:
+        - key: gcp_service_account.json
+          path: gcp_service_account.json  
+
+gateway:
+  extraEnv:
+    - name: GOOGLE_APPLICATION_CREDENTIALS
+      value: "/etc/loki_secrets/gcp_service_account.json"
+  extraVolumeMounts:
+    - name: loki-secrets
+      mountPath: "/etc/loki_secrets"
+  extraVolumes:
+    - name: loki-secrets
+      secret:
+        secretName: loki-secrets
+        items:
+        - key: gcp_service_account.json
+          path: gcp_service_account.json
+
+test:
+  enabled: false
+
+monitoring:
+  dashboards:
+    namespace: monitoring
+    labels:
+      grafana_dashboard: ""
+    annotations:
+      grafana_folder: "loki"
+ 

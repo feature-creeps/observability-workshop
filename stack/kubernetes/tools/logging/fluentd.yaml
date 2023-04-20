@@ -1,8 +1,7 @@
 plugins:
-  - fluent-plugin-elasticsearch
-  - fluent-plugin-prometheus
-  - fluent-plugin-grafana-loki
-  - fluent-plugin-rewrite-tag-filter
+  - "fluent-plugin-elasticsearch -v 5.2.5"
+  - "fluent-plugin-prometheus"
+  - "fluent-plugin-rewrite-tag-filter"
 fileConfigs:
   01_sources.conf: |-
     ## logs from podman
@@ -72,7 +71,7 @@ fileConfigs:
 
       # rewrite tags based on service name
       # needs to happen within one match block as non matching results will be discarded
-      # resulting in tags: domain.<service>, mongodb, frontend
+      # resulting in tags: domain.<service>, mongodb, frontend, trafficgen
       <match kubernetes.**>
         @type rewrite_tag_filter
         <rule>
@@ -82,20 +81,25 @@ fileConfigs:
         </rule>
         <rule>
           key service
-          pattern ^(.*dima-mongodb)$
-          tag $1
+          pattern ^(.*dima-mongodb.*)$
+          tag mongodb
         </rule>
         <rule>
           key service
-          pattern ^(.*dima-frontend)$
-          tag $1
+          pattern ^(.*dima-frontend.*)$
+          tag frontend
+        </rule>
+        <rule>
+          key service
+          pattern ^(.*dima-trafficgen.*)$
+          tag trafficgen
         </rule>
       </match>
 
       # ------------------------- handle domain service logs ------------------------- #
 
       # parse log field as json
-      <filter domain.*>
+      <filter domain.* trafficgen>
         @type parser
         format json
         key_name log
@@ -103,7 +107,7 @@ fileConfigs:
       </filter>
 
       # remove tag field & log field (it is either in message now or parsed)
-      <filter domain.*>
+      <filter domain.* trafficgen>
         @type record_transformer
         remove_keys log,tag
       </filter>
@@ -187,9 +191,9 @@ fileConfigs:
         </buffer>
       </match>
 
-      <match domain.*.** mongodb frontend>
+      <match domain.*.** mongodb frontend trafficgen>
         @type copy
-        # send all remaining logs from the domain services, mongodb and frontend to "logs"
+        # send all remaining logs from the domain services, mongodb, trafficgen and frontend to "logs"
         <store>
           @type                 elasticsearch
           host                  elasticsearch-master

@@ -1,0 +1,176 @@
+---
+adminUser: grafana
+adminPassword: changeme
+dashboards:
+  infra:
+    kubernetes:
+      gnetId: 13332
+      revision: 12
+      datasource: Prometheus
+    springboot:
+      gnetId: 17175
+      revision: 1
+      datasource:
+      - name: DS_PROMETHEUS
+        value: Prometheus
+      - name: DS_LOKI
+        value: loki
+  tools:
+    prometheus-stats:
+      gnetId: 3662
+      revision: 2
+      datasource: Prometheus
+    ingress-nginx:
+      gnetId: 9614
+      revision: 1
+      datasource: Prometheus
+    elasticsearch:
+      gnetId: 13071
+      revision: 1
+      datasource: Prometheus
+    jaeger:
+      gnetId: 12535
+      revision: 1
+      datasource: Prometheus
+  istio:
+    istio-performance-dashboard:
+      gnetId: 11829
+      revision: 158
+      datasource: Prometheus
+    istio-pilot-dashboard:
+      gnetId: 12154
+      revision: 158
+      datasource: Prometheus
+    istio-workload-dashboard:
+      gnetId: 7630
+      revision: 158
+      datasource: Prometheus
+    istio-service-dashboard:
+      gnetId: 7636
+      revision: 158
+      datasource: Prometheus
+    istio-mesh-dashboard:
+      gnetId: 7639
+      revision: 158
+      datasource: Prometheus
+    istio-controlplane-dashboard:
+      gnetId: 7645
+      revision: 158
+      datasource: Prometheus
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - disableDeletion: true
+      folder: infra
+      name: infra
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards/infra
+      orgId: 1
+      type: file
+    - disableDeletion: true
+      folder: tools
+      name: tools
+      editable: false
+      options:
+        path: /var/lib/grafana/dashboards/tools
+      orgId: 1
+      type: file
+    - disableDeletion: false
+      folder: istio
+      name: istio
+      options:
+        path: /var/lib/grafana/dashboards/istio
+      orgId: 1
+      type: file
+datasources:
+ datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - access: proxy
+      editable: true
+      isDefault: true
+      jsonData:
+        timeInterval: 5s
+      name: Prometheus
+      orgId: 1
+      type: prometheus
+      url: http://prometheus-server:80
+    - access: 'proxy'
+      editable: true
+      isDefault: false
+      name: 'Loki'
+      orgId: 1
+      type: 'loki'
+      url: 'http://loki-gateway.logging.svc.cluster.local'
+    - name: 'Elasticsearch'
+      type: 'elasticsearch'
+      access: 'proxy'
+      orgId: 1
+      url: 'http://elasticsearch-master.logging:9200'
+      isDefault: false
+      editable: true
+      basicAuth: true
+      basicAuthUser: elastic
+      secureJsonData:
+        basicAuthPassword: changeme
+      database: "[logs-]YYYY.MM.DD"
+      jsonData:
+        interval: Daily
+        timeField: "@timestamp"
+        esVersion: "7.10+"
+        logMessageField: message
+        logLevelField: level
+    - name: 'Tempo'
+      access: 'proxy'
+      editable: true
+      isDefault: false
+      orgId: 1
+      type: 'tempo'
+      url: 'http://tempo-gateway.monitoring.svc.cluster.local'
+deploymentStrategy:
+  type: Recreate
+grafana.ini:
+  analytics:
+    check_for_updates: true
+  grafana_net:
+    url: https://grafana.net
+  log:
+    mode: console
+    console:
+      format: json
+  paths:
+    data: /var/lib/grafana/
+    logs: /var/log/grafana
+    plugins: /var/lib/grafana/plugins
+    provisioning: /etc/grafana/provisioning
+  server:
+    serve_from_sub_path: true
+    root_url: http://localhost:8080/grafana/
+plugins:
+  - "raintank-worldping-app"
+  - "jdbranham-diagram-panel"
+resources:
+ limits:
+   cpu: 100m
+   memory: 128Mi
+ requests:
+   cpu: 80m
+   memory: 128Mi
+persistence:
+  enabled: "true"
+  size: 5Gi
+sidecar:
+  dashboards:
+    enabled: "true"
+    folderAnnotation: "grafana_folder"
+    searchNamespace: "monitoring"
+    provider:
+      foldersFromFilesStructure: true
+service:
+  labels:
+    sidecar.istio.io/inject: "false"
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
