@@ -82,7 +82,7 @@ boolean isResolveableConfiguration(configuration) {
                                         'runtimeElements', 'runtimeOnly',
                                         'testCompileOnly', 'testImplementation', 'testResultsElementsForTest',
                                         'testRuntimeOnly',
-                                        'generatedImplementation', 'generatedRuntimeOnly']
+                                        'generatedImplementation', 'generatedRuntimeOnly', 'bootArchives']
 
     if (nonResolveableConfigurations.contains(configuration.getName())) {
         return false
