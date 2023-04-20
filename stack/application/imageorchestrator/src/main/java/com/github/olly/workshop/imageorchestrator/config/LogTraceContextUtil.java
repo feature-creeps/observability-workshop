@@ -1,6 +1,6 @@
 package com.github.olly.workshop.imageorchestrator.config;
 
-import brave.SpanCustomizer;
+import io.micrometer.tracing.SpanCustomizer;
 import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.Transformation;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
