@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: loki
+  namespace: logging
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: loki
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: default
+      interval: 5m
+  values:
+    enterprise:
+      enabled: false
+    minio:
+      enabled: false
+    loki:
+      auth_enabled: false
+      commonConfig:
+        path_prefix: /var/loki
+        replication_factor: 1
+      podAnnotations:
+        prometheus.io/scrape: "true"
+    read:
+      replicas: 1
+    write:
+      replicas: 1
+    gateway:
+      replicas: 1
+    backend:
+      replicas: 1
+    test:
+      enabled: false
+    monitoring:
+      dashboards:
+        namespace: monitoring
+        labels:
+          grafana_dashboard: ""
+        annotations:
+          grafana_folder: "loki"
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: promtail
+  namespace: logging
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: promtail
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: default
+      interval: 5m
+  values:
+    config:
+      clients:
+        - url: http://loki-gateway.logging.svc.cluster.local/loki/api/v1/push
+      snippets:
+        pipelineStages:
+          - cri: {}
+          - json:
+              expressions:
+                time: '"@timestamp"'
+                message: message
+                level: level
+                trace_id: traceId
+                span_id: spanId
+          - labels:
+              level: level
+              trace_id: trace_id
+          - timestamp:
+              format: RFC3339
+              source: "time"
+          - output:
+              source: message

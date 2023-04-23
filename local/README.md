@@ -8,10 +8,12 @@ The deployment scripts and configuration mimick the remote ones from [../stack/k
 
 ## Preqrequisites
 
-To startup the local setup, you need the tool [k3d](https://k3d.io/) by Rancher, which deploys a lightweight k3s cluster in your local setup using docker containers.
+To startup the local setup, you need the tool [kind](https://kind.sigs.k8s.io/), which deploys a lightweight kubernetes cluster in your local setup using docker containers. Also you will need the [Flux CLI](https://fluxcd.io/flux/cmd/) installed on your machine.
 
 ## Setup
 
-First, startup your k3d cluster using the script [00_setup_k3d.sh](./kubernetes/00_setup_k3d.sh). Once the setup is complete, you can deploy the application services using the scripts [10_build_dima.sh](./kubernetes/10_build_dima.sh) and [11_deploy_dima.sh](./kubernetes/11_deploy_dima.sh). Depending on which infrastructure components you want to deploy, run the rest of the bash scripts.
+First, startup your kind cluster using the script [00_setup_kind.sh](./kubernetes/00_setup_kind.sh). Flux will automatically deploy the infrastructure.
 
-Make sure to also run [30_deploy_ingress.sh](./kubernetes/30_deploy_ingress.sh) which deploys the ingress controller and exposes your application at http://localhost:8080.
+Once the setup is complete, you can deploy the application services using the scripts [10_build_dima.sh](./kubernetes/10_build_dima.sh) and [11_deploy_dima.sh](./kubernetes/11_deploy_dima.sh).
+
+To access the system, you need to port-forward the ingress controller service to your host machine using the command `kubectl port-forward -n ingress svc/nginx-ingress-ingress-nginx-controller 8080:80`.
