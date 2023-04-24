@@ -17,5 +17,5 @@ spec:
   values:
     controller:
       replicaCount: 1
-      admissionWebhooks:
-        enabled: false
+      service:
+        type: ClusterIP
