@@ -40,7 +40,7 @@ subprojects {
         
         // traces
         implementation 'io.micrometer:micrometer-tracing-bridge-otel'
-        implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
+        runtimeOnly 'io.opentelemetry:opentelemetry-exporter-zipkin'
 
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
