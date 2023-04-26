@@ -1,15 +1,7 @@
-buildscript {
-    dependencies {
-        classpath "gradle.plugin.de.db.vz:msintplugin:1.1.7"
-    }
-}
-
 plugins {
     id 'org.springframework.boot' version "3.0.5"
     id 'java'
 }
-
-apply plugin: 'de.db.vz.msintplugin'
 
 bootJar {
     archiveBaseName = 'imageorchestrator'
@@ -20,4 +12,5 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'io.zipkin.brave:brave:5.15.1'
 }

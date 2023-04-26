@@ -56,14 +56,13 @@ subprojects {
 
 }
 
-task resolveDependencies {
-    doLast {
-        project.rootProject.allprojects.each { subProject ->
-            subProject.buildscript.configurations.each { configuration ->
-                resolveConfiguration(configuration)
-            }
-            subProject.configurations.each { configuration ->
-                resolveConfiguration(configuration)
+allprojects {
+    task resolveDependencies {
+        doLast {
+            configurations.each { conf ->
+                if (conf.isCanBeResolved()) {
+                conf.resolve()
+                }
             }
         }
     }
