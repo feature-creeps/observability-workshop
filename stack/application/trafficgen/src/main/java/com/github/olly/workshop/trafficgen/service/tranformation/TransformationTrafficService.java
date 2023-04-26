@@ -8,13 +8,13 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
 public class TransformationTrafficService implements TriggeredService {
-    private static final long S_IN_MS = 1000L;
 
     public static final String SERVICE_KEY = "tranformation-traffic-service";
 
@@ -31,11 +31,9 @@ public class TransformationTrafficService implements TriggeredService {
     public Trigger constructTrigger(long transformationsPerSecond) {
         LOGGER.info("Constructing trigger with transformationsPerSecond " + transformationsPerSecond);
         if (transformationsPerSecond > 0) {
-            return new PeriodicTrigger(S_IN_MS / transformationsPerSecond);
+            return new PeriodicTrigger(Duration.of(S_IN_MS / transformationsPerSecond, ChronoUnit.MILLIS));
         }
-        PeriodicTrigger never = new PeriodicTrigger(Long.MAX_VALUE, TimeUnit.HOURS);
-        never.setInitialDelay(Long.MAX_VALUE);
-        return never;
+        return NEVER_RUN_TRIGGER;
     }
 
     @Override
