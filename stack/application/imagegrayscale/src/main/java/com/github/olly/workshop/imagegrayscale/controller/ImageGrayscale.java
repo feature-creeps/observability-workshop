@@ -2,10 +2,10 @@ package com.github.olly.workshop.imagegrayscale.controller;
 
 import com.github.olly.workshop.imagegrayscale.service.ImageService;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,16 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/image")
 public class ImageGrayscale {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageGrayscale.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final EventService eventService;
 
     @PostMapping(value = "/grayscale")
     public ResponseEntity toGrayscale(@RequestParam("image") MultipartFile image) {

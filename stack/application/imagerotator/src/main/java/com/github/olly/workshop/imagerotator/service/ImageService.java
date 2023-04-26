@@ -1,9 +1,9 @@
 package com.github.olly.workshop.imagerotator.service;
 
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,13 +17,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
-    @Autowired
-    ImageRotatorMetricsService imageRotatorMetricsService;
+    private final ImageRotatorMetricsService imageRotatorMetricsService;
 
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 

@@ -19,7 +19,12 @@ import org.springframework.web.client.RestTemplate;
 public class ImageorchestratorApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(ImageorchestratorApplication.class, args);
+        try {
+            ConfigurableApplicationContext context = SpringApplication.run(ImageorchestratorApplication.class, args);
+        } catch (Throwable t) {
+            System.out.println(t.getMessage());
+            t.printStackTrace();
+        }
     }
 
     @Bean

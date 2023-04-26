@@ -1,9 +1,9 @@
 package com.github.olly.workshop.imageflip.service;
 
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,13 +17,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
-    @Autowired
-    ImageFlipMetricsService imageFlipMetricsService;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageFlipMetricsService imageFlipMetricsService;
+    private final EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -37,7 +35,7 @@ public class ImageService {
             final byte[] imageBytes = bufferedImageToByteArray(flippedImage, formatName);
 
             imageFlipMetricsService.imageFlipped(file.getContentType(), String.valueOf(vertical), String.valueOf(horizontal));
-            this.eventService.addFieldToActiveEvent("content.type", file.getContentType()) ;
+            this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
 
             return imageBytes;
         } catch (IOException e) {

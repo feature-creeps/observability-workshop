@@ -15,9 +15,10 @@ import spock.lang.Specification
 
 /*
     this spec represents a spring boot integration test with spock and an in-memory mongo db
- */
+*/
 
 @SpringBootTest
+// @ContextConfiguration(classes=[ImageService.class, ImageRepository.class])
 class ImageServiceSpec extends Specification {
 
     @Autowired

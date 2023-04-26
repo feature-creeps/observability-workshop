@@ -3,9 +3,9 @@ package com.github.olly.workshop.imagethumbnail.service;
 import com.github.olly.workshop.imagethumbnail.model.Image;
 import com.github.olly.workshop.imagethumbnail.service.clients.ImageHolderClient;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
-    @Autowired
-    ImageThumbnailMetricsService imageThumbnailMetricsService;
-
-    @Autowired
-    ImageHolderClient imageHolderClient;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageThumbnailMetricsService imageThumbnailMetricsService;
+    private final ImageHolderClient imageHolderClient;
+    private final EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 
@@ -93,7 +89,7 @@ public class ImageService {
 
     private boolean isPng(String formatName) {
         this.eventService.addFieldToActiveEvent("content.is_png", formatName.toLowerCase());
-        return formatName.toLowerCase().equals("png");
+        return formatName.equalsIgnoreCase("png");
     }
 
     private BufferedImage resize(BufferedImage image, int width, int height, boolean preserveAlpha) {

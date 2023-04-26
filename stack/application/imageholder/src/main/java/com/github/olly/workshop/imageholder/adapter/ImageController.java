@@ -7,12 +7,12 @@ import com.github.olly.workshop.imageholder.service.ImageService;
 import com.github.olly.workshop.imageholder.service.client.ImageThumbnailClient;
 import com.github.olly.workshop.springevents.adapter.NotFoundException;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,25 +27,17 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/images")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private ImageHolderMetricsService imageHolderMetricsService;
-
-    @Autowired
-    private ImageThumbnailClient imageThumbnailClient;
-
-    @Autowired
-    private LoggingContextUtil loggingContextUtil;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final ImageHolderMetricsService imageHolderMetricsService;
+    private final ImageThumbnailClient imageThumbnailClient;
+    private final LoggingContextUtil loggingContextUtil;
+    private final EventService eventService;
 
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity getAll() {
@@ -167,7 +159,7 @@ public class ImageController {
         imageService.deleteAllImages();
         this.eventService.addFieldToActiveEvent("action", "delete_all");
         this.eventService.addFieldToActiveEvent("app.error", 0);
-        return new ResponseEntity<>("Deleted following images: " + allImageIds.toString(), HttpStatus.OK);
+        return new ResponseEntity<>("Deleted following images: " + allImageIds, HttpStatus.OK);
     }
 
     @PostMapping()

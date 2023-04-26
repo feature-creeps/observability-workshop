@@ -1,34 +1,31 @@
 package com.github.olly.workshop.trafficgen.service.tranformation;
 
-import org.springframework.stereotype.Service;
-
 import com.github.olly.workshop.trafficgen.service.TriggeredService;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.support.PeriodicTrigger;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Service
+@RequiredArgsConstructor
 public class TransformationTrafficService implements TriggeredService {
     private static final long S_IN_MS = 1000L;
 
-    public static String SERVICE_KEY = "tranformation-traffic-service";
+    public static final String SERVICE_KEY = "tranformation-traffic-service";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationTrafficService.class);
 
-    @Autowired
-    private TransformationService randomTransformationService;
+    private final TransformationService randomTransformationService;
 
     @Override
     public Optional<String> getKey() {
         return Optional.of(SERVICE_KEY);
-    };
+    }
 
     @Override
     public Trigger constructTrigger(long transformationsPerSecond) {

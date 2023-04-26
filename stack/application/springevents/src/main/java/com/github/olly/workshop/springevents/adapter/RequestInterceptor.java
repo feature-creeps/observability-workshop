@@ -3,27 +3,25 @@ package com.github.olly.workshop.springevents.adapter;
 import com.github.olly.workshop.springevents.service.Event;
 import com.github.olly.workshop.springevents.service.EventService;
 import com.github.olly.workshop.springevents.service.MetricsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class RequestInterceptor implements HandlerInterceptor {
 
-    @Autowired
-    MetricsService metricsService;
-
-    @Autowired
-    EventService eventService;
+    private final MetricsService metricsService;
+    private final EventService eventService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

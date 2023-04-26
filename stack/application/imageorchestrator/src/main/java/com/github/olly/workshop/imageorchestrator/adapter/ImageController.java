@@ -5,9 +5,9 @@ import com.github.olly.workshop.imageorchestrator.model.Image;
 import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.ImageService;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,19 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/images")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private LogTraceContextUtil contextUtil;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final LogTraceContextUtil contextUtil;
+    private final EventService eventService;
 
     @PostMapping(value = "transform")
     public ResponseEntity transform(@RequestBody TransformationRequest transformationRequest) {

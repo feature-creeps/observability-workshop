@@ -1,5 +1,6 @@
 plugins {
     id "io.spring.dependency-management" version "1.1.0"
+    id "com.github.ben-manes.versions" version "0.46.0"
 }
 
 subprojects {
@@ -17,11 +18,11 @@ subprojects {
 
     dependencyManagement {
         imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.6"
-            mavenBom "org.springframework.boot:spring-boot-dependencies:3.0.5"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.2"
+            mavenBom "org.springframework.boot:spring-boot-dependencies:3.0.6"
         }
     }
-    task allDeps(type: DependencyReportTask) {}
+
     dependencies {
         // spring
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -32,14 +33,16 @@ subprojects {
         implementation 'org.apache.commons:commons-lang3:3.12.0'
 
         // logs
-        runtimeOnly 'net.logstash.logback:logstash-logback-encoder:7.3'
-        
+        implementation 'net.logstash.logback:logstash-logback-encoder:7.3'
+
         // metrics
-        runtimeOnly 'io.micrometer:micrometer-core'
-        runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-        
+        implementation 'io.micrometer:micrometer-core'
+        implementation 'io.micrometer:micrometer-observation'
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+
         // traces
-        implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+        implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+        // implementation 'io.micrometer:micrometer-tracing-bridge-otel'
         implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
 
         // events
@@ -48,12 +51,21 @@ subprojects {
         // tests
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-        // tests still using junit4
-        testImplementation("org.junit.vintage:junit-vintage-engine") {
-            exclude group: "org.hamcrest", module: "hamcrest-core"
-        }
+        // Lombok
+        compileOnly 'org.projectlombok:lombok:1.18.26'
+        annotationProcessor 'org.projectlombok:lombok:1.18.26'
+        testCompileOnly 'org.projectlombok:lombok:1.18.26'
+        testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
     }
 
+    test {
+        useJUnitPlatform()
+    }
+
+    configurations.configureEach {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 }
 
 allprojects {
@@ -61,30 +73,9 @@ allprojects {
         doLast {
             configurations.each { conf ->
                 if (conf.isCanBeResolved()) {
-                conf.resolve()
+                    conf.resolve()
                 }
             }
         }
     }
-}
-
-void resolveConfiguration(configuration) {
-    if (isResolveableConfiguration(configuration)) {
-        configuration.resolve()
-    }
-}
-
-boolean isResolveableConfiguration(configuration) {
-    def nonResolveableConfigurations = ['api', 'apiElements', 'compileOnly', 'compileOnlyApi', 
-                                        'implementation', 'integrationTestCompileOnly', 'integrationTestImplementation',
-                                        'integrationTestRuntimeOnly', 'mainSourceElements',
-                                        'runtimeElements', 'runtimeOnly',
-                                        'testCompileOnly', 'testImplementation', 'testResultsElementsForTest',
-                                        'testRuntimeOnly',
-                                        'generatedImplementation', 'generatedRuntimeOnly', 'bootArchives']
-
-    if (nonResolveableConfigurations.contains(configuration.getName())) {
-        return false
-    }
-    return true
 }

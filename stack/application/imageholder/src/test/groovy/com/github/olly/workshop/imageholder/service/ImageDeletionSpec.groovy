@@ -6,7 +6,7 @@ import spock.lang.Specification
 
 /*
     this spec represents a test with spock mocks/stubs
- */
+*/
 
 class ImageDeletionSpec extends Specification {
 
@@ -15,11 +15,7 @@ class ImageDeletionSpec extends Specification {
         ImageRepository imageRepository = Mock(ImageRepository)
         ImageHolderMetricsService metricsService = Mock(ImageHolderMetricsService)
         EventService eventService = Mock(EventService)
-        ImageService imageService = new ImageService(
-                imageRepository: imageRepository,
-                imageHolderMetricsService: metricsService,
-                eventService: eventService)
-
+        ImageService imageService = new ImageService(imageRepository, metricsService, eventService)
 
         and:
         def numberOfImages = 1000
@@ -28,7 +24,7 @@ class ImageDeletionSpec extends Specification {
         and:
         1 * imageRepository.findAllIds() >> (1..numberOfImages).collect { new Image(id: it) }
         1 * imageRepository.findAllIds() >> (1..(numberOfImages - 1)).collect { new Image(id: it) }
-        imageRepository.findById(_) >> { String id -> new Optional<Image>(new Image(id: id)) }
+        imageRepository.findById(_) >> { String id -> Optional.of(new Image(id: id)) }
 
         when:
         imageService.save(testImage)

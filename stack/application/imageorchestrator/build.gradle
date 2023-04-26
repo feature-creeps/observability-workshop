@@ -12,5 +12,4 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation 'io.zipkin.brave:brave:5.15.1'
 }

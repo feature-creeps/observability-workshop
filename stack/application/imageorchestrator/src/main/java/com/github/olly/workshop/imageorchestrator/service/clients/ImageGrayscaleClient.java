@@ -1,7 +1,7 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 import com.github.olly.workshop.imageorchestrator.model.Image;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -12,10 +12,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class ImageGrayscaleClient {
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${imagegrayscale.baseUrl}")
     private String imagegrayscaleBaseUrl;

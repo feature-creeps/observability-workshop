@@ -1,11 +1,11 @@
 package com.github.olly.workshop.imageflip.adapter;
 
 import com.github.olly.workshop.imageflip.config.LoggingContextUtil;
-import com.github.olly.workshop.springevents.service.EventService;
 import com.github.olly.workshop.imageflip.service.ImageService;
+import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,24 +19,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/image")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private LoggingContextUtil lcu;
+    private final ImageService imageService;
+    private final EventService eventService;
+    private final LoggingContextUtil lcu;
 
     @PostMapping("flip")
     public ResponseEntity flipImage(@RequestParam("image") MultipartFile file,
-            @RequestParam(value = "vertical") Boolean vertical,
-            @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
+                                    @RequestParam(value = "vertical") Boolean vertical,
+                                    @RequestParam(value = "horizontal") Boolean horizontal) throws IOException {
 
         this.eventService.addFieldToActiveEvent("action", "flip");
         this.eventService.addFieldToActiveEvent("content.type", file.getContentType());
