@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.4_8-jdk-alpine AS builder
+FROM eclipse-temurin:17.0.6_10-jdk-focal AS builder
 
 WORKDIR /build
 
@@ -22,7 +22,7 @@ COPY $SERVICE $SERVICE
 
 RUN ./gradlew "$SERVICE:build"
 
-FROM eclipse-temurin:17.0.4_8-jre-alpine AS final
+FROM eclipse-temurin:17.0.6_10-jre-focal AS final
 ARG SERVICE
 
 COPY --from=builder /elastic-apm-agent.jar /
