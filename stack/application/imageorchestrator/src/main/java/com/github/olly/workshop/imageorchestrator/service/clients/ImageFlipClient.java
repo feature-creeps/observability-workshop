@@ -15,7 +15,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class ImageFlipClient {
 
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${imageflip.baseUrl}")
     private String imageflipBaseUrl;
