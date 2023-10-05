@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istio-base
+  namespace: istio-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: base
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: default
+      interval: 5m
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istiod
+  namespace: istio-system
+spec:
+  dependsOn:
+    - name: istio-base
+  interval: 5m
+  chart:
+    spec:
+      chart: istiod
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: default
+      interval: 5m
+  values:
+    meshConfig:
+      defaultConfig:
+        tracing:
+          sampling: 100.0
+      defaultProviders:
+        tracing:
+        - zipkin
+      enableTracing: true
+      extensionProviders:
+        - name: "tempo"
+          zipkin:
+            service: "tempo-distributor.monitoring.svc.cluster.local"
+            port: 9411
+            maxTagLength: 56
+        - name: "zipkin"
+          zipkin:
+            service: "zipkin.istio-system.svc.cluster.local"
+            port: 9411
+            maxTagLength: 56
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kiali-server
+  namespace: istio-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kiali-server
+      sourceRef:
+        kind: HelmRepository
+        name: kiali
+        namespace: default
+      interval: 5m
+  values:
+    auth:
+      strategy: anonymous
+    server:
+      web_fqdn: localhost
+    external_services:
+        prometheus:
+          url: "http://prometheus-server.monitoring/"
+        grafana:
+          enabled: true
+          in_cluster_url: "http://grafana.monitoring/"
+          url: "http://localhost:8080/grafana"

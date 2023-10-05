@@ -1,0 +1,73 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: grafana
+  namespace: default
+spec:
+  interval: 5m
+  url: https://grafana.github.io/helm-charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: ingress-nginx
+  namespace: default
+spec:
+  interval: 5m
+  url: https://kubernetes.github.io/ingress-nginx
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: istio
+  namespace: default
+spec:
+  interval: 5m
+  url: https://istio-release.storage.googleapis.com/charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: kiali
+  namespace: default
+spec:
+  interval: 5m
+  url: https://kiali.org/helm-charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: elastic
+  namespace: default
+spec:
+  interval: 5m
+  url: https://helm.elastic.co
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: fluent
+  namespace: default
+spec:
+  interval: 5m
+  url: https://fluent.github.io/helm-charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: lebenitza
+  namespace: default
+spec:
+  interval: 5m
+  url: https://lebenitza.github.io/charts
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: prometheus-community
+  namespace: default
+spec:
+  interval: 5m
+  url: https://prometheus-community.github.io/helm-charts
+---

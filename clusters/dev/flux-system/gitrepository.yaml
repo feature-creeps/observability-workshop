@@ -1,0 +1,11 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: observability
+  namespace: default
+spec:
+  url: https://github.com/lieberlois/observability-workshop.git
+  ref:
+    branch: flux
+  interval: 1m0s

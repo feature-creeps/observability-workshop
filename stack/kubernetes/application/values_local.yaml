@@ -10,6 +10,8 @@ local: &localConfig
 global:
   tracing:
     url: http://zipkin.istio-system:9411
+  tls:
+    enabled: false
 
 dima-frontend:
   image:
