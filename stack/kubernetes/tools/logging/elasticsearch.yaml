@@ -1,21 +1,27 @@
 ---
 replicas: 1
+
+esJavaOpts: "-Xms1024m -Xmx1024m"
+
 resources:
   requests:
     cpu: "250m"
-    memory: "1500Mi"
+    memory: "2Gi"
   limits:
     cpu: "500m"
-    memory: "1500Mi"
+    memory: "2Gi"
+
 secret:
   enabled: true
   password: "changeme"
-replicas: 1
+
 clusterHealthCheckParams: "wait_for_status=yellow&timeout=1s"
+
 volumeClaimTemplate:
   resources:
     requests:
-      storage: 10Gi
+      storage: 20Gi
+
 lifecycle:
   postStart:
     exec:

@@ -1,4 +1,7 @@
 ---
+image:
+  repository: bitnami/elasticsearch-curator-archived
+
 configMaps:
   action_file_yml: |-
     ---
@@ -20,7 +23,7 @@ configMaps:
           unit_count: 3
         - filtertype: pattern
           kind: regex
-          value: '^[^\.].*'    
+          value: '^[^\.].*'
   config_yml: |-
     ---
     client:
@@ -44,4 +47,4 @@ configMaps:
       loglevel: INFO
       logfile:
       logformat: default
-      blacklist: [‘elasticsearch’]
+      blacklist: ['elasticsearch']

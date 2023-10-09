@@ -1,7 +1,11 @@
+podSecurityPolicy:
+  enabled: false
+
 plugins:
   - "fluent-plugin-elasticsearch -v 5.2.5"
   - "fluent-plugin-prometheus"
   - "fluent-plugin-rewrite-tag-filter"
+
 fileConfigs:
   01_sources.conf: |-
     ## logs from podman
@@ -31,6 +35,12 @@ fileConfigs:
         </pattern>
       </parse>
       emit_unmatched_lines true
+    </source>
+    <source>
+      @type prometheus
+      bind 0.0.0.0
+      port 24231
+      metrics_path /metrics
     </source>
   02_filters.conf: |-
     <label @KUBERNETES>
