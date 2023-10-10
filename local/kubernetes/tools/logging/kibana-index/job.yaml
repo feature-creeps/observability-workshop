@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
         - name: kibana-index
-          image: gcr.io/olly-2021-k8s-migration/kibana-index:latest
-          imagePullPolicy: Always
+          image: local/kibana-index:latest
+          imagePullPolicy: IfNotPresent  # Always will lead to ErrImagePull
       restartPolicy: OnFailure
   backoffLimit: 4
