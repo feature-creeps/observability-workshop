@@ -42,8 +42,7 @@ subprojects {
 
         // traces
         implementation 'io.micrometer:micrometer-tracing-bridge-brave'
-        // implementation 'io.micrometer:micrometer-tracing-bridge-otel'
-        implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
+        implementation 'io.zipkin.reporter2:zipkin-reporter-brave:2.16.4'
 
         // events
         implementation 'io.honeycomb.beeline:beeline-spring-boot-starter:1.7.1'
