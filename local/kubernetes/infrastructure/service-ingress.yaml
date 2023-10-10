@@ -9,7 +9,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: localhost
+    http:
       paths:
       - path: "/prometheus/?(.*)"
         pathType: ImplementationSpecific
@@ -29,7 +30,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - http:
+  - host: localhost
+    http:
       paths:
       - path: "/grafana/?(.*)"
         pathType: ImplementationSpecific
@@ -49,7 +51,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: localhost
+      http:
         paths:
           - path: "/jaeger/?(.*)"
             pathType: ImplementationSpecific
@@ -70,7 +73,8 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - http:
+    - host: localhost
+      http:
         paths:
           - path: "/kibana/?(.*)"
             pathType: ImplementationSpecific
