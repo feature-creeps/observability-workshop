@@ -45,8 +45,10 @@ spec:
           value: "true"
         - name: TRACING_ENABLED
           value: {{ .Values.tracing.enabled | quote }}
-        - name: SPRING_ZIPKIN_BASEURL
-          value: {{ .Values.global.tracing.url }}
+        - name: TRACING_SAMPLING_PROPABILITY
+          value: {{ .Values.tracing.samplingPropability | quote }}
+        - name: SPRING_ZIPKIN_ENDPOINT
+          value: {{ .Values.global.tracing.endpoint }}
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
         - name: IMAGEHOLDER_BASEURL

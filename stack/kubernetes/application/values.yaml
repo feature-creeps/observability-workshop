@@ -2,8 +2,7 @@ global:
   image:
     tag: 9762646c83543be559ec11d2ef81d2442ddf837d
   tracing:
-    url: http://zipkin.istio-system:9411
-    # url: http://tempo-distributor.monitoring.svc.cluster.local:9411
+    endpoint: http://zipkin.istio-system:9411/api/v2/spans
   tls:
     enabled: true
 dima-trafficgen:
