@@ -10,6 +10,6 @@ spec:
       containers:
         - name: kibana-index
           image: local/kibana-index:latest
-          imagePullPolicy: IfNotPresent  # Always will lead to ErrImagePull
+          imagePullPolicy: Never  # Imported via k3d image import
       restartPolicy: OnFailure
   backoffLimit: 4
