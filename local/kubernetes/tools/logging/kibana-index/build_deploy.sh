@@ -4,9 +4,10 @@ set -euo pipefail
 dir="$(dirname "$0")"
 namespace="$1"
 
-TAG="gcr.io/olly-2021-k8s-migration/kibana-index:latest"
+CLUSTER_NAME=o11y-stack
+TAG="local/kibana-index:latest"
 
 docker build "$dir" -t "$TAG"
-docker push "$TAG"
+k3d image import -c "$CLUSTER_NAME" "$TAG"
 
 kubectl apply -n "$namespace" -f "$dir/job.yaml"
