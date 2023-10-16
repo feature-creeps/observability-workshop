@@ -1,0 +1,30 @@
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-5">Image Album</h1>
+      <p>An overview of all images in the database</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <form (ngSubmit)="previousPage()">
+      <button class="btn btn-primary btn-inline dima-btn"
+              style="float: left"
+              type="submit"
+              [disabled]="!prevButtonEnabled"
+              id="prevButton">Previous page..
+      </button>
+    </form>
+    <form (ngSubmit)="nextPage()">
+      <button class="btn btn-primary btn-inline dima-btn"
+              type="submit"
+              [disabled]="!nextButtonEnabled"
+              id="nextButton">
+        Next page..
+      </button>
+    </form>
+    <div class="btn btn-block dima-btn">
+      <span>Current page: </span><span [textContent]="currentPage"></span></div>
+    <div id="album"></div>
+  </div>
+</main>
