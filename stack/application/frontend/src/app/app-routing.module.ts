@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UploadComponent } from "./upload/upload.component";
-import { RandomComponent } from "./random/random.component";
-import { DeleteComponent } from "./delete/delete.component";
-import { OrchestrateComponent } from "./orchestrate/orchestrate.component";
-import { DisplayComponent } from "./display/display.component";
-import { AlbumComponent } from "./album/album.component";
-import { ToolsComponent } from "./tools/tools.component";
-import { TrafficGeneratorComponent } from "./trafficgen/trafficgen.component";
+import { DashboardComponent } from './features/dashboard';
+import { UploadComponent } from './features/upload';
+import { RandomComponent } from './features/random';
+import { DeleteComponent } from './features/delete';
+import { OrchestrateComponent } from './features/orchestrate';
+import { DisplayComponent } from './features/display';
+import { AlbumComponent } from './features/album';
+import { ToolsComponent } from './features/tools';
+import { TrafficGeneratorComponent } from './features/trafficgen';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

@@ -1,0 +1,42 @@
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-5">Delete Images</h1>
+      <p>Delete a single or all images in the database</p>
+    </div>
+  </div>
+  <div class="container">
+    <form (ngSubmit)="deleteOne()"
+          #deleteIdForm="ngForm">
+      <div class="form-group">
+        <select class="form-control btn-primary"
+                (input)="showImage($event.target.value)">
+          <option *ngFor="let image of images"
+                  [value]="image.id">
+            {{image.name}} [{{image.id}}]
+          </option>
+        </select>
+        <div style="padding: 20px;height:100px">
+          <a>
+            <img id="preview" [hidden]="!previewVisible" height="100px" [src]="displayImage" alt="No image found">
+          </a>
+        </div>
+        <br/>
+        <div height="100px"><span style="margin-top:10px;" id="info"></span></div>
+        <br/>
+        <button class="col-md-4 btn btn-primary btn-block dima-btn"
+                type="submit"
+                id="deleteOneButton">Delete this image
+        </button>
+      </div>
+    </form>
+    <br/>
+    <br/>
+    <form (ngSubmit)="deleteAll()"
+          #deleteAllForm="ngForm"
+          id="deleteAllImagesForm">
+      <button class="col-md-6 btn btn-danger btn-block dima-btn" type="submit" id="deleteAllButton">Delete ALL images
+      </button>
+    </form>
+  </div>
+</main>

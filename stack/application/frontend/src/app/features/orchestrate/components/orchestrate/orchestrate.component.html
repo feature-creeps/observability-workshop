@@ -1,0 +1,92 @@
+<html>
+<head>
+  <script src="orchestrate.component.js" type="text/javascript"></script>
+</head>
+<body>
+
+<main role="main" class="flex-shrink-0" style="padding-bottom: 65px">
+  <div class="jumbotron" style="padding: 20px">
+    <div class="container">
+      <h1 class="display-5">Manipulate Images</h1>
+      <p>Orchestrate different image transformations on your image</p>
+    </div>
+  </div>
+  <div class="container">
+    <form [formGroup]="manipulateForm">
+      <div class="form-group">
+        <select
+          id="image"
+          name="image"
+          class="form-control btn-primary"
+          formControlName="selectedImageId"
+          (change)="showPreview($event.target.value)">
+          <option *ngFor="let image of images"
+                  [value]="image.id">
+            {{image.name}} [{{image.id}}]
+          </option>
+        </select>
+        <div class="img-preview-container" style="padding: 10px">
+          <a target="_blank" [href]="selectedLink">
+            <img id="preview" [hidden]="!previewVisible" height="100px" [src]="displayImage" alt="No images found">
+          </a>
+          <div style="margin-top:10px;" height="100px" id="previewInfo" [hidden]="!previewInfoVisible">
+            <span id="previewInfoText">No images found. Upload some</span>
+            <a id="previewInfoLink" class="ml-1" routerLink="/upload">here</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRAYSCALE -->
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="grayscale" formControlName="enableGrayscale">
+        <label class="form-check-label" for="grayscale">Apply Grayscale</label>
+      </div>
+
+      <!-- ROTATE -->
+      <div class="form-group form-check">
+        <label class="form-check-label">Apply Rotation</label>
+        <input class="form-control" id="degrees" formControlName="rotation" placeholder="Enter rotation degrees, eg 90">
+      </div>
+
+      <!-- RESIZE -->
+      <div class="form-group form-check">
+        <label class="form-check-label">Resize</label>
+        <input class="form-control" id="factor" formControlName="resize" placeholder="Enter resizing factor: (0..n]">
+      </div>
+
+      <!-- FLIP -->
+      <div class="form-group form-check" formGroupName="flipImage">
+        <label class="form-check-label">Flip image</label>
+        <div class=" form-check">
+          <input type="checkbox" class="form-check-input" id="vertical" formControlName="vertical">
+          <label class="form-check-label" for="vertical">vertically</label>
+        </div>
+        <div class=" form-check">
+          <input type="checkbox" class="form-check-input" id="horizontal" formControlName="horizontal">
+          <label class="form-check-label" for="horizontal">horizontally</label>
+        </div>
+      </div>
+
+      <!-- PERSIST -->
+      <div class="form-group form-check" formGroupName="persist">
+        <input type="checkbox" class="form-check-input" id="persist" formControlName="enable">
+        <label class="form-check-label" for="persist">Persist image</label>
+        <input class="form-control" id="name"  formControlName="imageName" placeholder="Enter name">
+      </div>
+
+
+      <input type="submit" class="btn btn-primary btn-block dima-btn" (click)="sendRequest()"/>
+      <div><input hidden="true" style="margin-top:10px;" id="info" readonly/></div>
+      <img id="transformedImage" [hidden]="!transformedImageVisible" class="show-image" [src]="transformedImage">
+    </form>
+
+  </div>
+
+  <div class="col-3">
+  </div>
+</main>
+</body>
+</html>
+
+
+

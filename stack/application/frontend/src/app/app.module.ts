@@ -1,45 +1,52 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ComponentFactory, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { UploadComponent } from './upload/upload.component';
-import { DisplayComponent } from './display/display.component';
-import { RandomComponent } from './random/random.component';
-import { DeleteComponent } from './delete/delete.component';
-import { OrchestrateComponent } from './orchestrate/orchestrate.component';
+import { UploadComponent, UploadService } from './features/upload';
+import { DisplayComponent, DisplayService } from './features/display';
+import { RandomComponent, RandomService } from './features/random';
+import { DeleteComponent, DeleteService } from './features/delete';
+import { OrchestrateComponent, OrchestrateService } from './features/orchestrate';
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AlbumComponent } from './album/album.component';
-import { PreviewComponent } from "./album/preview/preview.component";
-import { PreviewService } from "./album/preview/preview.service";
-import { ToolsComponent } from "./tools/tools.component";
-import { TrafficGeneratorComponent } from "./trafficgen/trafficgen.component";
+import { DashboardComponent } from './features/dashboard';
+import { AlbumComponent, AlbumService, PreviewComponent, PreviewService } from './features/album';
+import { ToolsComponent } from './features/tools';
+import { TrafficGeneratorComponent, TrafficgenService } from "./features/trafficgen";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    UploadComponent,
-    DisplayComponent,
-    RandomComponent,
-    DeleteComponent,
-    OrchestrateComponent,
-    DashboardComponent,
-    AlbumComponent,
-    PreviewComponent,
-    ToolsComponent,
-    TrafficGeneratorComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule
-  ],
-  providers: [PreviewService],
-  bootstrap: [AppComponent],
-  entryComponents: [PreviewComponent]
+    declarations: [
+        AppComponent,
+        UploadComponent,
+        DisplayComponent,
+        RandomComponent,
+        DeleteComponent,
+        OrchestrateComponent,
+        DashboardComponent,
+        AlbumComponent,
+        PreviewComponent,
+        ToolsComponent,
+        TrafficGeneratorComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    providers: [
+        AlbumService,
+        DeleteService,
+        DisplayService,
+        OrchestrateService,
+        RandomService,
+        TrafficgenService,
+        UploadService,
+        PreviewService
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
