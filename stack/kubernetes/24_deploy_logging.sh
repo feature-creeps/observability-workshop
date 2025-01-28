@@ -39,4 +39,10 @@ helm upgrade --install -n "$NAMESPACE" --version ${ELASTIC_VERSION} apm-server e
 # kubectl apply -f tools/logging/heartbeat-v7.17.yaml
 
 echo "--- apply kibana index mappings and patterns"
+
+if ! cat ~/.docker/config.json | grep "gcr.io" >/dev/null; then
+  gcloud auth configure-docker gcr.io --quiet
+fi
+
 ./tools/logging/kibana-index/build_deploy.sh "$NAMESPACE"
+

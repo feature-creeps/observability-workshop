@@ -18,7 +18,7 @@ spec:
                 port:
                   number: 80
             path: /(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
   tls:
     - hosts:
         - "jaeger.o11y.fans"

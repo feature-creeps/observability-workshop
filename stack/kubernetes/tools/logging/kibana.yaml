@@ -16,7 +16,7 @@ resources:
 ingress:
   enabled: true
   className: "nginx"
-  pathtype: Prefix
+  pathType: ImplementationSpecific
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /$1
