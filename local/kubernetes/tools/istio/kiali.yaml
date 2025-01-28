@@ -10,6 +10,7 @@ deployment:
       metadata:
         annotations:
           nginx.ingress.kubernetes.io/rewrite-target: /$1
+          nginx.ingress.kubernetes.io/use-regex: "true"
       spec:
         ingressClassName: nginx
         rules:
@@ -21,7 +22,7 @@ deployment:
                       port:
                         number: 20001
                   path: /(.*)
-                  pathType: Prefix
+                  pathType: ImplementationSpecific
   pod_annotations:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9090"

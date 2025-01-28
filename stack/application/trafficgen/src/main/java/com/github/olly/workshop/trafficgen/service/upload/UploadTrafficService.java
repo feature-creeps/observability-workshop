@@ -1,43 +1,38 @@
 package com.github.olly.workshop.trafficgen.service.upload;
 
-import org.springframework.stereotype.Service;
-
 import com.github.olly.workshop.trafficgen.service.TriggeredService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.Trigger;
-import org.springframework.scheduling.support.PeriodicTrigger;
-
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
-
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.support.PeriodicTrigger;
+import org.springframework.stereotype.Service;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UploadTrafficService implements TriggeredService {
-    private static final long S_IN_MS = 1000L;
-
-    public static String SERVICE_KEY = "upload-traffic-service";
+    public static final String SERVICE_KEY = "upload-traffic-service";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UploadTrafficService.class);
 
-    @Autowired
-    private UploadService uploadService;
+    private final UploadService uploadService;
 
     @Override
     public Optional<String> getKey() {
         return Optional.of(SERVICE_KEY);
-    };
+    }
 
     @Override
     public Trigger constructTrigger(long transformationsPerSecond) {
         LOGGER.info("Constructing trigger with uploadsPerSecond " + transformationsPerSecond);
         if (transformationsPerSecond > 0) {
-            return new PeriodicTrigger(S_IN_MS / transformationsPerSecond);
+            return new PeriodicTrigger(Duration.of(S_IN_MS / transformationsPerSecond, ChronoUnit.MILLIS));
         }
-        PeriodicTrigger onceNow = new PeriodicTrigger(Long.MAX_VALUE, TimeUnit.HOURS);
-        return onceNow;
+        return ONCE_NOW_TRIGGER;
     }
 
     @Override

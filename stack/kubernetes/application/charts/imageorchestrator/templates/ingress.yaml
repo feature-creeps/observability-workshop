@@ -22,7 +22,7 @@ spec:
                 port:
                   number: 8080
             path: /proxy/imageorchestrator/(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
   {{- if .Values.global.tls.enabled }}
   tls:
     - hosts:

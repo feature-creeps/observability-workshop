@@ -1,9 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export GKE_REGISTRY=local
+script_dir="$(dirname "$0")"
 
-GITHUB_SHA="$(git rev-parse --short HEAD)-snapshot"
-export GITHUB_SHA
+image_prefix="local/dima-"
+image_tag="$(git rev-parse --short HEAD)-snapshot"
 
-docker compose -f ../../stack/compose/docker-compose.yml -f ../../stack/compose/docker-compose-registry-tags.yml build --parallel
+services=(
+  "imageorchestrator"
+  "imageholder"
+  "imagerotator"
+  "imagegrayscale"
+  "imageresize"
+  "imageflip"
+  "imagethumbnail"
+  "trafficgen"
+)
+
+for service in "${services[@]}"; do
+  docker build "${script_dir}/../../stack/application/" --build-arg "SERVICE=$service"  -t "${image_prefix}${service}:${image_tag}"
+done
+
+docker build "${script_dir}/../../stack/application/frontend/" -t "${image_prefix}frontend:${image_tag}"

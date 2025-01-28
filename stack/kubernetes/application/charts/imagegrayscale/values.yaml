@@ -10,3 +10,4 @@ ingress:
 
 tracing:
   enabled: true
+  samplingPropability: 1.0

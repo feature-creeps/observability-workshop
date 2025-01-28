@@ -6,9 +6,9 @@ import com.github.olly.workshop.imagethumbnail.service.ImageService;
 import com.github.olly.workshop.imagethumbnail.service.ImageThumbnailMetricsService;
 import com.github.olly.workshop.springevents.adapter.NotFoundException;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,22 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/images")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private ImageThumbnailMetricsService imageThumbnailMetricsService;
-
-    @Autowired
-    private LoggingContextUtil loggingContextUtil;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final ImageThumbnailMetricsService imageThumbnailMetricsService;
+    private final LoggingContextUtil loggingContextUtil;
+    private final EventService eventService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity getImage(@PathVariable("id") String id) {

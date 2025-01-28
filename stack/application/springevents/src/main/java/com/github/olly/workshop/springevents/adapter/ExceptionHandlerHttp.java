@@ -27,7 +27,7 @@ public class ExceptionHandlerHttp {
     ResponseEntity<Exception> handleNotFoundException(Exception ex) throws Exception {
         ResponseStatusException rex = new ResponseStatusException(HttpStatus.NOT_FOUND, "not found", ex);
         logAndAppendToEvent(rex);
-        return new ResponseEntity<>(rex.getStatus());
+        return new ResponseEntity<>(rex.getStatusCode());
     }
 
     @ExceptionHandler({Throwable.class})
@@ -35,13 +35,13 @@ public class ExceptionHandlerHttp {
     ResponseEntity<Exception> handleThrowable(Exception ex) throws Exception {
         ResponseStatusException rex = new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "unexpected exception thrown", ex);
         logAndAppendToEvent(rex);
-        return new ResponseEntity<>((rex).getStatus());
+        return new ResponseEntity<>((rex).getStatusCode());
     }
 
     private void logAndAppendToEvent(ResponseStatusException ex) {
         LOGGER.error(ex.getLocalizedMessage(), ex);
 
-        eventService.addFieldToActiveEvent("response_status", ex.getStatus());
+        eventService.addFieldToActiveEvent("response_status", ex.getStatusCode());
         eventService.addFieldToActiveEvent("exception_thrown", "true");
         eventService.addFieldToActiveEvent("exception_message", ex.getMessage());
         eventService.addFieldToActiveEvent("exception_stacktrace", ExceptionUtils.getStackTrace(ex));

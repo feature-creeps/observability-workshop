@@ -3,6 +3,7 @@ set -euo pipefail
 
 NAMESPACE=logging
 ELASTIC_VERSION="7.17.3"
+FLUENTD_VERSION="0.4.3"
 
 echo "=== Deploy logging stack in namespace ${NAMESPACE}"
 
@@ -22,7 +23,7 @@ echo "--- install curator"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/curator.yaml elasticsearch-curator lebenitza/elasticsearch-curator
 
 echo "--- install fluentd"
-helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd fluent/fluentd
+helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd fluent/fluentd --version ${FLUENTD_VERSION}
 #  kubectl delete -n "$NAMESPACE" configmaps/kibana-kibana-helm-scripts serviceaccounts/pre-install-kibana-kibana roles/pre-install-kibana-kibana rolebindings.rbac.authorization.k8s.io/pre-install-kibana-kibana jobs.batch/pre-install-kibana-kibana
 
 echo "--- install kibana"
@@ -38,4 +39,10 @@ helm upgrade --install -n "$NAMESPACE" --version ${ELASTIC_VERSION} apm-server e
 # kubectl apply -f tools/logging/heartbeat-v7.17.yaml
 
 echo "--- apply kibana index mappings and patterns"
+
+if ! cat ~/.docker/config.json | grep "gcr.io" >/dev/null; then
+  gcloud auth configure-docker gcr.io --quiet
+fi
+
 ./tools/logging/kibana-index/build_deploy.sh "$NAMESPACE"
+

@@ -1,9 +1,9 @@
 package com.github.olly.workshop.imageorchestrator.service.clients;
 
 import com.github.olly.workshop.imageorchestrator.model.Image;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collection;
 
 @Service
+@RequiredArgsConstructor
 public class ImageResizeClient {
 
-    @Autowired
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     @Value("${imageresize.baseUrl}")
     private String imageresizeBaseUrl;

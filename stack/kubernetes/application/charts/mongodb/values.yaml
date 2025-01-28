@@ -1,1 +1,1 @@
-image: mongo:3.2.12
+image: mongo:5.0.16

@@ -8,9 +8,9 @@ import com.github.olly.workshop.imageorchestrator.service.clients.ImageGrayscale
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageResizeClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageRotatorClient;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,28 +19,16 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
+@RequiredArgsConstructor
 public class TransformationService {
 
-    @Autowired
-    private ImageOrchestratorMetricsService imageOrchestratorMetricsService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private ImageGrayscaleClient imageGrayscaleClient;
-
-    @Autowired
-    private ImageRotatorClient imageRotatorClient;
-
-    @Autowired
-    private ImageResizeClient imageResizeClient;
-
-    @Autowired
-    private ImageFlipClient imageFlipClient;
-
-    @Autowired
-    private LogTraceContextUtil contextUtil;
+    private final ImageOrchestratorMetricsService imageOrchestratorMetricsService;
+    private final EventService eventService;
+    private final ImageGrayscaleClient imageGrayscaleClient;
+    private final ImageRotatorClient imageRotatorClient;
+    private final ImageResizeClient imageResizeClient;
+    private final ImageFlipClient imageFlipClient;
+    private final LogTraceContextUtil contextUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TransformationService.class);
 

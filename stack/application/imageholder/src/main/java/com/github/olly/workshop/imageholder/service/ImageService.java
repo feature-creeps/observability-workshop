@@ -2,10 +2,10 @@ package com.github.olly.workshop.imageholder.service;
 
 import com.github.olly.workshop.imageholder.model.Image;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -13,18 +13,14 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
-    private static int MAX_IMAGES_TO_KEEP = 1000;
+    private static final int MAX_IMAGES_TO_KEEP = 1000;
 
-    @Autowired
-    private ImageRepository imageRepository;
-
-    @Autowired
-    private ImageHolderMetricsService imageHolderMetricsService;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageRepository imageRepository;
+    private final ImageHolderMetricsService imageHolderMetricsService;
+    private final EventService eventService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 

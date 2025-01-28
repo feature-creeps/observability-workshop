@@ -46,8 +46,8 @@ spec:
           value: {{ .Values.tracing.enabled | quote }}
         - name: APM_ENABLED
           value: {{ .Values.apm.enabled | quote }}
-        - name: SPRING_ZIPKIN_BASEURL
-          value: {{ .Values.global.tracing.url }}
+        - name: SPRING_ZIPKIN_ENDPOINT
+          value: {{ .Values.global.tracing.endpoint }}
         ports:
         - containerPort: 8080
         resources:

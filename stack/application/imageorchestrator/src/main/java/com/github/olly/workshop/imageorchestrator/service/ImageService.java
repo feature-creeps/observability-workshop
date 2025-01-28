@@ -6,32 +6,22 @@ import com.github.olly.workshop.imageorchestrator.model.TransformationRequest;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderClient;
 import com.github.olly.workshop.imageorchestrator.service.clients.ImageHolderUploadClient;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ImageService {
 
-    @Autowired
-    TransformationService transformationService;
-
-    @Autowired
-    private ImageOrchestratorMetricsService imageOrchestratorMetricsService;
-
-    @Autowired
-    private EventService eventService;
-
-    @Autowired
-    private ImageHolderClient imageHolderClient;
-
-    @Autowired
-    private ImageHolderUploadClient imageHolderUploadClient;
-
-    @Autowired
-    private LogTraceContextUtil contextUtil;
+    private final TransformationService transformationService;
+    private final ImageOrchestratorMetricsService imageOrchestratorMetricsService;
+    private final EventService eventService;
+    private final ImageHolderClient imageHolderClient;
+    private final ImageHolderUploadClient imageHolderUploadClient;
+    private final LogTraceContextUtil contextUtil;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageService.class);
 

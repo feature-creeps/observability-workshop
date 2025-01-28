@@ -3,9 +3,9 @@ package com.github.olly.workshop.imagerotator.adapter;
 import com.github.olly.workshop.imagerotator.config.LoggingContextUtil;
 import com.github.olly.workshop.imagerotator.service.ImageService;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,23 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/image")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private LoggingContextUtil lcu;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final LoggingContextUtil lcu;
+    private final EventService eventService;
 
     @PostMapping("rotate")
     public ResponseEntity rotateImage(@RequestParam("image") MultipartFile file,
-            @RequestParam(value = "degrees") String degrees) throws IOException {
+                                      @RequestParam(value = "degrees") String degrees) throws IOException {
 
         lcu.mdcPut(file.getContentType(), degrees);
         this.eventService.addFieldToActiveEvent("action", "rotate");

@@ -1,12 +1,7 @@
 package com.github.olly.workshop.imagegrayscale.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import java.io.IOException;
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
@@ -14,10 +9,12 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
 
-@RunWith(SpringRunner.class)
+import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 public class ImageGrayscaleTest {
 
@@ -25,7 +22,7 @@ public class ImageGrayscaleTest {
     ImageGrayscale imageGrayscale;
 
     @Autowired
-    private ResourceLoader resourceLoader = null;
+    private final ResourceLoader resourceLoader = null;
 
     private MultipartFile getMultipartImage(String filename) {
         Resource image = resourceLoader.getResource("classpath:" + filename);
@@ -60,7 +57,7 @@ public class ImageGrayscaleTest {
     @Test
     public void emptyImageShouldReturnBadRequest() {
         MultipartFile emptyImage = new MockMultipartFile("file",
-                "test.jpg", "image/jpg", new byte[] {});
+                "test.jpg", "image/jpg", new byte[]{});
         ResponseEntity response = imageGrayscale.toGrayscale(emptyImage);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
@@ -68,7 +65,7 @@ public class ImageGrayscaleTest {
     @Test
     public void unknownContentTypeShouldReturnBadRequest() {
         MultipartFile wrongContent = new MockMultipartFile("file",
-                "test.jpg", "application/json", new byte[] { 0 });
+                "test.jpg", "application/json", new byte[]{0});
         ResponseEntity response = imageGrayscale.toGrayscale(wrongContent);
         assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     }

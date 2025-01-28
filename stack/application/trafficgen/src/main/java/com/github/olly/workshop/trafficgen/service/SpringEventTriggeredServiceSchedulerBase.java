@@ -1,28 +1,27 @@
 package com.github.olly.workshop.trafficgen.service;
 
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.TaskScheduler;
 
+import java.util.Objects;
+import java.util.Set;
+
+@RequiredArgsConstructor
 public abstract class SpringEventTriggeredServiceSchedulerBase<T extends TriggeredService> {
 
-    @Autowired
-    private ApplicationContext applicationContextToReactOn;
-
-    @Autowired
-    private ConfigurationService configurationService;
+    private final ApplicationContext applicationContextToReactOn;
+    private final ConfigurationService configurationService;
 
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        if (!this.applicationContextToReactOn.getId().equals(event.getApplicationContext().getId())) {
+        if (!Objects.equals(this.applicationContextToReactOn.getId(), event.getApplicationContext().getId())) {
             return;
         }
 
-        getServices().stream().forEach(this::startService);
+        getServices().forEach(this::startService);
     }
 
     private final void startService(T service) {

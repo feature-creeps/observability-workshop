@@ -3,6 +3,7 @@ set -euo pipefail
 
 NAMESPACE=logging
 ELASTIC_VERSION="7.17.3"
+FLUENTD_VERSION="0.4.3"
 
 echo "=== Deploy logging stack in namespace ${NAMESPACE}"
 
@@ -22,7 +23,7 @@ echo "--- install curator"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/curator.yaml elasticsearch-curator lebenitza/elasticsearch-curator
 
 echo "--- install fluentd"
-helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd fluent/fluentd
+helm upgrade --install -n "$NAMESPACE" -f tools/logging/fluentd.yaml fluentd fluent/fluentd --version ${FLUENTD_VERSION}
 
 echo "--- install kibana"
 helm upgrade --install -n "$NAMESPACE" -f tools/logging/kibana.yaml --version ${ELASTIC_VERSION} kibana elastic/kibana

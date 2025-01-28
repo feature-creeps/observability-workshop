@@ -1,6 +1,9 @@
 #!/bin/sh
 
-SERVICE=$1
+if [ -z "$SERVICE" ]; then
+  echo "environment variable SERVICE not set! Exiting..." >&2
+  exit 1
+fi
 
 JAVA_OPTIONS=""
 JAVA_OPTIONS="$JAVA_OPTIONS -Djava.security.egd=file:/dev/./urandom"

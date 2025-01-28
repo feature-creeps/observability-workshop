@@ -9,7 +9,7 @@ local: &localConfig
 
 global:
   tracing:
-    url: http://zipkin.istio-system:9411
+    endpoint: http://zipkin.istio-system:9411/api/v2/spans
 
 dima-frontend:
   image:

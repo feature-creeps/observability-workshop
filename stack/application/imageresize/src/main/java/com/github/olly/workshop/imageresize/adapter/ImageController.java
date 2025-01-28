@@ -3,9 +3,9 @@ package com.github.olly.workshop.imageresize.adapter;
 import com.github.olly.workshop.imageresize.config.LoggingContextUtil;
 import com.github.olly.workshop.imageresize.service.ImageService;
 import com.github.olly.workshop.springevents.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,23 +19,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(value = "/api/image")
 public class ImageController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
 
-    @Autowired
-    private ImageService imageService;
-
-    @Autowired
-    private LoggingContextUtil lcu;
-
-    @Autowired
-    private EventService eventService;
+    private final ImageService imageService;
+    private final LoggingContextUtil lcu;
+    private final EventService eventService;
 
     @PostMapping("resize")
     public ResponseEntity resizeImage(@RequestParam("image") MultipartFile file,
-            @RequestParam(value = "factor") String factor) throws IOException {
+                                      @RequestParam(value = "factor") String factor) throws IOException {
 
         lcu.mdcPut(file.getContentType(), factor);
         this.eventService.addFieldToActiveEvent("action", "resize");

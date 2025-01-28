@@ -2,9 +2,9 @@ package com.github.olly.workshop.imageorchestrator.service.clients;
 
 import com.github.olly.workshop.imageorchestrator.config.LogTraceContextUtil;
 import com.github.olly.workshop.imageorchestrator.model.Image;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@RequiredArgsConstructor
 public class ImageHolderUploadClient {
 
-    @Autowired
-    RestTemplate restTemplate;
-
-    @Autowired
-    LogTraceContextUtil contextUtil;
+    private final RestTemplate restTemplate;
+    private final LogTraceContextUtil contextUtil;
 
     @Value("${imageholder.baseUrl}")
     private String imageholderBaseUrl;
